@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Core", "DBTemplateHandler.Core\DBTemplateHandler.Core.csproj", "{D306F3A7-B67A-451B-B691-7A17C74A5CB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Api", "DBTemplateHandler.Api\DBTemplateHandler.Api.csproj", "{1036B733-2C17-4CFF-AB32-2DB3E8045581}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
