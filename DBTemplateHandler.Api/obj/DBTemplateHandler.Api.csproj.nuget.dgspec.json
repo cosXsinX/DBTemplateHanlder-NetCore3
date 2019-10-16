@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj": {}
+    "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj": {}
   },
   "projects": {
-    "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj": {
+    "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj",
+        "projectUniqueName": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj",
         "projectName": "DBTemplateHandler.Api",
-        "projectPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj",
+        "projectPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Api/DBTemplateHandler.Api.csproj",
         "packagesPath": "/Users/maximilienzakowski/.nuget/packages/",
-        "outputPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Api/obj/",
+        "outputPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Api/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

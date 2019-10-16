@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Core/DBTemplateHandler.Core.csproj",
+      "projectUniqueName": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/DBTemplateHandler.Core.csproj",
       "projectName": "DBTemplateHandler.Core",
-      "projectPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Core/DBTemplateHandler.Core.csproj",
+      "projectPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/DBTemplateHandler.Core.csproj",
       "packagesPath": "/Users/maximilienzakowski/.nuget/packages/",
-      "outputPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHandler.Core/obj/",
+      "outputPath": "/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

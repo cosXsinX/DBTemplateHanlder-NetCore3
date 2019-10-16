@@ -1,0 +1,3 @@
+/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/obj/Debug/netcoreapp3.0/DBTemplateHandler.Core.csprojAssemblyReference.cache
+/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/obj/Debug/netcoreapp3.0/DBTemplateHandler.Core.AssemblyInfoInputs.cache
+/Users/maximilienzakowski/Projects/DBTemplateHanlder-WebSite/DBTemplateHanlder-NetCore3/DBTemplateHandler.Core/obj/Debug/netcoreapp3.0/DBTemplateHandler.Core.AssemblyInfo.cs
