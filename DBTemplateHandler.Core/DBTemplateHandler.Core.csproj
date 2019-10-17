@@ -5,13 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="TemplateHandlers\" />
     <Folder Include="Database\" />
-    <Folder Include="TemplateHandlers\Context\" />
     <Folder Include="TemplateHandlers\Context\Columns\" />
     <Folder Include="TemplateHandlers\Handlers\" />
     <Folder Include="TemplateHandlers\Context\Functions\" />
-    <Folder Include="TemplateHandlers\Context\Tables\" />
     <Folder Include="TemplateHandlers\Context\Database\" />
     <Folder Include="TemplateHandlers\Utilities\" />
   </ItemGroup>
