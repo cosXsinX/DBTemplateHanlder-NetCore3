@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
-    public class IsNotPrimaryColumnAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
+    public class IsNotPrimaryColumnNotAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:FIRST:COLUMN(";
+        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(";
         public const String END_CONTEXT_WORD = "):::}";
 
 
@@ -34,6 +34,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             TableColumnDescriptionPOJO descriptionPojo = getAssociatedColumnDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (descriptionPojo.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
@@ -45,7 +46,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             {
                 if (!currentColumn.is_PrimaryKey())
                 {
-                    if (currentColumn.Equals(descriptionPojo))
+                    if (!currentColumn.Equals(descriptionPojo))
                     {
                         return HandleTrimedContext(TrimedStringContext);
                     }
