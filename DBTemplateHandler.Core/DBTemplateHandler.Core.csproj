@@ -1,15 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Database\" />
-    <Folder Include="TemplateHandlers\Context\Columns\" />
     <Folder Include="TemplateHandlers\Handlers\" />
-    <Folder Include="TemplateHandlers\Context\Functions\" />
-    <Folder Include="TemplateHandlers\Context\Database\" />
     <Folder Include="TemplateHandlers\Utilities\" />
   </ItemGroup>
 </Project>
