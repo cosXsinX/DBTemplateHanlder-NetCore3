@@ -3,8 +3,4 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="TemplateHandlers\Utilities\" />
-  </ItemGroup>
 </Project>
