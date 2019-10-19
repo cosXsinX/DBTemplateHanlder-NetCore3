@@ -6,3 +6,9 @@
 /DBTemplateHandler.Core/bin/Debug/netcoreapp3.0
 /DBTemplateHandler.Core/obj/Release/netcoreapp3.0
 /DBTemplateHandler.Api/obj/Release/netcoreapp3.0
+/DBTemplateHandler.Api/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Api/obj/Debug/netcoreapp3.0
+/DBTemplateHandler.Api/obj
+/DBTemplateHandler.Core/obj
+/DBTemplateHandler.Core.UnitTests/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Core.UnitTests/obj
