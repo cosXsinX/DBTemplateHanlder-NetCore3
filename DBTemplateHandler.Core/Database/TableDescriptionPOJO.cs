@@ -35,7 +35,7 @@ namespace DBTemplateHandler.Core.Database
         public void AddColumn(TableColumnDescriptionPOJO added)
         {
             if (added == null) return;
-            _ColumnsList.add(added);
+            _ColumnsList.Add(added);
         }
 
         public int get_ColumnNumber()
@@ -53,7 +53,7 @@ namespace DBTemplateHandler.Core.Database
 	
 	    public void UpdateContainedColumnsParentReference()
         {
-            for (TableColumnDescriptionPOJO currentColumn : _ColumnsList)
+            foreach (TableColumnDescriptionPOJO currentColumn in _ColumnsList)
             {
                 currentColumn.ParentTable = this;
             }

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="TemplateHandlers\Handlers\" />
     <Folder Include="TemplateHandlers\Utilities\" />
   </ItemGroup>
 </Project>

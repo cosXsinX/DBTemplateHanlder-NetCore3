@@ -48,7 +48,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 }
             }
             if (currentLastAutoColumn == null) return "";
-            if (currentLastAutoColumn.equals(descriptionPojo)) return "";
+            if (currentLastAutoColumn.Equals(descriptionPojo)) return "";
             return HandleTrimedContext(TrimedStringContext);
         }
 

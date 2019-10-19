@@ -51,7 +51,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 }
             }
             if (currentLastPrimaryColumn == null) return "";
-            if (currentLastPrimaryColumn.equals(descriptionPojo)) return "";
+            if (currentLastPrimaryColumn.Equals(descriptionPojo)) return "";
             return HandleTrimedContext(TrimedStringContext);
         }
 

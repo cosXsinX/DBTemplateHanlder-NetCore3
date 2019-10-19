@@ -1,3 +1,8 @@
 
 *.pdb
 *.dll
+/.vs
+/DBTemplateHanlder-WebSite/obj/Release/netcoreapp3.0
+/DBTemplateHandler.Core/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Core/obj/Release/netcoreapp3.0
+/DBTemplateHandler.Api/obj/Release/netcoreapp3.0

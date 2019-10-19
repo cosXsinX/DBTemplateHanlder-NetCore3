@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
@@ -14,10 +15,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
     {
         private const string NEW_LINE_CHAR = "\t\n";
 
-        //private static Logger logger = Logger.getLogger(TemplateContextHandlerPackageProvider.class);
-
         //Column part
-        private static List<AbstractColumnTemplateContextHandler> allColumnContextHandlerArrayList = null;
         private static IEnumerable<AbstractColumnTemplateContextHandler> DefaultLoadColumnContextHandlerDefault()
         {
             List<AbstractColumnTemplateContextHandler> result = new List<AbstractColumnTemplateContextHandler>();
@@ -215,7 +213,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
 
         //Table Part
-        private static List<AbstractTableTemplateContextHandler> allTableContextHandlerArrayList = null;
         private static IEnumerable<AbstractTableTemplateContextHandler> DefaultLoadTableContextHandlerDefault()
         {
             List<AbstractTableTemplateContextHandler> result = new List<AbstractTableTemplateContextHandler>();
@@ -382,7 +379,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
 
         //Database context Handler Part
-        private static List<AbstractDatabaseTemplateContextHandler> allDatabaseContextHandlerArrayList = null;
         private static IEnumerable<AbstractDatabaseTemplateContextHandler> DefaultLoadDatabaseContextHandlerDefault()
         {
             List<AbstractDatabaseTemplateContextHandler> result = new List<AbstractDatabaseTemplateContextHandler>();
@@ -544,7 +540,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         //Database end context
 
         //Function start context
-        private static List<AbstractFunctionTemplateContextHandler> allFunctionContextHandlerArrayList = null;
         private static IEnumerable<AbstractFunctionTemplateContextHandler> DefaultLoadFunctionContextHandlerDefault()
         {
             List<AbstractFunctionTemplateContextHandler> result = new List<AbstractFunctionTemplateContextHandler>();

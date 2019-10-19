@@ -6,14 +6,14 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
-    public class ColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
+    public class NotPrimaryColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
 
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX";
+        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:INDEX";
         private const String END_CONTEXT_WORD = "::}";
 
-        public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
+        public readonly static String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
 
         public override String getStartContextStringWrapper()
@@ -21,12 +21,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return START_CONTEXT_WORD;
         }
 
+
         public override String getEndContextStringWrapper()
         {
             return END_CONTEXT_WORD;
         }
 
-        private readonly static string ZeroAsString = Convert.ToString(0);
+        public const int ZeroIndex = 0;
+        public static readonly string ZeroIndexAsString = Convert.ToString(0);
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
@@ -39,11 +41,26 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (!TrimedStringContext.Equals(""))
                 throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
             if (descriptionPojo.ParentTable == null)
-                return ZeroAsString;
+                return ZeroIndexAsString;
+            int currentIndex = 0;
+            int currentAutoIndex = 0;
             List<TableColumnDescriptionPOJO> columnList =
                     descriptionPojo.ParentTable.get_ColumnsList();
-            return Convert.ToString(columnList.IndexOf(descriptionPojo));
+            for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
+            {
+                TableColumnDescriptionPOJO currentColumn = columnList[currentIndex];
+                if (currentColumn.is_PrimaryKey())
+                {
+                    if (currentColumn.Equals(descriptionPojo))
+                    {
+                        return Convert.ToString(currentAutoIndex);
+                    }
+                    currentAutoIndex++;
+                }
+            }
+            return ZeroIndexAsString;
         }
+
 
         public override bool isStartContextAndEndContextAnEntireWord()
         {

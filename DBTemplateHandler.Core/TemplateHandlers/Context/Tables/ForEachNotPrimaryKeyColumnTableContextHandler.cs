@@ -53,7 +53,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         }
 
 
-        public override boolean isStartContextAndEndContextAnEntireWord()
+        public override bool isStartContextAndEndContextAnEntireWord()
         {
             return false;
         }
