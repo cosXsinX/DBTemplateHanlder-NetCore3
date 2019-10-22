@@ -122,7 +122,7 @@ namespace DBTemplateHandler.Core.UnitTests
 
             AbstractDatabaseDescriptor descriptor = new SQLLiteDatabaseDescriptor();
             TableTemplateHandler handler = TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(_firstTableDescriptionPOJO, descriptor);
-            String outputString = handler.generateOutputStringFromTemplateString(submittedTemplateStringBuilder.ToString());
+            String outputString = handler.generateOutputStringFromTemplateString(submittedTemplateStringBuilder.ToString(), out var errors);
             //System.out.print(outputString);
 
             String expectedOutput = "public class ColumnTableTemplateJavaTestTemplate {\n" +

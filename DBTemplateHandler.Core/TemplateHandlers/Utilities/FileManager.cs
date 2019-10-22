@@ -7,9 +7,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
 {
     public static class FileManager
     {
-
-        private static final Logger LOGGER = Logger.getLogger(FileManager.class);
-
 	    public static bool DoesFileExists(String FilePathStr)
         {
             return File.Exists(FilePathStr) ;

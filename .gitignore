@@ -12,3 +12,8 @@
 /DBTemplateHandler.Core/obj
 /DBTemplateHandler.Core.UnitTests/bin/Debug/netcoreapp3.0
 /DBTemplateHandler.Core.UnitTests/obj
+.vs/DBTemplateHanlder-NetCore3/xs/project-cache/DBTemplateHandler.Core-Debug.json
+.vs/DBTemplateHanlder-NetCore3/xs/sqlite3/storage.ide
+.vs/DBTemplateHanlder-NetCore3/xs/sqlite3/storage.ide-shm
+.vs/DBTemplateHanlder-NetCore3/xs/sqlite3/storage.ide-wal
+.vs/DBTemplateHanlder-NetCore3/xs/UserPrefs.xml
