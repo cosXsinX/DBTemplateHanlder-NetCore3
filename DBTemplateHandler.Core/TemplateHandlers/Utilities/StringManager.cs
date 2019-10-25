@@ -22,7 +22,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
         public static int countStringInString(String analyzedString, String searchedString)
         {
             if (analyzedString == null) return -1;
-            String[] splittedAnalyzedString = analyzedString.Split(searchedString);
+            String[] splittedAnalyzedString = analyzedString.Split(new string[] { searchedString },StringSplitOptions.None);
             int result = splittedAnalyzedString.Length;
             if (result > 0) result--;
             return result;

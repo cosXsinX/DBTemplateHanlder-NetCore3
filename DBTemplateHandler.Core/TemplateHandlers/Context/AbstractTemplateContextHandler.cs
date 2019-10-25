@@ -31,8 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         }
 
         String result = stringContext.Substring(
-            getStartContextStringWrapper().Length,
-                stringContext.Length - getEndContextStringWrapper().Length);
+            getStartContextStringWrapper().Length, stringContext.Length - getEndContextStringWrapper().Length - getStartContextStringWrapper().Length);
 		
 	        return result;
         }

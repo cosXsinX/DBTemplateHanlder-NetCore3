@@ -23,7 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
             if (SearchedWord.Equals("")) return submittedString;
             int FirstOccurenceIndex = submittedString.IndexOf(SearchedWord, StringComparison.Ordinal);
             if (FirstOccurenceIndex == -1) return submittedString;
-            return submittedString.Substring(FirstOccurenceIndex + SearchedWord.Length, submittedString.Length);
+            return submittedString.Substring(FirstOccurenceIndex + SearchedWord.Length, submittedString.Length - (FirstOccurenceIndex + SearchedWord.Length));
         }
     }
 }

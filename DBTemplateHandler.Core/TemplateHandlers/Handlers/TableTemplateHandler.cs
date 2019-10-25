@@ -142,13 +142,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             stringBuilder.Append(currentLine + "\n");
         }
 
-        private bool TreatForeachColumn(StringBuilder stringBuilder,StreamReader streamReader, String ForeachStartContextLine,out List<string> errors)
+        private bool TreatForeachColumn(StringBuilder stringBuilder, StreamReader streamReader, String ForeachStartContextLine, out List<string> errors)
         {
             errors = new List<string>();
             List<String> foreachColumnContextRowList = new List<String>();
             String[] SplittedForeachStartContextLine =
                     ForeachStartContextLine.
-                        Split(Regex.Escape(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT));
+                        Split(new string[] { Regex.Escape(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT)},StringSplitOptions.None);
             if (SplittedForeachStartContextLine.Length > 2)
             {
                 errors.Add("Database Template handler cannot handle two nested foreach column");
@@ -183,7 +183,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     currentLine = streamReader.ReadLine();
                     if (currentLine.Contains(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT))
                     {
-                        String[] SplittedForeachEndcContextLine = currentLine.Split(Regex.Escape(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT));
+                        String[] SplittedForeachEndcContextLine = currentLine.Split(new string[] { Regex.Escape(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT) },StringSplitOptions.None);
                         if (SplittedForeachEndcContextLine.Length > 2)
                         {
                             errors.Add("Database Template handler cannot handle two nested foreach column");
