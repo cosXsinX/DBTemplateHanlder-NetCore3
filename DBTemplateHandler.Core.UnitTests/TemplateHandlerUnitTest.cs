@@ -123,14 +123,14 @@ namespace DBTemplateHandler.Core.UnitTests
             AbstractDatabaseDescriptor descriptor = new SQLLiteDatabaseDescriptor();
             TableTemplateHandler handler = TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(_firstTableDescriptionPOJO, descriptor);
             String outputString = handler.generateOutputStringFromTemplateString(submittedTemplateStringBuilder.ToString(), out var errors);
-            //System.out.print(outputString);
 
             String expectedOutput = "public class ColumnTableTemplateJavaTestTemplate {\n" +
             "\tpublic final static String TABLE_NAME = \"FIRST_TABLE_NAME\";\n" +
             "\t\n" +
-            "\t\n" +
             "\tpublic final static String PRIMARY_NOT_AUTO_COLUMN_NAME_COLUMN = \"PRIMARY_NOT_AUTO_COLUMN_NAME\";\n" +
+            "\t\n" +
             "\tpublic final static String AUTO_COLUMN_NAME_COLUMN = \"AUTO_COLUMN_NAME\";\n" +
+            "\t\n" +
             "}\n";
 
             Assert.AreEqual(expectedOutput, outputString);

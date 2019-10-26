@@ -156,20 +156,19 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             }
             else if (SplittedForeachStartContextLine.Length == 2)
             {
-                stringBuilder.Append(SplittedForeachStartContextLine[0] + "\n");
-                foreachColumnContextRowList.Add(SplittedForeachStartContextLine[1]);
-            }
-            else if (SplittedForeachStartContextLine.Length == 1)
-            {
                 if (ForeachStartContextLine.EndsWith(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT))
                 {
                     stringBuilder.Append(SplittedForeachStartContextLine[0] + "\n");
                 }
                 else if (ForeachStartContextLine.StartsWith(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT))
                 {
-                    foreachColumnContextRowList.Add(SplittedForeachStartContextLine[0]);
+                    foreachColumnContextRowList.Add(SplittedForeachStartContextLine[0] + "\n");
                 }
-                else return false;
+                else
+                {
+                    stringBuilder.Append(SplittedForeachStartContextLine[0]);
+                    foreachColumnContextRowList.Add(SplittedForeachStartContextLine[1] + "\n");
+                }
             }
             else return false;
 
