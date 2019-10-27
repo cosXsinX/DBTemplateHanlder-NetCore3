@@ -29,15 +29,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
-            TableDescriptionPOJO descriptionPojo = getAssociatedTableDescriptorPOJO();
+            TableDescriptor descriptionPojo = getAssociatedTableDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedTableDescriptorPOJO is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (TableColumnDescriptionPOJO currentColumn in descriptionPojo.get_ColumnsList())
+            foreach (ColumnDescriptor currentColumn in descriptionPojo.get_ColumnsList())
             {
-                if (!currentColumn.is_PrimaryKey())
+                if (!currentColumn.IsPrimaryKey)
                 {
                     String treated =
                             TemplateHandlerNew.HandleTableColumnTemplate

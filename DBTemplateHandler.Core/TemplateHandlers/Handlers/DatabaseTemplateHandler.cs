@@ -9,15 +9,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class DatabaseTemplateHandler
     {
-        DatabaseDescriptionPOJO generatedDatabaseDescription;
+        DatabaseDescriptor generatedDatabaseDescription;
         AbstractDatabaseDescriptor _databaseDescriptor;
 
-        public DatabaseDescriptionPOJO getGeneratedDatabaseDescription()
+        public DatabaseDescriptor getGeneratedDatabaseDescription()
         {
             return generatedDatabaseDescription;
         }
 
-        public void setGeneratedDatabaseDescription(DatabaseDescriptionPOJO value)
+        public void setGeneratedDatabaseDescription(DatabaseDescriptor value)
         {
             generatedDatabaseDescription = value;
         }
@@ -32,7 +32,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             _databaseDescriptor = databaseDescriptor;
         }
 
-        public DatabaseTemplateHandler(DatabaseDescriptionPOJO generatedDatabaseDescription, AbstractDatabaseDescriptor databaseDescriptor)
+        public DatabaseTemplateHandler(DatabaseDescriptor generatedDatabaseDescription, AbstractDatabaseDescriptor databaseDescriptor)
         {
             setGeneratedDatabaseDescription(generatedDatabaseDescription);
             setDatabaseDescriptor(databaseDescriptor);
@@ -41,38 +41,39 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public bool GenerateDatabaseFilesFromTemplateFile(string templateFilePath)
         {
             bool result = false;
-		if(templateFilePath == null) return result;
-		if(generatedDatabaseDescription == null) return result;
-        if (!File.Exists(templateFilePath)) return result;
-		String savedFileTempalteName = Path.GetFileName(templateFilePath);
-		if(savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER))
-			savedFileTempalteName = savedFileTempalteName.
-                Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER, generatedDatabaseDescription.getDatabaseNameStr());
-		if(savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_TABLE_NAME_WORD_IDENTIFIER))
-		{
-			List<TableDescriptionPOJO> tableList = generatedDatabaseDescription.getTableList();
-			foreach(TableDescriptionPOJO currentTable in tableList)
-			{
-				TableTemplateHandler tableTemplateHandler =
-                        TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(currentTable, _databaseDescriptor);
-        string currentResult = tableTemplateHandler.generateTableFileFromTemplateFile(templateFilePath,out List<string> errors);
-				if(Path.GetFileName(currentResult).Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER)){
-					String currentNewSavedFileName = Path.GetFileName(currentResult).
-                            Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER,
-                                    generatedDatabaseDescription.getDatabaseNameStr());
-					if(currentNewSavedFileName.EndsWith
+            if (templateFilePath == null) return result;
+            if (generatedDatabaseDescription == null) return result;
+            if (!File.Exists(templateFilePath)) return result;
+            String savedFileTempalteName = Path.GetFileName(templateFilePath);
+            if (savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER))
+                savedFileTempalteName = savedFileTempalteName.
+                    Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER, generatedDatabaseDescription.Name);
+            if (savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_TABLE_NAME_WORD_IDENTIFIER))
+            {
+                List<TableDescriptor> tableList = generatedDatabaseDescription.Tables;
+                foreach (TableDescriptor currentTable in tableList)
+                {
+                    TableTemplateHandler tableTemplateHandler =
+                            TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(currentTable, _databaseDescriptor);
+                    string currentResult = tableTemplateHandler.generateTableFileFromTemplateFile(templateFilePath, out List<string> errors);
+                    if (Path.GetFileName(currentResult).Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER))
+                    {
+                        String currentNewSavedFileName = Path.GetFileName(currentResult).
+                                Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER,
+                                        generatedDatabaseDescription.Name);
+                        if (currentNewSavedFileName.EndsWith
 
-                            (TemplateSemanticReferenceClass.TEMPLATE_FILE_NAME_EXTENSION, StringComparison.Ordinal))
+                                (TemplateSemanticReferenceClass.TEMPLATE_FILE_NAME_EXTENSION, StringComparison.Ordinal))
                         {
-						currentNewSavedFileName = currentNewSavedFileName.Substring(0,currentNewSavedFileName.Length-TemplateSemanticReferenceClass.TEMPLATE_FILE_NAME_EXTENSION.Length);
-					}
-    FileManager.RenameFile(currentResult, currentNewSavedFileName, true); 
-				}
-				
-			}
-		}
-		
-		return result;
-	}
-}
+                            currentNewSavedFileName = currentNewSavedFileName.Substring(0, currentNewSavedFileName.Length - TemplateSemanticReferenceClass.TEMPLATE_FILE_NAME_EXTENSION.Length);
+                        }
+                        FileManager.RenameFile(currentResult, currentNewSavedFileName, true);
+                    }
+
+                }
+            }
+
+            return result;
+        }
+    }
 }

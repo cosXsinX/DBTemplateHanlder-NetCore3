@@ -29,12 +29,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
-            TableColumnDescriptionPOJO descriptionPojo = getAssociatedColumnDescriptorPOJO();
+            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (!descriptionPojo.is_PrimaryKey())
+            if (!descriptionPojo.IsPrimaryKey)
             {
                 return HandleTrimedContext(TrimedStringContext);
             }

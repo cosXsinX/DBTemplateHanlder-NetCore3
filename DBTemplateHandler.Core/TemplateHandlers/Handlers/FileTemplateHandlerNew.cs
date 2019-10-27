@@ -25,13 +25,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
         public bool GenerateDatabaseTemplateFiles
-            (String handledTemplateFilePath,
-                    String specifiedDestinationRelativePath,
-                        DatabaseDescriptionPOJO databaseDescriptionPOJO)
+            (string handledTemplateFilePath,
+                    string specifiedDestinationRelativePath,
+                        DatabaseDescriptor databaseDescriptionPOJO)
         {
             if (databaseDescriptionPOJO == null) return false;
             if (specifiedDestinationRelativePath == null) return false;
-            String handledTemplateStringContent = getHandledTemplateStringContent(handledTemplateFilePath);
+            string handledTemplateStringContent = getHandledTemplateStringContent(handledTemplateFilePath);
             if (handledTemplateStringContent == null) return false;
             bool containsTblWord =
                     specifiedDestinationRelativePath.
@@ -41,21 +41,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                         Contains(COLUMN_TEMPLATE_FILE_NAME_WORD);
             if (containsColWord)
             {
-                String currentDatabaseReplacedDestinationRelativePath =
+                string currentDatabaseReplacedDestinationRelativePath =
                         specifiedDestinationRelativePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.getDatabaseNameStr());
-                foreach (TableDescriptionPOJO currentTable in databaseDescriptionPOJO.getTableList())
+                                    databaseDescriptionPOJO.Name);
+                foreach (TableDescriptor currentTable in databaseDescriptionPOJO.Tables)
                 {
                     String currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
                                         currentTable.get_NameStr());
-                    foreach (TableColumnDescriptionPOJO currentColumn in currentTable.get_ColumnsList())
+                    foreach (ColumnDescriptor currentColumn in currentTable.get_ColumnsList())
                     {
                         String currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
-                                    Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.get_NameStr());
+                                    Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
                         String handlerOutput = TemplateHandlerNew.HandleTemplate(
                                 handledTemplateStringContent,
                                     databaseDescriptionPOJO, currentTable, currentColumn);
@@ -69,8 +69,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentDatabaseReplacedDestinationRelativePath =
                         specifiedDestinationRelativePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.getDatabaseNameStr());
-                foreach (TableDescriptionPOJO currentTable in databaseDescriptionPOJO.getTableList())
+                                    databaseDescriptionPOJO.Name);
+                foreach (TableDescriptor currentTable in databaseDescriptionPOJO.Tables)
                 {
                     String currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
@@ -88,7 +88,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentDatabaseReplacedDestinationRelativePath =
                         specifiedDestinationRelativePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.getDatabaseNameStr());
+                                    databaseDescriptionPOJO.Name);
 
                 String handlerOutput = TemplateHandlerNew.HandleTemplate(
                             handledTemplateStringContent,
@@ -103,7 +103,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public bool GenerateTableTemplateFiles
         (String handledTemplateFilePath,
                 String specifiedDestinationRelativePath,
-                        TableDescriptionPOJO tableDescriptionPOJO)
+                        TableDescriptor tableDescriptionPOJO)
         {
             if (tableDescriptionPOJO == null) return false;
             if (specifiedDestinationRelativePath == null) return false;
@@ -118,17 +118,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentDatabaseReplacedDestinationRelativePath =
                         specifiedDestinationRelativePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.ParentDatabase.getDatabaseNameStr());
+                                    tableDescriptionPOJO.ParentDatabase.Name);
 
                 String currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
                             Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
                                     tableDescriptionPOJO.get_NameStr());
-                foreach (TableColumnDescriptionPOJO currentColumn in tableDescriptionPOJO.get_ColumnsList())
+                foreach (ColumnDescriptor currentColumn in tableDescriptionPOJO.get_ColumnsList())
                 {
                     String currentColumnReplacedDestinationRelativePath =
                             currentTableReplacedDestinationRelativePath.
-                                Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.get_NameStr());
+                                Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
                     String handlerOutput = TemplateHandlerNew.HandleTemplate(
                             handledTemplateStringContent,
                                 tableDescriptionPOJO.ParentDatabase, tableDescriptionPOJO, currentColumn);
@@ -143,7 +143,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentDatabaseReplacedDestinationRelativePath =
                         specifiedDestinationRelativePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.ParentDatabase.getDatabaseNameStr());
+                                    tableDescriptionPOJO.ParentDatabase.Name);
 
                 String currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.

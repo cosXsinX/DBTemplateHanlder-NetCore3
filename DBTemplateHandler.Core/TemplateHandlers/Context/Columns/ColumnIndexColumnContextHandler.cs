@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
-            TableColumnDescriptionPOJO descriptionPojo = getAssociatedColumnDescriptorPOJO();
+            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
 
@@ -40,7 +40,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
             if (descriptionPojo.ParentTable == null)
                 return ZeroAsString;
-            List<TableColumnDescriptionPOJO> columnList =
+            List<ColumnDescriptor> columnList =
                     descriptionPojo.ParentTable.get_ColumnsList();
             return Convert.ToString(columnList.IndexOf(descriptionPojo));
         }

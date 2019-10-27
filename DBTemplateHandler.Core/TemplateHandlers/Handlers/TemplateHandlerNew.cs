@@ -13,13 +13,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class TemplateHandlerNew
     {
-        public static String HandleTemplate(String templateString,
-            DatabaseDescriptionPOJO databaseDescriptionPOJO,
-            TableDescriptionPOJO tableDescriptionPOJO,
-            TableColumnDescriptionPOJO columnDescriptionPOJO)
+        public static string HandleTemplate(string templateString,
+            DatabaseDescriptor databaseDescriptionPOJO,
+            TableDescriptor tableDescriptionPOJO,
+            ColumnDescriptor columnDescriptionPOJO)
         {
             if (templateString == null) return null;
-            String handlerStartContext =
+            string handlerStartContext =
                 TemplateContextHandlerPackageProvider.
                     getHandlerStartContextWordAtEarliestPositionInSubmittedString
                         (templateString);
@@ -56,7 +56,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
         public static String HandleDatabaseTemplate(
-                String templateString, DatabaseDescriptionPOJO descriptionPOJO)
+                String templateString, DatabaseDescriptor descriptionPOJO)
         {
             if (descriptionPOJO == null)
                 return templateString;
@@ -182,7 +182,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static String HandleTableTemplate(String templateString, TableDescriptionPOJO descriptionPOJO)
+        public static String HandleTableTemplate(String templateString, TableDescriptor descriptionPOJO)
         {
             if (descriptionPOJO == null)
                 return templateString;
@@ -309,7 +309,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static String HandleTableColumnTemplate(String templateString, TableColumnDescriptionPOJO descriptionPOJO)
+        public static String HandleTableColumnTemplate(String templateString, ColumnDescriptor descriptionPOJO)
         {
             if (descriptionPOJO == null)
                 return templateString;
@@ -436,8 +436,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
         public static String HandleFunctionTemplate(
-                String templateString, DatabaseDescriptionPOJO databaseDescriptionPOJO,
-                TableDescriptionPOJO tableDescriptionPOJO, TableColumnDescriptionPOJO columnDescriptionPojo)
+                String templateString, DatabaseDescriptor databaseDescriptionPOJO,
+                TableDescriptor tableDescriptionPOJO, ColumnDescriptor columnDescriptionPojo)
         {
             if (!TemplateContextHandlerPackageProvider.
                     isSubmittedStringContainsAFunctionHandlerStartContextWord(templateString)) return templateString;

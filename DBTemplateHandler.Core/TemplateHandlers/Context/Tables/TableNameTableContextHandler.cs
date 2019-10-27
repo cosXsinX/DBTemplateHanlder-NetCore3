@@ -28,7 +28,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
-            TableDescriptionPOJO descriptionPojo = getAssociatedTableDescriptorPOJO();
+            TableDescriptor descriptionPojo = getAssociatedTableDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedDatabaseDescriptorPOJO is not set");
 

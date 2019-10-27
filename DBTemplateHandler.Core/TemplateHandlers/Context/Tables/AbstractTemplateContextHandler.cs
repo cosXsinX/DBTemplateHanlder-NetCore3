@@ -6,13 +6,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public abstract class AbstractTableTemplateContextHandler : AbstractTemplateContextHandler
     {
-        TableDescriptionPOJO _tableDescriptionPojo;
-        public TableDescriptionPOJO getAssociatedTableDescriptorPOJO()
+        TableDescriptor _tableDescriptionPojo;
+        public TableDescriptor getAssociatedTableDescriptorPOJO()
         {
             return _tableDescriptionPojo;
         }
 
-        public void setAssociatedTableDescriptorPOJO(TableDescriptionPOJO pojo)
+        public void setAssociatedTableDescriptorPOJO(TableDescriptor pojo)
         {
             _tableDescriptionPojo = pojo;
         }
@@ -20,9 +20,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override String HandleTrimedContext(String StringTrimedContext)
         {
 		    if(StringTrimedContext == null) return null;
-		    TableDescriptionPOJO descriptionPojo = getAssociatedTableDescriptorPOJO();
+		    TableDescriptor descriptionPojo = getAssociatedTableDescriptorPOJO();
 		    if(descriptionPojo == null) return StringTrimedContext;
-		    DatabaseDescriptionPOJO databaseDescriptionPojo = descriptionPojo.ParentDatabase;
+		    DatabaseDescriptor databaseDescriptionPojo = descriptionPojo.ParentDatabase;
 		    return TemplateHandlerNew.
                     HandleTemplate(StringTrimedContext, databaseDescriptionPojo,
                             descriptionPojo, null );

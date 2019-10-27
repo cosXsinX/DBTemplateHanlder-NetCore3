@@ -21,7 +21,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private const String COLUMN_PROPERTY_IS_FIRST_COLUMN = "IS_FIRST_COLUMN";
         private const String COLUMN_PROPERTY_IS_LAST_COLUMN = "IS_LAST_COLUMN";
 
-	    private String _tableNameStr;
+        private String _tableNameStr;
         private List<String> _columnNameList;
         private IDictionary<String, Properties> _columnNameIndexedColumnPropertiesMap;
         private AbstractDatabaseDescriptor _databaseDescriptor;
@@ -64,7 +64,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     DestinationFileName = DestinationFileName.Substring(0, DestinationFileName.Length - TemplateSemanticReferenceClass.TEMPLATE_FILE_NAME_EXTENSION.Length);
                 }
             }
-            String resultString = generateFileFromTemplateFilePath(templateFilePath,out var generationErrors);
+            String resultString = generateFileFromTemplateFilePath(templateFilePath, out var generationErrors);
             errors = errors.Concat(generationErrors).ToList();
             String resultFilePathStr = databaseTemplateEditorConfigurationManager.get_generatedFileFromTemplateDirectoryPathStr() + DestinationFileName;
             if (FileManager.DoesFileExists(resultFilePathStr)) FileManager.DeleteFile(resultFilePathStr);
@@ -115,7 +115,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     while (sr.Peek() >= 0)
                     {
                         string currentLine = sr.ReadLine();
-                        TreateCurrentTemplateLine(stringBuilder, sr, currentLine,out var treatmentErrors);
+                        TreateCurrentTemplateLine(stringBuilder, sr, currentLine, out var treatmentErrors);
                         errors = errors.Concat(treatmentErrors).ToList();
                     }
                     result = stringBuilder.ToString();
@@ -125,7 +125,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
 
-        private void TreateCurrentTemplateLine(StringBuilder stringBuilder,StreamReader streamReader, String currentLine , out List<string> errors)
+        private void TreateCurrentTemplateLine(StringBuilder stringBuilder, StreamReader streamReader, String currentLine, out List<string> errors)
         {
             errors = new List<string>();
             if (currentLine.Contains(TemplateSemanticReferenceClass.TEMPLATE_TABLE_WORD))
@@ -135,7 +135,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
             if (currentLine.Contains(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT))
             {
-                TreatForeachColumn(stringBuilder,streamReader,currentLine,out var foreachErrors);
+                TreatForeachColumn(stringBuilder, streamReader, currentLine, out var foreachErrors);
                 errors = errors.Concat(foreachErrors).ToList();
                 return;
             }
@@ -148,7 +148,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             List<String> foreachColumnContextRowList = new List<String>();
             String[] SplittedForeachStartContextLine =
                     ForeachStartContextLine.
-                        Split(new string[] { TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT},StringSplitOptions.None);
+                        Split(new string[] { TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT }, StringSplitOptions.None);
             if (SplittedForeachStartContextLine.Length > 2)
             {
                 errors.Add("Database Template handler cannot handle two nested foreach column");
@@ -182,7 +182,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     currentLine = streamReader.ReadLine();
                     if (currentLine.Contains(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT))
                     {
-                        String[] SplittedForeachEndcContextLine = currentLine.Split(new string[] { TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT },StringSplitOptions.None);
+                        String[] SplittedForeachEndcContextLine = currentLine.Split(new string[] { TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT }, StringSplitOptions.None);
                         if (SplittedForeachEndcContextLine.Length > 2)
                         {
                             errors.Add("Database Template handler cannot handle two nested foreach column");
@@ -228,7 +228,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 {
                     currentForeachColumnRowString = foreachColumnContextRowList[currentForeachColumnRowIndex];
                     String treatedRowStr = currentForeachColumnRowString.Replace(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_CURRENT_COLUMN_WORD, currentColumnNameStr) + "\n";
-                    treatedRowStr = treatedRowStr.Replace(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_CURRENT_INDEX_COLUMN_WORD,currentColumnIndexInt.ToString());
+                    treatedRowStr = treatedRowStr.Replace(TemplateSemanticReferenceClass.TEMPLATE_FOREACH_CURRENT_INDEX_COLUMN_WORD, currentColumnIndexInt.ToString());
 
                     // Primary key column property treatment
                     treatedRowStr = TreatForeachCurrentColumnIfIsPrimaryKeyContext(currentColumnNameStr, treatedRowStr);
@@ -945,28 +945,28 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return SubmittedString;
         }
 
-        public static TableTemplateHandler TableDescriptionPOJOToTableTemplateHandler(TableDescriptionPOJO tableDescriptionPOJO, AbstractDatabaseDescriptor databaseDescriptor)
+        public static TableTemplateHandler TableDescriptionPOJOToTableTemplateHandler(TableDescriptor tableDescriptionPOJO, AbstractDatabaseDescriptor databaseDescriptor)
         {
             if (tableDescriptionPOJO == null) return null;
-            List<TableColumnDescriptionPOJO> columnPOJOList = tableDescriptionPOJO.get_ColumnsList();
+            List<ColumnDescriptor> columnPOJOList = tableDescriptionPOJO.get_ColumnsList();
             List<String> ColumnNameList = new List<String>();
             Dictionary<String, Properties> ColumnNameIndexedColumnPropertiesMap = new Dictionary<String, Properties>();
             if (!(columnPOJOList == null))
             {
                 int currentIndex;
-                TableColumnDescriptionPOJO currentColumn;
+                ColumnDescriptor currentColumn;
                 for (currentIndex = 0; currentIndex < columnPOJOList.Count; currentIndex++)
                 {
                     currentColumn = columnPOJOList[currentIndex];
-                    ColumnNameList.Add(currentColumn.get_NameStr());
+                    ColumnNameList.Add(currentColumn.Name);
                     Properties currentProperties = new Properties();
-                    currentProperties.setProperty(COLUMN_PROPERTY_TYPE_KEY, currentColumn.get_TypeStr());
-                    currentProperties.setProperty(COLUMN_PROPERTY_IS_PRIMARY_KEY_KEY, currentColumn.is_PrimaryKey().ToString());
-                    currentProperties.setProperty(COLUMN_PROPERTY_IS_AUTOGENERATED_KEY,currentColumn.is_AutoGeneratedValueBln().ToString());
-                    currentProperties.setProperty(COLUMN_PROPERTY_IS_NOT_NULL_VALUE,currentColumn.is_NotNull().ToString());
-                    currentProperties.setProperty(COLUMN_PROPERTY_IS_FIRST_COLUMN,(currentIndex == 0).ToString());
-                    currentProperties.setProperty(COLUMN_PROPERTY_IS_LAST_COLUMN,(currentIndex == (columnPOJOList.Count - 1)).ToString());
-                    ColumnNameIndexedColumnPropertiesMap.Add(currentColumn.get_NameStr(), currentProperties);
+                    currentProperties.setProperty(COLUMN_PROPERTY_TYPE_KEY, currentColumn.Type);
+                    currentProperties.setProperty(COLUMN_PROPERTY_IS_PRIMARY_KEY_KEY, currentColumn.IsPrimaryKey.ToString());
+                    currentProperties.setProperty(COLUMN_PROPERTY_IS_AUTOGENERATED_KEY, currentColumn.IsAutoGeneratedValue  .ToString());
+                    currentProperties.setProperty(COLUMN_PROPERTY_IS_NOT_NULL_VALUE, currentColumn.is_NotNull().ToString());
+                    currentProperties.setProperty(COLUMN_PROPERTY_IS_FIRST_COLUMN, (currentIndex == 0).ToString());
+                    currentProperties.setProperty(COLUMN_PROPERTY_IS_LAST_COLUMN, (currentIndex == (columnPOJOList.Count - 1)).ToString());
+                    ColumnNameIndexedColumnPropertiesMap.Add(currentColumn.Name, currentProperties);
                 }
             }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {
-    public class TableDescriptionPOJO
+    public class TableDescriptor
     {
-        public TableDescriptionPOJO(String TableNameStr)
+        public TableDescriptor(String TableNameStr)
         {
             _NameStr = TableNameStr;
         }
@@ -25,14 +25,14 @@ namespace DBTemplateHandler.Core.Database
 
 
 
-        private readonly List<TableColumnDescriptionPOJO> _ColumnsList =
-                new List<TableColumnDescriptionPOJO>();
-        public List<TableColumnDescriptionPOJO> get_ColumnsList()
+        private readonly List<ColumnDescriptor> _ColumnsList =
+                new List<ColumnDescriptor>();
+        public List<ColumnDescriptor> get_ColumnsList()
         {
             return _ColumnsList;
         }
 
-        public void AddColumn(TableColumnDescriptionPOJO added)
+        public void AddColumn(ColumnDescriptor added)
         {
             if (added == null) return;
             _ColumnsList.Add(added);
@@ -49,11 +49,11 @@ namespace DBTemplateHandler.Core.Database
         }
 
         //Template handler specific properties
-        public DatabaseDescriptionPOJO ParentDatabase;
+        public DatabaseDescriptor ParentDatabase;
 	
 	    public void UpdateContainedColumnsParentReference()
         {
-            foreach (TableColumnDescriptionPOJO currentColumn in _ColumnsList)
+            foreach (ColumnDescriptor currentColumn in _ColumnsList)
             {
                 currentColumn.ParentTable = this;
             }

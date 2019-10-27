@@ -26,13 +26,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
-            DatabaseDescriptionPOJO descriptionPojo = getAssociatedDatabaseDescriptorPOJO();
+            DatabaseDescriptor descriptionPojo = getAssociatedDatabaseDescriptorPOJO();
             if (descriptionPojo == null)
                 throw new Exception("The AssociatedDatabaseDescriptorPOJO is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(TableDescriptionPOJO currentColumn in descriptionPojo.getTableList())
+            foreach(TableDescriptor currentColumn in descriptionPojo.Tables)
             {
                 String treated = TemplateHandlerNew.
                         HandleTableTemplate(TrimedStringContext, currentColumn);

@@ -7,33 +7,33 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
     public abstract class AbstractFunctionTemplateContextHandler : AbstractTemplateContextHandler
     {
 
-        DatabaseDescriptionPOJO _databaseDescriptionPojo;
+        DatabaseDescriptor _databaseDescriptionPojo;
 
-        public DatabaseDescriptionPOJO getAssociatedDatabaseDescriptionPOJO()
+        public DatabaseDescriptor getAssociatedDatabaseDescriptionPOJO()
         {
             return _databaseDescriptionPojo;
         }
-        public void setAssociatedDatabaseDescriptionPOJO(DatabaseDescriptionPOJO pojo)
+        public void setAssociatedDatabaseDescriptionPOJO(DatabaseDescriptor pojo)
         {
             _databaseDescriptionPojo = pojo;
         }
 
-        TableDescriptionPOJO _tableDescriptionPojo;
-        public TableDescriptionPOJO getAssociatedTableDescriptorPOJO()
+        TableDescriptor _tableDescriptionPojo;
+        public TableDescriptor getAssociatedTableDescriptorPOJO()
         {
             return _tableDescriptionPojo;
         }
-        public void setAssociatedTableDescriptorPOJO(TableDescriptionPOJO pojo)
+        public void setAssociatedTableDescriptorPOJO(TableDescriptor pojo)
         {
             _tableDescriptionPojo = pojo;
         }
 
-        TableColumnDescriptionPOJO _columnDescriptionPojo;
-        public TableColumnDescriptionPOJO getAssocatedColumnDescriptionPOJO()
+        ColumnDescriptor _columnDescriptionPojo;
+        public ColumnDescriptor getAssocatedColumnDescriptionPOJO()
         {
             return _columnDescriptionPojo;
         }
-        public void setAssociatedColumnDescriptionPOJO(TableColumnDescriptionPOJO pojo)
+        public void setAssociatedColumnDescriptionPOJO(ColumnDescriptor pojo)
         {
             _columnDescriptionPojo = pojo;
         }
@@ -41,9 +41,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         public override String HandleTrimedContext(String StringTrimedContext)
         {
 		    if(StringTrimedContext == null) return null;
-            TableColumnDescriptionPOJO columnDescriptionPojo = getAssocatedColumnDescriptionPOJO();
-            TableDescriptionPOJO tableDescriptionPojo = getAssociatedTableDescriptorPOJO();
-            DatabaseDescriptionPOJO databaseDescriptionPojo = getAssociatedDatabaseDescriptionPOJO();
+            ColumnDescriptor columnDescriptionPojo = getAssocatedColumnDescriptionPOJO();
+            TableDescriptor tableDescriptionPojo = getAssociatedTableDescriptorPOJO();
+            DatabaseDescriptor databaseDescriptionPojo = getAssociatedDatabaseDescriptionPOJO();
 		    return TemplateHandlerNew.
 				    HandleTemplate(StringTrimedContext, databaseDescriptionPojo,
 						    tableDescriptionPojo, columnDescriptionPojo);
