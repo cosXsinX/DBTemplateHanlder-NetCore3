@@ -6,24 +6,24 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
 {
     public class SQLLiteDatabaseDescriptor : AbstractDatabaseDescriptor
     {
-        private const String BIGINT_COLUMN_TYPE = "BIGINT";
-        private const String BLOB_COLUMN_TYPE = "BLOB";
-        private const String BOOLEAN_COLUMN_TYPE = "BOOLEAN";
-        private const String CHAR_COLUMN_TYPE = "CHAR";
-        private const String DATE_COLUMN_TYPE = "DATE";
-        private const String DATETIME_COLUMN_TYPE = "DATETIME";
-        private const String DECIMAL_COLUMN_TYPE = "DECIMAL";
-        private const String DOUBLE_COLUMN_TYPE = "DOUBLE";
-        private const String INTEGER_COLUMN_TYPE = "INTEGER";
-        private const String INT_COLUMN_TYPE = "INT";
-        private const String NUMERIC_COLUMN_TYPE = "NUMERIC";
-        private const String REAL_COLUMN_TYPE = "REAL";
-        private const String STRING_COLUMN_TYPE = "STRING";
-        private const String TEXT_COLUMN_TYPE = "TEXT";
-        private const String TIME_COLUMN_TYPE = "TIME";
-        private const String VARCHAR_COLUMN_TYPE = "VARCHAR";
+        private const string BIGINT_COLUMN_TYPE = "BIGINT";
+        private const string BLOB_COLUMN_TYPE = "BLOB";
+        private const string BOOLEAN_COLUMN_TYPE = "BOOLEAN";
+        private const string CHAR_COLUMN_TYPE = "CHAR";
+        private const string DATE_COLUMN_TYPE = "DATE";
+        private const string DATETIME_COLUMN_TYPE = "DATETIME";
+        private const string DECIMAL_COLUMN_TYPE = "DECIMAL";
+        private const string DOUBLE_COLUMN_TYPE = "DOUBLE";
+        private const string INTEGER_COLUMN_TYPE = "INTEGER";
+        private const string INT_COLUMN_TYPE = "INT";
+        private const string NUMERIC_COLUMN_TYPE = "NUMERIC";
+        private const string REAL_COLUMN_TYPE = "REAL";
+        private const string STRING_COLUMN_TYPE = "STRING";
+        private const string TEXT_COLUMN_TYPE = "TEXT";
+        private const string TIME_COLUMN_TYPE = "TIME";
+        private const string VARCHAR_COLUMN_TYPE = "VARCHAR";
 
-        private readonly static String[] _possibleColumnTypes =
+        private readonly static string[] _possibleColumnTypes =
             {
             BIGINT_COLUMN_TYPE,
             BLOB_COLUMN_TYPE,
@@ -42,18 +42,18 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
             TIME_COLUMN_TYPE,
             VARCHAR_COLUMN_TYPE};
 
-        public override String[] get_possibleColumnTypes()
+        public override string[] get_possibleColumnTypes()
         {
             return _possibleColumnTypes;
         }
 
-        public override String ConvertType(String ConvertedType, String DestinationEnvironment)
+        public override string ConvertType(string ConvertedType, string DestinationEnvironment)
         {
             if (ConvertedType == null) return null;
             if (DestinationEnvironment == null) return null;
 
             DestinationEnvironment = DestinationEnvironment.ToUpper();
-            String result = ConvertedType;
+            string result = ConvertedType;
             if (DestinationEnvironment.Equals("JAVA"))
             {
                 return ConvertTypeToJava(ConvertedType);
@@ -61,7 +61,7 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
             else return $"CONVERT:UNKNOWN({ConvertedType})";
         }
 
-        public override String ConvertTypeToJava(String ConvertedType)
+        public override string ConvertTypeToJava(string ConvertedType)
         {
             if (ConvertedType == null) return null;
             ConvertedType = ConvertedType.ToUpper();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {
+    [Serializable]
     public class DatabaseDescriptor
     {
         public String Name { get; set; }

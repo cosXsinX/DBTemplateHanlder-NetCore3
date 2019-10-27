@@ -36,7 +36,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (descriptionPojo.is_NotNull())
+            if (descriptionPojo.IsNotNull)
             {
                 return HandleTrimedContext(TrimedStringContext);
             }

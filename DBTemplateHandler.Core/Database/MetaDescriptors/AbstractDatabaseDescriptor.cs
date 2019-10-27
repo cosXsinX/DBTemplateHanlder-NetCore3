@@ -6,10 +6,10 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
 {
     public abstract class AbstractDatabaseDescriptor
     {
-        public abstract String[] get_possibleColumnTypes();
+        public abstract string[] get_possibleColumnTypes();
 
-        public abstract String ConvertType(String ConvertedType, String DestinationEnvironment);
+        public abstract string ConvertType(string ConvertedType, string DestinationEnvironment);
 
-        public abstract String ConvertTypeToJava(String ConvertedType);
+        public abstract string ConvertTypeToJava(string ConvertedType);
     }
 }

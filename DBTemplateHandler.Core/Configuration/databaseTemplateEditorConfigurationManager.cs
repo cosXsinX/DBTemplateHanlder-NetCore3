@@ -4,7 +4,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Utilities;
 
 namespace DBTemplateHandler.Core.Configuration
 {
-    public class databaseTemplateEditorConfigurationManager
+    public class DatabaseTemplateEditorConfiguration
     {
 
         private const String RESSOURCE_FOLDER_NAME = "ressources";

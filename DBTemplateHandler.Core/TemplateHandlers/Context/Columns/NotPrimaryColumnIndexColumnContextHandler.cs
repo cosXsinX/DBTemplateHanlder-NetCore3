@@ -45,7 +45,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             int currentIndex = 0;
             int currentAutoIndex = 0;
             List<ColumnDescriptor> columnList =
-                    descriptionPojo.ParentTable.get_ColumnsList();
+                    descriptionPojo.ParentTable.Columns;
             for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
             {
                 ColumnDescriptor currentColumn = columnList[currentIndex];

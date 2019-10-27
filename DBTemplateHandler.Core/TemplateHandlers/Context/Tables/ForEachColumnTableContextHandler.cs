@@ -30,7 +30,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (ColumnDescriptor currentColumn in descriptionPojo.get_ColumnsList())
+            foreach (ColumnDescriptor currentColumn in descriptionPojo.Columns)
             {
                 String treated = TemplateHandlerNew.HandleTableColumnTemplate(TrimedStringContext, currentColumn);
                 treated = TemplateHandlerNew.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn);

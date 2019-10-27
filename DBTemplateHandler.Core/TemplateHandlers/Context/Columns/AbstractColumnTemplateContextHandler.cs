@@ -36,5 +36,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
                 HandleTemplate(StringTrimedContext, databaseDescriptionPojo,
                         tableDescriptionPojo, descriptionPojo);
         }
-	}
+    }
 }

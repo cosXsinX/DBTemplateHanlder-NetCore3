@@ -41,7 +41,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (descriptionPojo.ParentTable == null)
                 return ZeroAsString;
             List<ColumnDescriptor> columnList =
-                    descriptionPojo.ParentTable.get_ColumnsList();
+                    descriptionPojo.ParentTable.Columns;
             return Convert.ToString(columnList.IndexOf(descriptionPojo));
         }
 

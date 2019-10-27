@@ -36,7 +36,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (descriptionPojo.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnDescriptor> columnList = descriptionPojo.ParentTable.get_ColumnsList();
+            List<ColumnDescriptor> columnList = descriptionPojo.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
             ColumnDescriptor currentLastPrimaryColumn = null;

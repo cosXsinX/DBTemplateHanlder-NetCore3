@@ -3,57 +3,22 @@ using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {
+    [Serializable]
     public class TableDescriptor
     {
-        public TableDescriptor(String TableNameStr)
+        public TableDescriptor(string name)
         {
-            _NameStr = TableNameStr;
+            Name = name;
         }
-
-        private String _NameStr;
-
-        public String get_NameStr()
-        {
-            return _NameStr;
-        }
-
-        public void set_NameStr(String _NameStr)
-        {
-            this._NameStr = _NameStr;
-        }
-
-
-
-
-        private readonly List<ColumnDescriptor> _ColumnsList =
-                new List<ColumnDescriptor>();
-        public List<ColumnDescriptor> get_ColumnsList()
-        {
-            return _ColumnsList;
-        }
-
-        public void AddColumn(ColumnDescriptor added)
-        {
-            if (added == null) return;
-            _ColumnsList.Add(added);
-        }
-
-        public int get_ColumnNumber()
-        {
-            return _ColumnsList.Count;
-        }
-
-        public void ClearColumns()
-        {
-            _ColumnsList.Clear();
-        }
+        public String Name { get; set; }
+        public List<ColumnDescriptor> Columns { get; set; }
 
         //Template handler specific properties
         public DatabaseDescriptor ParentDatabase;
 	
 	    public void UpdateContainedColumnsParentReference()
         {
-            foreach (ColumnDescriptor currentColumn in _ColumnsList)
+            foreach (ColumnDescriptor currentColumn in Columns)
             {
                 currentColumn.ParentTable = this;
             }

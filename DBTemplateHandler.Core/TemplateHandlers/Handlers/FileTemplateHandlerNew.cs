@@ -50,8 +50,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     String currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                        currentTable.get_NameStr());
-                    foreach (ColumnDescriptor currentColumn in currentTable.get_ColumnsList())
+                                        currentTable.Name);
+                    foreach (ColumnDescriptor currentColumn in currentTable.Columns)
                     {
                         String currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
@@ -75,7 +75,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     String currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                        currentTable.get_NameStr());
+                                        currentTable.Name);
                     String handlerOutput = TemplateHandlerNew.HandleTemplate(
                                 handledTemplateStringContent,
                                     databaseDescriptionPOJO, currentTable, null);
@@ -123,8 +123,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
                             Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.get_NameStr());
-                foreach (ColumnDescriptor currentColumn in tableDescriptionPOJO.get_ColumnsList())
+                                    tableDescriptionPOJO.Name);
+                foreach (ColumnDescriptor currentColumn in tableDescriptionPOJO.Columns)
                 {
                     String currentColumnReplacedDestinationRelativePath =
                             currentTableReplacedDestinationRelativePath.
@@ -148,7 +148,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 String currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
                             Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.get_NameStr());
+                                    tableDescriptionPOJO.Name);
                 String handlerOutput = TemplateHandlerNew.HandleTemplate(
                             handledTemplateStringContent,
                                 tableDescriptionPOJO.ParentDatabase, tableDescriptionPOJO, null);

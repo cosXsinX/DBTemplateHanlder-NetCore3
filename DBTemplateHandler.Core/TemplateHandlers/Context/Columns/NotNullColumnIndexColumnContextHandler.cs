@@ -44,11 +44,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             int currentIndex = ZeroIndex;
             int currentAutoIndex = ZeroIndex;
             List<ColumnDescriptor> columnList =
-                    descriptionPojo.ParentTable.get_ColumnsList();
+                    descriptionPojo.ParentTable.Columns;
             for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
             {
                 ColumnDescriptor currentColumn = columnList[currentIndex];
-                if (currentColumn.is_NotNull())
+                if (currentColumn.IsNotNull)
                 {
                     if (currentColumn.Equals(descriptionPojo))
                     {
