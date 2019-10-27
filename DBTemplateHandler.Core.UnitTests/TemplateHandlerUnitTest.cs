@@ -147,44 +147,6 @@ namespace DBTemplateHandler.Core.UnitTests
         }
 
         [Test]
-        public void Success_when_default_provided_context_handlers_are_the_same_as_original_provided_context_handlers()
-        {
-            List<String> columnContextHandlersDiff =
-                    TemplateContextHandlerPackageProvider.GetDefaultLoadAndOriginalLoadColumnContextHandlerDifferenceSignatureArray();
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (String current in columnContextHandlersDiff)
-            {
-                stringBuilder.Append("The column context handler '" + current + "' was added but not added to the default load methods TemplateContextHandlerPackageProvider.DefaultLoadColumnContextHandlerDefault\n");
-            }
-            List<String> tableContextHandlersDiff =
-                    TemplateContextHandlerPackageProvider.GetDefaultLoadAndOriginalLoadTableContextHandlerDifferenceSignatureArray();
-            foreach (String current in tableContextHandlersDiff)
-            {
-                stringBuilder.Append("The table context handler '" + current + "' was added but not added to the default load methods TemplateContextHandlerPackageProvider.DefaultLoadTableContextHandlerDefault\n");
-            }
-            List<String> databaseContextHandlersDiff =
-                    TemplateContextHandlerPackageProvider.GetDefaultLoadAndOriginalLoadDatabaseContextHandlerDifferenceSignatureArray();
-            foreach (String current in databaseContextHandlersDiff)
-            {
-                stringBuilder.Append("The database context handler '" + current + "' was added but not added to the default load methods TemplateContextHandlerPackageProvider.DefaultLoadTableContextHandlerDefault\n");
-            }
-
-            List<String> functionContextHandlersDiff =
-                    TemplateContextHandlerPackageProvider.GetDefaultLoadAndOriginalLoadFunctionContextHandlerDifferenceSignatureArray();
-            foreach (String current in functionContextHandlersDiff)
-            {
-                stringBuilder.Append("The function context handler '" + current + "' was added but not added to the default load methods TemplateContextHandlerPackageProvider.DefaultLoadTableContextHandlerDefault\n");
-            }
-            bool isDifference = false;
-            isDifference = isDifference || (columnContextHandlersDiff.Count > 0);
-            isDifference = isDifference || (tableContextHandlersDiff.Count > 0);
-            isDifference = isDifference || (databaseContextHandlersDiff.Count > 0);
-            isDifference = isDifference || (functionContextHandlersDiff.Count > 0);
-            if (isDifference) Assert.Fail(stringBuilder.ToString());
-            Assert.IsTrue(true);
-        }
-
-        [Test]
         public void TestTemplateHandlerNew_getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence()
         {
             String submittedString = "Hello I am the best and I am the most wonderful";

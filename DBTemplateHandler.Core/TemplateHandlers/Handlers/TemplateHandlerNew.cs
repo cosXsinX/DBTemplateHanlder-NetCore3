@@ -314,7 +314,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (descriptionPOJO == null)
                 return templateString;
             if (!TemplateContextHandlerPackageProvider.
-                    isSubmittedStringContainsAColumnHandlerStartContextWord(templateString)) return templateString;
+                    IsSubmittedStringContainsAColumnHandlerStartContextWord(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
 
             String currentHandledTemplateString = templateString;
@@ -360,7 +360,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
                             AbstractColumnTemplateContextHandler templateContextHandler
                                 = TemplateContextHandlerPackageProvider.
-                                    getStartContextCorrespondingColumnContextHandler(lastStartContextWord);
+                                    GetStartContextCorrespondingColumnContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
@@ -399,7 +399,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
                         AbstractColumnTemplateContextHandler templateContextHandler
                             = TemplateContextHandlerPackageProvider.
-                                getStartContextCorrespondingColumnContextHandler(lastStartContextWord);
+                                GetStartContextCorrespondingColumnContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
@@ -572,7 +572,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (templateString == null) return false;
             if (templateString.Equals("")) return false;
             String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                getColumnHandlerStartContextWordAtEarliestPositionInSubmittedString(templateString);
+                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
             IDictionary<String, AbstractDatabaseTemplateContextHandler> map =
                     TemplateContextHandlerPackageProvider.
                         getStartContextWrapperStringIndexedDatabaseContextHandlerMap();
@@ -584,10 +584,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (templateString == null) return false;
             if (templateString.Equals("")) return false;
             String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                getColumnHandlerStartContextWordAtEarliestPositionInSubmittedString(templateString);
+                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
             IDictionary<String, AbstractTableTemplateContextHandler> map =
                     TemplateContextHandlerPackageProvider.
-                        getStartContextWrapperStringIndexedTableContextHandlerMap();
+                        GetTableContextHandlerByStartContextWord();
             return map.ContainsKey(earliestStartContextWrapperString);
         }
 
@@ -596,10 +596,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (templateString == null) return false;
             if (templateString.Equals("")) return false;
             String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                getColumnHandlerStartContextWordAtEarliestPositionInSubmittedString(templateString);
+                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
             IDictionary<String, AbstractColumnTemplateContextHandler> map =
                     TemplateContextHandlerPackageProvider.
-                        getStartContextWrapperStringIndexedColumnContextHandlerMap();
+                        GetColumnContextHandlerByStartContextSignature();
             return map.ContainsKey(earliestStartContextWrapperString);
         }
     }
