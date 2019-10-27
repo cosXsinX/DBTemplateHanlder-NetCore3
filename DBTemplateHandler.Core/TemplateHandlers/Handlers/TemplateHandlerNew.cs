@@ -187,7 +187,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (descriptionPOJO == null)
                 return templateString;
             if (!TemplateContextHandlerPackageProvider.
-                    isSubmittedStringContainsATableHandlerStartContextWord(templateString)) return templateString;
+                    IsSubmittedStringContainsATableHandlerStartContextWord(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
             descriptionPOJO.UpdateContainedColumnsParentReference();
 
@@ -234,7 +234,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
                             AbstractTableTemplateContextHandler templateContextHandler
                                 = TemplateContextHandlerPackageProvider.
-                                    getStartContextCorrespondingTableContextHandler(lastStartContextWord);
+                                    GetStartContextCorrespondingTableContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);
@@ -273,7 +273,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
                         AbstractTableTemplateContextHandler templateContextHandler
                             = TemplateContextHandlerPackageProvider.
-                                getStartContextCorrespondingTableContextHandler(lastStartContextWord);
+                                GetStartContextCorrespondingTableContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);

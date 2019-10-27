@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             new ForEachNotPrimaryKeyColumnTableContextHandler(),
             new ForEachPrimaryKeyColumnTableContextHandler(),
             new TableNameTableContextHandler(),
+            //Database
+            new DatabaseNameDatabaseContextHandler(),
+            new ForEachTableDatabaseContextHandler(),
             };
 
 
@@ -81,6 +85,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         {
             return GetHanlders<AbstractTableTemplateContextHandler>();
         }
+
+        public IList<AbstractDatabaseTemplateContextHandler> GetDatabaseHandlers()
+        {
+            return GetHanlders<AbstractDatabaseTemplateContextHandler>();
+        }
+
 
     }
 }
