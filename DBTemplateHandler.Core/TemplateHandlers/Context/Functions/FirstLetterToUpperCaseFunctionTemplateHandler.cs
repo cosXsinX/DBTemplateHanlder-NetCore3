@@ -6,20 +6,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
     public class FirstLetterToUpperCaseFunctionTemplateHandler : AbstractFunctionTemplateContextHandler
     {
-
-
         public const String START_CONTEXT_WORD = "{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE(";
         public const String END_CONTEXT_WORD = ")::}";
-
-        public override String getStartContextStringWrapper()
-        {
-            return START_CONTEXT_WORD;
-        }
-
-        public override String getEndContextStringWrapper()
-        {
-            return END_CONTEXT_WORD;
-        }
+        public override string StartContext { get => START_CONTEXT_WORD; }
+        public override string EndContext { get => END_CONTEXT_WORD; }
 
         public override String processContext(String StringContext)
         {

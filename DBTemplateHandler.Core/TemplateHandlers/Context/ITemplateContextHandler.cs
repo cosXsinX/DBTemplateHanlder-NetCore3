@@ -4,9 +4,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public interface ITemplateContextHandler
     {
-        String getStartContextStringWrapper();
+        string StartContext { get; }
 
-        String getEndContextStringWrapper();
+        string EndContext { get; }
 
         bool isStartContextAndEndContextAnEntireWord();
 

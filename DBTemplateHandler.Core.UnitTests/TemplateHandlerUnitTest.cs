@@ -224,10 +224,10 @@ namespace DBTemplateHandler.Core.UnitTests
                 foreach(AbstractTemplateContextHandler secondCurrentHandler in handlers)
                 {
                     if (secondCurrentHandler.GetType().Equals(currentHandler.GetType())) continue;
-                    if (secondCurrentHandler.getStartContextStringWrapper().Contains(currentHandler.getStartContextStringWrapper()))
+                    if (secondCurrentHandler.StartContext.Contains(currentHandler.StartContext))
                     {
 
-                        TestContext.Write("'" + currentHandler.GetType().Name + "' handler start context word :'" + secondCurrentHandler.getStartContextStringWrapper() + "' contains '" + currentHandler.GetType().Name + "' context handler start context word '" + currentHandler.getStartContextStringWrapper() + "'");
+                        TestContext.Write("'" + currentHandler.GetType().Name + "' handler start context word :'" + secondCurrentHandler.StartContext + "' contains '" + currentHandler.GetType().Name + "' context handler start context word '" + currentHandler.StartContext + "'");
                         Assert.Fail();
                         return;
                     }

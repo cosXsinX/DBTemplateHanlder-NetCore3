@@ -14,18 +14,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         private const String END_CONTEXT_WORD = "::}";
 
         public readonly static String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-
-        public override String getStartContextStringWrapper()
-        {
-            return START_CONTEXT_WORD;
-        }
-
-
-        public override String getEndContextStringWrapper()
-        {
-            return END_CONTEXT_WORD;
-        }
+        public override string StartContext { get => START_CONTEXT_WORD; }
+        public override string EndContext { get => END_CONTEXT_WORD; }
 
         public const int ZeroIndex = 0;
         public static readonly string ZeroIndexAsString = Convert.ToString(0);

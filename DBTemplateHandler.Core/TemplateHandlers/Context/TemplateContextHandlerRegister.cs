@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             //Database
             new DatabaseNameDatabaseContextHandler(),
             new ForEachTableDatabaseContextHandler(),
-            };
+            //Functions
+            new FirstLetterToUpperCaseFunctionTemplateHandler(),
+    };
 
 
         public IList<ITemplateContextHandler> GetHandlers()
@@ -91,6 +94,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             return GetHanlders<AbstractDatabaseTemplateContextHandler>();
         }
 
-
+        public IList<AbstractFunctionTemplateContextHandler> GetFunctionHandlers()
+        {
+            return GetHanlders<AbstractFunctionTemplateContextHandler>();
+        }
     }
 }

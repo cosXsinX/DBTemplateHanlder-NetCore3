@@ -61,7 +61,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (descriptionPOJO == null)
                 return templateString;
             if (!TemplateContextHandlerPackageProvider.
-                    isSubmittedStringContainsADatabaseHandlerStartContextWord(templateString)) return templateString;
+                    IsSubmittedStringContainsADatabaseHandlerStartContextWord(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
             descriptionPOJO.UpdateContainedTablesParentReference();
             String currentHandledTemplateString = templateString;

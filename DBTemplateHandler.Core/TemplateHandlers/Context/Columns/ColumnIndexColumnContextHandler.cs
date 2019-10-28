@@ -16,14 +16,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
 
-        public override String getStartContextStringWrapper()
+        public override String StartContext
         {
-            return START_CONTEXT_WORD;
+            get => START_CONTEXT_WORD;
         }
 
-        public override String getEndContextStringWrapper()
+        public override String EndContext
         {
-            return END_CONTEXT_WORD;
+            get => END_CONTEXT_WORD;
         }
 
         private readonly static string ZeroAsString = Convert.ToString(0);

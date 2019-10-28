@@ -12,20 +12,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH:CURRENT:IS:LAST:COLUMN(";
         public const String END_CONTEXT_WORD = "):::}";
-
-
-
-        public override String getStartContextStringWrapper()
-        {
-            return START_CONTEXT_WORD;
-        }
-
-
-        public override String getEndContextStringWrapper()
-        {
-            return END_CONTEXT_WORD;
-        }
-
+        public override string StartContext { get => START_CONTEXT_WORD; }
+        public override string EndContext { get => END_CONTEXT_WORD; }
 
         public override String processContext(String StringContext)
         {

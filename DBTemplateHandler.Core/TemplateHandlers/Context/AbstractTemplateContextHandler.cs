@@ -4,34 +4,34 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public abstract class AbstractTemplateContextHandler : ITemplateContextHandler
     {
-        public abstract String getStartContextStringWrapper();
+        public abstract string StartContext { get; }
 
-        public abstract String getEndContextStringWrapper();
+        public abstract string EndContext { get; }
 
         public abstract bool isStartContextAndEndContextAnEntireWord();
 
-        public String getTemplateHandlerSignature()
+        public string Signature()
         {
-            return getStartContextStringWrapper() + getEndContextStringWrapper();
+            return string.Concat(StartContext,EndContext);
         }
 
         public String TrimContextFromContextWrapper(String stringContext)
         {
 		
-	    if(!stringContext.StartsWith(getStartContextStringWrapper(), StringComparison.Ordinal))
+	    if(!stringContext.StartsWith(StartContext, StringComparison.Ordinal))
 	    {
 		    throw new
-                Exception("The provided stringContext does not start with " + getStartContextStringWrapper());
+                Exception("The provided stringContext does not start with " + StartContext);
         }
 		
-	    if(!stringContext.EndsWith(getEndContextStringWrapper(), StringComparison.Ordinal))
+	    if(!stringContext.EndsWith(EndContext, StringComparison.Ordinal))
 	    {
 		    throw new
-                Exception("The provided stringContext does not end with " + getEndContextStringWrapper());
+                Exception("The provided stringContext does not end with " + EndContext);
         }
 
         String result = stringContext.Substring(
-            getStartContextStringWrapper().Length, stringContext.Length - getEndContextStringWrapper().Length - getStartContextStringWrapper().Length);
+            StartContext.Length, stringContext.Length - EndContext.Length - StartContext.Length);
 		
 	        return result;
         }

@@ -16,16 +16,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
-
-        public override String getStartContextStringWrapper()
+        public override string StartContext
         {
-            return START_CONTEXT_WORD;
+            get => START_CONTEXT_WORD;
         }
 
-
-        public override String getEndContextStringWrapper()
+        public override string EndContext
         {
-            return END_CONTEXT_WORD;
+            get => END_CONTEXT_WORD;
         }
 
         IDictionary<String, AbstractConversionHandler> ConversionHandlerMap = null;

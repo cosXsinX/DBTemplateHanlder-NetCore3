@@ -8,26 +8,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class AutoColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        private const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX";
+        private const string END_CONTEXT_WORD = "::}";
 
+        public readonly static string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX";
-        private const String END_CONTEXT_WORD = "::}";
-
-        public readonly static String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-        public override String getStartContextStringWrapper()
-        {
-            return START_CONTEXT_WORD;
-        }
-
-        public override String getEndContextStringWrapper()
-        {
-            return END_CONTEXT_WORD;
-        }
+        public override string StartContext{ get => START_CONTEXT_WORD; }
+        public override string EndContext { get => END_CONTEXT_WORD;}
 
         private const int ZeroIndex = 0;
         private static readonly string ZeroIndexAsString = $"{ZeroIndex}";
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception("The provided StringContext is null");
