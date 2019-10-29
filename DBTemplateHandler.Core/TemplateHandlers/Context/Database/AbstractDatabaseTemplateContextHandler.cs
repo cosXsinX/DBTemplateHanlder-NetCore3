@@ -4,7 +4,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
-    public abstract class AbstractDatabaseTemplateContextHandler : AbstractTemplateContextHandler
+    public abstract class AbstractDatabaseTemplateContextHandler : AbstractTemplateContextHandler, IDatabaseTemplateContextHandler
     {
 
 	    DatabaseDescriptor _databaseDescriptionPojo;

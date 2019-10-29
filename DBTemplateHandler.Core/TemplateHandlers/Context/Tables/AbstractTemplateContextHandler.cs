@@ -4,7 +4,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public abstract class AbstractTableTemplateContextHandler : AbstractTemplateContextHandler
+    public abstract class AbstractTableTemplateContextHandler : AbstractTemplateContextHandler, ITableTemplateContextHandler
     {
         TableDescriptor _tableDescriptionPojo;
         public TableDescriptor getAssociatedTableDescriptorPOJO()

@@ -18,6 +18,28 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         private static readonly TemplateContextHandlerRegister register =
             new TemplateContextHandlerRegister();
 
+        public static IList<T> GetHanlders<T>() where T : class, ITemplateContextHandler
+        {
+            return register.GetHanlders<T>();
+        }
+
+        public static IDictionary<string, T> GetContextHandlerByStartContextSignature<T>() where T :class, ITemplateContextHandler
+        {
+            var handlers = GetHanlders<T>();
+            return handlers.
+                ToDictionary(hanlder => hanlder.StartContext,
+                handler => handler);
+        }
+
+        public static IDictionary<string, T> GetContextHandlerByEndContextSignature<T>() where T : class, ITemplateContextHandler
+        {
+            var handlers = GetHanlders<T>();
+            return handlers.
+                ToDictionary(hanlder => hanlder.EndContext,
+                handler => handler);
+        }
+
+
         //Column part
         public static IEnumerable<AbstractColumnTemplateContextHandler> GetAllColumnContextHandlers()
         {

@@ -1,11 +1,12 @@
 ﻿using System;
 using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 {
-    public abstract class AbstractColumnTemplateContextHandler : AbstractTemplateContextHandler
+    public abstract class AbstractColumnTemplateContextHandler : AbstractTemplateContextHandler, IColumnTemplateContextHandler
     {
         public AbstractColumnTemplateContextHandler()
         {
