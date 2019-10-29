@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
-using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
@@ -18,67 +17,61 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         private static readonly TemplateContextHandlerRegister register =
             new TemplateContextHandlerRegister();
 
-        public static IList<T> GetHanlders<T>() where T : class, ITemplateContextHandler
+        public static IList<T> GetHandlers<T>() where T : ITemplateContextHandler
         {
             return register.GetHanlders<T>();
         }
 
-        public static IDictionary<string, T> GetContextHandlerByStartContextSignature<T>() where T :class, ITemplateContextHandler
+        public static IDictionary<string, T> GetContextHandlerByStartContextSignature<T>() where T : ITemplateContextHandler
         {
-            var handlers = GetHanlders<T>();
+            var handlers = GetHandlers<T>();
             return handlers.
                 ToDictionary(hanlder => hanlder.StartContext,
                 handler => handler);
         }
 
-        public static IDictionary<string, T> GetContextHandlerByEndContextSignature<T>() where T : class, ITemplateContextHandler
+        public static IDictionary<string, T> GetContextHandlerByEndContextSignature<T>() where T : ITemplateContextHandler
         {
-            var handlers = GetHanlders<T>();
+            var handlers = GetHandlers<T>();
             return handlers.
                 ToDictionary(hanlder => hanlder.EndContext,
                 handler => handler);
         }
 
-
-        //Column part
-        public static IEnumerable<AbstractColumnTemplateContextHandler> GetAllColumnContextHandlers()
+        public static string GetContextHandlerSignatures<T>(string header) where T:ITemplateContextHandler
         {
-            return register.GetColumnHandlers();
-        }
-
-        public static IDictionary<string, AbstractColumnTemplateContextHandler> GetColumnContextHandlerByStartContextSignature()
-        {
-            var handlers = GetAllColumnContextHandlers();
-            return handlers.
-                ToDictionary(hanlder => hanlder.StartContext,
-                handler => handler);
-        }
-
-        public static IDictionary<string, AbstractColumnTemplateContextHandler> GetColumnContextHandlerByEndContextSignature()
-        {
-            var handlers = GetAllColumnContextHandlers();
-            return handlers.ToDictionary(handler => handler.EndContext, 
-                handler => handler);
-        }
-
-        public static string GetAllColumnContextHandlerSignature()
-        {
-            var handlers = GetAllColumnContextHandlers();
-            var splittedResult = 
-                Enumerable.Repeat("Column context handler signature", 1)
+            var handlers = GetHandlers<T>();
+            var splittedResult =
+                Enumerable.Repeat(header, 1)
                 .Concat(handlers.Select(m => m.Signature()));
             var result = string.Join(NEW_LINE_CHAR, splittedResult);
             return result;
         }
 
-        public static string GetColumnHandlerStartContextWordAtEarliestPosition(string SubmittedString)
+        public static bool ContainsAHandlerStartContextOfType<T>(string submittedString) where T: ITemplateContextHandler
+        {
+            if (submittedString == null) return false;
+            var templateContextHandlers = GetHandlers<T>();
+            return templateContextHandlers.Any(handler =>
+                submittedString.Contains(handler.StartContext));
+        }
+
+        public static bool ContainsAHandlerEndContextOfType<T>(string submittedString) where T:ITemplateContextHandler
+        {
+            if (submittedString == null) return false;
+            var templateContextHandlers = GetHandlers<T>();
+            return templateContextHandlers.Any(handler =>
+                submittedString.Contains(handler.EndContext));
+        }
+
+        public static string GetHandlerStartContextWordAtEarliestPosition<T>(string SubmittedString) where T : ITemplateContextHandler
         {
             string result = null;
-            if (!IsSubmittedStringContainsAColumnHandlerStartContextWord(SubmittedString)) return result;
+            if (!ContainsAHandlerStartContextOfType<T>(SubmittedString)) return result;
 
             int EarliestPosition = -1;
-            if (SubmittedString == null) return null;            
-            var templateContextHandlers = GetAllColumnContextHandlers();
+            if (SubmittedString == null) return null;
+            var templateContextHandlers = GetHandlers<T>();
             foreach (var currentHandler in templateContextHandlers)
             {
                 var currentStartWord = currentHandler.StartContext;
@@ -88,13 +81,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             return result;
         }
 
-        public static string GetColumnHandlerEndContextWordAtLatestPosition(string submittedString)
+        public static string GetHandlerEndContextWordAtLatestPosition<T>(string submittedString) where T : ITemplateContextHandler
         {
             String result = null;
             if (submittedString == null) return null;
-            if (!IsSubmittedStringContainsAnColumnHandlerEndContextWord(submittedString)) return result;
+            if (!ContainsAHandlerEndContextOfType<T>(submittedString)) return result;
 
-            var templateContextHandlers = GetAllColumnContextHandlers();
+            var templateContextHandlers = GetHandlers<T>();
             int EarliestPosition = -1;
             foreach (var currentHandler in templateContextHandlers)
             {
@@ -105,31 +98,65 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             return result;
         }
 
-        public static bool IsSubmittedStringContainsAColumnHandlerStartContextWord(String submittedString)
+        public static T GetStartContextCorrespondingContextHandler<T>(string StartContextWrapper) where T : ITemplateContextHandler
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers = GetAllColumnContextHandlers();
-            return templateContextHandlers.Any(handler => 
-                submittedString.Contains(handler.StartContext));
+            if (StartContextWrapper == null) return default(T);
+            if (StartContextWrapper.Equals("")) return default(T);
+            IDictionary<string, T> contextHandlerMap =
+                    GetContextHandlerByStartContextSignature<T>();
+            if (!contextHandlerMap.ContainsKey(StartContextWrapper)) return default(T);
+            return contextHandlerMap[StartContextWrapper];
         }
 
-        public static bool IsSubmittedStringContainsAnColumnHandlerEndContextWord(String submittedString)
+        //Column part
+        public static IEnumerable<AbstractColumnTemplateContextHandler> GetAllColumnContextHandlers()
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers = GetAllColumnContextHandlers();
-            return templateContextHandlers.Any(handler =>
-                submittedString.Contains(handler.EndContext));
+            return GetHandlers<AbstractColumnTemplateContextHandler>();
+        }
+
+        public static IDictionary<string, AbstractColumnTemplateContextHandler> GetColumnContextHandlerByStartContextSignature()
+        {
+            return GetContextHandlerByStartContextSignature<AbstractColumnTemplateContextHandler>();
+        }
+
+        public static IDictionary<string, AbstractColumnTemplateContextHandler> GetColumnContextHandlerByEndContextSignature()
+        {
+            return GetContextHandlerByEndContextSignature<AbstractColumnTemplateContextHandler>();
+        }
+
+        public static string GetAllColumnContextHandlerSignature()
+        {
+            return GetContextHandlerSignatures<AbstractColumnTemplateContextHandler>("Column context handler signature");
+        }
+
+        public static string GetColumnHandlerStartContextWordAtEarliestPosition(string SubmittedString)
+        {
+            return GetHandlerStartContextWordAtEarliestPosition
+                <AbstractColumnTemplateContextHandler>(SubmittedString);
+        }
+
+        public static string GetColumnHandlerEndContextWordAtLatestPosition(string submittedString)
+        {
+            return GetHandlerEndContextWordAtLatestPosition
+                <AbstractColumnTemplateContextHandler>(submittedString);
+        }
+
+        public static bool ContainsAColumnHandlerStartContext(string submittedString)
+        {
+            return ContainsAHandlerStartContextOfType
+                <AbstractColumnTemplateContextHandler>(submittedString);
+        }
+
+        public static bool ContainsAColumnHandlerEndContext(string submittedString)
+        {
+            return ContainsAHandlerEndContextOfType
+                <AbstractColumnTemplateContextHandler>(submittedString);
         }
 
         public static AbstractColumnTemplateContextHandler GetStartContextCorrespondingColumnContextHandler(String StartContextWrapper)
         {
-            if (StartContextWrapper == null) return null;
-            if (StartContextWrapper.Equals("")) return null;
-            IDictionary<string, AbstractColumnTemplateContextHandler> contextHandlerMap =
-                    GetColumnContextHandlerByStartContextSignature();
-            if (!contextHandlerMap.ContainsKey(StartContextWrapper)) return null;
-            return contextHandlerMap[StartContextWrapper];
-
+            return GetStartContextCorrespondingContextHandler
+                <AbstractColumnTemplateContextHandler>(StartContextWrapper);
         }
         //Column Part End
 
@@ -137,89 +164,51 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         //Table Part
         public static IEnumerable<AbstractTableTemplateContextHandler> GetAllTableContextHandlers()
         {
-            return register.GetTableHandlers();
+            return GetHandlers<AbstractTableTemplateContextHandler>();
         }
 
         public static IDictionary<string, AbstractTableTemplateContextHandler> GetTableContextHandlerByStartContextWord()
         {
-            var handlers = GetAllTableContextHandlers();
-            return handlers.ToDictionary(m => m.StartContext, m => m);
+            return GetContextHandlerByStartContextSignature<AbstractTableTemplateContextHandler>();
         }
 
         public static IDictionary<string, AbstractTableTemplateContextHandler> GetTableContextHandlerByEndContextWord()
         {
-            var handlers = GetAllTableContextHandlers();
-            return handlers.ToDictionary(m => m.EndContext, m => m);
+            return GetContextHandlerByEndContextSignature<AbstractTableTemplateContextHandler>();
         }
 
         public static string GetAllTableContextHandlerSignature()
         {
-            var handlers = GetAllTableContextHandlers();
-            var splittedResult =
-                Enumerable.Repeat("Table context handler signature", 1)
-                .Concat(handlers.Select(m => m.Signature()));
-            var result = string.Join(NEW_LINE_CHAR, splittedResult);
-            return result;
+            return GetContextHandlerSignatures<AbstractTableTemplateContextHandler>
+                    ("Table context handler signature");
         }
 
         public static string GetTableHandlerStartContextWordAtEarliestPosition(string SubmittedString)
         {
-            string result = null;
-            if (!IsSubmittedStringContainsATableHandlerStartContextWord(SubmittedString)) return result;
-            if (SubmittedString == null) return null;
-            
-            var abatractTemplateContextHandlers = GetAllTableContextHandlers();
-            int EarliestPosition = -1;
-            foreach (AbstractTableTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                var currentStartWord = currentHandler.StartContext;
-                var currentIndexOf = SubmittedString.IndexOf(currentStartWord, StringComparison.Ordinal);
-                if (currentIndexOf >= 0 && ((EarliestPosition == -1) || (currentIndexOf < EarliestPosition))) result = currentStartWord;
-            }
-            return result;
+            return GetHandlerStartContextWordAtEarliestPosition<AbstractTableTemplateContextHandler>
+                (SubmittedString);
         }
 
         public static string GetTableHandlerEndContextWordAtLatestPosition(string submittedString)
         {
-            string result = null;
-            if (submittedString == null) return null;
-            if (!IsSubmittedStringContainsAnTableHandlerEndContextWord(submittedString)) return result;
-
-            var abatractTemplateContextHandlers = GetAllTableContextHandlers();
-            int EarliestPosition = -1;
-            foreach (AbstractTableTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                string currentEndWord = currentHandler.EndContext;
-                int currentlastIndexOf = submittedString.LastIndexOf(currentEndWord, StringComparison.Ordinal);
-                if (currentlastIndexOf >= 0 && ((EarliestPosition == -1) || (currentlastIndexOf > EarliestPosition))) result = currentEndWord;
-            }
-            return result;
+            return GetHandlerEndContextWordAtLatestPosition<AbstractTableTemplateContextHandler>
+                (submittedString);
         }
 
         public static bool IsSubmittedStringContainsATableHandlerStartContextWord(string submittedString)
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers =GetAllTableContextHandlers();
-            return templateContextHandlers
-                .Any(currentHandler => submittedString.Contains(currentHandler.StartContext));
+            return ContainsAHandlerStartContextOfType<AbstractTableTemplateContextHandler>(submittedString);
         }
 
         public static bool IsSubmittedStringContainsAnTableHandlerEndContextWord(string submittedString)
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers = GetAllTableContextHandlers();
-            return templateContextHandlers
-                .Any(currentHandler => submittedString.Contains(currentHandler.EndContext));
+            return ContainsAHandlerEndContextOfType<AbstractTableTemplateContextHandler>(submittedString);
         }
 
         public static AbstractTableTemplateContextHandler GetStartContextCorrespondingTableContextHandler(string StartContextWrapper)
         {
-            if (StartContextWrapper == null) return null;
-            if (StartContextWrapper.Equals("")) return null;
-            IDictionary<string, AbstractTableTemplateContextHandler> contextHandlerMap =
-                    GetTableContextHandlerByStartContextWord();
-            if (!contextHandlerMap.ContainsKey(StartContextWrapper)) return null;
-            return contextHandlerMap[StartContextWrapper];
+            return GetStartContextCorrespondingContextHandler
+                <AbstractTableTemplateContextHandler>(StartContextWrapper);
 
         }
         //End Table context
@@ -228,7 +217,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         //Database context Handler Part
         public static IEnumerable<AbstractDatabaseTemplateContextHandler> getAllDatabaseContextHandler()
         {
-            return register.GetDatabaseHandlers();
+            return GetHandlers<AbstractDatabaseTemplateContextHandler>();
         }
 
         public static IDictionary<string, AbstractDatabaseTemplateContextHandler> getStartContextWrapperStringIndexedDatabaseContextHandlerMap()

@@ -73,10 +73,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         //    return _contextHandlers.ToList();
         //}
 
-        public IList<T> GetHanlders<T>() where T :class,ITemplateContextHandler
+        public IList<T> GetHanlders<T>() where T :ITemplateContextHandler
         {
-            return _contextHandlers.Select(m => m as T)
-                .Where(m => m != null).ToList();
+            return _contextHandlers
+                .Where(m => m is T && m != null)
+                .Select(m => (T)m)
+                .ToList();
         }
 
         public IList<AbstractColumnTemplateContextHandler> GetColumnHandlers()

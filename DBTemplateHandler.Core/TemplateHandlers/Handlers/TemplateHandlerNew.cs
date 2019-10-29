@@ -314,7 +314,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (descriptionPOJO == null)
                 return templateString;
             if (!TemplateContextHandlerPackageProvider.
-                    IsSubmittedStringContainsAColumnHandlerStartContextWord(templateString)) return templateString;
+                    ContainsAColumnHandlerStartContext(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
 
             String currentHandledTemplateString = templateString;
