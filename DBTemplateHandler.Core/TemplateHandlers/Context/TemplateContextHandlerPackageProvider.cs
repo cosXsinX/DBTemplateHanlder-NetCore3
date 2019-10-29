@@ -222,89 +222,53 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
         public static IDictionary<string, AbstractDatabaseTemplateContextHandler> getStartContextWrapperStringIndexedDatabaseContextHandlerMap()
         {
-            IEnumerable<AbstractDatabaseTemplateContextHandler> handlers = getAllDatabaseContextHandler();
-            return handlers.ToDictionary(m => m.StartContext, m => m);
+            return GetContextHandlerByStartContextSignature<AbstractDatabaseTemplateContextHandler>();
         }
 
         public static IDictionary<string, AbstractDatabaseTemplateContextHandler> getEndContextWrapperStringIndexedDatabaseContextHandlerMap()
         {
-            IEnumerable<AbstractDatabaseTemplateContextHandler> handlers = getAllDatabaseContextHandler();
-            return handlers.ToDictionary(m => m.EndContext, m => m);
+            return GetContextHandlerByEndContextSignature<AbstractDatabaseTemplateContextHandler>();
         }
 
         public static string GetAllDatabaseContextHandlerSignature()
         {
-            var handlers = getAllDatabaseContextHandler();
-            var splittedResult =
-                Enumerable.Repeat("Database context handler signature", 1)
-                .Concat(handlers.Select(m => m.Signature()));
-            var result = string.Join(NEW_LINE_CHAR, splittedResult);
-            return result;
+            return GetContextHandlerSignatures<AbstractDatabaseTemplateContextHandler>
+                    ("Database context handler signature");
         }
 
         public static string GetDatabaseHandlerStartContextWordAtEarliestPosition(string SubmittedString)
         {
-            string result = null;
-            if (!IsSubmittedStringContainsADatabaseHandlerStartContextWord(SubmittedString)) return result;
-            if (SubmittedString == null) return null;
-            var abatractTemplateContextHandlers = getAllDatabaseContextHandler();
-            int EarliestPosition = -1;
-            foreach (AbstractDatabaseTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                var currentStartWord = currentHandler.StartContext;
-                var currentIndexOf = SubmittedString.IndexOf(currentStartWord, StringComparison.Ordinal);
-                if (currentIndexOf >= 0 && ((EarliestPosition == -1) || (currentIndexOf < EarliestPosition))) result = currentStartWord;
-            }
-            return result;
+            return GetHandlerStartContextWordAtEarliestPosition<AbstractDatabaseTemplateContextHandler>
+                (SubmittedString);
         }
 
         public static string GetDatabaseHandlerEndContextWordAtLatestPosition(string submittedString)
         {
-            string result = null;
-            if (submittedString == null) return null;
-            if (!isSubmittedStringContainsAnDatabaseHandlerEndContextWord(submittedString)) return result;
-            var abatractTemplateContextHandlers = getAllDatabaseContextHandler();
-            int EarliestPosition = -1;
-            foreach (AbstractDatabaseTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                var currentEndWord = currentHandler.EndContext;
-                var currentlastIndexOf = submittedString.LastIndexOf(currentEndWord, StringComparison.Ordinal);
-                if (currentlastIndexOf >= 0 && ((EarliestPosition == -1) || (currentlastIndexOf > EarliestPosition))) result = currentEndWord;
-            }
-
-            return result;
+            return GetHandlerEndContextWordAtLatestPosition<AbstractDatabaseTemplateContextHandler>
+                (submittedString);
         }
 
         public static bool IsSubmittedStringContainsADatabaseHandlerStartContextWord(string submittedString)
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers = getAllDatabaseContextHandler();
-            return templateContextHandlers.Any(currentHandler => 
-                submittedString.Contains(currentHandler.StartContext));
+            return ContainsAHandlerStartContextOfType<AbstractDatabaseTemplateContextHandler>(submittedString);
         }
 
         public static bool isSubmittedStringContainsAnDatabaseHandlerEndContextWord(String submittedString)
         {
-            if (submittedString == null) return false;
-            var abstractTemplateContextHandlers = getAllDatabaseContextHandler();
-            return abstractTemplateContextHandlers.Any(current => 
-                submittedString.Contains(current.EndContext));
+            return ContainsAHandlerEndContextOfType<AbstractDatabaseTemplateContextHandler>(submittedString);
         }
 
         public static AbstractDatabaseTemplateContextHandler getStartContextCorrespondingDatabaseContextHandler(String StartContextWrapper)
         {
-            if (StartContextWrapper == null) return null;
-            if (StartContextWrapper.Equals("")) return null;
-            var contextHandlerMap = getStartContextWrapperStringIndexedDatabaseContextHandlerMap();
-            if (!contextHandlerMap.ContainsKey(StartContextWrapper)) return null;
-            return contextHandlerMap[StartContextWrapper];
+            return GetStartContextCorrespondingContextHandler
+                <AbstractDatabaseTemplateContextHandler>(StartContextWrapper);
         }
         //Database end context
 
         //Function start context
         private static IEnumerable<AbstractFunctionTemplateContextHandler> DefaultLoadFunctionContextHandlerDefault()
         {
-            return register.GetFunctionHandlers();
+            return GetHandlers<AbstractFunctionTemplateContextHandler>();
         }
 
         public static IEnumerable<AbstractFunctionTemplateContextHandler> getAllFunctionContextHandler()
@@ -312,117 +276,51 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             return DefaultLoadFunctionContextHandlerDefault();
         }
 
-        public static IDictionary<String, AbstractFunctionTemplateContextHandler> getStartContextWrapperStringIndexedFunctionContextHandlerMap()
+        public static IDictionary<string, AbstractFunctionTemplateContextHandler> getStartContextWrapperStringIndexedFunctionContextHandlerMap()
         {
-            IEnumerable<AbstractFunctionTemplateContextHandler> handlers = getAllFunctionContextHandler();
-            Dictionary<String, AbstractFunctionTemplateContextHandler> result = new Dictionary<String, AbstractFunctionTemplateContextHandler>();
-            foreach (AbstractFunctionTemplateContextHandler currentHandler in handlers)
-            {
-                result.Add(currentHandler.StartContext, currentHandler);
-            }
-            return result;
+            return GetContextHandlerByStartContextSignature<AbstractFunctionTemplateContextHandler>();
         }
 
-        public static IDictionary<String, AbstractFunctionTemplateContextHandler> getEndContextWrapperStringIndexedFunctionContextHandlerMap()
+        public static IDictionary<string, AbstractFunctionTemplateContextHandler> getEndContextWrapperStringIndexedFunctionContextHandlerMap()
         {
-            IEnumerable<AbstractFunctionTemplateContextHandler> handlers = getAllFunctionContextHandler();
-            Dictionary<String, AbstractFunctionTemplateContextHandler> result = new Dictionary<String, AbstractFunctionTemplateContextHandler>();
-            foreach (AbstractFunctionTemplateContextHandler currentHandler in handlers)
-            {
-                result.Add(currentHandler.EndContext, currentHandler);
-            }
-            return result;
+            return GetContextHandlerByEndContextSignature<AbstractFunctionTemplateContextHandler>();
         }
 
-        public static String getAllFunctionContextHandlerSignature()
+        public static string getAllFunctionContextHandlerSignature()
         {
-            IEnumerable<AbstractFunctionTemplateContextHandler> handlers =
-                    getAllFunctionContextHandler();
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append("Function context handler signature");
-            stringBuilder.Append(NEW_LINE_CHAR);
-
-            foreach (AbstractFunctionTemplateContextHandler currentHandler in handlers)
-            {
-                stringBuilder.Append(currentHandler.Signature());
-                stringBuilder.Append(NEW_LINE_CHAR);
-            }
-            return stringBuilder.ToString();
+            return GetContextHandlerSignatures<AbstractFunctionTemplateContextHandler>
+                    ("Function context handler signature");
         }
 
         public static string getFunctionHandlerStartContextWordAtEarliestPositionInSubmittedString(string SubmittedString)
         {
-            string result = null;
-            if (!isSubmittedStringContainsAFunctionHandlerStartContextWord(SubmittedString)) return result;
-
-            int EarliestPosition = -1;
-            if (SubmittedString == null) return null;
-            var abatractTemplateContextHandlers =getAllFunctionContextHandler();
-            foreach (AbstractFunctionTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                var currentStartWord = currentHandler.StartContext;
-                var currentIndexOf = SubmittedString.IndexOf(currentStartWord, StringComparison.Ordinal);
-                if (currentIndexOf >= 0 && ((EarliestPosition == -1) || (currentIndexOf < EarliestPosition))) 
-                    result = currentStartWord;
-            }
-
-            return result;
+            return GetHandlerStartContextWordAtEarliestPosition<AbstractFunctionTemplateContextHandler>(SubmittedString);
         }
 
         public static string getFunctionHandlerEndContextWordAtLatestPositionInSubmittedString(string submittedString)
         {
-            String result = null;
-            int EarliestPosition = -1;
-            if (submittedString == null) return null;
-            if (!isSubmittedStringContainsAnFunctionHandlerEndContextWord(submittedString)) return result;
-
-            var abatractTemplateContextHandlers = getAllFunctionContextHandler();
-            foreach (AbstractFunctionTemplateContextHandler currentHandler in abatractTemplateContextHandlers)
-            {
-                var currentEndWord = currentHandler.EndContext;
-                var currentlastIndexOf = submittedString.LastIndexOf(currentEndWord, StringComparison.Ordinal);
-                if (currentlastIndexOf >= 0 && ((EarliestPosition == -1) || (currentlastIndexOf > EarliestPosition))) result = currentEndWord;
-            }
-
-            return result;
+            return GetHandlerEndContextWordAtLatestPosition<AbstractFunctionTemplateContextHandler>(submittedString);
         }
 
         public static bool isSubmittedStringContainsAFunctionHandlerStartContextWord(string submittedString)
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers =getAllFunctionContextHandler();
-            return templateContextHandlers.Any(current => 
-                submittedString.Contains(current.StartContext));
+            return ContainsAHandlerStartContextOfType<AbstractFunctionTemplateContextHandler>(submittedString);
         }
 
         public static bool isSubmittedStringContainsAnFunctionHandlerEndContextWord(string submittedString)
         {
-            if (submittedString == null) return false;
-            var templateContextHandlers =getAllFunctionContextHandler();
-            return templateContextHandlers.Any(current => submittedString.Contains(current.EndContext));
+            return ContainsAHandlerEndContextOfType<AbstractFunctionTemplateContextHandler>(submittedString);
         }
 
-        public static AbstractFunctionTemplateContextHandler getStartContextCorrespondingFunctionContextHandler(String StartContextWrapper)
+        public static AbstractFunctionTemplateContextHandler getStartContextCorrespondingFunctionContextHandler(string StartContextWrapper)
         {
-            if (StartContextWrapper == null) return null;
-            if (StartContextWrapper.Equals("")) return null;
-            IDictionary<String, AbstractFunctionTemplateContextHandler> contextHandlerMap =
-                    getStartContextWrapperStringIndexedFunctionContextHandlerMap();
-            if (!contextHandlerMap.ContainsKey(StartContextWrapper)) return null;
-            return contextHandlerMap[StartContextWrapper];
-
+            return GetStartContextCorrespondingContextHandler<AbstractFunctionTemplateContextHandler>(StartContextWrapper);
         }
         //Function end context
 
         public static IEnumerable<AbstractTemplateContextHandler> getAllContextHandler()
         {
-            List<AbstractTemplateContextHandler> result = new List<AbstractTemplateContextHandler>();
-            result.AddRange(GetAllColumnContextHandlers());
-            result.AddRange(GetAllTableContextHandlers());
-            result.AddRange(getAllDatabaseContextHandler());
-            return result;
+            return GetHandlers< AbstractTemplateContextHandler>();
         }
 
         public static string getAllContextHandlerSignature()
