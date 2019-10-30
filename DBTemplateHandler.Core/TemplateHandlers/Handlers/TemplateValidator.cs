@@ -1,4 +1,8 @@
-﻿using DBTemplateHandler.Core.TemplateHandlers.Context;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using DBTemplateHandler.Core.TemplateHandlers.Utilities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +13,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class TemplateValidator
     {
+
+        private static readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>
+            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>();
 
         public static bool TemplateStringValidation(String ValidatedTemplateString)
         {
@@ -22,8 +29,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private static bool ContextOpeningAndClosureTemplateStringValidation
             (String ValidatedTemplateString)
         {
-            int startContextCount = TemplateContextHandlerPackageProvider.countStartContextWordInSubmittedString(ValidatedTemplateString);
-            int endContextCount = TemplateContextHandlerPackageProvider.countEndContextWordInSubmittedString(ValidatedTemplateString);
+            int startContextCount = templateContextHandlerProvider.CountStartContextWordIn(ValidatedTemplateString);
+            int endContextCount = templateContextHandlerProvider.CountEndContextWordIn(ValidatedTemplateString);
             return startContextCount == endContextCount;
         }
 
@@ -33,11 +40,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             String currentHandledTemplateString = ValidatedTemplateString;
             Stack<String> StartContextWordStack = new Stack<String>();
 
-            String earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            String earliestStartContextWord = templateContextHandlerProvider.
+                GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
 
-            String earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            String earliestEndContextWord = templateContextHandlerProvider.
+                 GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             while (earliestStartContextWord != null || earliestEndContextWord != null)
             {
 
@@ -58,8 +65,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                         if (!StartContextWordStack.Any()) return false;
                         String lastStartContextWord = StartContextWordStack.Pop();
                         String associatedEndContextWord =
-                                TemplateContextHandlerPackageProvider.
-                                    getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                                templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                         if (!associatedEndContextWord.Equals(earliestEndContextWord))
                         {
                             return false;
@@ -75,8 +81,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     if (!StartContextWordStack.Any()) return false;
                     String lastStartContextWord = StartContextWordStack.Pop();
                     String associatedEndContextWord =
-                            TemplateContextHandlerPackageProvider.
-                                getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                            templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                     if (!associatedEndContextWord.Equals(earliestEndContextWord))
                     {
                         return false;
@@ -86,11 +91,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
                                     (currentHandledTemplateString, earliestEndContextWord);
                 }
-                earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
 
-                earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                        getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestEndContextWord = templateContextHandlerProvider.
+                        GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             }
             if (StartContextWordStack.Any()) return false;
             return true;

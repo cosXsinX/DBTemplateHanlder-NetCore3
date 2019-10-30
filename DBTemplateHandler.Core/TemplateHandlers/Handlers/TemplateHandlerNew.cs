@@ -13,6 +13,25 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class TemplateHandlerNew
     {
+        private static readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler> 
+            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>();
+
+        private static readonly TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>
+            databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>();
+
+        private static readonly TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>
+            tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>();
+        
+        private static readonly TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>
+            columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>();
+        
+        private static readonly TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>
+            functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>();
+
+
+
+
+
         public static string HandleTemplate(string templateString,
             DatabaseDescriptor databaseDescriptionPOJO,
             TableDescriptor tableDescriptionPOJO,
@@ -20,36 +39,35 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (templateString == null) return null;
             string handlerStartContext =
-                TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString
-                        (templateString);
+                templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(templateString);
             if (handlerStartContext == null) return templateString;
 
-            AbstractTemplateContextHandler handler = TemplateContextHandlerPackageProvider
-                    .getStartContextCorrespondingContextHandler(handlerStartContext);
+            AbstractTemplateContextHandler handler = templateContextHandlerProvider
+                    .GetStartContextCorrespondingContextHandler(handlerStartContext);
 
 
             if (handler is AbstractFunctionTemplateContextHandler)
             {
-                return TemplateHandlerNew.HandleFunctionTemplate(templateString, databaseDescriptionPOJO, tableDescriptionPOJO, columnDescriptionPOJO);
+                return HandleFunctionTemplate(templateString, databaseDescriptionPOJO, tableDescriptionPOJO, columnDescriptionPOJO);
             }
             else if (handler is AbstractDatabaseTemplateContextHandler)
             {
                 if (databaseDescriptionPOJO == null)
                     return templateString;
-                return TemplateHandlerNew.HandleDatabaseTemplate(templateString, databaseDescriptionPOJO);
+                return HandleDatabaseTemplate(templateString, databaseDescriptionPOJO);
             }
             else if (handler is AbstractTableTemplateContextHandler)
             {
                 if (tableDescriptionPOJO == null)
                     return templateString;
-                return TemplateHandlerNew.HandleTableTemplate(templateString, tableDescriptionPOJO);
+                return HandleTableTemplate(templateString, tableDescriptionPOJO);
             }
             else if (handler is AbstractColumnTemplateContextHandler)
             {
                 if (columnDescriptionPOJO == null)
                     return templateString;
-                return TemplateHandlerNew.HandleTableColumnTemplate(templateString, columnDescriptionPOJO);
+                return HandleTableColumnTemplate(templateString, columnDescriptionPOJO);
             }
             return null;
         }
@@ -60,20 +78,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (descriptionPOJO == null)
                 return templateString;
-            if (!TemplateContextHandlerPackageProvider.
-                    IsSubmittedStringContainsADatabaseHandlerStartContextWord(templateString)) return templateString;
+            if (!databaseTemplateContextHandlerProvider.ContainsAHandlerStartContextOfType(templateString))
+                return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
             descriptionPOJO.UpdateContainedTablesParentReference();
-            String currentHandledTemplateString = templateString;
-            Stack<String> StartContextWordStack = new Stack<String>();
+            string currentHandledTemplateString = templateString;
+            Stack<string> StartContextWordStack = new Stack<string>();
 
             Stack<StringBuilder> HanldedContextStringBuilderStakce = new Stack<StringBuilder>();
             StringBuilder currentHandledContextBufferStringBuilder = new StringBuilder();
 
-            String earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-            String earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            string earliestStartContextWord = templateContextHandlerProvider.
+                GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+            string earliestEndContextWord = templateContextHandlerProvider.
+                    GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             while (earliestStartContextWord != null || earliestEndContextWord != null)
             {
                 if (earliestStartContextWord != null && earliestEndContextWord != null)
@@ -99,15 +117,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     {
 
                         String lastStartContextWord = StartContextWordStack.Pop();
-                        String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                        String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                         if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                         {
                             currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                     getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                             AbstractDatabaseTemplateContextHandler templateContextHandler
-                                = TemplateContextHandlerPackageProvider.
-                                    getStartContextCorrespondingDatabaseContextHandler(lastStartContextWord);
+                                = databaseTemplateContextHandlerProvider.
+                                    GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedDatabaseDescriptorPOJO(descriptionPOJO);
@@ -138,15 +156,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 else if (earliestEndContextWord != null)
                 {
                     String lastStartContextWord = StartContextWordStack.Pop();
-                    String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                    String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                     if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                     {
                         currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                 getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                         AbstractDatabaseTemplateContextHandler templateContextHandler
-                            = TemplateContextHandlerPackageProvider.
-                                getStartContextCorrespondingDatabaseContextHandler(lastStartContextWord);
+                            = databaseTemplateContextHandlerProvider.
+                                GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedDatabaseDescriptorPOJO(descriptionPOJO);
@@ -173,34 +191,34 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
                                     (currentHandledTemplateString, earliestEndContextWord);
                 }
-                earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-                earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                        getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+                earliestEndContextWord = templateContextHandlerProvider.
+                        GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             }
             if (!currentHandledTemplateString.Equals("")) currentHandledContextBufferStringBuilder.Append(currentHandledTemplateString);
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static String HandleTableTemplate(String templateString, TableDescriptor descriptionPOJO)
+        public static string HandleTableTemplate(string templateString, TableDescriptor descriptionPOJO)
         {
             if (descriptionPOJO == null)
                 return templateString;
-            if (!TemplateContextHandlerPackageProvider.
-                    IsSubmittedStringContainsATableHandlerStartContextWord(templateString)) return templateString;
+            if (!tableTemplateContextHandlerProvider.
+                    ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
             descriptionPOJO.UpdateContainedColumnsParentReference();
 
-            String currentHandledTemplateString = templateString;
-            Stack<String> StartContextWordStack = new Stack<String>();
+            string currentHandledTemplateString = templateString;
+            Stack<string> StartContextWordStack = new Stack<string>();
 
             Stack<StringBuilder> HanldedContextStringBuilderStakce = new Stack<StringBuilder>();
             StringBuilder currentHandledContextBufferStringBuilder = new StringBuilder();
 
-            String earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-            String earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            string earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+            string earliestEndContextWord = templateContextHandlerProvider.
+                    GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             while (earliestStartContextWord != null || earliestEndContextWord != null)
             {
                 if (earliestStartContextWord != null && earliestEndContextWord != null)
@@ -226,15 +244,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     {
 
                         String lastStartContextWord = StartContextWordStack.Pop();
-                        String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                        String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                         if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                         {
                             currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                     getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                             AbstractTableTemplateContextHandler templateContextHandler
-                                = TemplateContextHandlerPackageProvider.
-                                    GetStartContextCorrespondingTableContextHandler(lastStartContextWord);
+                                = tableTemplateContextHandlerProvider.
+                                    GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);
@@ -265,15 +283,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 else if (earliestEndContextWord != null)
                 {
                     String lastStartContextWord = StartContextWordStack.Pop();
-                    String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                    String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                     if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                     {
                         currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                 getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                         AbstractTableTemplateContextHandler templateContextHandler
-                            = TemplateContextHandlerPackageProvider.
-                                GetStartContextCorrespondingTableContextHandler(lastStartContextWord);
+                            = tableTemplateContextHandlerProvider.
+                                GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);
@@ -300,33 +318,32 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
                                     (currentHandledTemplateString, earliestEndContextWord);
                 }
-                earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-                earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                        getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+                earliestEndContextWord = templateContextHandlerProvider.
+                        GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             }
             if (!currentHandledTemplateString.Equals("")) currentHandledContextBufferStringBuilder.Append(currentHandledTemplateString);
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static String HandleTableColumnTemplate(String templateString, ColumnDescriptor descriptionPOJO)
+        public static string HandleTableColumnTemplate(string templateString, ColumnDescriptor descriptionPOJO)
         {
-            if (descriptionPOJO == null)
-                return templateString;
-            if (!TemplateContextHandlerPackageProvider.
-                    ContainsAColumnHandlerStartContext(templateString)) return templateString;
+            if (descriptionPOJO == null) return templateString;
+            if (!columnTemplateContextHandlerProvider.
+                    ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
 
-            String currentHandledTemplateString = templateString;
-            Stack<String> StartContextWordStack = new Stack<String>();
+            string currentHandledTemplateString = templateString;
+            Stack<string> StartContextWordStack = new Stack<string>();
 
             Stack<StringBuilder> HanldedContextStringBuilderStakce = new Stack<StringBuilder>();
             StringBuilder currentHandledContextBufferStringBuilder = new StringBuilder();
 
-            String earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-            String earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            string earliestStartContextWord = templateContextHandlerProvider.
+                GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+            string earliestEndContextWord = templateContextHandlerProvider.
+                    GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             while (earliestStartContextWord != null || earliestEndContextWord != null)
             {
                 if (earliestStartContextWord != null && earliestEndContextWord != null)
@@ -352,15 +369,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     {
 
                         String lastStartContextWord = StartContextWordStack.Pop();
-                        String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                        String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                         if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                         {
                             currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                     getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                             AbstractColumnTemplateContextHandler templateContextHandler
-                                = TemplateContextHandlerPackageProvider.
-                                    GetStartContextCorrespondingColumnContextHandler(lastStartContextWord);
+                                = columnTemplateContextHandlerProvider.
+                                    GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
@@ -391,15 +408,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 else if (earliestEndContextWord != null)
                 {
                     String lastStartContextWord = StartContextWordStack.Pop();
-                    String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                    String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                     if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                     {
                         currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                 getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                         AbstractColumnTemplateContextHandler templateContextHandler
-                            = TemplateContextHandlerPackageProvider.
-                                GetStartContextCorrespondingColumnContextHandler(lastStartContextWord);
+                            = columnTemplateContextHandlerProvider.
+                                GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
@@ -426,35 +443,35 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
                                     (currentHandledTemplateString, earliestEndContextWord);
                 }
-                earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-                earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                        getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+                earliestEndContextWord = templateContextHandlerProvider.
+                        GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             }
             if (!currentHandledTemplateString.Equals("")) currentHandledContextBufferStringBuilder.Append(currentHandledTemplateString);
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static String HandleFunctionTemplate(
-                String templateString, DatabaseDescriptor databaseDescriptionPOJO,
+        public static string HandleFunctionTemplate(
+                string templateString, DatabaseDescriptor databaseDescriptionPOJO,
                 TableDescriptor tableDescriptionPOJO, ColumnDescriptor columnDescriptionPojo)
         {
-            if (!TemplateContextHandlerPackageProvider.
-                    isSubmittedStringContainsAFunctionHandlerStartContextWord(templateString)) return templateString;
+            if (!functionTemplateContextHandlerProvider.
+                    ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
             if (databaseDescriptionPOJO != null) databaseDescriptionPOJO.UpdateContainedTablesParentReference();
             if (tableDescriptionPOJO != null) tableDescriptionPOJO.UpdateContainedColumnsParentReference();
 
-            String currentHandledTemplateString = templateString;
-            Stack<String> StartContextWordStack = new Stack<String>();
+            string currentHandledTemplateString = templateString;
+            Stack<string> StartContextWordStack = new Stack<string>();
 
             Stack<StringBuilder> HanldedContextStringBuilderStakce = new Stack<StringBuilder>();
             StringBuilder currentHandledContextBufferStringBuilder = new StringBuilder();
 
-            String earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-            String earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+            string earliestStartContextWord = templateContextHandlerProvider.
+                GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+            string earliestEndContextWord = templateContextHandlerProvider.
+                    GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             while (earliestStartContextWord != null || earliestEndContextWord != null)
             {
                 if (earliestStartContextWord != null && earliestEndContextWord != null)
@@ -480,15 +497,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     {
 
                         String lastStartContextWord = StartContextWordStack.Pop();
-                        String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                        String lastStartContextWordAssociatedEndContextWord = templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                         if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                         {
                             currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                     getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                             AbstractFunctionTemplateContextHandler templateContextHandler
-                                = TemplateContextHandlerPackageProvider.
-                                    getStartContextCorrespondingFunctionContextHandler(lastStartContextWord);
+                                = functionTemplateContextHandlerProvider.
+                                    GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
                                 templateContextHandler.setAssociatedDatabaseDescriptionPOJO(databaseDescriptionPOJO);
@@ -521,15 +538,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 else if (earliestEndContextWord != null)
                 {
                     String lastStartContextWord = StartContextWordStack.Pop();
-                    String lastStartContextWordAssociatedEndContextWord = TemplateContextHandlerPackageProvider.getStartContextCorrespondingEndContextWrapper(lastStartContextWord);
+                    String lastStartContextWordAssociatedEndContextWord =
+                        templateContextHandlerProvider.GetStartContextCorrespondingEndContext(lastStartContextWord);
                     if (lastStartContextWordAssociatedEndContextWord.Equals(earliestEndContextWord))
                     {
                         currentHandledContextBufferStringBuilder.Append(StringUtilities.
                                 getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(currentHandledTemplateString, earliestEndContextWord));
 
                         AbstractFunctionTemplateContextHandler templateContextHandler
-                            = TemplateContextHandlerPackageProvider.
-                                getStartContextCorrespondingFunctionContextHandler(lastStartContextWord);
+                            = functionTemplateContextHandlerProvider.
+                                GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
                             templateContextHandler.setAssociatedDatabaseDescriptionPOJO(databaseDescriptionPOJO);
@@ -558,49 +576,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
                                     (currentHandledTemplateString, earliestEndContextWord);
                 }
-                earliestStartContextWord = TemplateContextHandlerPackageProvider.
-                    getHandlerStartContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
-                earliestEndContextWord = TemplateContextHandlerPackageProvider.
-                        getHandlerEndContextWordAtEarliestPositionInSubmittedString(currentHandledTemplateString);
+                earliestStartContextWord = templateContextHandlerProvider.
+                    GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
+                earliestEndContextWord = templateContextHandlerProvider.
+                        GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
             }
             if (!currentHandledTemplateString.Equals("")) currentHandledContextBufferStringBuilder.Append(currentHandledTemplateString);
             return currentHandledContextBufferStringBuilder.ToString();
-        }
-
-        public static bool IsEarliestPositionStartContextWrapperADatabaseStartContextWrapper(String templateString)
-        {
-            if (templateString == null) return false;
-            if (templateString.Equals("")) return false;
-            String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
-            IDictionary<String, AbstractDatabaseTemplateContextHandler> map =
-                    TemplateContextHandlerPackageProvider.
-                        getStartContextWrapperStringIndexedDatabaseContextHandlerMap();
-            return map.ContainsKey(earliestStartContextWrapperString);
-        }
-
-        public static bool IsEarliestPositionStartContextWrapperATableStartContextWrapper(String templateString)
-        {
-            if (templateString == null) return false;
-            if (templateString.Equals("")) return false;
-            String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
-            IDictionary<String, AbstractTableTemplateContextHandler> map =
-                    TemplateContextHandlerPackageProvider.
-                        GetTableContextHandlerByStartContextWord();
-            return map.ContainsKey(earliestStartContextWrapperString);
-        }
-
-        public static bool IsEarliestPositionStartContextWrapperAColumnStartContextWrapper(String templateString)
-        {
-            if (templateString == null) return false;
-            if (templateString.Equals("")) return false;
-            String earliestStartContextWrapperString = TemplateContextHandlerPackageProvider.
-                GetColumnHandlerStartContextWordAtEarliestPosition(templateString);
-            IDictionary<String, AbstractColumnTemplateContextHandler> map =
-                    TemplateContextHandlerPackageProvider.
-                        GetColumnContextHandlerByStartContextSignature();
-            return map.ContainsKey(earliestStartContextWrapperString);
         }
     }
 }

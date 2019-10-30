@@ -68,12 +68,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
     };
 
 
-        //public IList<ITemplateContextHandler> GetHandlers()
-        //{
-        //    return _contextHandlers.ToList();
-        //}
-
-        public IList<T> GetHanlders<T>() where T :ITemplateContextHandler
+        public IList<T> GetHanlders<T>() where T : ITemplateContextHandler
         {
             return _contextHandlers
                 .Where(m => m is T && m != null)
@@ -81,24 +76,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
                 .ToList();
         }
 
-        public IList<AbstractColumnTemplateContextHandler> GetColumnHandlers()
-        {
-            return GetHanlders<AbstractColumnTemplateContextHandler>();
-        }
-
-        public IList<AbstractTableTemplateContextHandler> GetTableHandlers()
-        {
-            return GetHanlders<AbstractTableTemplateContextHandler>();
-        }
-
-        public IList<AbstractDatabaseTemplateContextHandler> GetDatabaseHandlers()
-        {
-            return GetHanlders<AbstractDatabaseTemplateContextHandler>();
-        }
-
-        public IList<AbstractFunctionTemplateContextHandler> GetFunctionHandlers()
-        {
-            return GetHanlders<AbstractFunctionTemplateContextHandler>();
-        }
     }
 }
