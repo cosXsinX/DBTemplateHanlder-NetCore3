@@ -1,9 +1,8 @@
 ﻿using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Core.TemplateHandlers.Utilities;
+using DBTemplateHandler.Core.Template;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
@@ -14,196 +13,159 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private const string TABLE_TEMPLATE_FILE_NAME_WORD = "%tableName%";
         private const string COLUMN_TEMPLATE_FILE_NAME_WORD = "%columnName%";
 
-        private String _outpuFolderPath;
-        public String get_outpuFolderPath()
+        public IList<HandledTemplateResultModel> Process(DatabaseTemplateHandlerInputModel input)
         {
-            return _outpuFolderPath;
-        }
-        public void set_outpuFolderPath(String value)
-        {
-            this._outpuFolderPath = value;
+            var result = input.TemplateModels.SelectMany(templateModel =>
+                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel)).ToList();
+            return result;
         }
 
-
-        public bool GenerateDatabaseTemplateFiles
-            (string handledTemplateFilePath,
-                    string specifiedDestinationRelativePath,
-                        DatabaseModel databaseDescriptionPOJO)
+        public IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
+            (TemplateModel templateModel, DatabaseModel databaseModel)
         {
-            if (databaseDescriptionPOJO == null) return false;
-            if (specifiedDestinationRelativePath == null) return false;
-            string handledTemplateStringContent = getHandledTemplateStringContent(handledTemplateFilePath);
-            if (handledTemplateStringContent == null) return false;
+            if (databaseModel == null) yield break;
+            if (templateModel == null) yield break;
+            string templateFileContent = templateModel.TemplatedFileContent ?? string.Empty;
+            string templateFilePath = templateModel.TemplatedFilePath ?? string.Empty;
             bool containsTblWord =
-                    specifiedDestinationRelativePath.
+                    templateFilePath.
                         Contains(TABLE_TEMPLATE_FILE_NAME_WORD);
             bool containsColWord =
-                    handledTemplateFilePath.
+                    templateFilePath.
                         Contains(COLUMN_TEMPLATE_FILE_NAME_WORD);
             if (containsColWord)
             {
                 string currentDatabaseReplacedDestinationRelativePath =
-                        specifiedDestinationRelativePath.Replace(
+                        templateFilePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.Name);
-                foreach (TableModel currentTable in databaseDescriptionPOJO.Tables)
+                                    databaseModel.Name);
+                foreach (TableModel currentTable in databaseModel.Tables)
                 {
-                    String currentTableReplacedDestinationRelativePath =
+                    string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
                                         currentTable.Name);
                     foreach (ColumnModel currentColumn in currentTable.Columns)
                     {
-                        String currentColumnReplacedDestinationRelativePath =
+                        string currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
                                     Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
-                        String handlerOutput = TemplateHandlerNew.HandleTemplate(
-                                handledTemplateStringContent,
-                                    databaseDescriptionPOJO, currentTable, currentColumn);
-                        String destinationFilePath = PathManager.AppendAtEndFileSeparatorIfNeeded(get_outpuFolderPath()) + currentColumnReplacedDestinationRelativePath;
-                        CreateOrReplaceFileWithContent(destinationFilePath, handlerOutput);
+                        string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                                templateFileContent,
+                                    databaseModel, currentTable, currentColumn);
+                        string destinationFilePath = currentColumnReplacedDestinationRelativePath;
+                        yield return new HandledTemplateResultModel()
+                        {
+                            Path = destinationFilePath,
+                            Content = handlerOutput
+                        };
                     }
                 }
             }
             else if (containsTblWord)
             {
-                String currentDatabaseReplacedDestinationRelativePath =
-                        specifiedDestinationRelativePath.Replace(
+                string currentDatabaseReplacedDestinationRelativePath =
+                        templateFilePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.Name);
-                foreach (TableModel currentTable in databaseDescriptionPOJO.Tables)
+                                    databaseModel.Name);
+                foreach (TableModel currentTable in databaseModel.Tables)
                 {
-                    String currentTableReplacedDestinationRelativePath =
+                    string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
                                         currentTable.Name);
-                    String handlerOutput = TemplateHandlerNew.HandleTemplate(
-                                handledTemplateStringContent,
-                                    databaseDescriptionPOJO, currentTable, null);
-                    String destinationFilePath = PathManager.AppendAtEndFileSeparatorIfNeeded(get_outpuFolderPath()) + currentTableReplacedDestinationRelativePath;
-                    CreateOrReplaceFileWithContent(destinationFilePath, handlerOutput);
+                    string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                                templateFileContent,
+                                    databaseModel, currentTable, null);
+                    string destinationFilePath = currentTableReplacedDestinationRelativePath;
+                    yield return new HandledTemplateResultModel()
+                    {
+                        Path = destinationFilePath,
+                        Content = handlerOutput
+                    };
                 }
             }
             else
             {
-                String currentDatabaseReplacedDestinationRelativePath =
-                        specifiedDestinationRelativePath.Replace(
+                string currentDatabaseReplacedDestinationRelativePath =
+                        templateFilePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    databaseDescriptionPOJO.Name);
+                                    databaseModel.Name);
 
-                String handlerOutput = TemplateHandlerNew.HandleTemplate(
-                            handledTemplateStringContent,
-                                databaseDescriptionPOJO, null, null);
-                String destinationFilePath = PathManager.AppendAtEndFileSeparatorIfNeeded(get_outpuFolderPath()) + currentDatabaseReplacedDestinationRelativePath;
-                CreateOrReplaceFileWithContent(destinationFilePath, handlerOutput);
-
+                string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                            templateFileContent,
+                                databaseModel, null, null);
+                string destinationFilePath = currentDatabaseReplacedDestinationRelativePath;
+                yield return new HandledTemplateResultModel()
+                {
+                    Path = destinationFilePath,
+                    Content = handlerOutput
+                };
             }
-            return true;
         }
 
-        public bool GenerateTableTemplateFiles
-        (String handledTemplateFilePath,
-                String specifiedDestinationRelativePath,
-                        TableModel tableDescriptionPOJO)
+        public IEnumerable<HandledTemplateResultModel> GenerateTableTemplateFiles
+        (TemplateModel templateModel, TableModel tableModel)
         {
-            if (tableDescriptionPOJO == null) return false;
-            if (specifiedDestinationRelativePath == null) return false;
-            String handledTemplateStringContent = getHandledTemplateStringContent(handledTemplateFilePath);
-            if (handledTemplateStringContent == null) return false;
+            if (tableModel == null) yield break;
+
+
+            string templateFileContent = templateModel.TemplatedFileContent ?? string.Empty;
+            string templateFilePath = templateModel.TemplatedFilePath ?? string.Empty;
             bool containsColWord =
-                        specifiedDestinationRelativePath.
+                        templateFilePath.
                             Contains(COLUMN_TEMPLATE_FILE_NAME_WORD);
             if (containsColWord)
 
             {
-                String currentDatabaseReplacedDestinationRelativePath =
-                        specifiedDestinationRelativePath.Replace(
+                string currentDatabaseReplacedDestinationRelativePath =
+                        templateFilePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.ParentDatabase.Name);
+                                    tableModel.ParentDatabase.Name);
 
-                String currentTableReplacedDestinationRelativePath =
+                string currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
                             Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.Name);
-                foreach (ColumnModel currentColumn in tableDescriptionPOJO.Columns)
+                                    tableModel.Name);
+                foreach (ColumnModel currentColumn in tableModel.Columns)
                 {
-                    String currentColumnReplacedDestinationRelativePath =
+                    string currentColumnReplacedDestinationRelativePath =
                             currentTableReplacedDestinationRelativePath.
                                 Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
-                    String handlerOutput = TemplateHandlerNew.HandleTemplate(
-                            handledTemplateStringContent,
-                                tableDescriptionPOJO.ParentDatabase, tableDescriptionPOJO, currentColumn);
-                    String destinationFilePath = PathManager.AppendAtEndFileSeparatorIfNeeded(get_outpuFolderPath()) + currentColumnReplacedDestinationRelativePath;
+                    string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                            templateFileContent,
+                                tableModel.ParentDatabase, tableModel, currentColumn);
+                    string destinationFilePath = currentColumnReplacedDestinationRelativePath;
 
-                    CreateOrReplaceFileWithContent(destinationFilePath, handlerOutput);
+                    yield return new HandledTemplateResultModel()
+                    {
+                        Path = destinationFilePath,
+                        Content = handlerOutput
+                    };
                 }
             }
             else
 
             {
-                String currentDatabaseReplacedDestinationRelativePath =
-                        specifiedDestinationRelativePath.Replace(
+                string currentDatabaseReplacedDestinationRelativePath =
+                        templateFilePath.Replace(
                                 DATABASE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.ParentDatabase.Name);
+                                    tableModel.ParentDatabase.Name);
 
-                String currentTableReplacedDestinationRelativePath =
+                string currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
                             Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
-                                    tableDescriptionPOJO.Name);
-                String handlerOutput = TemplateHandlerNew.HandleTemplate(
-                            handledTemplateStringContent,
-                                tableDescriptionPOJO.ParentDatabase, tableDescriptionPOJO, null);
-                String destinationFilePath = PathManager.AppendAtEndFileSeparatorIfNeeded(get_outpuFolderPath()) + currentTableReplacedDestinationRelativePath;
-                CreateOrReplaceFileWithContent(destinationFilePath, handlerOutput);
-            }
-            return true;
-        }
-
-        private String getHandledTemplateStringContent(String handledTemplateFilePath)
-        {
-            if (handledTemplateFilePath == null) return null;
-            if (!File.Exists(handledTemplateFilePath)) return null;
-            using (FileStream fs = new FileStream(handledTemplateFilePath,
-                                            FileMode.Open,
-                                            FileAccess.Read,
-                                            FileShare.ReadWrite))
-            {
-                if (!fs.CanRead) return null;
-                return readFile(fs);
-            }
-        }
-
-        private String readFile(FileStream file)
-        {
-            using (StreamReader reader = new StreamReader(file))
-            {
-                String line = null;
-                StringBuilder stringBuilder = new StringBuilder();
-                String ls = Environment.NewLine;
-
-                while ((line = reader.ReadLine()) != null)
+                                    tableModel.Name);
+                string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                            templateFileContent,
+                                tableModel.ParentDatabase, tableModel, null);
+                string destinationFilePath = currentTableReplacedDestinationRelativePath;
+                yield return new HandledTemplateResultModel()
                 {
-                    stringBuilder.Append(line);
-                    stringBuilder.Append(ls);
-                }
-
-                return stringBuilder.ToString();
+                    Path = destinationFilePath,
+                    Content = handlerOutput
+                };
             }
-        }
-
-        private bool CreateOrReplaceFileWithContent(String filePath, String fileContent)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-            if (Directory.GetParent(filePath) != null)
-            {
-                var ParentFolderFile = Directory.GetParent(filePath);
-                if (!ParentFolderFile.Exists) ParentFolderFile.Create();
-            }
-            File.WriteAllText(filePath, fileContent);
-            return true;
         }
     }
 }

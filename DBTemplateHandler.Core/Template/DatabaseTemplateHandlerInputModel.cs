@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.Template
 {
     public class DatabaseTemplateHandlerInputModel
     {
-        public IList<TemplateModel> templateModels {get;set;}
-        public DatabaseModel databaseDescriptor { get; set; }
+        public IList<TemplateModel> TemplateModels {get;set;}
+        public DatabaseModel DatabaseModel { get; set; }
     }
 }

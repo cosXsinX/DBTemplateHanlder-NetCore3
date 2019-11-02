@@ -17,3 +17,5 @@
 .vs/DBTemplateHanlder-NetCore3/xs/sqlite3/storage.ide-shm
 .vs/DBTemplateHanlder-NetCore3/xs/sqlite3/storage.ide-wal
 .vs/DBTemplateHanlder-NetCore3/xs/UserPrefs.xml
+/DBTemplateHandler.Service.Contracts/obj
+/DBTemplateHandler.Service.Contracts/bin/Debug/netcoreapp3.0
