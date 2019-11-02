@@ -22,26 +22,26 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
-            if (descriptionPojo.ParentTable == null)
+            if (columnModel.ParentTable == null)
                 return ZeroIndexAsString;
             int currentIndex = ZeroIndex;
             int currentAutoIndex = ZeroIndex;
-            List<ColumnDescriptor> columnList =
-            descriptionPojo.ParentTable.Columns;
+            List<ColumnModel> columnList =
+            columnModel.ParentTable.Columns;
             for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
             {
-                ColumnDescriptor currentColumn = columnList[currentIndex];
+                ColumnModel currentColumn = columnList[currentIndex];
                 if (!currentColumn.IsPrimaryKey)
                 {
-                    if (currentColumn.Equals(descriptionPojo))
+                    if (currentColumn.Equals(columnModel))
                     {
                         return Convert.ToString(currentAutoIndex);
                     }

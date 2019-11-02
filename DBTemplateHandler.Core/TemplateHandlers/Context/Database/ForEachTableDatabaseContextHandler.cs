@@ -13,17 +13,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         public override string StartContext { get => START_CONTEXT_WORD; }
         public override string EndContext { get => END_CONTEXT_WORD; }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            DatabaseDescriptor descriptionPojo = getAssociatedDatabaseDescriptorPOJO();
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            DatabaseModel descriptionPojo = DatabaseModel;
             if (descriptionPojo == null)
-                throw new Exception("The AssociatedDatabaseDescriptorPOJO is not set");
+                throw new Exception($"The {typeof(DatabaseModel).Name} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(TableDescriptor currentColumn in descriptionPojo.Tables)
+            foreach(TableModel currentColumn in descriptionPojo.Tables)
             {
                 String treated = TemplateHandlerNew.
                         HandleTableTemplate(TrimedStringContext, currentColumn);

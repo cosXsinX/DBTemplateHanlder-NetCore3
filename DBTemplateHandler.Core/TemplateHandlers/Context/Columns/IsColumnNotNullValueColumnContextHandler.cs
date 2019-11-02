@@ -28,13 +28,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (descriptionPojo.IsNotNull)
+            if (columnModel.IsNotNull)
             {
                 return HandleTrimedContext(TrimedStringContext);
             }

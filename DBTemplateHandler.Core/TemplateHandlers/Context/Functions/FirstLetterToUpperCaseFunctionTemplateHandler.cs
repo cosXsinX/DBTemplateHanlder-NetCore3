@@ -14,7 +14,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
             String TrimedStringContext =
                     TrimContextFromContextWrapper(StringContext);
             TrimedStringContext = HandleTrimedContext(TrimedStringContext);

@@ -11,10 +11,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     {
 
 
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(";
-        private const String END_CONTEXT_WORD = ")::}";
+        private const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(";
+        private const string END_CONTEXT_WORD = ")::}";
 
-        public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
+        public const string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
         public override string StartContext
         {
@@ -30,7 +30,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         private bool InitConversionHandlerMap()
         {
             if (ConversionHandlerMap != null) return true;
-            ConversionHandlerMap = new Dictionary<String, ColumnValueConvertTypeColumnContextHandler.AbstractConversionHandler>();
+            ConversionHandlerMap = new Dictionary<string, ColumnValueConvertTypeColumnContextHandler.AbstractConversionHandler>();
             JavaConversionHandler javaConversionHandler = new JavaConversionHandler();
             ConversionHandlerMap.Add(javaConversionHandler.getTargetEnvironmentKey(), javaConversionHandler);
             return (ConversionHandlerMap != null);
@@ -45,15 +45,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel descriptionPojo = ColumnModel;
             if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (TrimedStringContext == "")
                 throw new Exception("There is a problem with the function provided in template '" +
                         (START_CONTEXT_WORD + TrimedStringContext + END_CONTEXT_WORD) +
@@ -70,21 +70,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
             public abstract void setDatabaseDescriptor(AbstractDatabaseDescriptor descriptor);
 
-            public abstract String getTargetEnvironmentKey();
+            public abstract string getTargetEnvironmentKey();
 
-            public abstract String ConvertType(String ConvertedTypeString);
+            public abstract string ConvertType(string ConvertedTypeString);
         }
 
         private class JavaConversionHandler : AbstractConversionHandler
         {
-            private const String TARGET_CONVERSION_KEY = "JAVA";
-            public override String getTargetEnvironmentKey()
+            private const string TARGET_CONVERSION_KEY = "JAVA";
+            public override string getTargetEnvironmentKey()
             {
                 return TARGET_CONVERSION_KEY.ToUpper();
             }
 
 
-            public override String ConvertType(String ConvertedTypeString)
+            public override string ConvertType(string ConvertedTypeString)
             {
                 if (ConvertedTypeString == null) return null;
                 if (ConvertedTypeString.Equals("")) return "";

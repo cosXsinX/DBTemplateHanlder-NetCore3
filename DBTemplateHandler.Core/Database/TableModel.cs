@@ -4,21 +4,21 @@ using System.Collections.Generic;
 namespace DBTemplateHandler.Core.Database
 {
     [Serializable]
-    public class TableDescriptor
+    public class TableModel
     {
-        public TableDescriptor(string name)
+        public TableModel(string name)
         {
             Name = name;
         }
         public String Name { get; set; }
-        public List<ColumnDescriptor> Columns { get; set; }
+        public List<ColumnModel> Columns { get; set; }
 
         //Template handler specific properties
-        public DatabaseDescriptor ParentDatabase;
+        public DatabaseModel ParentDatabase;
 	
 	    public void UpdateContainedColumnsParentReference()
         {
-            foreach (ColumnDescriptor currentColumn in Columns)
+            foreach (ColumnModel currentColumn in Columns)
             {
                 currentColumn.ParentTable = this;
             }

@@ -27,22 +27,22 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
         private readonly static string ZeroAsString = Convert.ToString(0);
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
-            if (descriptionPojo.ParentTable == null)
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+            if (columnModel.ParentTable == null)
                 return ZeroAsString;
-            List<ColumnDescriptor> columnList =
-                    descriptionPojo.ParentTable.Columns;
-            return Convert.ToString(columnList.IndexOf(descriptionPojo));
+            List<ColumnModel> columnList =
+                    columnModel.ParentTable.Columns;
+            return Convert.ToString(columnList.IndexOf(columnModel));
         }
 
         public override bool isStartContextAndEndContextAnEntireWord()

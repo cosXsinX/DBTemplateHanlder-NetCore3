@@ -7,20 +7,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public class DatabaseNameDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
     {
-        private const String START_CONTEXT_WORD = "{:TDB:CURRENT:NAME";
-        private const String END_CONTEXT_WORD = "::}";
+        private const string START_CONTEXT_WORD = "{:TDB:CURRENT:NAME";
+        private const string END_CONTEXT_WORD = "::}";
 
         public readonly static String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
         public override string StartContext { get => START_CONTEXT_WORD; }
         public override string EndContext { get => END_CONTEXT_WORD; }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            DatabaseDescriptor descriptionPojo = getAssociatedDatabaseDescriptorPOJO();
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            DatabaseModel descriptionPojo = DatabaseModel;
             if (descriptionPojo == null)
-                throw new Exception("The AssociatedDatabaseDescriptorPOJO is not set");
+                throw new Exception($"The {nameof(DatabaseModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (TrimedStringContext != "")

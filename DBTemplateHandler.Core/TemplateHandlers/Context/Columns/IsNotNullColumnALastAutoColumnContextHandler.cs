@@ -19,19 +19,19 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
 
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel descriptionPojo = ColumnModel;
             if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($" The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (descriptionPojo.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnDescriptor> columnList = descriptionPojo.ParentTable.Columns;
+            List<ColumnModel> columnList = descriptionPojo.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
-            ColumnDescriptor currentLastAutoColumn = null;
-            foreach (ColumnDescriptor currentColumn in columnList)
+            ColumnModel currentLastAutoColumn = null;
+            foreach (ColumnModel currentColumn in columnList)
             {
                 if (currentColumn.IsNotNull)
                 {

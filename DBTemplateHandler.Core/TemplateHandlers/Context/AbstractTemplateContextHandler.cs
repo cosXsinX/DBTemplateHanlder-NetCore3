@@ -12,32 +12,32 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
         public string Signature()
         {
-            return string.Concat(StartContext,EndContext);
+            return string.Concat(StartContext, EndContext);
         }
 
-        public String TrimContextFromContextWrapper(String stringContext)
+        public String TrimContextFromContextWrapper(string stringContext)
         {
-		
-	    if(!stringContext.StartsWith(StartContext, StringComparison.Ordinal))
-	    {
-		    throw new
-                Exception("The provided stringContext does not start with " + StartContext);
-        }
-		
-	    if(!stringContext.EndsWith(EndContext, StringComparison.Ordinal))
-	    {
-		    throw new
-                Exception("The provided stringContext does not end with " + EndContext);
+
+            if (!stringContext.StartsWith(StartContext, StringComparison.Ordinal))
+            {
+                throw new
+                    Exception($"The provided {nameof(stringContext)} does not start with {StartContext}");
+            }
+
+            if (!stringContext.EndsWith(EndContext, StringComparison.Ordinal))
+            {
+                throw new
+                    Exception($"The provided {nameof(stringContext)} does not end with {EndContext}");
+            }
+
+            string result = stringContext.Substring(
+                StartContext.Length, stringContext.Length - EndContext.Length - StartContext.Length);
+
+            return result;
         }
 
-        String result = stringContext.Substring(
-            StartContext.Length, stringContext.Length - EndContext.Length - StartContext.Length);
-		
-	        return result;
-        }
-	
-        public abstract String processContext(String StringContext);
+        public abstract string processContext(string StringContext);
 
-        public abstract String HandleTrimedContext(String StringTrimedContext);
+        public abstract string HandleTrimedContext(string StringTrimedContext);
     }
 }

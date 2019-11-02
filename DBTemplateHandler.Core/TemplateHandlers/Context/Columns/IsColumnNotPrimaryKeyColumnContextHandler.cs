@@ -23,16 +23,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             get => END_CONTEXT_WORD;
         }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (!descriptionPojo.IsPrimaryKey)
+            if (!columnModel.IsPrimaryKey)
             {
                 return HandleTrimedContext(TrimedStringContext);
             }

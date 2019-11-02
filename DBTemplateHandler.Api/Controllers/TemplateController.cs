@@ -13,7 +13,7 @@ namespace DBTemplateHandler.Api.Controllers
     public class TemplateController : ControllerBase
     {
         [HttpPost]
-        public string ProcessTemplate(DatabaseDescriptor databaseDescriptionPOJO)
+        public string ProcessTemplate(DatabaseModel databaseDescriptionPOJO)
         {
             return null;
         }

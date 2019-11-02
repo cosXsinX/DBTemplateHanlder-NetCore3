@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Utilities;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Core.TemplateHandlers.Utilities;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
-    public class FileTemplateHandlerNew
+    public class InputModelHandler
     {
 
         private const string DATABASE_TEMPLATE_FILE_NAME_WORD = "%databaseName%";

@@ -26,18 +26,18 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
-            return descriptionPojo.Type;
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+            return columnModel.Type;
         }
 
 

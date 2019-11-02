@@ -6,25 +6,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
 {
     public class DirectoryManager
     {
-        public static bool CreateDirectoryPath(String directoryPathStr)
+        public static bool CreateDirectoryPath(string directoryPathStr)
         {
-            Stack<String> stack = new Stack<String>();
-
-            String currentPathDirectory = directoryPathStr;
-            while (!FileManager.DoesFolderExists(currentPathDirectory))
+            try
             {
-                stack.Push(currentPathDirectory);
-
-                if ((currentPathDirectory = PathManager.
-                        getParentDirectoryPathFromStringPath(currentPathDirectory)) == null) break;
+                var directoryInfo = Directory.CreateDirectory(directoryPathStr);
+                return true;
             }
-            if (currentPathDirectory == null) return false;
-
-            while (stack.Count > 0)
+            catch(IOException e)
             {
-                Directory.CreateDirectory(stack.Pop());
+                throw e;
             }
-            return true;
         }
     }
 }

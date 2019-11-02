@@ -26,18 +26,18 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (descriptionPojo.ParentTable == null)
+            if (columnModel.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnDescriptor> columnList = descriptionPojo.ParentTable.Columns;
+            List<ColumnModel> columnList = columnModel.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
-            if (!descriptionPojo.Equals(columnList[columnList.Count - 1]))
+            if (!columnModel.Equals(columnList[columnList.Count - 1]))
             {
                 return HandleTrimedContext(TrimedStringContext);
             }

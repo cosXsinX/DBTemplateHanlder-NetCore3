@@ -18,14 +18,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            TableDescriptor descriptionPojo = getAssociatedTableDescriptorPOJO();
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            TableModel descriptionPojo = TableModel;
             if (descriptionPojo == null)
-                throw new Exception("The AssociatedTableDescriptorPOJO is not set");
+                throw new Exception($"The {nameof(TableModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(ColumnDescriptor currentColumn in descriptionPojo.Columns)
+            foreach(ColumnModel currentColumn in descriptionPojo.Columns)
             {
                 if (currentColumn.IsPrimaryKey)
                 {

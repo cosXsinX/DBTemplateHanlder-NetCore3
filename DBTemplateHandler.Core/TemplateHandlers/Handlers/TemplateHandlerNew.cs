@@ -33,9 +33,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
         public static string HandleTemplate(string templateString,
-            DatabaseDescriptor databaseDescriptionPOJO,
-            TableDescriptor tableDescriptionPOJO,
-            ColumnDescriptor columnDescriptionPOJO)
+            DatabaseModel databaseDescriptionPOJO,
+            TableModel tableDescriptionPOJO,
+            ColumnModel columnDescriptionPOJO)
         {
             if (templateString == null) return null;
             string handlerStartContext =
@@ -74,7 +74,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
         public static String HandleDatabaseTemplate(
-                String templateString, DatabaseDescriptor descriptionPOJO)
+                String templateString, DatabaseModel descriptionPOJO)
         {
             if (descriptionPOJO == null)
                 return templateString;
@@ -128,7 +128,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.setAssociatedDatabaseDescriptorPOJO(descriptionPOJO);
+                                templateContextHandler.DatabaseModel =descriptionPOJO;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
                                             currentHandledContextBufferStringBuilder.ToString() +
@@ -167,7 +167,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.setAssociatedDatabaseDescriptorPOJO(descriptionPOJO);
+                            templateContextHandler.DatabaseModel = descriptionPOJO;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +
                                         currentHandledContextBufferStringBuilder.ToString() +
@@ -200,14 +200,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableTemplate(string templateString, TableDescriptor descriptionPOJO)
+        public static string HandleTableTemplate(string templateString, TableModel tableModel)
         {
-            if (descriptionPOJO == null)
+            if (tableModel == null)
                 return templateString;
             if (!tableTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
-            descriptionPOJO.UpdateContainedColumnsParentReference();
+            tableModel.UpdateContainedColumnsParentReference();
 
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
@@ -255,7 +255,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);
+                                templateContextHandler.TableModel =tableModel;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
                                             currentHandledContextBufferStringBuilder.ToString() +
@@ -294,7 +294,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.setAssociatedTableDescriptorPOJO(descriptionPOJO);
+                            templateContextHandler.TableModel = tableModel;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +
                                         currentHandledContextBufferStringBuilder.ToString() +
@@ -327,7 +327,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableColumnTemplate(string templateString, ColumnDescriptor descriptionPOJO)
+        public static string HandleTableColumnTemplate(string templateString, ColumnModel descriptionPOJO)
         {
             if (descriptionPOJO == null) return templateString;
             if (!columnTemplateContextHandlerProvider.
@@ -380,7 +380,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
+                                templateContextHandler.ColumnModel = descriptionPOJO;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
                                             currentHandledContextBufferStringBuilder.ToString() +
@@ -419,7 +419,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.setAssociatedColumnDescriptorPOJO(descriptionPOJO);
+                            templateContextHandler.ColumnModel= descriptionPOJO;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +
                                         currentHandledContextBufferStringBuilder.ToString() +
@@ -453,8 +453,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
         public static string HandleFunctionTemplate(
-                string templateString, DatabaseDescriptor databaseDescriptionPOJO,
-                TableDescriptor tableDescriptionPOJO, ColumnDescriptor columnDescriptionPojo)
+                string templateString, DatabaseModel databaseDescriptionPOJO,
+                TableModel tableDescriptionPOJO, ColumnModel columnDescriptionPojo)
         {
             if (!functionTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
@@ -508,9 +508,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.setAssociatedDatabaseDescriptionPOJO(databaseDescriptionPOJO);
-                                templateContextHandler.setAssociatedTableDescriptorPOJO(tableDescriptionPOJO);
-                                templateContextHandler.setAssociatedColumnDescriptionPOJO(columnDescriptionPojo);
+                                templateContextHandler.DatabaseModel = databaseDescriptionPOJO;
+                                templateContextHandler.TableModel= tableDescriptionPOJO;
+                                templateContextHandler.ColumnModel =columnDescriptionPojo;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
                                             currentHandledContextBufferStringBuilder.ToString() +
@@ -550,9 +550,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.setAssociatedDatabaseDescriptionPOJO(databaseDescriptionPOJO);
-                            templateContextHandler.setAssociatedTableDescriptorPOJO(tableDescriptionPOJO);
-                            templateContextHandler.setAssociatedColumnDescriptionPOJO(columnDescriptionPojo);
+                            templateContextHandler.DatabaseModel = databaseDescriptionPOJO;
+                            templateContextHandler.TableModel = tableDescriptionPOJO;
+                            templateContextHandler.ColumnModel = columnDescriptionPojo;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +
                                         currentHandledContextBufferStringBuilder.ToString() +

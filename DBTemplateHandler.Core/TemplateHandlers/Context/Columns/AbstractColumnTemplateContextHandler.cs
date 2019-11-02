@@ -13,24 +13,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 
         }
 
-        ColumnDescriptor _tableColumnDescriptionPojo;
-        public ColumnDescriptor getAssociatedColumnDescriptorPOJO()
-        {
-            return _tableColumnDescriptionPojo;
-        }
+        public ColumnModel ColumnModel{get;set;}
 
-        public void setAssociatedColumnDescriptorPOJO(ColumnDescriptor pojo)
-        {
-            _tableColumnDescriptionPojo = pojo;
-        }
-
-        public override String HandleTrimedContext(String StringTrimedContext)
+        public override string HandleTrimedContext(string StringTrimedContext)
         {
             if (StringTrimedContext == null) return null;
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
+            ColumnModel descriptionPojo = ColumnModel;
             if (descriptionPojo == null) return StringTrimedContext;
-            TableDescriptor tableDescriptionPojo = descriptionPojo.ParentTable;
-            DatabaseDescriptor databaseDescriptionPojo = null;
+            TableModel tableDescriptionPojo = descriptionPojo.ParentTable;
+            DatabaseModel databaseDescriptionPojo = null;
             if (tableDescriptionPojo != null)
                 databaseDescriptionPojo = tableDescriptionPojo.ParentDatabase;
             return TemplateHandlerNew.

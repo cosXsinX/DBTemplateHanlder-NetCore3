@@ -10,34 +10,34 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     {
 
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME";
-        public const String END_CONTEXT_WORD = "::}";
+        public const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME";
+        public const string END_CONTEXT_WORD = "::}";
 
-        public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
+        public const string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
 
 
-        public override String StartContext
+        public override string StartContext
         {
             get => START_CONTEXT_WORD;
         }
 
-        public override String EndContext
+        public override string EndContext
         {
             get => END_CONTEXT_WORD;
         }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
-                throw new Exception("The provided StringContext is null");
-            ColumnDescriptor descriptionPojo = getAssociatedColumnDescriptorPOJO();
-            if (descriptionPojo == null)
-                throw new Exception("The AssociatedColumnDescriptorPOJO is not set");
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ColumnModel columnModel = ColumnModel;
+            if (columnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
-            return descriptionPojo.Name;
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{TEMPLATE_TABLE_WORD}'");
+            return columnModel.Name;
         }
 
         public override bool isStartContextAndEndContextAnEntireWord()

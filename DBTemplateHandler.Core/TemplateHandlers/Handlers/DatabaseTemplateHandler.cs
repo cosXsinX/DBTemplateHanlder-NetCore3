@@ -9,15 +9,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class DatabaseTemplateHandler
     {
-        DatabaseDescriptor generatedDatabaseDescription;
+        DatabaseModel generatedDatabaseDescription;
         AbstractDatabaseDescriptor _databaseDescriptor;
 
-        public DatabaseDescriptor getGeneratedDatabaseDescription()
+        public DatabaseModel getGeneratedDatabaseDescription()
         {
             return generatedDatabaseDescription;
         }
 
-        public void setGeneratedDatabaseDescription(DatabaseDescriptor value)
+        public void setGeneratedDatabaseDescription(DatabaseModel value)
         {
             generatedDatabaseDescription = value;
         }
@@ -32,7 +32,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             _databaseDescriptor = databaseDescriptor;
         }
 
-        public DatabaseTemplateHandler(DatabaseDescriptor generatedDatabaseDescription, AbstractDatabaseDescriptor databaseDescriptor)
+        public DatabaseTemplateHandler(DatabaseModel generatedDatabaseDescription, AbstractDatabaseDescriptor databaseDescriptor)
         {
             setGeneratedDatabaseDescription(generatedDatabaseDescription);
             setDatabaseDescriptor(databaseDescriptor);
@@ -50,8 +50,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER, generatedDatabaseDescription.Name);
             if (savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_TABLE_NAME_WORD_IDENTIFIER))
             {
-                List<TableDescriptor> tableList = generatedDatabaseDescription.Tables;
-                foreach (TableDescriptor currentTable in tableList)
+                List<TableModel> tableList = generatedDatabaseDescription.Tables;
+                foreach (TableModel currentTable in tableList)
                 {
                     TableTemplateHandler tableTemplateHandler =
                             TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(currentTable, _databaseDescriptor);

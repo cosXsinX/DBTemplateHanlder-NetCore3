@@ -6,14 +6,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
     public class PathManager
     {
 
-        public static String AppendAtEndFileSeparatorIfNeeded(String pathStr)
+        public static string AppendAtEndFileSeparatorIfNeeded(string pathStr)
         {
             String result = pathStr;
             if (!pathStr.EndsWith(Path.DirectorySeparatorChar)) result = result + Path.DirectorySeparatorChar;
             return result;
         }
 
-        public static String getParentDirectoryPathFromStringPath(String PathStr)
+        public static string getParentDirectoryPathFromStringPath(string PathStr)
         {
             String result = PathStr;
             if (result == null) return result;
@@ -26,7 +26,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
         }
 
 
-        public static String getFileOrFolderNameFromStringPath(String PathStr)
+        public static string getFileOrFolderNameFromStringPath(string PathStr)
         {
             String result = PathStr;
             if (result == null) return result;
@@ -37,7 +37,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
             return result;
         }
 
-        public static String getFileBaseNameFromString(String PathStr)
+        public static string getFileBaseNameFromString(string PathStr)
         {
             String result = getFileOrFolderNameFromStringPath(PathStr);
             int lastIndexOfFileExtensionSeparation = result.LastIndexOf('.');

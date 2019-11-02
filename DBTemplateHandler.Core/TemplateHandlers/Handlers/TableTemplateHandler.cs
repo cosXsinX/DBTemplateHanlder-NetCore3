@@ -945,16 +945,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return SubmittedString;
         }
 
-        public static TableTemplateHandler TableDescriptionPOJOToTableTemplateHandler(TableDescriptor tableDescriptionPOJO, AbstractDatabaseDescriptor databaseDescriptor)
+        public static TableTemplateHandler TableDescriptionPOJOToTableTemplateHandler(TableModel tableDescriptionPOJO, AbstractDatabaseDescriptor databaseDescriptor)
         {
             if (tableDescriptionPOJO == null) return null;
-            List<ColumnDescriptor> columnPOJOList = tableDescriptionPOJO.Columns;
+            List<ColumnModel> columnPOJOList = tableDescriptionPOJO.Columns;
             List<String> ColumnNameList = new List<String>();
             Dictionary<String, Properties> ColumnNameIndexedColumnPropertiesMap = new Dictionary<String, Properties>();
             if (!(columnPOJOList == null))
             {
                 int currentIndex;
-                ColumnDescriptor currentColumn;
+                ColumnModel currentColumn;
                 for (currentIndex = 0; currentIndex < columnPOJOList.Count; currentIndex++)
                 {
                     currentColumn = columnPOJOList[currentIndex];
