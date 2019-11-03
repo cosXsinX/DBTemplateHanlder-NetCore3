@@ -25,7 +25,7 @@ namespace DBTemplateHandler.Core.UnitTests
         {
             _databaseDescriptionPojo = new DatabaseModel();
             _databaseDescriptionPojo.Name = DATABASE_NAME;
-            List<TableModel> tableList = new List<TableModel>()
+            IList<ITableModel> tableList = new List<ITableModel>()
             {
                 _firstTableDescriptionPOJO,
                 _secondTableDescriptionPOJO
@@ -40,7 +40,7 @@ namespace DBTemplateHandler.Core.UnitTests
         {
             _firstTableDescriptionPOJO = new TableModel(FIRST_TABLE_NAME);
             _firstTableDescriptionPOJO.Name = FIRST_TABLE_NAME;
-            _firstTableDescriptionPOJO.Columns = new List<ColumnModel> { _primaryNotAutoColumnDescriptionPOJO, _autoColumnDescriptionPOJO };
+            _firstTableDescriptionPOJO.Columns = new List<IColumnModel> { _primaryNotAutoColumnDescriptionPOJO, _autoColumnDescriptionPOJO };
         }
 
         private const String SECOND_TABLE_NAME = "SECOND_TABLE_NAME";
@@ -48,7 +48,7 @@ namespace DBTemplateHandler.Core.UnitTests
         private void InitSecondTableDescriptionPOJO()
         {
             _secondTableDescriptionPOJO = new TableModel(SECOND_TABLE_NAME);
-            _secondTableDescriptionPOJO.Columns = new List<ColumnModel> { _primaryNotAutoColumnDescriptionPOJO, _autoColumnDescriptionPOJO };
+            _secondTableDescriptionPOJO.Columns = new List<IColumnModel> { _primaryNotAutoColumnDescriptionPOJO, _autoColumnDescriptionPOJO };
         }
 
 

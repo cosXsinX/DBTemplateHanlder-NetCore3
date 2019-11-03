@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = ColumnModel;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
@@ -40,7 +40,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
             if (columnModel.ParentTable == null)
                 return ZeroAsString;
-            List<ColumnModel> columnList =
+            IList<IColumnModel> columnList =
                     columnModel.ParentTable.Columns;
             return Convert.ToString(columnList.IndexOf(columnModel));
         }

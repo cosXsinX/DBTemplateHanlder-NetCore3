@@ -6,9 +6,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
     public abstract class AbstractFunctionTemplateContextHandler : AbstractTemplateContextHandler, IFunctionTemplateContextHandler
     {
-        public DatabaseModel DatabaseModel { get; set; }
-        public TableModel TableModel { get; set; }
-        public ColumnModel ColumnModel { get; set; }
+        public IDatabaseModel DatabaseModel { get; set; }
+        public ITableModel TableModel { get; set; }
+        public IColumnModel ColumnModel { get; set; }
 
 
         public override string HandleTrimedContext(string StringTrimedContext)

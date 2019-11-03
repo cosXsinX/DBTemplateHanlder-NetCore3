@@ -19,26 +19,26 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public const int ZeroIndex = 0;
         public static readonly string ZeroIndexAsString = Convert.ToString(0);
-        public override String processContext(String StringContext)
+        public override string processContext(String StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = ColumnModel;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
             if (columnModel.ParentTable == null)
                 return ZeroIndexAsString;
             int currentIndex = 0;
             int currentAutoIndex = 0;
-            List<ColumnModel> columnList =
+            IList<IColumnModel> columnList =
                     columnModel.ParentTable.Columns;
             for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
             {
-                ColumnModel currentColumn = columnList[currentIndex];
+                IColumnModel currentColumn = columnList[currentIndex];
                 if (currentColumn.IsPrimaryKey)
                 {
                     if (currentColumn.Equals(columnModel))

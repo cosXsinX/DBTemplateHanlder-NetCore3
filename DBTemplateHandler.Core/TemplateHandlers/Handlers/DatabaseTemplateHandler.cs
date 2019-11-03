@@ -50,15 +50,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER, generatedDatabaseDescription.Name);
             if (savedFileTempalteName.Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_TABLE_NAME_WORD_IDENTIFIER))
             {
-                List<TableModel> tableList = generatedDatabaseDescription.Tables;
-                foreach (TableModel currentTable in tableList)
+                IList<ITableModel> tableList = generatedDatabaseDescription.Tables;
+                foreach (ITableModel currentTable in tableList)
                 {
                     TableTemplateHandler tableTemplateHandler =
                             TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(currentTable, _databaseDescriptor);
                     string currentResult = tableTemplateHandler.generateTableFileFromTemplateFile(templateFilePath, out List<string> errors);
                     if (Path.GetFileName(currentResult).Contains(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER))
                     {
-                        String currentNewSavedFileName = Path.GetFileName(currentResult).
+                        string currentNewSavedFileName = Path.GetFileName(currentResult).
                                 Replace(TemplateSemanticReferenceClass.TEMPLATE_NAME_DATABASE_NAME_WORD_IDENTIFIER,
                                         generatedDatabaseDescription.Name);
                         if (currentNewSavedFileName.EndsWith

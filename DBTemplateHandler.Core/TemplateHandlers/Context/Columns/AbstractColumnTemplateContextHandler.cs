@@ -13,20 +13,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 
         }
 
-        public ColumnModel ColumnModel{get;set;}
+        public IColumnModel ColumnModel{get;set;}
 
         public override string HandleTrimedContext(string StringTrimedContext)
         {
             if (StringTrimedContext == null) return null;
-            ColumnModel descriptionPojo = ColumnModel;
-            if (descriptionPojo == null) return StringTrimedContext;
-            TableModel tableDescriptionPojo = descriptionPojo.ParentTable;
-            DatabaseModel databaseDescriptionPojo = null;
-            if (tableDescriptionPojo != null)
-                databaseDescriptionPojo = tableDescriptionPojo.ParentDatabase;
+            IColumnModel columnModel = ColumnModel;
+            if (columnModel == null) return StringTrimedContext;
+            ITableModel tableModel = columnModel.ParentTable;
+            IDatabaseModel databaseModel = null;
+            if (tableModel != null)
+                databaseModel = tableModel.ParentDatabase;
             return TemplateHandlerNew.
-                HandleTemplate(StringTrimedContext, databaseDescriptionPojo,
-                        tableDescriptionPojo, descriptionPojo);
+                HandleTemplate(StringTrimedContext, databaseModel,
+                        tableModel, columnModel);
         }
     }
 }

@@ -30,11 +30,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = ColumnModel;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{TEMPLATE_TABLE_WORD}'");
             return columnModel.Name;

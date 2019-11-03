@@ -13,7 +13,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private const string TABLE_TEMPLATE_FILE_NAME_WORD = "%tableName%";
         private const string COLUMN_TEMPLATE_FILE_NAME_WORD = "%columnName%";
 
-        public IList<HandledTemplateResultModel> Process(DatabaseTemplateHandlerInputModel input)
+        public IList<HandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
             var result = input.TemplateModels.SelectMany(templateModel =>
                 GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel)).ToList();
@@ -21,7 +21,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
         public IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
-            (TemplateModel templateModel, DatabaseModel databaseModel)
+            (ITemplateModel templateModel, IDatabaseModel databaseModel)
         {
             if (databaseModel == null) yield break;
             if (templateModel == null) yield break;

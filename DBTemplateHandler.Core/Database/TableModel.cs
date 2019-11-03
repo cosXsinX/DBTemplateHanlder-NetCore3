@@ -4,17 +4,16 @@ using System.Collections.Generic;
 namespace DBTemplateHandler.Core.Database
 {
     [Serializable]
-    public class TableModel
+    public class TableModel : ITableModel
     {
         public TableModel(string name)
         {
             Name = name;
         }
-        public String Name { get; set; }
-        public List<ColumnModel> Columns { get; set; }
+        public string Name { get; set; }
+        public IList<IColumnModel> Columns { get; set; }
 
-        //Template handler specific properties
-        public DatabaseModel ParentDatabase;
+        public IDatabaseModel ParentDatabase { get; set; }
 	
 	    public void UpdateContainedColumnsParentReference()
         {

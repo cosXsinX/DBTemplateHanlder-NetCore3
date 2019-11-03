@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.Template
 {
-    public class DatabaseTemplateHandlerInputModel
+    public class DatabaseTemplateHandlerInputModel : IDatabaseTemplateHandlerInputModel
     {
-        public IList<TemplateModel> TemplateModels {get;set;}
-        public DatabaseModel DatabaseModel { get; set; }
+        public IList<ITemplateModel> TemplateModels { get; set; }
+        public IDatabaseModel DatabaseModel { get; set; }
     }
 }

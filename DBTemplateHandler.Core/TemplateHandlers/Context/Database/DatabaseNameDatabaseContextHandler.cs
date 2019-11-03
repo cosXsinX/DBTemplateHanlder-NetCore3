@@ -18,7 +18,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            DatabaseModel descriptionPojo = DatabaseModel;
+            IDatabaseModel descriptionPojo = DatabaseModel;
             if (descriptionPojo == null)
                 throw new Exception($"The {nameof(DatabaseModel)} is not set");
 

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace DBTemplateHandler.Core.Database
 {
     [Serializable]
-    public class DatabaseModel
+    public class DatabaseModel :IDatabaseModel
     {
         public string Name { get; set; }
-        public List<TableModel> Tables { get; set; }
+        public IList<ITableModel> Tables { get; set; }
 
         public void UpdateContainedTablesParentReference()
         {

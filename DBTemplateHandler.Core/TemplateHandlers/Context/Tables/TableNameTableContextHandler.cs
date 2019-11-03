@@ -20,11 +20,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            TableModel table = TableModel;
+            ITableModel table = TableModel;
             if (table == null)
                 throw new Exception($"The {nameof(TableModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
             return table.Name;

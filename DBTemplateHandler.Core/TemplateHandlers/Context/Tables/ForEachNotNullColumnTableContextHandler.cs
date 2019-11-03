@@ -19,11 +19,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            TableModel descriptionPojo = TableModel;
+            ITableModel descriptionPojo = TableModel;
             if (descriptionPojo == null)
                 throw new Exception($"The {nameof(TableModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
             foreach (ColumnModel currentColumn in descriptionPojo.Columns)
             {

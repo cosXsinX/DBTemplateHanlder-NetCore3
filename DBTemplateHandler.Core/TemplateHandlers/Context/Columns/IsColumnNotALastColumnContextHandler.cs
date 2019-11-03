@@ -27,14 +27,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = ColumnModel;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (columnModel.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnModel> columnList = columnModel.ParentTable.Columns;
+            IList<IColumnModel> columnList = columnModel.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
             if (!columnModel.Equals(columnList[columnList.Count - 1]))

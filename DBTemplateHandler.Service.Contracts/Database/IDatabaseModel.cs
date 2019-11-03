@@ -5,6 +5,6 @@ namespace DBTemplateHandler.Core.Database
     public interface IDatabaseModel
     {
         string Name { get; set; }
-        List<ITableModel> Tables { get; set; }
+        IList<ITableModel> Tables { get; set; }
     }
 }

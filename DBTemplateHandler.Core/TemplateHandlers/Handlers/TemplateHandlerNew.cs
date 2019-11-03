@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
@@ -33,9 +34,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
         public static string HandleTemplate(string templateString,
-            DatabaseModel databaseDescriptionPOJO,
-            TableModel tableDescriptionPOJO,
-            ColumnModel columnDescriptionPOJO)
+            IDatabaseModel databaseModel,
+            ITableModel tableModel,
+            IColumnModel columnModel)
         {
             if (templateString == null) return null;
             string handlerStartContext =
@@ -49,39 +50,39 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
             if (handler is AbstractFunctionTemplateContextHandler)
             {
-                return HandleFunctionTemplate(templateString, databaseDescriptionPOJO, tableDescriptionPOJO, columnDescriptionPOJO);
+                return HandleFunctionTemplate(templateString, databaseModel, tableModel, columnModel);
             }
             else if (handler is AbstractDatabaseTemplateContextHandler)
             {
-                if (databaseDescriptionPOJO == null)
+                if (databaseModel == null)
                     return templateString;
-                return HandleDatabaseTemplate(templateString, databaseDescriptionPOJO);
+                return HandleDatabaseTemplate(templateString, databaseModel);
             }
             else if (handler is AbstractTableTemplateContextHandler)
             {
-                if (tableDescriptionPOJO == null)
+                if (tableModel == null)
                     return templateString;
-                return HandleTableTemplate(templateString, tableDescriptionPOJO);
+                return HandleTableTemplate(templateString, tableModel);
             }
             else if (handler is AbstractColumnTemplateContextHandler)
             {
-                if (columnDescriptionPOJO == null)
+                if (columnModel == null)
                     return templateString;
-                return HandleTableColumnTemplate(templateString, columnDescriptionPOJO);
+                return HandleTableColumnTemplate(templateString, columnModel);
             }
             return null;
         }
 
 
-        public static String HandleDatabaseTemplate(
-                String templateString, DatabaseModel descriptionPOJO)
+        public static string HandleDatabaseTemplate(
+                string templateString, IDatabaseModel databaseModel)
         {
-            if (descriptionPOJO == null)
+            if (databaseModel == null)
                 return templateString;
             if (!databaseTemplateContextHandlerProvider.ContainsAHandlerStartContextOfType(templateString))
                 return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
-            descriptionPOJO.UpdateContainedTablesParentReference();
+            UpdateContainedTables(databaseModel);
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
 
@@ -128,7 +129,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.DatabaseModel =descriptionPOJO;
+                                templateContextHandler.DatabaseModel =databaseModel;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
                                             currentHandledContextBufferStringBuilder.ToString() +
@@ -167,7 +168,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.DatabaseModel = descriptionPOJO;
+                            templateContextHandler.DatabaseModel = databaseModel;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +
                                         currentHandledContextBufferStringBuilder.ToString() +
@@ -200,14 +201,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableTemplate(string templateString, TableModel tableModel)
+        public static string HandleTableTemplate(string templateString, ITableModel tableModel)
         {
             if (tableModel == null)
                 return templateString;
             if (!tableTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
-            tableModel.UpdateContainedColumnsParentReference();
+            UpdateContainedColumns(tableModel);
 
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
@@ -327,7 +328,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableColumnTemplate(string templateString, ColumnModel descriptionPOJO)
+        public static string HandleTableColumnTemplate(string templateString, IColumnModel descriptionPOJO)
         {
             if (descriptionPOJO == null) return templateString;
             if (!columnTemplateContextHandlerProvider.
@@ -452,15 +453,28 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
+        private static void UpdateContainedTables(IDatabaseModel databaseModel)
+        {
+            var tables = databaseModel.Tables.ToList();
+            tables.ForEach(table => table.ParentDatabase = databaseModel);
+            tables.ForEach(table => UpdateContainedColumns(table));
+        }
+
+        private static void UpdateContainedColumns(ITableModel tableModel)
+        {
+            var columns = tableModel.Columns.ToList();
+            columns.ForEach(m => m.ParentTable = tableModel);
+        }
+
         public static string HandleFunctionTemplate(
-                string templateString, DatabaseModel databaseDescriptionPOJO,
-                TableModel tableDescriptionPOJO, ColumnModel columnDescriptionPojo)
+                string templateString, IDatabaseModel databaseModel,
+                ITableModel tableModel, IColumnModel columnDescriptionPojo)
         {
             if (!functionTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
             if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
-            if (databaseDescriptionPOJO != null) databaseDescriptionPOJO.UpdateContainedTablesParentReference();
-            if (tableDescriptionPOJO != null) tableDescriptionPOJO.UpdateContainedColumnsParentReference();
+            if (databaseModel != null) UpdateContainedTables(databaseModel);
+            if (tableModel != null) UpdateContainedColumns(tableModel);
 
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
@@ -508,8 +522,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     GetStartContextCorrespondingContextHandler(lastStartContextWord);
                             if (templateContextHandler != null)
                             {
-                                templateContextHandler.DatabaseModel = databaseDescriptionPOJO;
-                                templateContextHandler.TableModel= tableDescriptionPOJO;
+                                templateContextHandler.DatabaseModel = databaseModel;
+                                templateContextHandler.TableModel= tableModel;
                                 templateContextHandler.ColumnModel =columnDescriptionPojo;
                                 String processContextResult = templateContextHandler.processContext(
                                         lastStartContextWord +
@@ -550,8 +564,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 GetStartContextCorrespondingContextHandler(lastStartContextWord);
                         if (templateContextHandler != null)
                         {
-                            templateContextHandler.DatabaseModel = databaseDescriptionPOJO;
-                            templateContextHandler.TableModel = tableDescriptionPOJO;
+                            templateContextHandler.DatabaseModel = databaseModel;
+                            templateContextHandler.TableModel = tableModel;
                             templateContextHandler.ColumnModel = columnDescriptionPojo;
                             String processContextResult = templateContextHandler.processContext(
                                     lastStartContextWord +

@@ -17,15 +17,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            DatabaseModel descriptionPojo = DatabaseModel;
+            IDatabaseModel descriptionPojo = DatabaseModel;
             if (descriptionPojo == null)
-                throw new Exception($"The {typeof(DatabaseModel).Name} is not set");
+                throw new Exception($"The {nameof(DatabaseModel)} is not set");
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(TableModel currentColumn in descriptionPojo.Tables)
+            foreach(ITableModel currentColumn in descriptionPojo.Tables)
             {
-                String treated = TemplateHandlerNew.
+                string treated = TemplateHandlerNew.
                         HandleTableTemplate(TrimedStringContext, currentColumn);
                 treated = TemplateHandlerNew.HandleFunctionTemplate(treated, descriptionPojo, currentColumn, null);
                 stringBuilder.Append(treated);

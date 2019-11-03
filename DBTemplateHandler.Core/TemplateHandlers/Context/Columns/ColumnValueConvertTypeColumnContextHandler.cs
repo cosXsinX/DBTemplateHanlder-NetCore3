@@ -49,7 +49,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel descriptionPojo = ColumnModel;
+            IColumnModel descriptionPojo = ColumnModel;
             if (descriptionPojo == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 

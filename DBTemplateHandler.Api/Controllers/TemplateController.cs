@@ -1,22 +1,24 @@
-﻿using DBTemplateHandler.Core.Database;
+﻿using DBTemplateHandler.Core.Template;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DBTemplateHandler.Api.Controllers
 {
 
     [ApiController]
     [Route("[controller]")]
+    [Produces("application/json")]
     public class TemplateController : ControllerBase
     {
-        [HttpPost]
-        public string ProcessTemplate(DatabaseModel databaseDescriptionPOJO)
-        {
-            return null;
-        }
+        private readonly InputModelHandler inputModelHandler = new InputModelHandler();
 
+        [HttpPost]
+        public IActionResult Process(IDatabaseTemplateHandlerInputModel input)
+        {
+            if (input == null) return BadRequest(new { Error = "Submitted input is null" });
+            if (input.DatabaseModel == null) return BadRequest(new { Error = "Submitted database is null" });
+            var results = inputModelHandler.Process(input);
+            return Ok(results);
+        }
     }
 }

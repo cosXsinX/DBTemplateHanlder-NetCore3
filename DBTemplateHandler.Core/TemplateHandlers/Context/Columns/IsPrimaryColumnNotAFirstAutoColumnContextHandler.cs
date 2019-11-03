@@ -10,32 +10,32 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     {
 
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
+        public const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(";
+        public const string END_CONTEXT_WORD = "):::}";
         public override string StartContext { get => START_CONTEXT_WORD; }
         public override string EndContext { get => END_CONTEXT_WORD; }
 
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel descriptionPojo = ColumnModel;
-            if (descriptionPojo == null)
+            IColumnModel column = ColumnModel;
+            if (column == null)
                 throw new Exception($" The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (descriptionPojo.ParentTable == null)
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            if (column.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnModel> columnList = descriptionPojo.ParentTable.Columns;
+            IList<IColumnModel> columnList = column.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
 
-            foreach (ColumnModel currentColumn in columnList)
+            foreach (IColumnModel currentColumn in columnList)
             {
                 if (currentColumn.IsPrimaryKey)
                 {
-                    if (!currentColumn.Equals(descriptionPojo))
+                    if (!currentColumn.Equals(column))
                     {
                         return HandleTrimedContext(TrimedStringContext);
                     }

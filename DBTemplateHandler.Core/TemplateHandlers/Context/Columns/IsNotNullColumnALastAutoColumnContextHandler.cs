@@ -15,23 +15,23 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string StartContext { get => START_CONTEXT_WORD; }
         public override string EndContext { get => END_CONTEXT_WORD; }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
 
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel descriptionPojo = ColumnModel;
-            if (descriptionPojo == null)
+            IColumnModel column = ColumnModel;
+            if (column == null)
                 throw new Exception($" The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (descriptionPojo.ParentTable == null)
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            if (column.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
-            List<ColumnModel> columnList = descriptionPojo.ParentTable.Columns;
+            IList<IColumnModel> columnList = column.ParentTable.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
-            ColumnModel currentLastAutoColumn = null;
-            foreach (ColumnModel currentColumn in columnList)
+            IColumnModel currentLastAutoColumn = null;
+            foreach (IColumnModel currentColumn in columnList)
             {
                 if (currentColumn.IsNotNull)
                 {
@@ -39,7 +39,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 }
             }
             if (currentLastAutoColumn == null) return "";
-            if (!currentLastAutoColumn.Equals(descriptionPojo)) return "";
+            if (!currentLastAutoColumn.Equals(column)) return "";
             return HandleTrimedContext(TrimedStringContext);
         }
 

@@ -25,15 +25,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             get => END_CONTEXT_WORD;
         }
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = ColumnModel;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
-            String TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (columnModel.IsNotNull)
             {
                 return HandleTrimedContext(TrimedStringContext);
