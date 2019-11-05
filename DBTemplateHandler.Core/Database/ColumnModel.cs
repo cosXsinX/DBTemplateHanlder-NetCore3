@@ -4,6 +4,10 @@ namespace DBTemplateHandler.Core.Database
     [Serializable]
     public class ColumnModel : IColumnModel
     {
+        public ColumnModel()
+        {
+        }
+
         public ColumnModel(string name,
                 string type, bool isPrimaryKey)
         {

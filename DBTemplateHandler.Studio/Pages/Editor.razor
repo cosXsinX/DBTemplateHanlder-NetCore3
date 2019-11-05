@@ -1,11 +1,19 @@
 ﻿@page "/editor"
 
+@using DBTemplateHandler.Core.Template
+@using DBTemplateHandler.Studio.Data
+@inject DBTemplateService dbTemplateService
+
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
 
+<div class="row">
+    <div class="w-25">Template File Path :</div>
+    <div class="w-75"><input type="text" @bind="@(templateModel.TemplatedFilePath)"/></div>
+</div>
 <div class="md-form row">
-    <textarea id="form7" class="md-textarea form-control w-75" rows="10"></textarea>
+    <textarea id="form7" class="md-textarea form-control w-75" rows="10" @bind="@(templateModel.TemplatedFileContent)"></textarea>
     <table class="w-25" rows="10" cols="2">
         <tr>
             <th>Template Navigator</th>
@@ -22,13 +30,52 @@
     </table>
 </div>
 
+<button class="btn btn-primary" @onclick="Process">Process</button>
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div class="container-fluid">
+    @foreach (var currentResult in result)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="w-25">
+                    File path
+                </div>
+                <div class="w-75">
+                    @currentResult.Path
+                </div>
+            </div>
+            <div class="row">
+                Content :
+            </div>
+            <div class="row">
+                @currentResult.Content
+            </div>
+        </div>
+    }
+</div>
 
 @code {
     int currentCount = 0;
 
+    ITemplateModel templateModel;
+
     void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        templateModel = await dbTemplateService.GetTemplateModel();
+    }
+
+    List<IHandledTemplateResultModel> result = new List<IHandledTemplateResultModel>();
+    void Process()
+    {
+        result.Clear();
+        var resultIntermediate = dbTemplateService.Process(templateModel);
+        if (!resultIntermediate.Any()) return;
+        result.AddRange(resultIntermediate);
     }
 }

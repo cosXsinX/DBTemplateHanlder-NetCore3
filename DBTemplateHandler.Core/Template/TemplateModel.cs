@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.Template
 {
-    public class TemplateModel
+    public class TemplateModel : ITemplateModel
     {
         public string TemplatedFilePath { get; set; }
         public string TemplatedFileContent { get; set; }

@@ -6,6 +6,12 @@ namespace DBTemplateHandler.Core.Database
     [Serializable]
     public class TableModel : ITableModel
     {
+
+        public TableModel()
+        {
+
+        }
+
         public TableModel(string name)
         {
             Name = name;

@@ -13,10 +13,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private const string TABLE_TEMPLATE_FILE_NAME_WORD = "%tableName%";
         private const string COLUMN_TEMPLATE_FILE_NAME_WORD = "%columnName%";
 
-        public IList<HandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
+        public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
             var result = input.TemplateModels.SelectMany(templateModel =>
-                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel)).ToList();
+                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel)).Cast<IHandledTemplateResultModel>().ToList();
             return result;
         }
 
