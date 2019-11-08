@@ -21,3 +21,5 @@
 /DBTemplateHandler.Service.Contracts/bin/Debug/netcoreapp3.0
 /DBTemplateHandler.Studio/bin/Debug/netcoreapp3.0
 /DBTemplateHandler.Studio/obj
+/DBTemplateHandler.Persistance/obj
+/DBTemplateHandler.Persistance/bin/Debug/netcoreapp3.0

@@ -1,6 +1,7 @@
 ﻿@page "/editor"
 
 @using DBTemplateHandler.Core.Template
+@using DBTemplateHandler.Core.Database
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
@@ -8,26 +9,25 @@
 
 <p>Current count: @currentCount</p>
 
+<select class="form-control">
+    <option value="">-- Select Database model --</option>
+    @foreach(var databaseModel in databaseModels)
+    {
+<option value="@databaseModel.Name">@databaseModel.Name</option>
+    }
+</select>
 <div class="row">
     <div class="w-25">Template File Path :</div>
     <div class="w-75"><input type="text" @bind="@(templateModel.TemplatedFilePath)"/></div>
 </div>
 <div class="md-form row">
     <textarea id="form7" class="md-textarea form-control w-75" rows="10" @bind="@(templateModel.TemplatedFileContent)"></textarea>
-    <table class="w-25" rows="10" cols="2">
-        <tr>
-            <th>Template Navigator</th>
-        </tr>
-        <tr>
-            <td>First template name</td>
-        </tr>
-        <tr>
-            <td>Second template name</td>
-        </tr>
-        <tr>
-            <td>Third template name</td>
-        </tr>
-    </table>
+    <ul class="w-25 list-group" rows="10" cols="2">
+        @foreach(var currentTemplateModel in templateModels)
+        {
+            <li class="list-group-item" @onclick="@(() => SetTemplate(currentTemplateModel))">@currentTemplateModel.TemplatedFilePath</li>
+        }
+    </ul>
 </div>
 
 <button class="btn btn-primary" @onclick="Process">Process</button>
@@ -58,7 +58,10 @@
 @code {
     int currentCount = 0;
 
-    ITemplateModel templateModel;
+    ITemplateModel templateModel = new TemplateModel();
+
+    IList<ITemplateModel> templateModels;
+    IList<IDatabaseModel> databaseModels;
 
     void IncrementCount()
     {
@@ -67,15 +70,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        templateModel = await dbTemplateService.GetTemplateModel();
+        templateModels = await dbTemplateService.GetTemplateModels();
+        databaseModels = await dbTemplateService.GetDatabaseModels();
     }
 
     List<IHandledTemplateResultModel> result = new List<IHandledTemplateResultModel>();
     void Process()
     {
         result.Clear();
-        var resultIntermediate = dbTemplateService.Process(templateModel);
+        var resultIntermediate = dbTemplateService.Process(templateModels.FirstOrDefault(),databaseModels.FirstOrDefault());
         if (!resultIntermediate.Any()) return;
         result.AddRange(resultIntermediate);
+    }
+
+    void SetTemplate(ITemplateModel setTemplateModel)
+    {
+        templateModel = setTemplateModel;
     }
 }
