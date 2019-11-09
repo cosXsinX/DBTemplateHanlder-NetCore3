@@ -16,7 +16,19 @@ namespace DBTemplateHandler.Studio.Data
         private readonly PersistenceFacade persistenceFacade = new PersistenceFacade();
         public DBTemplateService()
         {
-            
+        }
+
+        public void SaveDatabaseModel(string databaseModelPersistenceName, IDatabaseModel databaseModel)
+        {
+            persistenceFacade.Save(databaseModelPersistenceName, databaseModel);
+        }
+
+        public void SaveTemplateModel(string templateGroupName, ITemplateModel templateModel)
+        {
+            var templateModels = persistenceFacade.GetTemplateModelsByTemplateGroupName(templateGroupName);
+            var notModifiedTemplateModels = templateModels.Where(m => m.TemplatedFilePath == templateModel.TemplatedFilePath);
+            var savedTemplateModels = notModifiedTemplateModels.Concat(Enumerable.Repeat(templateModel,1)).ToList();
+            persistenceFacade.Save(templateGroupName,savedTemplateModels);
         }
 
         public Task<IList<ITemplateModel>> GetTemplateModels()
@@ -26,7 +38,7 @@ namespace DBTemplateHandler.Studio.Data
 
         public Task<IList<IDatabaseModel>> GetDatabaseModels()
         {
-            return Task.FromResult(persistenceFacade.GetAllDatabaseModel());
+            return Task.FromResult(persistenceFacade.GetAllDatabaseModels());
         }
 
         public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)
