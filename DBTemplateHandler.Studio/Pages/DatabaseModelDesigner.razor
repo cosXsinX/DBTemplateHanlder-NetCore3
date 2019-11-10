@@ -1,16 +1,66 @@
 ﻿@page "/database-model-designer"
+@using DBTemplateHandler.Core.Database
 
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
 
+
+
+<button class="btn btn-primary" @onclick="CreateDatabaseModel">Add New Database Model</button>
+@if (databaseModels != null)
+{
+    <select class="form-control">
+        <option value="">-- Select Database model --</option>
+        @foreach (var databaseModel in databaseModels)
+        {
+            <option value="@databaseModel.Name" @bind="@(databaseModel.Name)">@databaseModel.Name</option>
+        }
+    </select>
+}
+@if (currentDatabaseModel != null)
+{
+    <div>
+        <label for="@(currentDatabaseModel.Name)">Database Model Name</label>
+        <input type="text" @bind="@(currentDatabaseModel.Name)" />
+    </div>
+
+    <ul class="w-25 list-group" rows="10" cols="2">
+        @foreach (var tableModel in currentDatabaseModel.Tables)
+        {
+            <li class="list-group-item" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Name</li>
+        }
+    </ul>
+}
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     int currentCount = 0;
 
+    IList<IDatabaseModel> databaseModels;
+    IDatabaseModel currentDatabaseModel;
+    ITableModel currentTableModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        databaseModels = new List<IDatabaseModel>();
+    }
+
+
     void IncrementCount()
     {
         currentCount++;
+    }
+
+    void CreateDatabaseModel()
+    {
+        var createdDatabaseModel = new DatabaseModel() { Tables = new List<ITableModel>() };
+        currentDatabaseModel = createdDatabaseModel;
+        databaseModels.Add(createdDatabaseModel);
+    }
+
+    void SetCurrentTable(ITableModel tableModel)
+    {
+        currentTableModel = tableModel;
     }
 }
