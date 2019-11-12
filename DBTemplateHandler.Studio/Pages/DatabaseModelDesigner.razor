@@ -1,48 +1,110 @@
 ﻿@page "/database-model-designer"
 @using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Studio.Data
+@inject DBTemplateService dbTemplateService
 
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
 
-
-
-<button class="btn btn-primary" @onclick="CreateDatabaseModel">Add New Database Model</button>
-@if (databaseModels != null)
-{
-    <select class="form-control">
-        <option value="">-- Select Database model --</option>
-        @foreach (var databaseModel in databaseModels)
-        {
-            <option value="@databaseModel.Name" @bind="@(databaseModel.Name)">@databaseModel.Name</option>
-        }
-    </select>
-}
-@if (currentDatabaseModel != null)
-{
-    <div>
-        <label for="@(currentDatabaseModel.Name)">Database Model Name</label>
-        <input type="text" @bind="@(currentDatabaseModel.Name)" />
+<div class="container">
+    <div class="row">
+        <h3>Databases</h3>
     </div>
-
-    <ul class="w-25 list-group" rows="10" cols="2">
-        @foreach (var tableModel in currentDatabaseModel.Tables)
+    <div class="row">
+        <div class="col-2">
+            <button class="btn btn-primary" @onclick="CreateDatabaseModel">Add New</button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" @onclick="SaveCurrentDatabase">Save</button>
+        </div>
+        <div class="col-2">
+            @if (databaseModelPersistenceNames != null)
+            {
+                <select class="form-control" @onchange="@SetCurrentDatabaseModel">
+                    <option value="">-- Select Database model --</option>
+                    @foreach (var databaseModelPersistenceName in databaseModelPersistenceNames)
+                    {
+                        <option value="@databaseModelPersistenceName">@databaseModelPersistenceName</option>
+                    }
+                </select>
+            }
+        </div>
+        @if (currentDatabaseModel != null)
         {
-            <li class="list-group-item" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Name</li>
+            <div class="col-2">
+                <label for="@(currentDatabaseModelPersistenceName)">Database Model Name</label>
+            </div>
+            <div class="col-4">
+                <input type="text" @bind="@(currentDatabaseModelPersistenceName)" />
+            </div>
         }
-    </ul>
-}
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <h3>Tables</h3>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary" @onclick="@CreateTableModel">Add New</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @if (currentTableModel != null)
+                    {
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="@(currentTableModel.Name)">Table Model Name</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" @bind="@(currentTableModel.Name)" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @if (currentDatabaseModel != null)
+                    {
+                        <ul class="list-group" rows="10">
+                            @foreach (var tableModel in currentDatabaseModel.Tables)
+                            {
+                                <li class="list-group-item" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Name</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
+    async void SetCurrentDatabaseModel(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        currentDatabaseModel = await dbTemplateService.GetDatabaseModelByPersistenceName(value);
+        currentDatabaseModelPersistenceName = value;
+    }
+
     int currentCount = 0;
 
+    IList<string> databaseModelPersistenceNames;
     IList<IDatabaseModel> databaseModels;
+    string currentDatabaseModelPersistenceName;
     IDatabaseModel currentDatabaseModel;
     ITableModel currentTableModel;
+    IColumnModel currentColumModel;
 
     protected override async Task OnInitializedAsync()
     {
+        databaseModelPersistenceNames = await dbTemplateService.GetDatabaseModelPeristenceNames();
         databaseModels = new List<IDatabaseModel>();
     }
 
@@ -56,11 +118,28 @@
     {
         var createdDatabaseModel = new DatabaseModel() { Tables = new List<ITableModel>() };
         currentDatabaseModel = createdDatabaseModel;
+        currentDatabaseModel.Tables = new List<ITableModel>();
         databaseModels.Add(createdDatabaseModel);
     }
 
     void SetCurrentTable(ITableModel tableModel)
     {
         currentTableModel = tableModel;
+    }
+
+    void SaveCurrentDatabase()
+    {
+        dbTemplateService.SaveDatabaseModel(currentDatabaseModelPersistenceName, currentDatabaseModel);
+    }
+
+
+
+
+    void CreateTableModel()
+    {
+        currentTableModel = new TableModel();
+        currentTableModel.Name = "Table name here";
+        if (currentDatabaseModel.Tables == null) currentDatabaseModel.Tables = new List<ITableModel>();
+        currentDatabaseModel.Tables.Add(currentTableModel);
     }
 }

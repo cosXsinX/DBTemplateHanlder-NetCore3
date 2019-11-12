@@ -36,6 +36,16 @@ namespace DBTemplateHandler.Studio.Data
             return Task.FromResult(persistenceFacade.GetAllTemplateModel());
         }
 
+        public Task<IList<string>> GetDatabaseModelPeristenceNames()
+        {
+            return Task.FromResult(persistenceFacade.GetAllDatabaseModelPersistenceNames());
+        }
+
+        public Task<IDatabaseModel> GetDatabaseModelByPersistenceName(string persistenceName)
+        {
+            return Task.FromResult(persistenceFacade.GetDatabaseModelByPersistenceName(persistenceName));
+        }
+
         public Task<IList<IDatabaseModel>> GetDatabaseModels()
         {
             return Task.FromResult(persistenceFacade.GetAllDatabaseModels());

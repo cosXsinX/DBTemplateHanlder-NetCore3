@@ -22,7 +22,8 @@ namespace DBTemplateHandler.Persistance
         {
             if (!Directory.Exists(_persistenceFolder)) return new List<string>();
             var files = Directory.GetFiles(_persistenceFolder, "*.json", new EnumerationOptions() { RecurseSubdirectories = false });
-            var templateGroupNames = files.Select(fileName => fileName.Substring(0, fileName.Length - ".json".Length)).ToList();
+            var fileNames = files.Select(file => Path.GetFileName(file));
+            var templateGroupNames = fileNames.Select(fileName => fileName.Substring(0, fileName.Length - ".json".Length)).ToList();
             return templateGroupNames;
         }
 

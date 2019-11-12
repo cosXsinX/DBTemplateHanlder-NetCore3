@@ -1,5 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.Template;
+using DBTemplateHandler.Persistance.Conversion;
+using DBTemplateHandler.Persistance.Serializable;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +13,8 @@ namespace DBTemplateHandler.Persistance
     public class PersistenceFacade
     {
         private readonly Persistor<IList<TemplateModel>> templateModelPersistor;
-        private readonly Persistor<DatabaseModel> databaseModelPersistor;
+        private readonly Persistor<PersistableDatabaseModel> databaseModelPersistor;
+        private readonly DatabaseModelConverter databaseModelConverter = new DatabaseModelConverter();
         private readonly string templatesFolderPath;
         private readonly string databaseModelsFolderPath;
         public PersistenceFacade()
@@ -23,7 +26,7 @@ namespace DBTemplateHandler.Persistance
 
             databaseModelsFolderPath = Path.Combine(applicationDataFolder, "databaseModels");
             if (!Directory.Exists(databaseModelsFolderPath)) Directory.CreateDirectory(databaseModelsFolderPath);
-            databaseModelPersistor = new Persistor<DatabaseModel>(databaseModelsFolderPath);
+            databaseModelPersistor = new Persistor<PersistableDatabaseModel>(databaseModelsFolderPath);
         }
 
         public IList<ITemplateModel> GetAllTemplateModel()
@@ -56,7 +59,9 @@ namespace DBTemplateHandler.Persistance
 
         public IDatabaseModel GetDatabaseModelByPersistenceName(string persistenceName)
         {
-            return databaseModelPersistor.GetByPersistenceName(persistenceName);
+            var intermediateResuts = databaseModelPersistor.GetByPersistenceName(persistenceName);
+            var results = databaseModelConverter.ToUnPersisted(intermediateResuts);
+            return results;
         }
 
         public IList<string> GetAllDatabaseModelPersistenceNames()
@@ -69,17 +74,10 @@ namespace DBTemplateHandler.Persistance
             return databaseModelPersistor.GetAll().Cast<IDatabaseModel>().ToList();
         }
 
-        private DatabaseModel ToDatabaseModel(IDatabaseModel databaseModel)
-        {
-            var result = new DatabaseModel();
-            result.Name = databaseModel.Name;
-            result.Tables = databaseModel.Tables;
-            return result;
-        }
-
         public void Save(string databaseModelPersistenceName , IDatabaseModel databaseModel)
         {
-            databaseModelPersistor.Save(databaseModelPersistenceName, ToDatabaseModel(databaseModel));
+            var persistable = databaseModelConverter.ToPersistable(databaseModel);
+            databaseModelPersistor.Save(databaseModelPersistenceName, persistable);
         }
     }
 }
