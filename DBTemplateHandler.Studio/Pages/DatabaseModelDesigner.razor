@@ -31,10 +31,10 @@
         @if (currentDatabaseModel != null)
         {
             <div class="col-2">
-                <label for="@(currentDatabaseModelPersistenceName)">Database Model Name</label>
+                <label for="@currentDatabaseModelPersistenceName">Database Model Name</label>
             </div>
             <div class="col-4">
-                <input type="text" @bind="@(currentDatabaseModelPersistenceName)" />
+                <input type="text" @bind="@currentDatabaseModelPersistenceName" />
             </div>
         }
     </div>
