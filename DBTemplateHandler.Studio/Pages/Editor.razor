@@ -1,6 +1,7 @@
 ﻿@page "/editor"
 
 @using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Core.Template
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
@@ -17,45 +18,97 @@
                 }
             </select>
         }
+    </div>
+    <div class="row">
+        Template group
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <button class="btn-primary" @onclick="@CreateNewGroup">New</button>
         </div>
+        <div class="col-1">
+            <button class="btn-secondary" @onclick="SaveTemplateGroup">Save</button>
+        </div>
+        <div class="col-2">
+            <label for="@(currentTemplateModelPersistenceName)"></label>
+        </div>
+        <div class="col-2">
+            <input type="text" @bind="@(currentTemplateModelPersistenceName)" />
+        </div>
+        <div class="col-4">
+            @if (templateModelPersistenceNames != null)
+            {
+                <select class="form-control" @onchange="@SetCurrentTemplateModels">
+                    <option value="">-- Select Template model --</option>
+                    @foreach (var templatePersistenceName in templateModelPersistenceNames)
+                    {
+                        <option value="@templatePersistenceName">@templatePersistenceName</option>
+                    }
+                </select>
+            }
+        </div>
+    </div>
+    <div class="row">
+        Template
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <button class="btn-primary" @onclick="AddTemplateToGroup">New</button>
+        </div>
+        <div class="col-2">
+            <button class="btn-danger" @onclick="DeleteFromGroup">Delete</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if(currentTemplateModel != null)
+            {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4">Template File Path :</div>
+                        <div class="col-8"><input type="text" @bind="@(currentTemplateModel.TemplatedFilePath)" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <textarea @bind="@(currentTemplateModel.TemplatedFileContent)"></textarea>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="w-100"></div>
+        <div class="col-4">
+            <ul class="list-group" rows="10" cols="2">
+                @foreach (var templateModel in currentTemplateModels)
+                {
+                    <li class="list-group-item" @onclick="@(() => SetTemplate(templateModel))">@templateModel.TemplatedFilePath</li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
-@*<div class="row">
-    <div class="w-25">Template File Path :</div>
-    <div class="w-75"><input type="text" @bind="@(templateModel.TemplatedFilePath)" /></div>
-</div>
-<div class="md-form row">
-    <textarea id="form7" class="md-textarea form-control w-75" rows="10" @bind="@(templateModel.TemplatedFileContent)"></textarea>
-    <ul class="w-25 list-group" rows="10" cols="2">
-        @foreach (var currentTemplateModel in templateModels)
+@*
+    <div class="container-fluid">
+        @foreach (var currentResult in result)
         {
-            <li class="list-group-item" @onclick="@(() => SetTemplate(currentTemplateModel))">@currentTemplateModel.TemplatedFilePath</li>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="w-25">
+                        File path
+                    </div>
+                    <div class="w-75">
+                        @currentResult.Path
+                    </div>
+                </div>
+                <div class="row">
+                    Content :
+                </div>
+                <div class="row">
+                    @currentResult.Content
+                </div>
+            </div>
         }
-    </ul>
-</div>
-
-<button class="btn btn-primary" @onclick="@Process">Process</button>
-
-<div class="container-fluid">
-    @foreach (var currentResult in result)
-    {
-        <div class="container-fluid">
-            <div class="row">
-                <div class="w-25">
-                    File path
-                </div>
-                <div class="w-75">
-                    @currentResult.Path
-                </div>
-            </div>
-            <div class="row">
-                Content :
-            </div>
-            <div class="row">
-                @currentResult.Content
-            </div>
-        </div>
-    }
-</div>*@
+    </div>*@
 
 @code {
 
@@ -68,15 +121,26 @@
         currentDatabaseModelPersistenceName = value;
     }
 
+    string currentTemplateModelPersistenceName;
+    IList<ITemplateModel> currentTemplateModels = new List<ITemplateModel>();
+    async void SetCurrentTemplateModels(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        currentTemplateModels = await dbTemplateService.GetTemplateModelByPersistenceName(value);
+        currentTemplateModel = null;
+        currentTemplateModelPersistenceName = value;
+    }
+
     //ITemplateModel templateModel = new TemplateModel();
 
     //IList<ITemplateModel> templateModels = new List<ITemplateModel>();
     IList<string> databaseModelPersistenceNames = new List<string>();
+    IList<string> templateModelPersistenceNames = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
-        //templateModels = await dbTemplateService.GetTemplateModels();
         databaseModelPersistenceNames = await dbTemplateService.GetDatabaseModelPeristenceNames();
+        templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
     }
 
     //List<IHandledTemplateResultModel> result = new List<IHandledTemplateResultModel>();
@@ -88,8 +152,37 @@
     //    result.AddRange(resultIntermediate);
     //}
 
-    //void SetTemplate(ITemplateModel setTemplateModel)
-    //{
-    //    templateModel = setTemplateModel;
-    //}
+    ITemplateModel currentTemplateModel = null;
+    void SetTemplate(ITemplateModel setTemplateModel)
+    {
+        currentTemplateModel = setTemplateModel;
+    }
+
+    void CreateNewGroup()
+    {
+        currentTemplateModels = new List<ITemplateModel>();
+        currentTemplateModelPersistenceName = "Template model group name here";
+    }
+
+
+    async Task SaveTemplateGroup()
+    {
+        dbTemplateService.SaveTemplateModels(currentTemplateModelPersistenceName, currentTemplateModels);
+        templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
+    }
+
+    void AddTemplateToGroup()
+    {
+        if (currentTemplateModels == null) CreateNewGroup();
+        currentTemplateModel = new TemplateModel();
+        currentTemplateModels.Add(currentTemplateModel);
+    }
+
+    void DeleteFromGroup()
+    {
+        var deletedTemplateModel = currentTemplateModel;
+        currentTemplateModel = null;
+        if (currentTemplateModels == null) return;
+        currentTemplateModels.Remove(deletedTemplateModel);
+    }
 }

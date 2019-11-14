@@ -31,9 +31,26 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.Save(templateGroupName,savedTemplateModels);
         }
 
+        public void SaveTemplateModels(string templateGroupName, IList<ITemplateModel> templateModels)
+        {
+            if (String.IsNullOrWhiteSpace(templateGroupName)) return;
+            if (templateModels == null || !templateGroupName.Any()) return;
+            persistenceFacade.Save(templateGroupName, templateModels);
+        }
+
         public Task<IList<ITemplateModel>> GetTemplateModels()
         {
             return Task.FromResult(persistenceFacade.GetAllTemplateModel());
+        }
+
+        public Task<IList<string>> GetAllTemplateModelPersistenceNames()
+        {
+            return Task.FromResult(persistenceFacade.GetAllTemplatesPersistanceNames());
+        }
+
+        public Task<IList<ITemplateModel>> GetTemplateModelByPersistenceName(string persistenceName)
+        {
+            return Task.FromResult(persistenceFacade.GetTemplateModelsByTemplateGroupName(persistenceName));
         }
 
         public Task<IList<string>> GetDatabaseModelPeristenceNames()
