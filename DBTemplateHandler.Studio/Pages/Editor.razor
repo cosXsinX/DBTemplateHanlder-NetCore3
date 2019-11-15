@@ -19,23 +19,22 @@
             </select>
         }
     </div>
-    <div class="row">
-        Template group
-    </div>
-    <div class="row">
-        <div class="col-1">
-            <button class="btn-primary" @onclick="@CreateNewGroup">New</button>
+    <div class="row form-group p-2">
+        <div class="col-2 text-primary"><h5>Group</h5></div>
+        <div class="col-2 btn-group">
+            <button class="btn btn-primary" @onclick="@CreateNewGroup">New</button>
+            <button class="btn btn-secondary" @onclick="@SaveTemplateGroup">Save</button>
         </div>
-        <div class="col-1">
-            <button class="btn-secondary" @onclick="SaveTemplateGroup">Save</button>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Group name</span>
+            </div>
+            <input type="text" class="form-control" @bind="@(currentTemplateModelPersistenceName)" />
         </div>
-        <div class="col-2">
-            <label for="@(currentTemplateModelPersistenceName)"></label>
-        </div>
-        <div class="col-2">
-            <input type="text" @bind="@(currentTemplateModelPersistenceName)" />
-        </div>
-        <div class="col-4">
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose group</span>
+            </div>
             @if (templateModelPersistenceNames != null)
             {
                 <select class="form-control" @onchange="@SetCurrentTemplateModels">
@@ -48,42 +47,33 @@
             }
         </div>
     </div>
-    <div class="row">
-        Template
-    </div>
-    <div class="row">
-        <div class="col-2">
-            <button class="btn-primary" @onclick="AddTemplateToGroup">New</button>
+    <div class="container row form-group">
+        <div class="col-10">
+            <div class="row">
+                <h6>Templated file path</h6>
+            </div>
+            <input class="row form-control" type="text" @bind="@(CurrentTemplateFilePath)" />
+            <div class="row">
+                <h6>Templated file content</h6>
+            </div>
+            <textarea class="row form-control" @bind="@(CurrentTemplateFileContent)" rows="20"></textarea>
         </div>
         <div class="col-2">
-            <button class="btn-danger" @onclick="DeleteFromGroup">Delete</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            @if(currentTemplateModel != null)
-            {
-                <div class="container">
-                    <div class="row">
-                        <div class="col-4">Template File Path :</div>
-                        <div class="col-8"><input type="text" @bind="@(currentTemplateModel.TemplatedFilePath)" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <textarea @bind="@(currentTemplateModel.TemplatedFileContent)"></textarea>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-2 btn-group">
+                    <button class="btn oi oi-plus btn-sm btn-primary" @onclick="AddTemplateToGroup"/>
+                    <button class="btn oi oi-trash btn-sm btn-danger" @onclick="DeleteFromGroup"/>
                 </div>
-            }
-        </div>
-        <div class="w-100"></div>
-        <div class="col-4">
-            <ul class="list-group" rows="10" cols="2">
-                @foreach (var templateModel in currentTemplateModels)
-                {
-                    <li class="list-group-item" @onclick="@(() => SetTemplate(templateModel))">@templateModel.TemplatedFilePath</li>
-                }
-            </ul>
+            </div>
+            <div class="row">
+                <select class="form-control" multiple @onchange="@(SetCurrentTemplateModel)" size="30">
+                    @for (int i = 0; i < currentTemplateModels.Count; i++)
+                    {
+                        var templateModel = currentTemplateModels[i];
+                        <option value="@i">@templateModel.TemplatedFilePath</option>
+                    }
+                </select>
+            </div>
         </div>
     </div>
 </div>
@@ -112,6 +102,26 @@
 
 @code {
 
+    public string CurrentTemplateFilePath 
+    {
+        get { return currentTemplateModel?.TemplatedFilePath; }
+        set
+        {
+            if (currentTemplateModel == null) return;
+            currentTemplateModel.TemplatedFilePath = value;
+        }
+    }
+
+    public string CurrentTemplateFileContent
+    {
+        get { return currentTemplateModel?.TemplatedFileContent; }
+        set
+        {
+            if (currentTemplateModel == null) return;
+            currentTemplateModel.TemplatedFileContent = value;
+        }
+    }
+
     string currentDatabaseModelPersistenceName;
     IDatabaseModel currentDatabaseModel;
     async void SetCurrentDatabaseModel(ChangeEventArgs e)
@@ -129,6 +139,14 @@
         currentTemplateModels = await dbTemplateService.GetTemplateModelByPersistenceName(value);
         currentTemplateModel = null;
         currentTemplateModelPersistenceName = value;
+    }
+
+    void SetCurrentTemplateModel(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        int.TryParse(value, out var index);
+        if (index == -1) return;
+        currentTemplateModel = currentTemplateModels[index];
     }
 
     //ITemplateModel templateModel = new TemplateModel();
