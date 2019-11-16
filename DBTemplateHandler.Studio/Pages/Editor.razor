@@ -6,100 +6,112 @@
 @inject DBTemplateService dbTemplateService
 
 <div class="container">
-    <h1>Template editor</h1>
-    <div class="row">
-        @if (databaseModelPersistenceNames != null)
-        {
-            <select class="form-control" @onchange="@SetCurrentDatabaseModel">
-                <option value="">-- Select Database model --</option>
-                @foreach (var databaseModelPersistenceName in databaseModelPersistenceNames)
+    <div class="container-fluid rounded border border-primary">
+        <h1>Template editor</h1>
+        <div class="row form-group border border-secondary m-1 p-1">
+            <div class="col-2 btn-group">
+                <button class="btn btn-primary" @onclick="@CreateNewGroup"><span class="oi oi-plus" /></button>
+                <button class="btn btn-secondary" @onclick="@SaveTemplateGroup">Save</button>
+                <button class="btn btn-danger" @onclick="@DeleteTemplateGroup"><span class="oi oi-trash"></span></button>
+            </div>
+            <div class="col-5 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Group name</span>
+                </div>
+                <input type="text" class="form-control" @bind="@(currentTemplateModelPersistenceName)" />
+            </div>
+            <div class="col-5 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Choose group</span>
+                </div>
+                @if (templateModelPersistenceNames != null)
                 {
-                    <option value="@databaseModelPersistenceName">@databaseModelPersistenceName</option>
+                    <select class="form-control" @onchange="@SetCurrentTemplateModels">
+                        <option value="">-- Select Template model --</option>
+                        @foreach (var templatePersistenceName in templateModelPersistenceNames)
+                        {
+                            <option value="@templatePersistenceName">@templatePersistenceName</option>
+                        }
+                    </select>
                 }
-            </select>
-        }
-    </div>
-    <div class="row form-group p-2">
-        <div class="col-2 text-primary"><h5>Group</h5></div>
-        <div class="col-2 btn-group">
-            <button class="btn btn-primary" @onclick="@CreateNewGroup"><span class="oi oi-plus" /></button>
-            <button class="btn btn-secondary" @onclick="@SaveTemplateGroup">Save</button>
-            <button class="btn btn-danger" @onclick="@DeleteTemplateGroup"><span class="oi oi-trash"></span></button>
-        </div>
-        <div class="col-4 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Group name</span>
             </div>
-            <input type="text" class="form-control" @bind="@(currentTemplateModelPersistenceName)" />
         </div>
-        <div class="col-4 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Choose group</span>
+        <div class="row form-group m-1">
+            <div class="col-10">
+                <div class="row">
+                    <h6>Templated file path</h6>
+                </div>
+                <input class="row form-control" type="text" @bind="@(CurrentTemplateFilePath)" placeholder="Exemple: %database%-FolderName@(System.IO.Path.DirectorySeparatorChar)%table%-%column%-dataAccessObject.cs" />
+                <div class="row">
+                    <h6>Templated file content</h6>
+                </div>
+                <textarea class="row form-control" @bind="@(CurrentTemplateFileContent)" rows="20"></textarea>
             </div>
-            @if (templateModelPersistenceNames != null)
-            {
-                <select class="form-control" @onchange="@SetCurrentTemplateModels">
-                    <option value="">-- Select Template model --</option>
-                    @foreach (var templatePersistenceName in templateModelPersistenceNames)
-                    {
-                        <option value="@templatePersistenceName">@templatePersistenceName</option>
-                    }
-                </select>
-            }
-        </div>
-    </div>
-    <div class="container row form-group">
-        <div class="col-10">
-            <div class="row">
-                <h6>Templated file path</h6>
-            </div>
-            <input class="row form-control" type="text" @bind="@(CurrentTemplateFilePath)" />
-            <div class="row">
-                <h6>Templated file content</h6>
-            </div>
-            <textarea class="row form-control" @bind="@(CurrentTemplateFileContent)" rows="20"></textarea>
-        </div>
-        <div class="col-2">
-            <div class="row">
-                <div class="col-2 btn-group">
-                    <button class="btn oi oi-plus btn-sm btn-primary" @onclick="AddTemplateToGroup" />
-                    <button class="btn oi oi-trash btn-sm btn-danger" @onclick="DeleteFromGroup" />
+            <div class="col-2">
+                <div class="row">
+                    <div class="col-2 btn-group">
+                        <button class="btn oi oi-plus btn-sm btn-primary" @onclick="AddTemplateToGroup" />
+                        <button class="btn oi oi-trash btn-sm btn-danger" @onclick="DeleteFromGroup" />
+                    </div>
+                </div>
+                <div class="row">
+                    <select class="form-control" multiple @onchange="@(SetCurrentTemplateModel)" size="30">
+                        @for (int i = 0; i < currentTemplateModels.Count; i++)
+                        {
+                            var templateModel = currentTemplateModels[i];
+                            <option value="@i">@templateModel.TemplatedFilePath</option>
+                        }
+                    </select>
                 </div>
             </div>
-            <div class="row">
-                <select class="form-control" multiple @onchange="@(SetCurrentTemplateModel)" size="30">
-                    @for (int i = 0; i < currentTemplateModels.Count; i++)
-                    {
-                        var templateModel = currentTemplateModels[i];
-                        <option value="@i">@templateModel.TemplatedFilePath</option>
-                    }
-                </select>
+        </div>
+    </div>
+    <div class="container-fluid rounded border border-secondary">
+        <div class="row mr-1">
+            <div class="col-3 text text-primary align-content-start">File(s) generation</div>
+            <div class="col-5 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Choose database</span>
+                </div>
+                @if (databaseModelPersistenceNames != null)
+                {
+                    <select class="form-control" @onchange="@SetCurrentDatabaseModel">
+                        <option value="">-- Select Database model --</option>
+                        @foreach (var databaseModelPersistenceName in databaseModelPersistenceNames)
+                        {
+                            <option value="@databaseModelPersistenceName">@databaseModelPersistenceName</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="btn-group offset-2 col-2">
+                <button class="btn btn-primary" @onclick="@RunGeneration"><span class="io io-media-play"></span>Run</button>
             </div>
         </div>
+        @if (results != null)
+        {
+            <div class="row mr-1 border border-success rounded">
+                @foreach (var currentResult in results)
+                {
+                <div class="container-fluid mr-1 border border-secondary rounded">
+                    <div class="row mr-1">
+                        <div class="col-2 text text-info">File path</div>
+                        <div class="col-10 border border-info text text-info rounded">
+                            @currentResult.Path
+                        </div>
+                    </div>
+                    <div class="row mr-1">
+                        Content
+                    </div>
+                    <div class="row mr-1 border border-info rounded">
+                        @currentResult.Content
+                    </div>
+                </div>
+                }
+            </div>
+        }
     </div>
 </div>
-@*
-    <div class="container-fluid">
-        @foreach (var currentResult in result)
-        {
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="w-25">
-                        File path
-                    </div>
-                    <div class="w-75">
-                        @currentResult.Path
-                    </div>
-                </div>
-                <div class="row">
-                    Content :
-                </div>
-                <div class="row">
-                    @currentResult.Content
-                </div>
-            </div>
-        }
-    </div>*@
 
 @code {
 
@@ -125,6 +137,7 @@
 
     string currentDatabaseModelPersistenceName;
     IDatabaseModel currentDatabaseModel;
+    IList<IHandledTemplateResultModel> results = null;
     async void SetCurrentDatabaseModel(ChangeEventArgs e)
     {
         var value = e.Value.ToString();
@@ -212,5 +225,12 @@
         currentTemplateModel = null;
         if (currentTemplateModels == null) return;
         currentTemplateModels.Remove(deletedTemplateModel);
+    }
+
+    void RunGeneration()
+    {
+        if (currentTemplateModel == null) return;
+        if (currentDatabaseModel == null) return;
+        results = dbTemplateService.Process(currentTemplateModel, currentDatabaseModel);
     }
 }
