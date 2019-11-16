@@ -1,4 +1,5 @@
 ﻿using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Core.Database.MetaDescriptors;
 using DBTemplateHandler.Core.Template;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Persistance;
@@ -20,7 +21,13 @@ namespace DBTemplateHandler.Studio.Data
 
         public void SaveDatabaseModel(string databaseModelPersistenceName, IDatabaseModel databaseModel)
         {
+            if (String.IsNullOrWhiteSpace(databaseModelPersistenceName)) return;
             persistenceFacade.Save(databaseModelPersistenceName, databaseModel);
+        }
+
+        public void DeleteDatabaseModel(string databaseModelPersistenceName)
+        {
+            persistenceFacade.DeleteDatabaseModel(databaseModelPersistenceName);
         }
 
         public void SaveTemplateModel(string templateGroupName, ITemplateModel templateModel)
@@ -36,6 +43,18 @@ namespace DBTemplateHandler.Studio.Data
             if (String.IsNullOrWhiteSpace(templateGroupName)) return;
             if (templateModels == null || !templateGroupName.Any()) return;
             persistenceFacade.Save(templateGroupName, templateModels);
+        }
+
+        SQLLiteDatabaseDescriptor descriptor = new SQLLiteDatabaseDescriptor();
+        public Task<IList<string>> GetAllAvailableColumnTypes()
+        {
+            IList<string> result = descriptor.GetPossibleColumnTypes().ToList();
+            return Task.FromResult(result);
+        }
+
+        public void DeleteTemplateModels(string templateGroupName)
+        {
+            persistenceFacade.DeleteTemplates(templateGroupName);
         }
 
         public Task<IList<ITemplateModel>> GetTemplateModels()

@@ -47,6 +47,11 @@ namespace DBTemplateHandler.Persistance
             templateModelPersistor.Save(templatesPersistenceName, templateGroup.Select(ToTemplateModel).ToList());
         }
 
+        public void DeleteTemplates(string templatesPersistenceName)
+        {
+            templateModelPersistor.Delete(templatesPersistenceName);
+        }
+
         public IList<string> GetAllTemplatesPersistanceNames()
         {
             return templateModelPersistor.GetAllPersistanceNames();
@@ -78,6 +83,11 @@ namespace DBTemplateHandler.Persistance
         {
             var persistable = databaseModelConverter.ToPersistable(databaseModel);
             databaseModelPersistor.Save(databaseModelPersistenceName, persistable);
+        }
+
+        public void DeleteDatabaseModel(string databaseModelPersistenceName)
+        {
+            databaseModelPersistor.Delete(databaseModelPersistenceName);
         }
     }
 }

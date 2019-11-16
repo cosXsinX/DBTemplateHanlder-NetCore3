@@ -3,20 +3,28 @@
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
-<h1>Database Model Designer</h1>
 
 <div class="container">
-    <div class="row">
-        <h3>Databases</h3>
-    </div>
-    <div class="row">
-        <div class="col-2">
-            <button class="btn btn-primary" @onclick="CreateDatabaseModel">Add New</button>
+    <h1>Database Designer</h1>
+    <div class="row form-group">
+        <div class="col-2 text-primary">
+            <h5>Databases</h5>
         </div>
-        <div class="col-2">
-            <button class="btn btn-primary" @onclick="SaveCurrentDatabase">Save</button>
+        <div class="col-2 btn-group">
+            <button class="btn btn-primary" @onclick="@CreateDatabaseModel"><span class="oi oi-plus" /></button>
+            <button class="btn btn-secondary" @onclick="@SaveCurrentDatabase">Save</button>
+            <button class="btn btn-danger" @onclick="@DeleteCurrentDatabase"><span class="oi oi-trash"></span></button>
         </div>
-        <div class="col-2">
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
+            </div>
+            <input type="text" class="form-control" @bind="@currentDatabaseModelPersistenceName" />
+        </div>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose</span>
+            </div>
             @if (databaseModelPersistenceNames != null)
             {
                 <select class="form-control" @onchange="@SetCurrentDatabaseModel">
@@ -28,41 +36,23 @@
                 </select>
             }
         </div>
-        @if (currentDatabaseModel != null)
-        {
-            <div class="col-2">
-                <label for="@currentDatabaseModelPersistenceName">Database Model Name</label>
-            </div>
-            <div class="col-4">
-                <input type="text" @bind="@currentDatabaseModelPersistenceName" />
-            </div>
-        }
     </div>
-</div>
-<div class="container">
-    <div class="row">
+    <div class="row form-group">
         <div class="col-4">
             <div class="row">
                 <h3>Tables</h3>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary" @onclick="@CreateTableModel">Add New</button>
+                    <button class="btn btn-primary @DisabledTableInputAttribute" @onclick="@CreateTableModel">Add New</button>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    @if (currentTableModel != null)
-                    {
-                        <div class="row">
-                            <div class="col-5">
-                                <label for="@(currentTableModel.Name)">Name</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" @bind="@(currentTableModel.Name)" />
-                            </div>
-                        </div>
-                    }
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Current Table Name</span>
+                    </div>
+                    <input type="text" class="form-control @DisabledTableInputAttribute" @bind="@CurrentTableModelName" />
                 </div>
             </div>
             <div class="row">
@@ -72,7 +62,7 @@
                         <ul class="list-group" rows="10">
                             @foreach (var tableModel in currentDatabaseModel.Tables)
                             {
-                                <li class="list-group-item" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Name</li>
+                                <li class="list-group-item @ActiveAttributeWhenTableIsCurrentTableModel(tableModel)" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Name</li>
                             }
                         </ul>
                     }
@@ -85,22 +75,17 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary" @onclick="@CreateColumnModel">Add New</button>
+                    <button class="btn btn-primary @DisabledAddColumnButtonAttribute" @onclick="@CreateColumnModel">Add New</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    @if (currentColumModel != null)
-                    {
-                        <div class="row">
-                            <div class="col-5">
-                                <label for="@(currentColumModel.Name)">Name</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" @bind="@(currentColumModel.Name)" />
-                            </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
                         </div>
-                    }
+                        <input type="text" class="form-control" @bind="@CurrentColumnName" />
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -110,7 +95,7 @@
                         <ul class="list-group" rows="10">
                             @foreach (var column in currentTableModel.Columns)
                             {
-                                <li class="list-group-item" @onclick="@(() => SetCurrentColumn(column))">@column.Name</li>
+                                <li class="list-group-item @ActiveAttributeWhenTableIsCurrentColumnModel(column)" @onclick="@(() => SetCurrentColumn(column))">@column.Name</li>
                             }
                         </ul>
                     }
@@ -121,40 +106,211 @@
             <div class="row">
                 <h3>Current column</h3>
             </div>
-            @if (currentColumModel != null)
-            {
-                <div class="row">
-                    <label for="@(currentColumModel.Name)">Name</label>
-                    <input type="text" @bind="@(currentColumModel.Name)" />
+
+            <div class="row input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Column value type</span>
                 </div>
-                <div class="row">
-                    <label for="@(currentColumModel.IsAutoGeneratedValue)">Is Auto</label>
-                    <input type="checkbox" @bind="@(currentColumModel.IsAutoGeneratedValue)" />
+                @if (ColumnDataTypes != null)
+                {
+                    <select class="form-control @DisabledAddColumnButtonAttribute">
+                        <option value="">-- Select Type --</option>
+                        @foreach (var currentType in ColumnDataTypes)
+                        {
+                            <option value="@currentType">@currentType</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Auto</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsAutoGeneratedAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsAutoGenerated" @onclick="@ToggleIsAutoGenerated" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsNotAutoGeneratedAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsAutoGenerated)" @onclick="@ToggleIsAutoGenerated" />No
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <label for="@(currentColumModel.IsNotNull)">Is Not Null</label>
-                    <input type="checkbox" @bind="@(currentColumModel.IsNotNull)" />
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Not Null</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNotNullAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsNotNull" @onclick="@ToggleIsNotNullGenerated" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNullAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsNotNull)" @onclick="@ToggleIsNotNullGenerated" />No
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <label for="@(currentColumModel.IsPrimaryKey)">Is Primary Key</label>
-                    <input type="checkbox" @bind="@(currentColumModel.IsPrimaryKey)" />
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Primary Key</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsPrimaryKeyAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsPrimaryKey" @onclick="@ToggleIsPrimaryKey" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsNotPrimaryKeyAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsPrimaryKey)" @onclick="@ToggleIsPrimaryKey" />No
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <label for="@(currentColumModel.Type)">Type</label>
-                    <input type="text" @bind="@(currentColumModel.Type)" />
-                </div>
-            }
+            </div>
         </div>
     </div>
 </div>
 
 
 @code {
+
+    private string DisabledTableInputAttribute { get => currentDatabaseModel == null ? "disabled" : String.Empty; }
+    private string DisabledAddColumnButtonAttribute { get => currentTableModel == null ? "disabled" : String.Empty; }
+
+    private string ActiveAttributeWhenTableIsCurrentTableModel(ITableModel tableModel)
+    {
+        return currentTableModel == tableModel ? "active" : String.Empty;
+    }
+
+    private string ActiveAttributeWhenTableIsCurrentColumnModel(IColumnModel columnModel)
+    {
+        return currentColumModel == columnModel ? "active" : String.Empty;
+    }
+
+    private string BtnClassIsAutoGeneratedAttribute
+    {
+        get { return IsAutoGenerated ? "btn-success" : "btn-danger"; }
+    }
+
+    private string ActiveWhenIsAutoGeneratedAttribute
+    {
+        get { return IsAutoGenerated ? "active" : ""; }
+    }
+
+    private string ActiveWhenIsNotAutoGeneratedAttribute
+    {
+        get { return !IsAutoGenerated ? "active" : ""; }
+    }
+
+    private void ToggleIsAutoGenerated(MouseEventArgs args)
+    {
+        IsAutoGenerated = !IsAutoGenerated;
+    }
+
+    private bool IsAutoGenerated
+    {
+        get { return currentColumModel?.IsAutoGeneratedValue ?? false; }
+        set
+        {
+            if (currentColumModel == null) return;
+            currentColumModel.IsAutoGeneratedValue = value;
+        }
+    }
+
+    private string BtnClassIsNotNullAttribute
+    {
+        get { return IsNotNull ? "btn-success" : "btn-danger"; }
+    }
+
+    private string ActiveWhenIsNotNullAttribute
+    {
+        get { return IsNotNull ? "active" : ""; }
+    }
+
+    private string ActiveWhenIsNullAttribute
+    {
+        get { return !IsNotNull ? "active" : ""; }
+    }
+
+    private void ToggleIsNotNullGenerated(MouseEventArgs args)
+    {
+        IsNotNull = !IsNotNull;
+    }
+
+    private bool IsNotNull
+    {
+        get { return currentColumModel?.IsNotNull ?? false; }
+        set
+        {
+            if (currentColumModel == null) return;
+            currentColumModel.IsNotNull = value;
+        }
+    }
+
+    private string BtnClassIsPrimaryKeyAttribute
+    {
+        get { return IsPrimaryKey ? "btn-success" : "btn-danger"; }
+    }
+
+    private string ActiveWhenIsPrimaryKeyAttribute
+    {
+        get { return IsPrimaryKey ? "active" : ""; }
+    }
+
+    private string ActiveWhenIsNotPrimaryKeyAttribute
+    {
+        get { return !IsPrimaryKey ? "active" : ""; }
+    }
+
+    private void ToggleIsPrimaryKey(MouseEventArgs args)
+    {
+        IsPrimaryKey = !IsPrimaryKey;
+    }
+
+    private bool IsPrimaryKey
+    {
+        get { return currentColumModel?.IsPrimaryKey ?? false; }
+        set
+        {
+            if (currentColumModel == null) return;
+            currentColumModel.IsPrimaryKey = value;
+        }
+    }
+
+
+    private string CurrentTableModelName
+    {
+        get => currentTableModel?.Name;
+        set
+        {
+            if (currentTableModel == null) return;
+            currentTableModel.Name = value;
+        }
+    }
+
+    private string CurrentColumnName
+    {
+        get => currentColumModel?.Name;
+        set
+        {
+            if (currentColumModel == null) return;
+            currentColumModel.Name = value;
+        }
+    }
+
     async void SetCurrentDatabaseModel(ChangeEventArgs e)
     {
         var value = e.Value.ToString();
         currentDatabaseModel = await dbTemplateService.GetDatabaseModelByPersistenceName(value);
         currentDatabaseModelPersistenceName = value;
+        currentTableModel = null;
+        currentColumModel = null;
     }
 
     int currentCount = 0;
@@ -166,10 +322,13 @@
     ITableModel currentTableModel;
     IColumnModel currentColumModel;
 
+    private IList<string> ColumnDataTypes = new List<string> {};
+
     protected override async Task OnInitializedAsync()
     {
         databaseModelPersistenceNames = await dbTemplateService.GetDatabaseModelPeristenceNames();
         databaseModels = new List<IDatabaseModel>();
+        ColumnDataTypes = await dbTemplateService.GetAllAvailableColumnTypes();
     }
 
 
@@ -184,11 +343,14 @@
         currentDatabaseModel = createdDatabaseModel;
         currentDatabaseModel.Tables = new List<ITableModel>();
         databaseModels.Add(createdDatabaseModel);
+        currentTableModel = null;
+        currentColumModel = null;
     }
 
     void SetCurrentTable(ITableModel tableModel)
     {
         currentTableModel = tableModel;
+        currentColumModel = null;
     }
 
     void SetCurrentColumn(IColumnModel columnModel)
@@ -196,16 +358,25 @@
         currentColumModel = columnModel;
     }
 
-    void SaveCurrentDatabase()
+    async Task SaveCurrentDatabase()
     {
         dbTemplateService.SaveDatabaseModel(currentDatabaseModelPersistenceName, currentDatabaseModel);
+        databaseModelPersistenceNames = await dbTemplateService.GetDatabaseModelPeristenceNames();
     }
 
-
-
+    async Task DeleteCurrentDatabase()
+    {
+        dbTemplateService.DeleteDatabaseModel(currentDatabaseModelPersistenceName);
+        currentDatabaseModelPersistenceName = null;
+        currentDatabaseModel = null;
+        currentTableModel = null;
+        currentColumModel = null;
+        databaseModelPersistenceNames = await dbTemplateService.GetDatabaseModelPeristenceNames();
+    }
 
     void CreateTableModel()
     {
+        if (currentDatabaseModel == null) return;
         currentTableModel = new TableModel();
         currentTableModel.Name = "Table name here";
         if (currentDatabaseModel.Tables == null) currentDatabaseModel.Tables = new List<ITableModel>();
@@ -214,6 +385,7 @@
 
     void CreateColumnModel()
     {
+        if (currentTableModel == null) return;
         currentColumModel = new ColumnModel();
         currentColumModel.Name = "Column name here";
         if (currentTableModel == null) CreateTableModel();

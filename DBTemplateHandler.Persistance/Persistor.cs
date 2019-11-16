@@ -51,5 +51,11 @@ namespace DBTemplateHandler.Persistance
             if (File.Exists(saveFilePath)) File.Delete(saveFilePath);
             File.WriteAllText(saveFilePath, serializedTemplateGroup);
         }
+
+        public void Delete(string persistenceName)
+        {
+            var saveFilePath = Path.Combine(_persistenceFolder, string.Concat(persistenceName, ".json"));
+            if (File.Exists(saveFilePath)) File.Delete(saveFilePath);
+        }
     }
 }

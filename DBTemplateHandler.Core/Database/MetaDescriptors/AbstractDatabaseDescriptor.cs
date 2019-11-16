@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
 {
     public abstract class AbstractDatabaseDescriptor
     {
-        public abstract string[] get_possibleColumnTypes();
+        public abstract string[] GetPossibleColumnTypes();
 
         public abstract string ConvertType(string ConvertedType, string DestinationEnvironment);
 

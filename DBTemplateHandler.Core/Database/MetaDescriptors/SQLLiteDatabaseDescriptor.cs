@@ -42,7 +42,7 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
             TIME_COLUMN_TYPE,
             VARCHAR_COLUMN_TYPE};
 
-        public override string[] get_possibleColumnTypes()
+        public override string[] GetPossibleColumnTypes()
         {
             return _possibleColumnTypes;
         }

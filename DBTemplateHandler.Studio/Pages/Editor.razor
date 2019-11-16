@@ -5,8 +5,8 @@
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
-<h1>Template editor</h1>
 <div class="container">
+    <h1>Template editor</h1>
     <div class="row">
         @if (databaseModelPersistenceNames != null)
         {
@@ -22,8 +22,9 @@
     <div class="row form-group p-2">
         <div class="col-2 text-primary"><h5>Group</h5></div>
         <div class="col-2 btn-group">
-            <button class="btn btn-primary" @onclick="@CreateNewGroup">New</button>
+            <button class="btn btn-primary" @onclick="@CreateNewGroup"><span class="oi oi-plus" /></button>
             <button class="btn btn-secondary" @onclick="@SaveTemplateGroup">Save</button>
+            <button class="btn btn-danger" @onclick="@DeleteTemplateGroup"><span class="oi oi-trash"></span></button>
         </div>
         <div class="col-4 input-group">
             <div class="input-group-prepend">
@@ -61,8 +62,8 @@
         <div class="col-2">
             <div class="row">
                 <div class="col-2 btn-group">
-                    <button class="btn oi oi-plus btn-sm btn-primary" @onclick="AddTemplateToGroup"/>
-                    <button class="btn oi oi-trash btn-sm btn-danger" @onclick="DeleteFromGroup"/>
+                    <button class="btn oi oi-plus btn-sm btn-primary" @onclick="AddTemplateToGroup" />
+                    <button class="btn oi oi-trash btn-sm btn-danger" @onclick="DeleteFromGroup" />
                 </div>
             </div>
             <div class="row">
@@ -102,7 +103,7 @@
 
 @code {
 
-    public string CurrentTemplateFilePath 
+    public string CurrentTemplateFilePath
     {
         get { return currentTemplateModel?.TemplatedFilePath; }
         set
@@ -186,6 +187,15 @@
     async Task SaveTemplateGroup()
     {
         dbTemplateService.SaveTemplateModels(currentTemplateModelPersistenceName, currentTemplateModels);
+        templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
+    }
+
+    async Task DeleteTemplateGroup()
+    {
+        dbTemplateService.DeleteTemplateModels(currentTemplateModelPersistenceName);
+        currentTemplateModelPersistenceName = null;
+        currentTemplateModels = null;
+        currentTemplateModel = null;
         templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
     }
 
