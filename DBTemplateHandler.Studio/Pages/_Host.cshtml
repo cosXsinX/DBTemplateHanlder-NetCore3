@@ -11,6 +11,8 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-ui/external/jquery/jquery.js"></script>
+    <script src="~/scripts/jquery-ui/jquery-ui.min.js"></script>
 </head>
 <body>
     <app>
@@ -18,5 +20,11 @@
     </app>
 
     <script src="_framework/blazor.server.js"></script>
+    <script type="text/javascript">
+        function onBlazorReady() {
+            $(".autocomplete-template-file-path").autocomplete({ source: ["test-filepath","test2-filepath","test3-filepath"]});
+            $(".autocomplete-template-file-content").autocomplete({source: ["test-ninianain"]});
+        };
+    </script>
 </body>
 </html>

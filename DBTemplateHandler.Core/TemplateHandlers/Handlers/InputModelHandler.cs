@@ -9,9 +9,37 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
     public class InputModelHandler
     {
 
-        private const string DATABASE_TEMPLATE_FILE_NAME_WORD = "%databaseName%";
-        private const string TABLE_TEMPLATE_FILE_NAME_WORD = "%tableName%";
-        private const string COLUMN_TEMPLATE_FILE_NAME_WORD = "%columnName%";
+        private const string DatabaseFilePathTemplateWordValue = "%databaseName%";
+        private const string TableFilePathTemplateWordValue = "%tableName%";
+        private const string ColumnTemplateFileNameWordValue = "%columnName%";
+
+        public string DatabaseFilePathTemplateWord
+        {
+            get => DatabaseFilePathTemplateWordValue;
+        }
+
+        public string TableFilePathTemplateWord
+        {
+            get => TableFilePathTemplateWordValue;
+        }
+
+        public string ColumnTemplateFileNameWord
+        {
+            get => ColumnTemplateFileNameWordValue;
+        }
+        
+        public IList<string> AllFilePathTemplateWords
+        {
+            get
+            {
+                return new List<string> 
+                {
+                    DatabaseFilePathTemplateWord,
+                    TableFilePathTemplateWord,
+                    ColumnTemplateFileNameWord
+                };
+            }
+        }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
@@ -25,31 +53,34 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (databaseModel == null) yield break;
             if (templateModel == null) yield break;
+            string databaseFilePathTemplateWord = DatabaseFilePathTemplateWord;
+            string tableFilePathTemplateWord = TableFilePathTemplateWord;
+            string columnTemplateFileNameWord = ColumnTemplateFileNameWord;
             string templateFileContent = templateModel.TemplatedFileContent ?? string.Empty;
             string templateFilePath = templateModel.TemplatedFilePath ?? string.Empty;
             bool containsTblWord =
                     templateFilePath.
-                        Contains(TABLE_TEMPLATE_FILE_NAME_WORD);
+                        Contains(tableFilePathTemplateWord);
             bool containsColWord =
                     templateFilePath.
-                        Contains(COLUMN_TEMPLATE_FILE_NAME_WORD);
+                        Contains(columnTemplateFileNameWord);
             if (containsColWord)
             {
                 string currentDatabaseReplacedDestinationRelativePath =
                         templateFilePath.Replace(
-                                DATABASE_TEMPLATE_FILE_NAME_WORD,
+                                databaseFilePathTemplateWord,
                                     databaseModel.Name);
                 foreach (TableModel currentTable in databaseModel.Tables)
                 {
                     string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
-                                Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
+                                Replace(tableFilePathTemplateWord,
                                         currentTable.Name);
                     foreach (ColumnModel currentColumn in currentTable.Columns)
                     {
                         string currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
-                                    Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
+                                    Replace(columnTemplateFileNameWord, currentColumn.Name);
                         string handlerOutput = TemplateHandlerNew.HandleTemplate(
                                 templateFileContent,
                                     databaseModel, currentTable, currentColumn);
@@ -66,13 +97,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             {
                 string currentDatabaseReplacedDestinationRelativePath =
                         templateFilePath.Replace(
-                                DATABASE_TEMPLATE_FILE_NAME_WORD,
+                                databaseFilePathTemplateWord,
                                     databaseModel.Name);
                 foreach (TableModel currentTable in databaseModel.Tables)
                 {
                     string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
-                                Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
+                                Replace(tableFilePathTemplateWord,
                                         currentTable.Name);
                     string handlerOutput = TemplateHandlerNew.HandleTemplate(
                                 templateFileContent,
@@ -89,7 +120,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             {
                 string currentDatabaseReplacedDestinationRelativePath =
                         templateFilePath.Replace(
-                                DATABASE_TEMPLATE_FILE_NAME_WORD,
+                                databaseFilePathTemplateWord,
                                     databaseModel.Name);
 
                 string handlerOutput = TemplateHandlerNew.HandleTemplate(
@@ -109,29 +140,31 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (tableModel == null) yield break;
 
-
+            string databaseFilePathTemplateWord = DatabaseFilePathTemplateWord;
+            string tableFilePathTemplateWord = TableFilePathTemplateWord;
+            string columnTemplateFileNameWord = ColumnTemplateFileNameWord;
             string templateFileContent = templateModel.TemplatedFileContent ?? string.Empty;
             string templateFilePath = templateModel.TemplatedFilePath ?? string.Empty;
             bool containsColWord =
                         templateFilePath.
-                            Contains(COLUMN_TEMPLATE_FILE_NAME_WORD);
+                            Contains(columnTemplateFileNameWord);
             if (containsColWord)
 
             {
                 string currentDatabaseReplacedDestinationRelativePath =
                         templateFilePath.Replace(
-                                DATABASE_TEMPLATE_FILE_NAME_WORD,
+                                databaseFilePathTemplateWord,
                                     tableModel.ParentDatabase.Name);
 
                 string currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
-                            Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
+                            Replace(tableFilePathTemplateWord,
                                     tableModel.Name);
                 foreach (ColumnModel currentColumn in tableModel.Columns)
                 {
                     string currentColumnReplacedDestinationRelativePath =
                             currentTableReplacedDestinationRelativePath.
-                                Replace(COLUMN_TEMPLATE_FILE_NAME_WORD, currentColumn.Name);
+                                Replace(columnTemplateFileNameWord, currentColumn.Name);
                     string handlerOutput = TemplateHandlerNew.HandleTemplate(
                             templateFileContent,
                                 tableModel.ParentDatabase, tableModel, currentColumn);
@@ -149,12 +182,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             {
                 string currentDatabaseReplacedDestinationRelativePath =
                         templateFilePath.Replace(
-                                DATABASE_TEMPLATE_FILE_NAME_WORD,
+                                databaseFilePathTemplateWord,
                                     tableModel.ParentDatabase.Name);
 
                 string currentTableReplacedDestinationRelativePath =
                         currentDatabaseReplacedDestinationRelativePath.
-                            Replace(TABLE_TEMPLATE_FILE_NAME_WORD,
+                            Replace(tableFilePathTemplateWord,
                                     tableModel.Name);
                 string handlerOutput = TemplateHandlerNew.HandleTemplate(
                             templateFileContent,

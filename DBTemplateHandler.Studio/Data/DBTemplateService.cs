@@ -19,6 +19,26 @@ namespace DBTemplateHandler.Studio.Data
         {
         }
 
+        public string ColumnTemplateFileNameWord
+        {
+            get => inputModelHandler?.ColumnTemplateFileNameWord ?? string.Empty;
+        }
+
+        public string TableFilePathTemplateWord
+        {
+            get => inputModelHandler?.TableFilePathTemplateWord ?? string.Empty;
+        }
+
+        public string DatabaseFilePathTemplateWord
+        {
+            get => inputModelHandler?.DatabaseFilePathTemplateWord ?? string.Empty;
+        }
+
+        public IList<string> AllFilePathTemplateWords
+        {
+            get => inputModelHandler?.AllFilePathTemplateWords??new List<string>();
+        }
+
         public void SaveDatabaseModel(string databaseModelPersistenceName, IDatabaseModel databaseModel)
         {
             if (String.IsNullOrWhiteSpace(databaseModelPersistenceName)) return;

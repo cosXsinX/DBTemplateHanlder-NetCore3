@@ -4,6 +4,7 @@
 @using DBTemplateHandler.Core.Template
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
+@inject IJSRuntime JSRuntime
 
 <div class="container">
     <div class="container-fluid rounded border border-primary">
@@ -41,11 +42,12 @@
                 <div class="row">
                     <h6>Templated file path</h6>
                 </div>
-                <input class="row form-control" type="text" @bind="@(CurrentTemplateFilePath)" placeholder="Exemple: %database%-FolderName@(System.IO.Path.DirectorySeparatorChar)%table%-%column%-dataAccessObject.cs" />
+                <input class="row form-control autocomplete-template-file-path"  type="text" @bind="@(CurrentTemplateFilePath)"
+                       placeholder="@TemplateFilePathPlaceHolder" />
                 <div class="row">
                     <h6>Templated file content</h6>
                 </div>
-                <textarea class="row form-control" @bind="@(CurrentTemplateFileContent)" rows="20"></textarea>
+                <textarea class="row form-control autocomplete-template-file-content" @bind="@(CurrentTemplateFileContent)" rows="20"></textarea>
             </div>
             <div class="col-2">
                 <div class="row">
@@ -93,20 +95,20 @@
             <div class="row mr-1 border border-success rounded">
                 @foreach (var currentResult in results)
                 {
-                <div class="container-fluid mr-1 border border-secondary rounded">
-                    <div class="row mr-1">
-                        <div class="col-2 text text-info">File path</div>
-                        <div class="col-10 border border-info text text-info rounded">
-                            @currentResult.Path
+                    <div class="container-fluid mr-1 border border-secondary rounded">
+                        <div class="row mr-1">
+                            <div class="col-2 text text-info">File path</div>
+                            <div class="col-10 border border-info text text-info rounded">
+                                @currentResult.Path
+                            </div>
+                        </div>
+                        <div class="row mr-1">
+                            Content
+                        </div>
+                        <div class="row mr-1 border border-info rounded">
+                            @currentResult.Content
                         </div>
                     </div>
-                    <div class="row mr-1">
-                        Content
-                    </div>
-                    <div class="row mr-1 border border-info rounded">
-                        @currentResult.Content
-                    </div>
-                </div>
                 }
             </div>
         }
@@ -175,6 +177,12 @@
         templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
     }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            JSRuntime.InvokeVoidAsync("onBlazorReady");
+    }
+
     //List<IHandledTemplateResultModel> result = new List<IHandledTemplateResultModel>();
     //void Process()
     //{
@@ -232,5 +240,30 @@
         if (currentTemplateModel == null) return;
         if (currentDatabaseModel == null) return;
         results = dbTemplateService.Process(currentTemplateModel, currentDatabaseModel);
+    }
+
+    public string ColumnTemplateFileNameWord
+    {
+        get => dbTemplateService?.ColumnTemplateFileNameWord ?? string.Empty;
+    }
+
+    public string TableFilePathTemplateWord
+    {
+        get => dbTemplateService?.TableFilePathTemplateWord ?? string.Empty;
+    }
+
+    public string DatabaseFilePathTemplateWord
+    {
+        get => dbTemplateService?.DatabaseFilePathTemplateWord ?? string.Empty;
+    }
+
+    public IList<string> AllFilePathTemplateWords
+    {
+        get => dbTemplateService?.AllFilePathTemplateWords ?? new List<string>();
+    }
+
+    public string TemplateFilePathPlaceHolder
+    {
+        get => $"Exemple: {DatabaseFilePathTemplateWord}-FolderName{System.IO.Path.DirectorySeparatorChar}{TableFilePathTemplateWord}-{ColumnTemplateFileNameWord}-dataAccessObject.cs";
     }
 }
