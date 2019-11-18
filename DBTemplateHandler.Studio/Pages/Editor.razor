@@ -126,6 +126,7 @@
         {
             if (currentTemplateModel == null) return;
             currentTemplateModel.TemplatedFilePath = value;
+            SetEditorContent(value, CurrentTemplateFileContent);
         }
     }
 
@@ -139,7 +140,7 @@
         {
             if (CurrentTemplateModel == null) return;
             CurrentTemplateModel.TemplatedFileContent = value;
-            SetEditorContent("cs", value);
+            SetEditorContent(CurrentTemplateFilePath, value);
         }
     }
 
@@ -209,7 +210,7 @@
         }
         set {
             currentTemplateModel = value;
-            if (currentTemplateModel != null) SetEditorContent("cs" , value?.TemplatedFileContent??string.Empty);
+            if (currentTemplateModel != null) SetEditorContent(value?.TemplatedFilePath??string.Empty , value?.TemplatedFileContent??string.Empty);
         }
     }
 
@@ -296,10 +297,10 @@
         get => $"Exemple: {DatabaseFilePathTemplateWord}-FolderName{System.IO.Path.DirectorySeparatorChar}{TableFilePathTemplateWord}-{ColumnTemplateFileNameWord}-dataAccessObject.cs";
     }
 
-    async void SetEditorContent(string editorSessionType, string content)
+    async void SetEditorContent(string filePath, string content)
     {
-        JSRuntime.InvokeVoidAsync("setEditorContent", new object[] { editorSessionType, content });
-        StateHasChanged();
+        var aceMode = FileExtensionToAceModeConverter.ToAceMode(filePath);
+        JSRuntime.InvokeVoidAsync("setEditorContent", new object[] { aceMode, content });
     }
 
     async Task<string> GetEditorContent()

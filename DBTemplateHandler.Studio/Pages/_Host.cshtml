@@ -46,6 +46,7 @@
         function setEditorContent(fileType,fileContent) {
             if (!editor) return;
             editor.setValue(fileContent,-1);
+            editor.session.setMode("ace/mode/" + fileType);
         }
 
         window.getEditorContent = () => {
