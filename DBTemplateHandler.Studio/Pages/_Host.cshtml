@@ -11,8 +11,10 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
-    <script src="~/scripts/jquery-ui/external/jquery/jquery.js"></script>
-    <script src="~/scripts/jquery-ui/jquery-ui.min.js"></script>
+    @*<script src="~/scripts/jquery-ui/external/jquery/jquery.js"></script>
+    <script src="~/scripts/jquery-ui/jquery-ui.min.js"></script>*@
+    <script src="~/scripts/ace/ace.js"></script>
+    <script src="~/scripts/ace/ext-language_tools.js"></script>
 </head>
 <body>
     <app>
@@ -21,10 +23,38 @@
 
     <script src="_framework/blazor.server.js"></script>
     <script type="text/javascript">
-        function onBlazorReady() {
-            $(".autocomplete-template-file-path").autocomplete({ source: ["test-filepath","test2-filepath","test3-filepath"]});
-            $(".autocomplete-template-file-content").autocomplete({source: ["test-ninianain"]});
-        };
+        //function onBlazorReady() {
+        //    $(".autocomplete-template-file-path").autocomplete({ source: ["test-filepath", "test2-filepath", "test3-filepath"] });
+        //    $(".autocomplete-template-file-content").autocomplete({ source: ["test-ninianain"] });
+        //};
+
+        var editor;
+        function onBlazorReadyInitializeEditor() {
+            // trigger extension
+            ace.require("ace/ext/language_tools");
+            editor = ace.edit("editor");
+            editor.session.setMode("ace/mode/html");
+            editor.setTheme("ace/theme/tomorrow");
+            // enable autocompletion and snippets
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: false
+            });
+        }
+
+        function setEditorContent(fileType,fileContent) {
+            if (!editor) return;
+            editor.setValue(fileContent,-1);
+        }
+
+        window.getEditorContent = () => {
+            if (!editor) return "";
+            return editor.getValue();
+        }
+
     </script>
+    </script>
+
 </body>
 </html>
