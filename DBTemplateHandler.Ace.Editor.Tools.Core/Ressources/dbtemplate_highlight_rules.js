@@ -1,6 +1,6 @@
 ﻿define(function (require, exports, module) {
     "use strict";
-
+    // https://ace.c9.io/tool/mode_creator.html
     var oop = require("../lib/oop");
     var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
@@ -17,6 +17,13 @@
                 }
             ],
             "tdb": [
+                {
+                    token: "keyword", // String, Array, or Function: the CSS token to apply
+                    regex: "COUCOU", // String or RegExp: the regexp to match
+                    next: "tdb-end"   // [Optional] String: next state to enter
+                }
+            ],
+            "tdb-end": [
                 {
                     token: "keyword", // String, Array, or Function: the CSS token to apply
                     regex: "(\\(|\\[)", // String or RegExp: the regexp to match

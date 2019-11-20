@@ -5,13 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DBTemplateHandler.Core\DBTemplateHandler.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ressources\dbtemplate_highlight_rules_base.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Ressources\dbtemplate_mode_base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
