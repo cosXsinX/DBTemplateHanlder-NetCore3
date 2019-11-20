@@ -23,3 +23,5 @@
 /DBTemplateHandler.Studio/obj
 /DBTemplateHandler.Persistance/obj
 /DBTemplateHandler.Persistance/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Ace.Editor.Tools.Core/obj/Debug/netcoreapp3.0
+/DBTemplateHandler.Ace.Editor.Tools.Core/obj

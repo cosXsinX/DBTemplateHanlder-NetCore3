@@ -12,7 +12,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Service.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Studio", "DBTemplateHandler.Studio\DBTemplateHandler.Studio.csproj", "{CE6DB42A-C1B8-47BF-BBD2-E10AF8F71B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Persistance", "DBTemplateHandler.Persistance\DBTemplateHandler.Persistance.csproj", "{B6B041DF-5C32-4F0B-88A3-96D02C741CA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Persistance", "DBTemplateHandler.Persistance\DBTemplateHandler.Persistance.csproj", "{B6B041DF-5C32-4F0B-88A3-96D02C741CA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Ace.Editor.Tools.Core", "DBTemplateHandler.Ace.Editor.Tools.Core\DBTemplateHandler.Ace.Editor.Tools.Core.csproj", "{57CB3A16-42EA-488F-A336-ACDA110EFA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{B6B041DF-5C32-4F0B-88A3-96D02C741CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B041DF-5C32-4F0B-88A3-96D02C741CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B041DF-5C32-4F0B-88A3-96D02C741CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57CB3A16-42EA-488F-A336-ACDA110EFA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57CB3A16-42EA-488F-A336-ACDA110EFA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57CB3A16-42EA-488F-A336-ACDA110EFA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57CB3A16-42EA-488F-A336-ACDA110EFA7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -224,7 +224,7 @@
     {
         currentTemplateModels = new List<ITemplateModel>();
         currentTemplateModelPersistenceName = "Template model group name here";
-        StateHasChanged();
+        //StateHasChanged();
     }
 
 
@@ -233,7 +233,7 @@
         CurrentTemplateFileContent = await GetEditorContent();
         dbTemplateService.SaveTemplateModels(currentTemplateModelPersistenceName, currentTemplateModels);
         templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     async Task DeleteTemplateGroup()
@@ -243,7 +243,7 @@
         currentTemplateModels = null;
         CurrentTemplateModel = null;
         templateModelPersistenceNames = await dbTemplateService.GetAllTemplateModelPersistenceNames();
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     async void AddTemplateToGroup()
@@ -251,7 +251,7 @@
         if (currentTemplateModels == null) CreateNewGroup();
         CurrentTemplateModel = new TemplateModel();
         currentTemplateModels.Add(currentTemplateModel);
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     async void DeleteFromGroup()
@@ -260,7 +260,7 @@
         CurrentTemplateModel = null;
         if (currentTemplateModels == null) return;
         currentTemplateModels.Remove(deletedTemplateModel);
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     async void RunGeneration()
