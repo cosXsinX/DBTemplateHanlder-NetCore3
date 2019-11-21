@@ -2,9 +2,11 @@
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Web.Helpers;
 
 namespace DBTemplateHandler.Ace.Editor.Tools.Core
 {
@@ -30,18 +32,18 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
             var startContextHighlighRules = startContextes.Select(m => new HighLightRuleWithCurrent()
             {
                 Current = "start",
-                Token = "keyword",
-                Regex = Regex.Escape(m),
-                Next = "end-context",
+                token = "keyword",
+                regex = Regex.Escape(m),
+                next = "end-context",
             }).ToList();
 
             var endContextes = handlers.Select(m => m.EndContext).Distinct().ToList();
             var endContextHighlightRules = endContextes.Select(m => new HighLightRuleWithCurrent()
             {
                 Current = "end-context",
-                Token = "keyword",
-                Regex = Regex.Escape(m),
-                Next = "start"
+                token = "keyword",
+                regex = Regex.Escape(m),
+                next = "start"
             }).ToList();
             var result = startContextHighlighRules.Concat(endContextHighlightRules).ToList();
             return result.GroupBy(m => m.Current, m => ToHighLightRule(m)).ToDictionary(m => m.Key, m => m.ToList()); ;
@@ -50,15 +52,15 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
         public string GenerateHighlightRuleJson()
         {
             var encoded = GenerateHighLighRule();
-            return Json.Encode(encoded);
+            return JsonSerializer.Serialize(encoded);
         }
 
         private HighLightRule ToHighLightRule(HighLightRuleWithCurrent converted)
         {
             var result = new HighLightRule();
-            result.Next = converted.Next;
-            result.Regex = converted.Regex;
-            result.Token = converted.Token;
+            result.next = converted.next;
+            result.regex = converted.regex;
+            result.token = converted.token;
             return result;
         }
         
@@ -70,5 +72,29 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
             return result;
         }
 
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
+        public FileModel GetHighlightModel()
+        {
+            string fileName = "dbtemplate_highlight_rules.js";
+            var highlightRulesWithPlaceHolders = Path.Combine(AssemblyDirectory, "Ressources", fileName);
+            var fileContent = File.ReadAllText(highlightRulesWithPlaceHolders);
+            var populatedFileContent = PopulateHighlightRuleContentWithPlaceHolder(fileContent);
+            return new FileModel()
+            {
+                FileName = fileName,
+                Content = populatedFileContent
+            };
+        }
     }
 }

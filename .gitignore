@@ -26,3 +26,5 @@
 /DBTemplateHandler.Ace.Editor.Tools.Core/obj/Debug/netcoreapp3.0
 /DBTemplateHandler.Ace.Editor.Tools.Core/obj
 /DBTemplateHandler.Ace.Editor.Tools.Core/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests/obj
+/DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests/bin/Debug/netcoreapp3.0

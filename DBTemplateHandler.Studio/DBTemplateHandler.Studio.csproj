@@ -28,13 +28,4 @@
     <Folder Include="wwwroot\scripts\jquery-ui\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\scripts\ace\dbtemplate_highlight_rules_base.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\scripts\ace\dbtemplate_mode_base.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

@@ -41,13 +41,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             }
         }
 
-        public List<string> AllContentStartContextWord
-        {
-            get
-            {
-                Template
-            }
-        }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {

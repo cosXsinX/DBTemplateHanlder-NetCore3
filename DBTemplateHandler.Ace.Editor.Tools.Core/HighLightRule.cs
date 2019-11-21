@@ -6,9 +6,9 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
 {
     public class HighLightRule
     {
-        public string Token { get; set; }
-        public string Regex { get; set; }
-        public string Next { get; set; }
+        public string token { get; set; }
+        public string regex { get; set; }
+        public string next { get; set; }
     }
 
     public class HighLightRuleWithCurrent : HighLightRule
