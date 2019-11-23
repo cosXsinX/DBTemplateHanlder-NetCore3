@@ -17,15 +17,21 @@ namespace DBTemplateHandler.Studio
 {
     public class Startup
     {
+        private static string ApplicationRomingFolderName = string.Join(".", nameof(DBTemplateHandler), nameof(DBTemplateHandler.Studio));
+
         Deployer deployer = new Deployer();
-        private readonly string DeploymentHistoryFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        private readonly string DeploymentHistoryFolderPath = 
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                ApplicationRomingFolderName,
                "deploymentInfos");
         private Persistance.PersistenceFacadeConfiguration persistenceConfig =
                 new Persistance.PersistenceFacadeConfiguration()
                 {
-                    TemplatesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                    TemplatesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
                         "templates"),
-                    DatabaseModelsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                    DatabaseModelsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
                         "databaseModels"),
                 };
         public Startup(IConfiguration configuration)

@@ -113,7 +113,7 @@
                 </div>
                 @if (ColumnDataTypes != null)
                 {
-                    <select class="form-control @DisabledAddColumnButtonAttribute">
+                    <select class="form-control @DisabledAddColumnButtonAttribute" @onchange="@SetCurrentColumnType">
                         <option value="">-- Select Type --</option>
                         @foreach (var currentType in ColumnDataTypes)
                         {
@@ -356,6 +356,15 @@
     void SetCurrentColumn(IColumnModel columnModel)
     {
         currentColumModel = columnModel;
+    }
+
+    void SetCurrentColumnType(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        if (ColumnDataTypes.Contains(value)) //TODO Add case management to the communicate to the user (error message)
+        {
+            currentColumModel.Type = value;
+        }
     }
 
     async Task SaveCurrentDatabase()

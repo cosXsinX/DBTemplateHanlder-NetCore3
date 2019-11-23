@@ -60,7 +60,9 @@ namespace DBTemplateHandler.Persistance
 
         public IList<ITemplateModel> GetTemplateModelsByTemplateGroupName(string templateGroupName)
         {
-            return templateModelPersistor.GetByPersistenceName(templateGroupName).Cast<ITemplateModel>().ToList();
+            var templateGroup = templateModelPersistor.GetByPersistenceName(templateGroupName);
+            if (templateGroup == null) return null;
+            return templateGroup.Cast<ITemplateModel>().ToList();
         }
 
         public IDatabaseModel GetDatabaseModelByPersistenceName(string persistenceName)
