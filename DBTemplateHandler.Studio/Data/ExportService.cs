@@ -56,11 +56,12 @@ namespace DBTemplateHandler.Studio.Data
 
                 archivedWithTempFilePath.ForEach(m => File.WriteAllText(m.Item2, m.Item1.Content));
 
-                string archiveFilePathWorking = Path.Combine(zipArchiveNameWorkingDirectory, $"{zipArchiveName}.zip");
+                string archiveFilePathWorking = Path.Combine(Directory.GetParent(zipArchiveNameWorkingDirectory).FullName, $"{zipArchiveName}.zip");
+                if (File.Exists(archiveFilePathWorking)) File.Delete(archiveFilePathWorking);
                 ZipFile.CreateFromDirectory(zipArchiveNameWorkingDirectory, archiveFilePathWorking);
-                ZipFile.ExtractToDirectory(archiveFilePathWorking, ReadyDirectory);
+                Directory.Delete(zipArchiveNameWorkingDirectory, true);
+                return archiveFilePathWorking;
             }
-            return null;
         }
     }
 }

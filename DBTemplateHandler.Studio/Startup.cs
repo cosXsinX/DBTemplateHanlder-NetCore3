@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using DBTemplateHandler.Studio.Data;
 using DBTemplateHandler.Studio.Deployment;
 using System.IO;
+using DBTemplateHandler.Studio.Controllers;
 
 namespace DBTemplateHandler.Studio
 {
@@ -51,12 +52,27 @@ namespace DBTemplateHandler.Studio
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddSingleton<DBTemplateService>(new DBTemplateService(new DBTemplateService.Config()
+            var exportService = new ExportService(new ExportService.Config
+            {
+                ReadyDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
+                        "exportReady"),
+                WorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
+                        "exportPrepare"),
+            });
+
+            var dbTemplateService = new DBTemplateService(new DBTemplateService.Config()
             {
                 PersistenceConfig = persistenceConfig
-            }));
+            });
+
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+            services.AddSingleton<DBTemplateService>(dbTemplateService);
+            services.AddSingleton<ExportService>(exportService);
+            services.AddSingleton<ExportController>(new ExportController(dbTemplateService, exportService));
             services.AddLogging();
         }
 
@@ -81,6 +97,7 @@ namespace DBTemplateHandler.Studio
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("default", "{controller=Export}/{action=Export}/{id?}");
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

@@ -27,7 +27,9 @@ namespace DBTemplateHandler.Studio
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseStartup<Startup>()
+                    .UseSetting(WebHostDefaults.DetailedErrorsKey, "true");
                 })
 
             ;

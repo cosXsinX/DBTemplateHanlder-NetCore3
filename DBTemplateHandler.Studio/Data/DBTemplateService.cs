@@ -101,6 +101,11 @@ namespace DBTemplateHandler.Studio.Data
             return Task.FromResult(persistenceFacade.GetTemplateModelsByTemplateGroupName(persistenceName));
         }
 
+        public IList<ITemplateModel> GetTemplateModelByPersistenceNameSync(string persistenceName)
+        {
+            return persistenceFacade.GetTemplateModelsByTemplateGroupName(persistenceName);
+        }
+
         public Task<IList<string>> GetDatabaseModelPeristenceNames()
         {
             return Task.FromResult(persistenceFacade.GetAllDatabaseModelPersistenceNames());
@@ -109,6 +114,11 @@ namespace DBTemplateHandler.Studio.Data
         public Task<IDatabaseModel> GetDatabaseModelByPersistenceName(string persistenceName)
         {
             return Task.FromResult(persistenceFacade.GetDatabaseModelByPersistenceName(persistenceName));
+        }
+
+        public IDatabaseModel GetDatabaseModelByPersistenceNameSync(string persistenceName)
+        {
+            return persistenceFacade.GetDatabaseModelByPersistenceName(persistenceName);
         }
 
         public Task<IList<IDatabaseModel>> GetDatabaseModels()

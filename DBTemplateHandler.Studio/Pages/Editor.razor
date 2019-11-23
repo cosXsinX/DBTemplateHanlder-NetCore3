@@ -3,8 +3,10 @@
 @using DBTemplateHandler.Core.Database
 @using DBTemplateHandler.Core.Template
 @using DBTemplateHandler.Studio.Data
+@using DBTemplateHandler.Studio.Controllers
 @inject DBTemplateService dbTemplateService
 @inject IJSRuntime JSRuntime
+@inject ExportController exportController
 
 <div class="container">
     <div class="container-fluid rounded border border-primary">
@@ -89,38 +91,43 @@
                     </select>
                 }
             </div>
-            <div class="btn-group offset-2 col-2">
-                <button class="btn btn-primary" @onclick="@RunGeneration"><span class="io io-media-play"></span>Run</button>
+
+            
+            <div class="btn-group offset-1 col-3">
+                <button class="btn btn-primary" @onclick="@RunGeneration"><span class="oi oi-media-play"></span>Run</button>
+                <a class="btn btn-secondary" href="Export/Export/@System.Net.WebUtility.UrlEncode($"({currentDatabaseModelPersistenceName})->({currentTemplateModelPersistenceName}).zip")"><span class="oi oi-data-transfer-download"></span>Download</a>
             </div>
-        </div>
-        @if (results != null)
-        {
-            <div class="row mr-1 border border-success rounded form-group">
-                @foreach (var currentResult in results)
-                {
-                    <div class="container-fluid mr-1 border border-secondary rounded">
-                        <div class="row mr-1">
-                            <div class="col-2 text text-info">File path</div>
-                            <div class="col-10 border border-info text text-info rounded">
-                                @currentResult.Path
+            
+            </div>
+            @if (results != null)
+            {
+                <div class="row mr-1 border border-success rounded form-group">
+                    @foreach (var currentResult in results)
+                    {
+                        <div class="container-fluid mr-1 border border-secondary rounded">
+                            <div class="row mr-1">
+                                <div class="col-2 text text-info">File path</div>
+                                <div class="col-10 border border-info text text-info rounded">
+                                    @currentResult.Path
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mr-1">
-                            Content
-                        </div>
-                        <div class="row mr-1 border border-info rounded">
-                            <textarea class="form-control" rows="10">
+                            <div class="row mr-1">
+                                Content
+                            </div>
+                            <div class="row mr-1 border border-info rounded">
+                                <textarea class="form-control" rows="10">
                                 @currentResult.Content
                             </textarea>
+                            </div>
                         </div>
-                    </div>
-                }
-            </div>
-        }
-    </div>
+                    }
+                </div>
+            }
+        </div>
 </div>
 
 @code {
+
 
     private string DisableCurrentTemplate()
     {
