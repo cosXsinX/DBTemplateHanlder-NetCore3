@@ -10,14 +10,33 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DBTemplateHandler.Studio.Data;
+using DBTemplateHandler.Studio.Deployment;
+using System.IO;
 
 namespace DBTemplateHandler.Studio
 {
     public class Startup
     {
+        Deployer deployer = new Deployer();
+        private readonly string DeploymentHistoryFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+               "deploymentInfos");
+        private Persistance.PersistenceFacadeConfiguration persistenceConfig =
+                new Persistance.PersistenceFacadeConfiguration()
+                {
+                    TemplatesFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                        "templates"),
+                    DatabaseModelsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                        "databaseModels"),
+                };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            deployer.Deploy(new DeploymentConfiguration()
+            {
+                ForceReDeploy = true,
+                DeploymentHistoryFolderPath = DeploymentHistoryFolderPath,
+                DeploymentTemplateFolderPath = persistenceConfig.TemplatesFolderPath
+            });
         }
 
         public IConfiguration Configuration { get; }
@@ -28,8 +47,11 @@ namespace DBTemplateHandler.Studio
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<DBTemplateService>();
+            services.AddSingleton<DBTemplateService>(new DBTemplateService(new DBTemplateService.Config()
+            {
+                PersistenceConfig = persistenceConfig
+            }));
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

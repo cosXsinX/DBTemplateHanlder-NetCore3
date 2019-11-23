@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Persistan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Ace.Editor.Tools.Core", "DBTemplateHandler.Ace.Editor.Tools.Core\DBTemplateHandler.Ace.Editor.Tools.Core.csproj", "{57CB3A16-42EA-488F-A336-ACDA110EFA7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests", "DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests\DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests.csproj", "{950E358F-0331-4E54-B624-F3A776DAFB9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests", "DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests\DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests.csproj", "{950E358F-0331-4E54-B624-F3A776DAFB9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Studio.Deployment", "DBTemplateHandler.Studio.Deployment\DBTemplateHandler.Studio.Deployment.csproj", "{3F703768-F9CF-4E20-8FAD-691F600E2FB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{950E358F-0331-4E54-B624-F3A776DAFB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{950E358F-0331-4E54-B624-F3A776DAFB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{950E358F-0331-4E54-B624-F3A776DAFB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F703768-F9CF-4E20-8FAD-691F600E2FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F703768-F9CF-4E20-8FAD-691F600E2FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F703768-F9CF-4E20-8FAD-691F600E2FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F703768-F9CF-4E20-8FAD-691F600E2FB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

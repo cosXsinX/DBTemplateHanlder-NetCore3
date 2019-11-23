@@ -5,6 +5,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Persistance;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,9 +15,17 @@ namespace DBTemplateHandler.Studio.Data
     {
         private readonly InputModelHandler inputModelHandler = new InputModelHandler();
 
-        private readonly PersistenceFacade persistenceFacade = new PersistenceFacade();
-        public DBTemplateService()
+        private readonly PersistenceFacade persistenceFacade;
+        public DBTemplateService(Config config)
         {
+            if (config == null) throw new ArgumentNullException(nameof(config));
+            if (config.PersistenceConfig == null) throw new ArgumentNullException(string.Concat(".", nameof(config), nameof(config.PersistenceConfig)));
+            persistenceFacade = new PersistenceFacade(config.PersistenceConfig);
+        }
+
+        public class Config
+        {
+            public PersistenceFacadeConfiguration PersistenceConfig { get; set; }
         }
 
         public string ColumnTemplateFileNameWord

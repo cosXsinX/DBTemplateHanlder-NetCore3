@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DBTemplateHandler.Core\DBTemplateHandler.Core.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Persistance\DBTemplateHandler.Persistance.csproj" />
+    <ProjectReference Include="..\DBTemplateHandler.Studio.Deployment\DBTemplateHandler.Studio.Deployment.csproj" />
   </ItemGroup>
 
   <ItemGroup>

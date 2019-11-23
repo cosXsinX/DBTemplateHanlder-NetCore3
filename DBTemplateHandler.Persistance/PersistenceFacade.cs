@@ -17,14 +17,15 @@ namespace DBTemplateHandler.Persistance
         private readonly DatabaseModelConverter databaseModelConverter = new DatabaseModelConverter();
         private readonly string templatesFolderPath;
         private readonly string databaseModelsFolderPath;
-        public PersistenceFacade()
+        public PersistenceFacade(PersistenceFacadeConfiguration persistenceFacadeConfiguration)
         {
-            var applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            templatesFolderPath = Path.Combine(applicationDataFolder, "templates");
+            if (persistenceFacadeConfiguration == null) throw new ArgumentNullException(nameof(persistenceFacadeConfiguration));
+            
+            templatesFolderPath = persistenceFacadeConfiguration.TemplatesFolderPath; 
             if (!Directory.Exists(templatesFolderPath)) Directory.CreateDirectory(templatesFolderPath);
             templateModelPersistor = new Persistor<IList<TemplateModel>>(templatesFolderPath);
 
-            databaseModelsFolderPath = Path.Combine(applicationDataFolder, "databaseModels");
+            databaseModelsFolderPath = persistenceFacadeConfiguration.DatabaseModelsFolderPath;
             if (!Directory.Exists(databaseModelsFolderPath)) Directory.CreateDirectory(databaseModelsFolderPath);
             databaseModelPersistor = new Persistor<PersistableDatabaseModel>(databaseModelsFolderPath);
         }
