@@ -20,9 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Ace.Edito
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Studio.Deployment", "DBTemplateHandler.Studio.Deployment\DBTemplateHandler.Studio.Deployment.csproj", "{3F703768-F9CF-4E20-8FAD-691F600E2FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHander.DatabaseModel.Import", "DBTemplateHander.DatabaseModel.Import\DBTemplateHander.DatabaseModel.Import.csproj", "{E5C58AF6-EBE4-48A6-A5B6-CA40533FBB8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHander.DatabaseModel.Import", "DBTemplateHander.DatabaseModel.Import\DBTemplateHander.DatabaseModel.Import.csproj", "{E5C58AF6-EBE4-48A6-A5B6-CA40533FBB8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.DatabaseModel.Import.IntegrationTests", "DBTemplateHandler.DatabaseModel.Import.IntegrationTests\DBTemplateHandler.DatabaseModel.Import.IntegrationTests.csproj", "{E8DC2833-251D-47C2-BEE9-3F000D24F884}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.DatabaseModel.Import.IntegrationTests", "DBTemplateHandler.DatabaseModel.Import.IntegrationTests\DBTemplateHandler.DatabaseModel.Import.IntegrationTests.csproj", "{E8DC2833-251D-47C2-BEE9-3F000D24F884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

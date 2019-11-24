@@ -8,19 +8,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DBTemplateHander.DatabaseModel.Import;
 
 namespace DBTemplateHandler.Studio.Data
 {
     public class DBTemplateService
     {
         private readonly InputModelHandler inputModelHandler = new InputModelHandler();
-
         private readonly PersistenceFacade persistenceFacade;
-        public DBTemplateService(Config config)
+        public DBTemplateService(PersistenceFacade persistenceFacade)
         {
-            if (config == null) throw new ArgumentNullException(nameof(config));
-            if (config.PersistenceConfig == null) throw new ArgumentNullException(string.Concat(".", nameof(config), nameof(config.PersistenceConfig)));
-            persistenceFacade = new PersistenceFacade(config.PersistenceConfig);
+            if (persistenceFacade == null) throw new ArgumentNullException(nameof(persistenceFacade));
+            this.persistenceFacade = persistenceFacade;
         }
 
         public class Config

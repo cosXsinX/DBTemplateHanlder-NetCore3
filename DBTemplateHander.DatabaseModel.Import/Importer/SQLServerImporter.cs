@@ -9,7 +9,9 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
 {
     public class SQLServerImporter : IImporter
     {
-        private const string SelectQueryRadical = @"SELECT columns.object_id AS columns_object_id,
+        private const string SelectQueryRadical = @"SELECT 
+DB_NAME() As database_name,
+columns.object_id AS columns_object_id,
 columns.name AS columns_name,
 columns.column_id AS columns_column_id,
 columns.system_type_id AS columns_system_type_id,
@@ -88,19 +90,22 @@ tables.is_node AS tables_is_node,
 tables.is_edge AS tables_is_edge
 FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.object_id";
 
+        public string ManagedDbSystem => "Sql Server 2016";
+
         public IDatabaseModel Import(string connectionString)
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
-            IList<Tuple<SQLServerTableModel, SQLServerColumnModel>> sqlModels = new List<Tuple<SQLServerTableModel, SQLServerColumnModel>>();
-            using (SqlCommand command = new SqlCommand(SelectQueryRadical))
+            IList<Tuple<SQLServerDatabaseModel,SQLServerTableModel, SQLServerColumnModel>> sqlModels = new List<Tuple<SQLServerDatabaseModel, SQLServerTableModel, SQLServerColumnModel>>();
+            using (SqlCommand command = new SqlCommand(SelectQueryRadical,sqlConnection))
             {
                 var dataReader = command.ExecuteReader();
                 while (dataReader.Read())
                 {
+                    var sqlDatabaseModel = ToSqlServerDatabaseModel(dataReader);
                     var sqlTableModel = ToSqlServerTableModel(dataReader);
                     var sqlColumnModel = ToSqlServerColumnModel(dataReader);
-                    sqlModels.Add(Tuple.Create(sqlTableModel, sqlColumnModel));
+                    sqlModels.Add(Tuple.Create(sqlDatabaseModel, sqlTableModel, sqlColumnModel));
                 }
             }
             sqlConnection.Close();
@@ -108,12 +113,19 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             return databaseModel;
         }
 
+        public SQLServerDatabaseModel ToSqlServerDatabaseModel(SqlDataReader dataReader)
+        {
+            var result = new SQLServerDatabaseModel();
+            result.database_name = (string)dataReader["database_name"];
+            return result;
+        }
+
         public SQLServerTableModel ToSqlServerTableModel(SqlDataReader dataReader)
         {
             var result = new SQLServerTableModel();
             result.name = (string)dataReader["tables_name"];
             result.object_id = (int)dataReader["tables_object_id"];
-            result.principal_id = (int)dataReader["tables_principal_id"];
+            result.principal_id = (int?)(dataReader["tables_principal_id"] is DBNull ? null:dataReader["tables_principal_id"]) ;
             result.schema_id = (int)dataReader["tables_schema_id"];
             result.parent_object_id = (int)dataReader["tables_parent_object_id"];
             result.Type = (string)dataReader["tables_type"];
@@ -124,7 +136,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             result.is_published = (bool)dataReader["tables_is_published"];
             result.is_schema_published = (bool)dataReader["tables_is_schema_published"];
             result.lob_data_space_id = (int)dataReader["tables_lob_data_space_id"];
-            result.filestream_data_space_id = (int)dataReader["tables_filestream_data_space_id"];
+            result.filestream_data_space_id = (int?)(dataReader["tables_filestream_data_space_id"] is DBNull ? null: dataReader["tables_filestream_data_space_id"]);
             result.max_column_id_used = (int)dataReader["tables_max_column_id_used"];
             result.lock_on_bulk_load = (bool)dataReader["tables_lock_on_bulk_load"];
             result.uses_ansi_nulls = (bool)dataReader["tables_uses_ansi_nulls"];
@@ -136,20 +148,20 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             result.text_in_row_limit = (int)dataReader["tables_text_in_row_limit"];
             result.large_value_types_out_of_row = (bool)dataReader["tables_large_value_types_out_of_row"];
             result.is_tracked_by_cdc = (bool)dataReader["tables_is_tracked_by_cdc"];
-            result.lock_escalation = (short)dataReader["tables_lock_escalation"];
+            result.lock_escalation = (byte)dataReader["tables_lock_escalation"];
             result.lock_escalation_desc = (string)dataReader["tables_lock_escalation_desc"];
             result.is_filetable = (bool)dataReader["tables_is_filetable"];
-            result.durabilité = (short)dataReader["tables_is_memory_optimized"];
-            result.durability_desc = (string)dataReader["tables_durability"];
-            result.is_memory_optimized = (bool)dataReader["tables_durability_desc"];
-            result.temporal_type = (short)dataReader["tables_temporal_type"];
+            result.durability = (byte)dataReader["tables_durability"];
+            result.durability_desc = (string)dataReader["tables_durability_desc"];
+            result.is_memory_optimized = (bool)dataReader["tables_is_memory_optimized"];
+            result.temporal_type = (byte)dataReader["tables_temporal_type"];
             result.temporal_type_desc = (string)dataReader["tables_temporal_type_desc"];
-            result.history_table_id = (int)dataReader["tables_history_table_id"];
+            result.history_table_id = (int?)(dataReader["tables_history_table_id"] is DBNull ? null : dataReader["tables_history_table_id"]);
             result.is_remote_data_archive_enabled = (bool)dataReader["tables_is_remote_data_archive_enabled"];
             result.is_external = (bool)dataReader["tables_is_external"];
-            result.history_retention_period = (int)dataReader["tables_history_retention_period"];
-            result.history_retention_period_unit = (int)dataReader["tables_history_retention_period_unit"];
-            result.history_retention_period_unit_desc = (string)dataReader["tables_history_retention_period_unit_desc"];
+            result.history_retention_period = (int?)(dataReader["tables_history_retention_period"] is DBNull ? null : dataReader["tables_history_retention_period"]);
+            result.history_retention_period_unit = (int?)(dataReader["tables_history_retention_period_unit"] is DBNull ? null : dataReader["tables_history_retention_period"]);
+            result.history_retention_period_unit_desc = (string)(dataReader["tables_history_retention_period_unit_desc"] is DBNull ? null : dataReader["tables_history_retention_period_unit_desc"]);
             result.is_node = (bool)dataReader["tables_is_node"];
             result.is_edge = (bool)dataReader["tables_is_edge"];
             return result;
@@ -166,7 +178,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             result.max_length = (short)dataReader["columns_max_length"];
             result.precision = (byte)dataReader["columns_precision"];
             result.scale = (byte)dataReader["columns_scale"];
-            result.collation_name = (string)dataReader["columns_collation_name"];
+            result.collation_name = (string)(dataReader["columns_collation_name"] is DBNull ? null : dataReader["columns_collation_name"]);
             result.is_nullable = (bool)dataReader["columns_is_nullable"];
             result.is_ansi_padded = (bool)dataReader["columns_is_ansi_padded"];
             result.is_rowguidcol = (bool)dataReader["columns_is_rowguidcol"];
@@ -185,30 +197,32 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             result.is_column_set = (bool)dataReader["columns_is_column_set"];
             result.generated_always_type = (byte)dataReader["columns_generated_always_type"];
             result.generated_always_type_desc = (string)dataReader["columns_generated_always_type_desc"];
-            result.encryption_type = (int)dataReader["columns_encryption_type"];
-            result.encryption_type_desc = (string)dataReader["columns_encryption_type_desc"];
-            result.encryption_algorithm_name = (string)dataReader["columns_encryption_algorithm_name"];
-            result.column_encryption_key_id = (int)dataReader["columns_column_encryption_key_id"];
-            result.column_encryption_key_database_name = (string)dataReader["columns_column_encryption_key_database_name"];
+            result.encryption_type = (int?)(dataReader["columns_encryption_type"] is DBNull ? null : dataReader["columns_encryption_type"]);
+            result.encryption_type_desc = (string)(dataReader["columns_encryption_type_desc"] is DBNull ? null : dataReader["columns_encryption_type_desc"]);
+            result.encryption_algorithm_name = (string)(dataReader["columns_encryption_algorithm_name"] is DBNull ? null : dataReader["columns_encryption_algorithm_name"]);
+            result.column_encryption_key_id = (int?)(dataReader["columns_column_encryption_key_id"] is DBNull ? null : dataReader["columns_column_encryption_key_id"]);
+            result.column_encryption_key_database_name = (string)(dataReader["columns_column_encryption_key_database_name"] is DBNull ? null : dataReader["columns_column_encryption_key_database_name"]);
             result.is_hidden = (bool)dataReader["columns_is_hidden"];
             result.is_masked = (bool)dataReader["columns_is_masked"];
             return result;
         }
 
-        public IDatabaseModel ToDatabaseModel(IList<Tuple<SQLServerTableModel,SQLServerColumnModel>> sqlModels)
+        public IDatabaseModel ToDatabaseModel(IList<Tuple<SQLServerDatabaseModel, SQLServerTableModel,SQLServerColumnModel>> sqlModels)
         {
             var SqlServerTableModels = sqlModels
-                .GroupBy(m => m.Item1.object_id)
-                .Select(m => Tuple.Create(m.First().Item1,m.Select(j => j.Item2).ToList())).ToList();
-            var result = ToDatabaseModel(SqlServerTableModels);
+                .GroupBy(m => m.Item2.object_id)
+                .Select(m => Tuple.Create(m.First().Item2,m.Select(j => j.Item3).ToList())).ToList();
+            var sqlServerDatabaseModel = sqlModels.FirstOrDefault()?.Item1;
+            var result = ToDatabaseModel(sqlServerDatabaseModel,SqlServerTableModels);
             return result;
         }
 
 
-        public IDatabaseModel ToDatabaseModel(IList<Tuple<SQLServerTableModel, List<SQLServerColumnModel>>> sqlTableAndColumnsTuples)
+        public IDatabaseModel ToDatabaseModel(SQLServerDatabaseModel sqlDatabaseModel, IList<Tuple<SQLServerTableModel, List<SQLServerColumnModel>>> sqlTableAndColumnsTuples)
         {
+            if (sqlDatabaseModel == null) return null;
             var result = new ImportedDatabaseModel();
-            result.Name = "TODO"; //TODO define the mapping and the associated table
+            result.Name = sqlDatabaseModel.database_name??"Unknown Database";
             result.Tables = sqlTableAndColumnsTuples.Select(ToTableModel).ToList();
             return result;
         }
@@ -225,7 +239,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
         {
             var result = new ImporterColumnModel();
             result.Name = converted.name;
-            //TODO result.IsPrimaryKey = To Be defined
+            //result.IsPrimaryKey = //TODO => Must get indexes to know if it is a primary key or not
             result.IsAutoGeneratedValue = converted.is_identity; //TODO not sure about the mapping
             result.IsNotNull = !converted.is_nullable;
             return result;
@@ -235,7 +249,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
         {
             public string name { get; set; }
             public int object_id { get; set; }
-            public int principal_id { get; set; }
+            public int? principal_id { get; set; }
             public int schema_id { get; set; }
             public int parent_object_id { get; set; }
             public string Type { get; set; }
@@ -246,6 +260,11 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             public bool is_published { get; set; }
             public bool is_schema_published { get; set; }
 
+        }
+
+        public class SQLServerDatabaseModel
+        {
+            public string database_name { get; set; }
         }
 
         public class SQLServerColumnModel
@@ -277,10 +296,10 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             public bool is_column_set { get; set; }
             public byte generated_always_type { get; set; }
             public string generated_always_type_desc { get; set; }
-            public int encryption_type { get; set; }
+            public int? encryption_type { get; set; }
             public string encryption_type_desc { get; set; }
             public string encryption_algorithm_name { get; set; }
-            public int column_encryption_key_id { get; set; }
+            public int? column_encryption_key_id { get; set; }
             public string column_encryption_key_database_name { get; set; }
             public bool is_hidden { get; set; }
             public bool is_masked { get; set; }
@@ -290,7 +309,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
         public class SQLServerTableModel : SQLServerObjectModel
         {
             public int lob_data_space_id { get; set; }
-            public int filestream_data_space_id { get; set; }
+            public int? filestream_data_space_id { get; set; }
             public int max_column_id_used { get; set; }
             public bool lock_on_bulk_load { get; set; }
             public bool uses_ansi_nulls { get; set; }
@@ -302,19 +321,19 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             public int text_in_row_limit { get; set; }
             public bool large_value_types_out_of_row { get; set; }
             public bool is_tracked_by_cdc { get; set; }
-            public short lock_escalation { get; set; }
+            public byte lock_escalation { get; set; }
             public string lock_escalation_desc { get; set; }
             public bool is_filetable { get; set; }
-            public short durabilité { get; set; }
+            public byte durability { get; set; }
             public string durability_desc { get; set; }
             public bool is_memory_optimized { get; set; }
-            public short temporal_type { get; set; }
+            public byte temporal_type { get; set; }
             public string temporal_type_desc { get; set; }
-            public int history_table_id { get; set; }
+            public int? history_table_id { get; set; }
             public bool is_remote_data_archive_enabled { get; set; }
             public bool is_external { get; set; }
-            public int history_retention_period { get; set; }
-            public int history_retention_period_unit { get; set; }
+            public int? history_retention_period { get; set; }
+            public int? history_retention_period_unit { get; set; }
             public string history_retention_period_unit_desc { get; set; }
             public bool is_node { get; set; }
             public bool is_edge { get; set; }

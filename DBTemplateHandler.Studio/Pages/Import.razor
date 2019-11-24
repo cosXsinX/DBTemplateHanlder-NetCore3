@@ -1,0 +1,61 @@
+﻿@page "/import"
+@using DBTemplateHandler.Studio.Data
+@inject DatabaseModelImportService databaseModelImportService
+<h3>Import</h3>
+
+<div class="container form-group">
+    <h1>Database Designer</h1>
+    <div class="row ">
+        <select class="form-control" @onchange="@SetSelectedManagedDbImporterName">
+            @foreach (var dbImporterName in ManagedDbImporterNames)
+            {
+                <option value="@dbImporterName">@dbImporterName</option>
+            }
+        </select>
+    </div>
+    <div class="row">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Connection string</span>
+            </div>
+            <input type="text" class="form-control" @bind="@ImportedDatabaseConnectionString" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group">
+            <button class="btn btn-primary" @onclick="ImportDataModel">Import Database Model</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="alert alert-info">
+            @ImportFeedbackMessage
+        </div>
+    </div>
+</div>
+
+@code {
+    public string ImportedDatabaseConnectionString { get; set; } = "Data Source=DESKTOP-JNFJSV9\\SQLEXPRESS01;Initial Catalog=AdventureWorks2017;Integrated Security=True;";
+    public string SelectedManagedDbImporterName { get; set; }
+    public IList<string> ManagedDbImporterNames { get; set; } = new List<string>();
+    public string ImportFeedbackMessage { get; set; }
+
+    void SetSelectedManagedDbImporterName(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        SelectedManagedDbImporterName = value;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ManagedDbImporterNames = databaseModelImportService.GetAllManagedDbSystems();
+        SelectedManagedDbImporterName = ManagedDbImporterNames.FirstOrDefault();
+    }
+
+    protected async void ImportDataModel()
+    {
+        if (String.IsNullOrWhiteSpace(ImportedDatabaseConnectionString)) return;
+        if (String.IsNullOrWhiteSpace(SelectedManagedDbImporterName)) return;
+        ImportFeedbackMessage = databaseModelImportService.ImportFromDatabase(SelectedManagedDbImporterName, ImportedDatabaseConnectionString);
+    }
+}

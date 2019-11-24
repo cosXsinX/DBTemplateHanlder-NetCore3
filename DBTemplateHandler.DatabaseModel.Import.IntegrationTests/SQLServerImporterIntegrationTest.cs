@@ -18,8 +18,10 @@ namespace DBTemplateHandler.DatabaseModel.Import.IntegrationTests
         [Test]
         public void ImportShouldNotFail()
         {
-            string connectionString = "Data Source=DESKTOP-JNFJSV9\\SQLEXPRESS01;Initial Catalog=AdventureWorks2017";
-            _tested.Import(connectionString);
+            string connectionString = "Data Source=DESKTOP-JNFJSV9\\SQLEXPRESS01;Initial Catalog=AdventureWorks2017;Integrated Security=True;";
+            var database = _tested.Import(connectionString);
+            Assert.IsNotNull(database);
+            CollectionAssert.IsNotEmpty(database.Tables);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DBTemplateHander.DatabaseModel.Import.Importer;
+using DBTemplateHandler.Core.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,29 @@ namespace DBTemplateHander.DatabaseModel.Import
 {
     public class ImporterProxy
     {
-        private readonly IDictionary<Regex, IImporter> ImporterByConnectionStringRegex
-            = new Dictionary<Regex, IImporter>()
-            {
-                {new Regex($"Data Source=ServerName;Initial Catalog=DatabaseName; User ID = UserName; Password=Password"),
-                    new SQLServerImporter() }
-            };
-
-        public IList<IImporter> Resolve(string connectionString)
+        private static readonly IList<IImporter> importerRegister = new List<IImporter>()
         {
-            var regexes = ImporterByConnectionStringRegex.Keys;
-            var matchingRegexes = regexes.Where(m => m.IsMatch(connectionString)).ToList();
-            return regexes.Select(regex => ImporterByConnectionStringRegex[regex]).ToList();
+            new SQLServerImporter(),
+        };
+
+
+        private readonly IDictionary<string, IImporter> ImporterByManagedDbSystem;
+
+        public ImporterProxy()
+        {
+            ImporterByManagedDbSystem = importerRegister.ToDictionary(m => m.ManagedDbSystem, m => m);
+        }
+
+        public IList<string> GetAllManagedDbSystems()
+        {
+            return ImporterByManagedDbSystem.Keys.ToList();
+        }
+
+        public IDatabaseModel ResolveAndImport(string ImportManagedDbName,string connectionString)
+        {
+            if (!ImporterByManagedDbSystem.TryGetValue(ImportManagedDbName, out var importer)) 
+                throw new ArgumentException("not in managed register", nameof(ImportManagedDbName));
+            return importer.Import(connectionString);
         }
     }
 }

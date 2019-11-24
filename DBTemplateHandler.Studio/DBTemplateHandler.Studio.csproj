@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DBTemplateHander.DatabaseModel.Import\DBTemplateHander.DatabaseModel.Import.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Core\DBTemplateHandler.Core.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Persistance\DBTemplateHandler.Persistance.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Studio.Deployment\DBTemplateHandler.Studio.Deployment.csproj" />

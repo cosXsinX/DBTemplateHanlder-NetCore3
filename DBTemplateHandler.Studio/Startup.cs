@@ -13,6 +13,8 @@ using DBTemplateHandler.Studio.Data;
 using DBTemplateHandler.Studio.Deployment;
 using System.IO;
 using DBTemplateHandler.Studio.Controllers;
+using DBTemplateHander.DatabaseModel.Import;
+using DBTemplateHandler.Persistance;
 
 namespace DBTemplateHandler.Studio
 {
@@ -62,10 +64,8 @@ namespace DBTemplateHandler.Studio
                         "exportPrepare"),
             });
 
-            var dbTemplateService = new DBTemplateService(new DBTemplateService.Config()
-            {
-                PersistenceConfig = persistenceConfig
-            });
+            var persistenceFacade = new PersistenceFacade(persistenceConfig);
+            var dbTemplateService = new DBTemplateService(persistenceFacade);
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -73,6 +73,8 @@ namespace DBTemplateHandler.Studio
             services.AddSingleton<DBTemplateService>(dbTemplateService);
             services.AddSingleton<ExportService>(exportService);
             services.AddSingleton<ExportController>(new ExportController(dbTemplateService, exportService));
+            services.AddSingleton<PersistenceFacade>(persistenceFacade);
+            services.AddSingleton<DatabaseModelImportService>(new DatabaseModelImportService(new ImporterProxy(), persistenceFacade));
             services.AddLogging();
         }
 
