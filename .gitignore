@@ -31,3 +31,4 @@
 /DBTemplateHandler.Studio.Deployment/obj
 /DBTemplateHandler.Studio.Deployment/bin/Debug/netcoreapp3.0
 /DBTemplateHander.DatabaseModel.Import/obj
+/DBTemplateHander.DatabaseModel.Import/bin/Debug/netcoreapp3.0/DBTemplateHander.DatabaseModel.Import.deps.json
