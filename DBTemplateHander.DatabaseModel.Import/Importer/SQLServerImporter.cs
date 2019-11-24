@@ -111,14 +111,87 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
         public SQLServerTableModel ToSqlServerTableModel(SqlDataReader dataReader)
         {
             var result = new SQLServerTableModel();
-            //TODO Mapping here to be done
+            result.name = (string)dataReader["tables_name"];
+            result.object_id = (int)dataReader["tables_object_id"];
+            result.principal_id = (int)dataReader["tables_principal_id"];
+            result.schema_id = (int)dataReader["tables_schema_id"];
+            result.parent_object_id = (int)dataReader["tables_parent_object_id"];
+            result.Type = (string)dataReader["tables_type"];
+            result.type_desc = (string)dataReader["tables_type_desc"];
+            result.create_date = (DateTime)dataReader["tables_create_date"];
+            result.modify_date = (DateTime)dataReader["tables_modify_date"];
+            result.is_ms_shipped = (bool)dataReader["tables_is_ms_shipped"];
+            result.is_published = (bool)dataReader["tables_is_published"];
+            result.is_schema_published = (bool)dataReader["tables_is_schema_published"];
+            result.lob_data_space_id = (int)dataReader["tables_lob_data_space_id"];
+            result.filestream_data_space_id = (int)dataReader["tables_filestream_data_space_id"];
+            result.max_column_id_used = (int)dataReader["tables_max_column_id_used"];
+            result.lock_on_bulk_load = (bool)dataReader["tables_lock_on_bulk_load"];
+            result.uses_ansi_nulls = (bool)dataReader["tables_uses_ansi_nulls"];
+            result.is_replicated = (bool)dataReader["tables_is_replicated"];
+            result.has_replication_filter = (bool)dataReader["tables_has_replication_filter"];
+            result.is_merge_published = (bool)dataReader["tables_is_merge_published"];
+            result.is_sync_tran_subscribed = (bool)dataReader["tables_is_sync_tran_subscribed"];
+            result.has_unchecked_assembly_data = (bool)dataReader["tables_has_unchecked_assembly_data"];
+            result.text_in_row_limit = (int)dataReader["tables_text_in_row_limit"];
+            result.large_value_types_out_of_row = (bool)dataReader["tables_large_value_types_out_of_row"];
+            result.is_tracked_by_cdc = (bool)dataReader["tables_is_tracked_by_cdc"];
+            result.lock_escalation = (short)dataReader["tables_lock_escalation"];
+            result.lock_escalation_desc = (string)dataReader["tables_lock_escalation_desc"];
+            result.is_filetable = (bool)dataReader["tables_is_filetable"];
+            result.durabilité = (short)dataReader["tables_is_memory_optimized"];
+            result.durability_desc = (string)dataReader["tables_durability"];
+            result.is_memory_optimized = (bool)dataReader["tables_durability_desc"];
+            result.temporal_type = (short)dataReader["tables_temporal_type"];
+            result.temporal_type_desc = (string)dataReader["tables_temporal_type_desc"];
+            result.history_table_id = (int)dataReader["tables_history_table_id"];
+            result.is_remote_data_archive_enabled = (bool)dataReader["tables_is_remote_data_archive_enabled"];
+            result.is_external = (bool)dataReader["tables_is_external"];
+            result.history_retention_period = (int)dataReader["tables_history_retention_period"];
+            result.history_retention_period_unit = (int)dataReader["tables_history_retention_period_unit"];
+            result.history_retention_period_unit_desc = (string)dataReader["tables_history_retention_period_unit_desc"];
+            result.is_node = (bool)dataReader["tables_is_node"];
+            result.is_edge = (bool)dataReader["tables_is_edge"];
             return result;
         }
 
         public SQLServerColumnModel ToSqlServerColumnModel(SqlDataReader dataReader)
         {
             var result = new SQLServerColumnModel();
-
+            result.object_id = (int)dataReader["columns_object_id"];
+            result.name = (string)dataReader["columns_name"];
+            result.column_id = (int)dataReader["columns_column_id"];
+            result.system_type_id = (byte)dataReader["columns_system_type_id"];
+            result.user_type_id = (int)dataReader["columns_user_type_id"];
+            result.max_length = (short)dataReader["columns_max_length"];
+            result.precision = (byte)dataReader["columns_precision"];
+            result.scale = (byte)dataReader["columns_scale"];
+            result.collation_name = (string)dataReader["columns_collation_name"];
+            result.is_nullable = (bool)dataReader["columns_is_nullable"];
+            result.is_ansi_padded = (bool)dataReader["columns_is_ansi_padded"];
+            result.is_rowguidcol = (bool)dataReader["columns_is_rowguidcol"];
+            result.is_identity = (bool)dataReader["columns_is_identity"];
+            result.is_computed = (bool)dataReader["columns_is_computed"];
+            result.is_filestream = (bool)dataReader["columns_is_filestream"];
+            result.is_replicated = (bool)dataReader["columns_is_replicated"];
+            result.is_non_sql_subscribed = (bool)dataReader["columns_is_non_sql_subscribed"];
+            result.is_merge_published = (bool)dataReader["columns_is_merge_published"];
+            result.is_dts_replicated = (bool)dataReader["columns_is_dts_replicated"];
+            result.is_xml_document = (bool)dataReader["columns_is_xml_document"];
+            result.xml_collection_id = (int)dataReader["columns_xml_collection_id"];
+            result.default_object_id = (int)dataReader["columns_default_object_id"];
+            result.rule_object_id = (int)dataReader["columns_rule_object_id"];
+            result.is_sparse = (bool)dataReader["columns_is_sparse"];
+            result.is_column_set = (bool)dataReader["columns_is_column_set"];
+            result.generated_always_type = (byte)dataReader["columns_generated_always_type"];
+            result.generated_always_type_desc = (string)dataReader["columns_generated_always_type_desc"];
+            result.encryption_type = (int)dataReader["columns_encryption_type"];
+            result.encryption_type_desc = (string)dataReader["columns_encryption_type_desc"];
+            result.encryption_algorithm_name = (string)dataReader["columns_encryption_algorithm_name"];
+            result.column_encryption_key_id = (int)dataReader["columns_column_encryption_key_id"];
+            result.column_encryption_key_database_name = (string)dataReader["columns_column_encryption_key_database_name"];
+            result.is_hidden = (bool)dataReader["columns_is_hidden"];
+            result.is_masked = (bool)dataReader["columns_is_masked"];
             return result;
         }
 
@@ -144,7 +217,7 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
         {
             var result = new ImporterTableModel();
             result.Name = sqlTableAndColumns.Item1.name;
-
+            result.Columns = sqlTableAndColumns.Item2.Select(ToColumnModel).ToList();
             return result;
         }
 
