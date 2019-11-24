@@ -32,3 +32,5 @@
 /DBTemplateHandler.Studio.Deployment/bin/Debug/netcoreapp3.0
 /DBTemplateHander.DatabaseModel.Import/obj
 /DBTemplateHander.DatabaseModel.Import/bin/Debug/netcoreapp3.0/DBTemplateHander.DatabaseModel.Import.deps.json
+/DBTemplateHandler.DatabaseModel.Import.IntegrationTests/obj
+/DBTemplateHandler.DatabaseModel.Import.IntegrationTests/bin/Debug/netcoreapp3.0
