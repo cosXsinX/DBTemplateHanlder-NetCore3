@@ -1,15 +1,12 @@
 ﻿//Highlight rules
-ace.define("ace/mode/dbtemplate_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"] , function (require, exports, module) {
+ace.define("ace/mode/dbtemplate_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"], function (require, exports, module) {
     "use strict";
     // https://ace.c9.io/tool/mode_creator.html
     var oop = require("../lib/oop");
     var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
     var DbTemplateHighlightRules = function () {
-
-        // regexp must not have capturing parentheses. Use (?:) instead.
-        // regexps are ordered -> the first match is used
-        this.$rules = { "start": [{ "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:AUTO\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:AUTO\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:NULL\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:PRIMARY\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:PRIMARY\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:NULL:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN\\(", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:NOT:NULL:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:INDEX", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:AUTO:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:COLUMN:PRIMARY:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:CURRENT:NAME", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:CURRENT:NAME", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:TABLE:FOREACH\\[", "next": "end-context" }, { "token": "keyword", "regex": "\\{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE\\(", "next": "end-context" }], "end-context": [{ "token": "keyword", "regex": "::}", "next": "start" }, { "token": "keyword", "regex": "\\)::}", "next": "start" }, { "token": "keyword", "regex": "\\):::}", "next": "start" }, { "token": "keyword", "regex": "\\)KEY:AUTO:::}", "next": "start" }, { "token": "keyword", "regex": "\\)KEY:NOT:AUTO:::}", "next": "start" }, { "token": "keyword", "regex": "\\)KEY:NOT:PRIMARY:::}", "next": "start" }, { "token": "keyword", "regex": "\\)KEY:PRIMARY:::}", "next": "start" }, { "token": "keyword", "regex": "]::}", "next": "start" }] };
+        this.$rules = {-- > highlight_rule < --};
     };
 
     oop.inherits(DbTemplateHighlightRules, TextHighlightRules);
@@ -167,16 +164,16 @@ ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop"
 
     var oop = require("../lib/oop");
     var TextMode = require("./text").Mode;
-    var DockerfileHighlightRules = require("./dbtemplate_highlight_rules").DbTemplateHighlightRules;
+    var DockerfileHighlightRules = require("./mode-dbtemplate").DbTemplateHighlightRules;
     var DBTemplateFoldMode = require("./folding/dbtemplate").FoldMode;
 
     var Mode = function () {
-        TextMode .call(this);
+        TextMode.call(this);
 
         this.HighlightRules = DockerfileHighlightRules;
         this.foldingRules = new DBTemplateFoldMode();
     };
-    oop.inherits(Mode, TextMode );
+    oop.inherits(Mode, TextMode);
 
     (function () {
         this.$id = "ace/mode/dbtemplate";

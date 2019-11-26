@@ -81,7 +81,7 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
 
         public FileModel GetHighlightModel()
         {
-            string fileName = "dbtemplate_highlight_rules.js";
+            string fileName = "mode-dbtemplate.js";
             var highlightRulesWithPlaceHolders = Path.Combine(AssemblyDirectory, "Ressources", fileName);
             var fileContent = File.ReadAllText(highlightRulesWithPlaceHolders);
             var populatedFileContent = PopulateHighlightRuleContentWithPlaceHolder(fileContent);

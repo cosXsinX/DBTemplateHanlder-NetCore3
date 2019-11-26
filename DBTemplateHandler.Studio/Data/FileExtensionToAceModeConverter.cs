@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Studio.Data
             {".cs", "csharp" },
         };
 
-        private const string DefaultMode = "html";
+        private const string DefaultMode = "dbtemplate";
 
         public static string ToAceMode(string filePath)
         {

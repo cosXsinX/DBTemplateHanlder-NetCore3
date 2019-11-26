@@ -339,6 +339,100 @@ FROM sys.columns columns JOIN sys.tables tables ON columns.object_id = tables.ob
             public bool is_edge { get; set; }
         }
 
+        private const string SQLServerInformationSchemaConstraintColumnUsageSelectQueryRadical = @"Select 
+is_constraint_column_usage.TABLE_CATALOG as is_constraint_column_usage_TABLE_CATALOG,
+is_constraint_column_usage.TABLE_SCHEMA as is_constraint_column_usage_TABLE_SCHEMA,
+is_constraint_column_usage.TABLE_NAME as is_constraint_column_usage_TABLE_NAME,
+is_constraint_column_usage.COLUMN_NAME as is_constraint_column_usage_COLUMN_NAME,
+is_constraint_column_usage.CONSTRAINT_CATALOG as is_constraint_column_usage_CONSTRAINT_CATALOG,
+is_constraint_column_usage.CONSTRAINT_SCHEMA as is_constraint_column_usage_CONSTRAINT_SCHEMA,
+is_constraint_column_usage.CONSTRAINT_NAME as is_constraint_column_usage_CONSTRAINT_NAME
+From INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE as is_constraint_column_usage";
+
+        public SQLServerInformationSchemaConstraintColumnUsageModel ToSQLServerInformationSchemaConstraintColumnUsageModel(SqlDataReader dataReader)
+        {
+            var result = new SQLServerInformationSchemaConstraintColumnUsageModel();
+            result.TABLE_CATALOG = (string)dataReader["is_constraint_column_usage_TABLE_CATALOG"];
+            result.TABLE_SCHEMA = (string)dataReader["is_constraint_column_usage_TABLE_SCHEMA"];
+            result.TABLE_NAME = (string)dataReader["is_constraint_column_usage_TABLE_NAME"];
+            result.COLUMN_NAME = (string)dataReader["is_constraint_column_usage_COLUMN_NAME"];
+            result.CONSTRAINT_CATALOG = (string)dataReader["is_constraint_column_usage_CONSTRAINT_CATALOG"];
+            result.CONSTRAINT_SCHEMA = (string)dataReader["is_constraint_column_usage_CONSTRAINT_SCHEMA"];
+            result.CONSTRAINT_NAME = (string)dataReader["is_constraint_column_usage_CONSTRAINT_NAME"];
+            return result;
+        }
+
+        public class SQLServerInformationSchemaConstraintColumnUsageModel
+        {
+            public string TABLE_CATALOG { get; set; }
+            public string TABLE_SCHEMA { get; set; }
+            public string TABLE_NAME { get; set; }
+            public string COLUMN_NAME { get; set; }
+            public string CONSTRAINT_CATALOG { get; set; }
+            public string CONSTRAINT_SCHEMA { get; set; }
+            public string CONSTRAINT_NAME { get; set; }
+        }
+
+        public SQLServerSysKeyConstraints ToSQLServerSysKeyConstraints(SqlDataReader dataReader)
+        {
+            var result = new SQLServerSysKeyConstraints();
+            result.name = (string)dataReader["sys_key_constraints_name"];
+            result.object_id = (string)dataReader["sys_key_constraints_object_id"];
+            result.principal_id = (int?)(dataReader["sys_key_constraints_principal_id"] is DBNull ? null : dataReader["sys_key_constraints_principal_id"]) ;
+            result.schema_id = (int)dataReader["sys_key_constraints_schema_id"];
+            result.parent_object_id = (int)dataReader["sys_key_constraints_parent_object_id"];
+            result.type = (string)dataReader["sys_key_constraints_type"];
+            result.type_desc = (string)dataReader["sys_key_constraints_type_desc"];
+            result.create_date = (DateTime)dataReader["sys_key_constraints_type_desc"];
+            result.modify_date = (DateTime?)(dataReader["sys_key_constraints_modify_date"] is DBNull ? null : dataReader["sys_key_constraints_modify_date"]);
+            result.is_ms_shipped = (bool)dataReader["sys_key_constraints_is_ms_shipped"];
+            result.is_published = (bool)dataReader["sys_key_constraints_is_published"];
+            result.is_schema_published = (bool)dataReader["sys_key_constraints_is_schema_published"];
+            result.unique_index_id = (int)dataReader["sys_key_constraints_unique_index_id"];
+            result.is_system_named = (bool)dataReader["sys_key_constraints_is_system_named"];
+            result.is_enforced = (bool)dataReader["sys_key_constraints_is_enforced"];
+            return result;
+        }
+
+        private const string SQLServerSysKeyConstraintsSeleceQueryRadical = @"select 
+sys_key_constraints.name as sys_key_constraints_name,
+sys_key_constraints.object_id as sys_key_constraints_object_id,
+sys_key_constraints.principal_id as sys_key_constraints_principal_id,
+sys_key_constraints.schema_id as sys_key_constraints_schema_id,
+sys_key_constraints.parent_object_id as sys_key_constraints_parent_object_id,
+sys_key_constraints.type as sys_key_constraints_type,
+sys_key_constraints.type_desc as sys_key_constraints_type_desc,
+sys_key_constraints.create_date as sys_key_constraints_create_date,
+sys_key_constraints.modify_date as sys_key_constraints_modify_date,
+sys_key_constraints.is_ms_shipped as sys_key_constraints_is_ms_shipped,
+sys_key_constraints.is_published as sys_key_constraints_is_published,
+sys_key_constraints.is_schema_published as sys_key_constraints_is_schema_published,
+sys_key_constraints.unique_index_id as sys_key_constraints_unique_index_id,
+sys_key_constraints.is_system_named as sys_key_constraints_is_system_named,
+sys_key_constraints.is_enforced as sys_key_constraints_is_enforced
+From sys.key_constraints as sys_key_constraints
+";
+
+        public class SQLServerSysKeyConstraints
+        {
+            public string name { get; set; }
+            public string object_id { get; set; }
+            public int? principal_id { get; set; }
+            public int schema_id { get; set; }
+            public int parent_object_id {get;set;}
+            public string type { get; set; }
+            public string type_desc { get; set; }
+            public DateTime create_date { get; set; }
+            public DateTime? modify_date { get; set; }
+            public bool is_ms_shipped { get; set; }
+            public bool is_published { get; set; }
+            public bool is_schema_published { get; set; }
+            public int unique_index_id { get; set; }
+            public bool is_system_named { get; set; }
+            public bool is_enforced { get; set; }
+        }
+
+
         public class ImportedDatabaseModel : IDatabaseModel
         {
             public string Name { get;set; }

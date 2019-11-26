@@ -9,10 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ressources\dbtemplate_highlight_rules.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\dbtemplate_mode_base.js">
+    <None Update="Ressources\mode-dbtemplate.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
