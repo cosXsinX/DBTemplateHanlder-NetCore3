@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHander.DatabaseMo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.DatabaseModel.Import.IntegrationTests", "DBTemplateHandler.DatabaseModel.Import.IntegrationTests\DBTemplateHandler.DatabaseModel.Import.IntegrationTests.csproj", "{E8DC2833-251D-47C2-BEE9-3F000D24F884}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Utils", "DBTemplateHandler.Utils\DBTemplateHandler.Utils.csproj", "{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{E8DC2833-251D-47C2-BEE9-3F000D24F884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8DC2833-251D-47C2-BEE9-3F000D24F884}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8DC2833-251D-47C2-BEE9-3F000D24F884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
