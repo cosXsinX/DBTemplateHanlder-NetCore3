@@ -11,7 +11,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
         public int? principal_id { get; set; }
         public int schema_id { get; set; }
         public int parent_object_id { get; set; }
-        public string Type { get; set; }
+        public string type { get; set; }
         public string type_desc { get; set; }
         public DateTime create_date { get; set; }
         public DateTime modify_date { get; set; }

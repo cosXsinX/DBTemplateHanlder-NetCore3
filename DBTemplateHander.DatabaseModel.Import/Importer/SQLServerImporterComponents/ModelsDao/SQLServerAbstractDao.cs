@@ -24,7 +24,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
 
         public abstract string SelectQuery {get;}
 
-        protected abstract T ToModel(SqlDataReader source);
+        protected abstract T ToModel(SqlDataReader dataReader);
         
     }
 }

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace DBTemplateHandler.Utils
 {
-    public static class ListExtensions 
+    public static class EnumerableExtensions 
     {
-        public static IList<Tuple<T,U>> LeftJoin<T,U>(this List<T> right,IEnumerable<U> left,Func<T,dynamic> rightKey, Func<U,dynamic> leftKey)
+        public static IEnumerable<Tuple<T,U>> LeftJoin<T,U>(this IEnumerable<T> right,IEnumerable<U> left,Func<T,dynamic> rightKey, Func<U,dynamic> leftKey)
         {
             var rightByRightKey = right.GroupBy(rightKey).ToDictionary(m => m.Key, m => m.ToList());
             var result = left.SelectMany(m => 
@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Utils
             return result;
         }
 
-        public static IList<Tuple<T, U>> InnerJoin<T, U>(this List<T> right, IEnumerable<U> left, Func<T, dynamic> rightKey, Func<U, dynamic> leftKey)
+        public static IEnumerable<Tuple<T, U>> InnerJoin<T, U>(this IEnumerable<T> right, IEnumerable<U> left, Func<T, dynamic> rightKey, Func<U, dynamic> leftKey)
         {
             var rightByRightKey = right.GroupBy(rightKey).ToDictionary(m => m.Key, m => m.ToList());
             var result = left.SelectMany(m =>

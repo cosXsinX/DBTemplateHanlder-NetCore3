@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DBTemplateHandler.Service.Contracts\DBTemplateHandler.Service.Contracts.csproj" />
+    <ProjectReference Include="..\DBTemplateHandler.Utils\DBTemplateHandler.Utils.csproj" />
   </ItemGroup>
 
 </Project>
