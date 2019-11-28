@@ -17,6 +17,8 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
         private readonly SQLServerColumnDao sqlServerColummnDao = new SQLServerColumnDao();
         private readonly SQLServerInformationSchemaConstraintColumnUsageDao sqlServerInformationSchemaConstraintColumnUsageDao = new SQLServerInformationSchemaConstraintColumnUsageDao();
         private readonly SQLServerSysKeyConstraintDao sqlServerSysKeyConstraintDao = new SQLServerSysKeyConstraintDao();
+        private readonly SQLServerIndexesDao sqlServerIndexesDao = new SQLServerIndexesDao();
+        private readonly SQLServerIndexColumnsDao sqlServerIndexColumnsDao = new SQLServerIndexColumnsDao();
 
         
 
@@ -29,26 +31,46 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             var databaseModels = sqlServerDatabaseDao.GetAll(sqlConnection);
             var tableModels = sqlServerTableDao.GetAll(sqlConnection);
             var columnModels = sqlServerColummnDao.GetAll(sqlConnection);
+            var indexColumnsModels = sqlServerIndexColumnsDao.GetAll(sqlConnection);
+            var indexesModels = sqlServerIndexesDao.GetAll(sqlConnection);
             sqlConnection.Close();
              
 
-            IList<Tuple<SQLServerDatabaseModel, SQLServerTableModel, SQLServerColumnModel>> sqlModels = 
+            var sqlModels = 
                 databaseModels
                 .LeftJoin(tableModels, m => true, m => true)
                 .LeftJoin(columnModels, m => m.Item2.object_id, m => m.object_id)
-                .Select(m => Tuple.Create(m.Item1.Item1,m.Item1.Item2,m.Item2)).ToList();
+                .Select(m => new {database = m.Item1.Item1, table = m.Item1.Item2, column = m.Item2 }).ToList();
+
+            var indexColumnsAndIndexesSqlModels =
+                indexColumnsModels.InnerJoin(indexesModels.Where(m => m.is_primary_key ?? false), m => m.object_id, m => m.object_id)
+                .Select(m => new { indexColumn = m.Item1, index = m.Item2}).ToList();
+
+
+            IList<SqlModelJointure> sqlModelsWithIndexes =
+                sqlModels.LeftJoin(indexColumnsAndIndexesSqlModels, m => $"{m.column.object_id}-{m.column.column_id}", m => $"{m.index.object_id}-{m.indexColumn.column_id}").
+                Select(m => new SqlModelJointure() { database = m.Item1.database, table = m.Item1.table, column = m.Item1.column, index = m.Item2?.index, indexColumn = m.Item2?.indexColumn }).ToList();
             ;
 
-            IDatabaseModel databaseModel = ToDatabaseModel(sqlModels);
+            IDatabaseModel databaseModel = ToDatabaseModel(sqlModelsWithIndexes);
             return databaseModel;
         }
 
-        public IDatabaseModel ToDatabaseModel(IList<Tuple<SQLServerDatabaseModel, SQLServerTableModel,SQLServerColumnModel>> sqlModels)
+        public class SqlModelJointure
+        {
+            public SQLServerDatabaseModel database { get; set; }
+            public SQLServerTableModel table { get; set; }
+            public SQLServerColumnModel column { get; set; }
+            public SQLServerIndexColumnsModel indexColumn { get; set; }
+            public SQLServerIndexesModel index { get; set; }
+        }
+
+        public IDatabaseModel ToDatabaseModel(IList<SqlModelJointure> sqlModels)
         {
             var SqlServerTableModels = sqlModels
-                .GroupBy(m => m.Item2.object_id)
-                .Select(m => Tuple.Create(m.First().Item2,m.Select(j => j.Item3).ToList())).ToList();
-            var sqlServerDatabaseModel = sqlModels.FirstOrDefault()?.Item1;
+                .GroupBy(m => m.table.object_id)
+                .Select(m => Tuple.Create(m.First().table,m.Select(j => j.column).ToList())).ToList();
+            var sqlServerDatabaseModel = sqlModels.FirstOrDefault()?.database;
             var result = ToDatabaseModel(sqlServerDatabaseModel,SqlServerTableModels);
             return result;
         }
