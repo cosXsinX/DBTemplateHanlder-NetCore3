@@ -18,6 +18,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
                     var model = ToModel(dataReader);
                     result.Add(model);
                 }
+                dataReader.Close();
             }
             return result;
         }

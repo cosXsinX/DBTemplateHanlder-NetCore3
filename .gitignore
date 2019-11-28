@@ -38,3 +38,5 @@
 /DBTemplateHandler.Utils/obj
 /DBTemplateHandler.Utils/bin/Debug/netcoreapp3.0/DBTemplateHandler.Utils.deps.json
 /DBTemplateHander.DatabaseModel.Import/.editorconfig
+/DBTemplateHandler.Utils.UnitTests/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Utils.UnitTests/obj
