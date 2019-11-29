@@ -9,5 +9,6 @@ namespace DBTemplateHandler.Studio.Deployment
         public bool ForceReDeploy { get; set; }
         public string DeploymentHistoryFolderPath { get; set; }
         public string DeploymentTemplateFolderPath { get; set; }
+        public string DatabaseModelsDeploymentPaths { get; set; }
     }
 }

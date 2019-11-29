@@ -53,7 +53,14 @@ namespace DBTemplateHandler.Studio.Deployment
             {
                 File.Copy(deployedTemplateFile, Path.Combine(deploymentConfiguration.DeploymentTemplateFolderPath,Path.GetFileName(deployedTemplateFile)), deploymentConfiguration.ForceReDeploy);
             }
-            
+
+            var deployedDatabaseModelsFiles = Path.Combine(AssemblyDirectory, "Deployed", "DatabaseModels");
+            var deployedModels = Directory.GetFiles(deployedDatabaseModelsFiles, "*.json");
+            foreach(var deployedDatabaseModel in deployedModels)
+            {
+                File.Copy(deployedDatabaseModel,Path.Combine(deploymentConfiguration.DatabaseModelsDeploymentPaths,Path.GetFileName(deployedDatabaseModel)), deploymentConfiguration.ForceReDeploy);
+            }
+
         }
 
     }

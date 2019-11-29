@@ -44,7 +44,8 @@ namespace DBTemplateHandler.Studio
             {
                 ForceReDeploy = true,
                 DeploymentHistoryFolderPath = DeploymentHistoryFolderPath,
-                DeploymentTemplateFolderPath = persistenceConfig.TemplatesFolderPath
+                DeploymentTemplateFolderPath = persistenceConfig.TemplatesFolderPath,
+                DatabaseModelsDeploymentPaths = persistenceConfig.DatabaseModelsFolderPath,
             });
         }
 
