@@ -1906,6 +1906,8 @@ exports.FilteredList = FilteredList;
 
 });
 
+
+
 ace.define("ace/autocomplete/text_completer",["require","exports","module","ace/range"], function(require, exports, module) {
     var Range = require("../range").Range;
     
@@ -1917,7 +1919,7 @@ ace.define("ace/autocomplete/text_completer",["require","exports","module","ace/
     }
     function wordDistance(doc, pos) {
         var prefixPos = getWordIndex(doc, pos);
-        var words = doc.getValue().split(splitRegex);
+        var words = [];
         var wordScores = Object.create(null);
         
         var currentWord = words[prefixPos];
@@ -1936,10 +1938,13 @@ ace.define("ace/autocomplete/text_completer",["require","exports","module","ace/
         return wordScores;
     }
 
-    exports.getCompletions = function(editor, session, pos, prefix, callback) {
+    exports.getCompletions = function (editor, session, pos, prefix, callback) {
         var wordScore = wordDistance(session, pos);
-        var wordList = Object.keys(wordScore);
-        callback(null, wordList.map(function(word) {
+        //var wordList = Object.keys(wordScore);
+        var startWords = ["{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE", "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:AUTO(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:AUTO(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:NULL(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:PRIMARY(", "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:PRIMARY(", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:NULL:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:PRIMARY:NOT:NULL:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:INDEX", "{:TDB:TABLE:COLUMN:AUTO:FOREACH[", "{:TDB:TABLE:COLUMN:FOREACH[", "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH[", "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH[", "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH[", "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[", "{:TDB:TABLE:CURRENT:NAME", "{:TDB:CURRENT:NAME", "{:TDB:TABLE:FOREACH[", "{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE("];
+        var endWords = ["::}", ")::}", "):::}", ")KEY:AUTO:::}", ")KEY:NOT:AUTO:::}", ")KEY:NOT:PRIMARY:::}", ")KEY:PRIMARY:::}","]::}"]
+        var wordList = startWords.concat(endWords);
+        callback(null, wordList.map(function (word) {
             return {
                 caption: word,
                 value: word,

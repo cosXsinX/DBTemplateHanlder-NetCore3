@@ -9,10 +9,10 @@ namespace DBTemplateHandler.Studio.Data
     {
         private static readonly Dictionary<string, string> FileExtensionToAceModeMapping = new Dictionary<string, string>()
         {
-            {".sql","sql" },
-            {".htm","html" },
-            {".html","html" },
-            {".cs", "csharp" },
+            //{".sql","sql" },
+            //{".htm","html" },
+            //{".html","html" },
+            //{".cs", "csharp" },
         };
 
         private const string DefaultMode = "dbtemplate";
