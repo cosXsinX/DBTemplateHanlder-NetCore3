@@ -8,23 +8,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX";
-        private const String END_CONTEXT_WORD = "::}";
-
-        public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-
-        public override String StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override String EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX";
+        public override string EndContext => "::}";
+        public override bool isStartContextAndEndContextAnEntireWord => true;
 
         private readonly static string ZeroAsString = Convert.ToString(0);
         public override string processContext(string StringContext)
@@ -37,7 +23,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+                throw new Exception(
+                    $"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{string.Concat(StartContext,EndContext)}'");
             if (columnModel.ParentTable == null)
                 return ZeroAsString;
             IList<IColumnModel> columnList =
@@ -45,10 +32,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return Convert.ToString(columnList.IndexOf(columnModel));
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord()
-        {
-            return true;
-        }
-
+        
     }
 }

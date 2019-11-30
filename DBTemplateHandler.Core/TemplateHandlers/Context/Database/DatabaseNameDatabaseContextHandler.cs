@@ -28,9 +28,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
             return descriptionPojo.Name;
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord()
-        {
-            return true;
-        }
+        public override bool isStartContextAndEndContextAnEntireWord => true;
     }
 }

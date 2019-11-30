@@ -91,5 +91,18 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
                 Content = populatedFileContent
             };
         }
+
+        public FileModel GetSemanticsFileJSONModel()
+        {
+            string filename = "dbtemplate-semantics.json";
+            var handlers = templateContextHandlerRegister.GetHanlders<ITemplateContextHandler>().ToList();
+            var rules = handlers.Select(handler => new { startContext = handler.StartContext, endContext = handler.EndContext, type = handler.GetType().Name, isStartContextAndEndContextAnEntireWord = handler.isStartContextAndEndContextAnEntireWord }).ToList();
+            var fileContent = JsonSerializer.Serialize(rules);
+            return new FileModel()
+            {
+                FileName = filename,
+                Content = fileContent
+            };
+        }
     }
 }

@@ -40,10 +40,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return columnModel.Name;
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord()
-        {
-            return true;
-        }
+        public override bool isStartContextAndEndContextAnEntireWord => true;
 
     }
 }

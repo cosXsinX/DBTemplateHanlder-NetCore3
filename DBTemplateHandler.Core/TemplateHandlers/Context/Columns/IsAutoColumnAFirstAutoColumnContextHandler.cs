@@ -55,9 +55,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return "";
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord()
-        {
-            return false;
-        }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

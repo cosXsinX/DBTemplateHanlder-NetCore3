@@ -20,11 +20,22 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests
         public void GetHighlightModelTest()
         {
             var result = _tested.GetHighlightModel();
+            WriteInTestContext(result);
+        }
+
+        [Test]
+        public void GetSemanticFileModelTest()
+        {
+            var result = _tested.GetSemanticsFileJSONModel();
+            WriteInTestContext(result);
+        }
+
+        private static void WriteInTestContext(FileModel result)
+        {
             TestContext.WriteLine("File name :");
             TestContext.WriteLine(result.FileName);
             TestContext.WriteLine("File content :");
             TestContext.WriteLine(result.Content);
         }
-
     }
 }

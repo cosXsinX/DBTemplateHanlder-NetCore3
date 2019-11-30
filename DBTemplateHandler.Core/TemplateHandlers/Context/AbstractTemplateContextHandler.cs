@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
         public abstract string EndContext { get; }
 
-        public abstract bool isStartContextAndEndContextAnEntireWord();
+        public abstract bool isStartContextAndEndContextAnEntireWord { get; }
 
         public string Signature()
         {

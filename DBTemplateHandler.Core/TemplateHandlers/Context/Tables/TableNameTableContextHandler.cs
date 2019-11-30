@@ -30,9 +30,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             return table.Name;
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord()
-        {
-            return true;
-        }
+        public override bool isStartContextAndEndContextAnEntireWord => true;
     }
 }
