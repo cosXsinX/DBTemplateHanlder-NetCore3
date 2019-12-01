@@ -162,9 +162,10 @@ ace.define("ace/mode/folding/dbtemplate", ["require", "exports", "module", "ace/
 
 
 
-ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/db_template_highlight_rules", "ace/mode/folding/db_template"], function (require, exports, module) {
+ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/range", "ace/mode/db_template_highlight_rules", "ace/mode/folding/db_template"], function (require, exports, module) {
     "use strict";
 
+    var Range = require("../range").Range;
     var oop = require("../lib/oop");
     var TextMode = require("./text").Mode;
     var DockerfileHighlightRules = require("./dbtemplate_highlight_rules").DbTemplateHighlightRules;
@@ -208,9 +209,65 @@ ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop"
         }
     }
     );
+
+    var wordScoreFunction = function wordScore(doc, pos) {
+         
+        var textBefore = doc.getTextRange(Range.fromPoints({ row: 0, column: 0 }, pos));
+        var endingWithSemantics = words.filter(entry => { return textBefore.endsWith(entry.word)});
+        var wordScore = Object.create(null);
+        endingWithSemantics.forEach(function (endingWithSemantic, idx) {
+            if (endingWithSemantic.entry.category == "table-loop")
+            {
+                var tableWords = words.filter(word => word.entry.category == "table");
+                var otherWords = words.filter(word => word.entry.category != "table");
+                tableWords.forEach(function (tableWord, idx) {
+                    wordScore[tableWord.word] = 200;
+                });
+                otherWords.forEach(function (tableWord, idx) {
+                    wordScore[tableWord.word] = 100;
+                });
+            }
+            if (endingWithSemantic.entry.category == "column-loop")
+            {
+                var columnWords = words.filter(word => word.entry.category == "column");
+                var otherWords = words.filter(word => word.entry.category != "column");
+                columnWords.forEach(function (tableWord, idx) {
+                    wordScore[tableWord.word] = 20000;
+                });
+                otherWords.forEach(function (tableWord, idx) {
+                    wordScore[tableWord.word] = 100;
+                });
+            }
+            if (endingWithSemantic.entry.category == "function")
+            {
+                //TODO
+            }
+            if (endingWithSemantic.entry.category == "database") {
+                //TODO
+            }
+            if (endingWithSemantic.entry.category == "table") {
+                //TODO
+            }
+            if (endingWithSemantic.entry.category == "column") {
+                //TODO
+            }
+        });
+        return wordScore;
+    }
+
     var completer = {
         getCompletions: function (editor, session, pos, prefix, callback) {
-            callback(null, completion);
+            var wordScore = wordScoreFunction(session,pos);
+            callback(null, 
+                completion.map(currentCompletion => {
+                    return {
+                        caption: currentCompletion.caption,
+                        value: currentCompletion.value,
+                        score: currentCompletion.score + wordScore[currentCompletion.value],
+                        meta: currentCompletion.meta,
+                    }
+                })
+            );
         }
     };
     langTools.addCompleter(completer);
