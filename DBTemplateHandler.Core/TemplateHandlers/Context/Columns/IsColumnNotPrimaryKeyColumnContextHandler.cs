@@ -8,20 +8,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnNotPrimaryKeyColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:PRIMARY(";
-        public const String END_CONTEXT_WORD = ")KEY:NOT:PRIMARY:::}";
-
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:PRIMARY(";
+        public override string EndContext => ")KEY:NOT:PRIMARY:::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current iteration column is not a primary key column";
 
         public override string processContext(string StringContext)
         {
@@ -40,6 +30,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

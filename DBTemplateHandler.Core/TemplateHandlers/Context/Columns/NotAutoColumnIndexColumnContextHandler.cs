@@ -8,14 +8,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class NotAutoColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:INDEX";
-        private const String END_CONTEXT_WORD = "::}";
-
-        public static readonly String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:INDEX";
+        public override string EndContext => "::}";
+        public override bool isStartContextAndEndContextAnEntireWord => true;
+        public override string ContextActionDescription => "Is replaced by the current not auto generated value column index in the current table not auto generated value column collection iterated";
 
         public const int ZeroIndex = 0;
         public readonly static string ZeroIndexAsString = Convert.ToString(ZeroIndex);
@@ -29,7 +25,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception("There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+                throw new Exception($"There is a problem with the provided StringContext :'{StringContext}' to the suited word '{Signature}'");
             if (columnModel.ParentTable == null)
                 return ZeroIndexAsString;
             int currentIndex = ZeroIndex;
@@ -50,9 +46,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             }
             return ZeroIndexAsString;
         }
-
-
-        public override bool isStartContextAndEndContextAnEntireWord => true;
-
     }
 }

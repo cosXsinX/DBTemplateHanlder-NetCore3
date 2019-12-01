@@ -9,22 +9,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnValueConvertTypeColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(";
+        public override string EndContext => ")::}";
+        public override string ContextActionDescription => "Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)";
 
-
-        private const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(";
-        private const string END_CONTEXT_WORD = ")::}";
-
-        public const string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
+        
 
         IDictionary<String, AbstractConversionHandler> ConversionHandlerMap = null;
         private bool InitConversionHandlerMap()
@@ -56,7 +45,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (TrimedStringContext == "")
                 throw new Exception("There is a problem with the function provided in template '" +
-                        (START_CONTEXT_WORD + TrimedStringContext + END_CONTEXT_WORD) +
+                        (StartContext + TrimedStringContext + EndContext) +
                             "' -> The value parameter cannot be empty");
             AbstractConversionHandler abstractConversionHandler =
                     GetConversionHandlerForEnvironmentDestinationKey
@@ -106,5 +95,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => false;
+
     }
 }

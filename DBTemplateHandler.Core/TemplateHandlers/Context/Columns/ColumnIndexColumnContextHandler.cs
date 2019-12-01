@@ -1,8 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
@@ -11,27 +10,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:INDEX";
         public override string EndContext => "::}";
         public override bool isStartContextAndEndContextAnEntireWord => true;
-
-        private readonly static string ZeroAsString = Convert.ToString(0);
+        public int DefaultIndex => 0;
+        public override string ContextActionDescription => "Is replaced by the current column index in the current table column collection iterated";
+        private string DefaultAutoIndexAsString => $"{DefaultIndex}";
         public override string processContext(string StringContext)
         {
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
-            if (columnModel == null)
-                throw new Exception($"The {nameof(ColumnModel)} is not set");
-
+            base.ControlContext(StringContext);
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (!TrimedStringContext.Equals(""))
-                throw new Exception(
-                    $"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{string.Concat(StartContext,EndContext)}'");
-            if (columnModel.ParentTable == null)
-                return ZeroAsString;
-            IList<IColumnModel> columnList =
-                    columnModel.ParentTable.Columns;
-            return Convert.ToString(columnList.IndexOf(columnModel));
+            base.ControlContextContent(TrimedStringContext);
+            if (ColumnModel.ParentTable == null) return DefaultAutoIndexAsString;
+            IColumnModel columnModel = ColumnModel;
+            IList<IColumnModel> parentColumn = columnModel.ParentTable.Columns;
+            if (parentColumn == null) return DefaultAutoIndexAsString;
+            if (parentColumn.Any(m => columnModel == m)) return parentColumn.IndexOf(columnModel).ToString();
+            return DefaultAutoIndexAsString;
         }
-
-        
     }
 }

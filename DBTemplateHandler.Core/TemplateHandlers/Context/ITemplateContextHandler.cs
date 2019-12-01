@@ -7,13 +7,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         string StartContext { get; }
 
         string EndContext { get; }
-        string Signature();
+        string Signature { get; }
+        string ContextActionDescription { get; }
         bool isStartContextAndEndContextAnEntireWord { get; }
+        string TrimContextFromContextWrapper(string stringContext);
 
-        String TrimContextFromContextWrapper(String stringContext);
+        string processContext(string StringContext);
 
-        abstract String processContext(String StringContext);
-
-        abstract String HandleTrimedContext(String StringTrimedContext);
+        string HandleTrimedContext(string StringTrimedContext);
     }
 }

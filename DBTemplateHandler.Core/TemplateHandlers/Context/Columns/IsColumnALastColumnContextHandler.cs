@@ -8,20 +8,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnALastColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:LAST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by empty value or by the inner context when the current column is the last column from the current table column collection";
+        public override string StartContext=> "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:LAST:COLUMN(";
+        public override string EndContext => "):::}";
 
         public override String processContext(String StringContext)
         {
@@ -44,6 +34,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             else return "";
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
+
     }
 }

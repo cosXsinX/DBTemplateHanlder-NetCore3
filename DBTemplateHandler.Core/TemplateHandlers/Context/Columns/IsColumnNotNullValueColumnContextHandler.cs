@@ -1,29 +1,16 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnNotNullValueColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:NULL(";
+        public override string EndContext => "):::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current iteration column is not a nullable value column";
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:NULL(";
-        public const String END_CONTEXT_WORD = "):::}";
-
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
 
         public override string processContext(string StringContext)
         {
@@ -42,7 +29,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
 
     }
 }

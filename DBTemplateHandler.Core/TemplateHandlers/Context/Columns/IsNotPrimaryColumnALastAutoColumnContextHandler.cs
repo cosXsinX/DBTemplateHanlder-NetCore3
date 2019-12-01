@@ -8,14 +8,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsNotPrimaryColumnALastAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN(";
+        public override string EndContext => "):::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is the last column from the iterated not primary key column collection";
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
-
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
 
             if (StringContext == null)
@@ -43,6 +41,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return HandleTrimedContext(TrimedStringContext);
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

@@ -8,32 +8,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnAFirstColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:FIRST:COLUMN(";
+        public override string EndContext => "):::}";
+        public override string ContextActionDescription => "Is replaced by empty value or by the inner context when the current column is the first column from the current table column collection";
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:FIRST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
 
         public override string processContext(string StringContext)
         {
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
-            if (columnModel == null)
-                throw new Exception($"The {columnModel} is not set");
-
+            base.ControlContext(StringContext);
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            var columnModel = ColumnModel;
             if (columnModel.ParentTable == null)
                 throw new Exception("The provided column has no parent table");
             IList<IColumnModel> columnList = columnModel.ParentTable.Columns;
@@ -47,5 +31,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => false;
+
     }
 }

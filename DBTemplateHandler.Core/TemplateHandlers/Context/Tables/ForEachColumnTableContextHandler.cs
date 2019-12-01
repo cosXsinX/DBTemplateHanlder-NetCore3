@@ -5,13 +5,12 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public class ForEachColumnTableContextHandler : AbstractTableTemplateContextHandler
+    public class ForEachColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH[";
-        public const String END_CONTEXT_WORD = "]::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
-
+        public override string StartContext  => "{:TDB:TABLE:COLUMN:FOREACH["; 
+        public override string EndContext => "]::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is column in the table";
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
@@ -31,6 +30,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             return stringBuilder.ToString();
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

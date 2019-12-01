@@ -8,22 +8,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnNotALastColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(";   
+        public override string EndContext => "):::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is not the last column from the iterated column collection";
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
-
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
@@ -44,7 +34,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             else return "";
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
 
     }
 }

@@ -10,10 +10,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
         public abstract bool isStartContextAndEndContextAnEntireWord { get; }
 
-        public string Signature()
-        {
-            return string.Concat(StartContext, EndContext);
-        }
+        public string Signature => string.Concat(StartContext, EndContext);
+
+        public abstract string ContextActionDescription { get; }
 
         public String TrimContextFromContextWrapper(string stringContext)
         {

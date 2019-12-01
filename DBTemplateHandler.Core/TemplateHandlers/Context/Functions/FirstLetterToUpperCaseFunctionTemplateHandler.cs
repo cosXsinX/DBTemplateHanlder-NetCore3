@@ -6,12 +6,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
     public class FirstLetterToUpperCaseFunctionTemplateHandler : AbstractFunctionTemplateContextHandler
     {
-        public const String START_CONTEXT_WORD = "{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE(";
-        public const String END_CONTEXT_WORD = ")::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext { get => "{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE("; }
+        public override string EndContext { get => ")::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the intern context with the first letter of intern context Uppercased";
 
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
@@ -25,6 +25,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

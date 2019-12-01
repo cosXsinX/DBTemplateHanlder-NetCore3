@@ -1,19 +1,17 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public class ForEachPrimaryKeyColumnTableContextHandler : AbstractTableTemplateContextHandler
+    public class ForEachPrimaryKeyColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[";
-        public const String END_CONTEXT_WORD = "]::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext { get => "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH["; }
+        public override string EndContext { get => "]::}"; }
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is primary key column in the table";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
 
         public override string processContext(string StringContext)
         {
@@ -42,7 +40,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             return stringBuilder.ToString();
         }
 
-
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

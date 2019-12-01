@@ -8,23 +8,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnNameColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        public const string START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME";
-        public const string END_CONTEXT_WORD = "::}";
-
-        public const string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME";
+        public override string EndContext => "::}";
+        public override string ContextActionDescription => "Is replaced by the current column name from the iteration";
+        public override bool isStartContextAndEndContextAnEntireWord => true;
 
         public override string processContext(string StringContext)
         {
@@ -36,11 +23,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{TEMPLATE_TABLE_WORD}'");
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{Signature}'");
             return columnModel.Name;
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => true;
 
     }
 }

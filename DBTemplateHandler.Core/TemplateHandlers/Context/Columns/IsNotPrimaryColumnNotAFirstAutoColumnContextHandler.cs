@@ -9,14 +9,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsNotPrimaryColumnNotAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
+        public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN("; }
+        public override string EndContext { get => "):::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is not the first column from the iterated not primary key column collection";
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
 
-
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
@@ -48,6 +47,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return "";
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

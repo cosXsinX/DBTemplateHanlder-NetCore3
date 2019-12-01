@@ -28,5 +28,19 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
                 HandleTemplate(StringTrimedContext, databaseModel,
                         tableModel, columnModel);
         }
+
+        protected void ControlContext(string StringContext)
+        {
+            if (StringContext == null)
+                throw new Exception($"The provided {nameof(StringContext)} is null");
+            if (ColumnModel == null)
+                throw new Exception($"The {nameof(ColumnModel)} is not set");
+        }
+
+        protected void ControlContextContent(string ContextContent)
+        {
+            if (isStartContextAndEndContextAnEntireWord && !ContextContent.Equals(string.Empty)) 
+                throw new Exception($"No value allowed between '{StartContext}' and '{EndContext}' => got {StartContext}{ContextContent}{EndContext}");
+        }
     }
 }

@@ -6,14 +6,13 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public class ForEachNotPrimaryKeyColumnTableContextHandler : AbstractTableTemplateContextHandler
+    public class ForEachNotPrimaryKeyColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH[";
-        public const String END_CONTEXT_WORD = "]::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH["; }
+        public override string EndContext { get => "]::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not primary key column in the table";
 
         public override String processContext(String StringContext)
         {
@@ -43,6 +42,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

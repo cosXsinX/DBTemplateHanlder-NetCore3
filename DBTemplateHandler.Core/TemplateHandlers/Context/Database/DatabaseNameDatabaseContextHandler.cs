@@ -13,6 +13,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         public readonly static String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
         public override string StartContext { get => START_CONTEXT_WORD; }
         public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string ContextActionDescription => "Is replaced by the current database name";
 
         public override string processContext(string StringContext)
         {
@@ -29,5 +30,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
+
     }
 }

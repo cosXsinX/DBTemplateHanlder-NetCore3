@@ -8,14 +8,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class TableNameTableContextHandler : AbstractTableTemplateContextHandler
     {
 
+        public override string StartContext { get => "{:TDB:TABLE:CURRENT:NAME"; }
+        public override string EndContext { get => "::}"; }
 
-        private const string START_CONTEXT_WORD = "{:TDB:TABLE:CURRENT:NAME";
-        private const string END_CONTEXT_WORD = "::}";
-
-        public readonly static string TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
-
+        public override bool isStartContextAndEndContextAnEntireWord => true;
+        public override string ContextActionDescription => "Is replaced by the current table name";
         public override string processContext(string StringContext)
         {
             if (StringContext == null)
@@ -26,10 +23,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'" + StringContext + "' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{Signature}'");
             return table.Name;
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => true;
     }
 }

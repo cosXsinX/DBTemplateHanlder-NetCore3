@@ -1,20 +1,18 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public class ForEachNotNullColumnTableContextHandler : AbstractTableTemplateContextHandler
+    public class ForEachNotNullColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
+        public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH["; }
+        public override string EndContext { get => "]::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH[";
-        public const String END_CONTEXT_WORD = "]::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
-
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not nullable value column in the table";
         public override String processContext(String StringContext)
         {
             if (StringContext == null)
@@ -42,6 +40,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             return stringBuilder.ToString();
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

@@ -6,7 +6,10 @@ ace.define("ace/mode/dbtemplate_highlight_rules", ["require", "exports", "module
     var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
     var DbTemplateHighlightRules = function () {
-        this.$rules = {-- > highlight_rule < --};
+
+        // regexp must not have capturing parentheses. Use (?:) instead.
+        // regexps are ordered -> the first match is used
+        this.$rules = {-->highlight_rule<--};
     };
 
     oop.inherits(DbTemplateHighlightRules, TextHighlightRules);
@@ -164,8 +167,9 @@ ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop"
 
     var oop = require("../lib/oop");
     var TextMode = require("./text").Mode;
-    var DockerfileHighlightRules = require("./mode-dbtemplate").DbTemplateHighlightRules;
+    var DockerfileHighlightRules = require("./dbtemplate_highlight_rules").DbTemplateHighlightRules;
     var DBTemplateFoldMode = require("./folding/dbtemplate").FoldMode;
+    var langTools = require("ace/ext/language_tools");
 
     var Mode = function () {
         TextMode.call(this);
@@ -179,8 +183,33 @@ ace.define("ace/mode/dbtemplate", ["require", "exports", "module", "ace/lib/oop"
         this.$id = "ace/mode/dbtemplate";
     }).call(Mode.prototype);
 
+    var dbTemplateSemantics = {-->semantic<--};
+
+    var entireWordSemantic = dbTemplateSemantics.filter(entry => { return entry.isStartContextAndEndContextAnEntireWord == true });
+    var entireWord = entireWordSemantic.map(entry => entry.startContext + entry.endContext);
+    var contextWordSemantic = dbTemplateSemantics.filter(entry => { return entry.isStartContextAndEndContextAnEntireWord == false });
+    var startContextWords = contextWordSemantic.map(entry => entry.startContext);
+    var endContextWords = contextWordSemantic.map(entry => entry.endContext);
+    var words = entireWord.concat(startContextWords).concat(endContextWords);
+    var completion = words.map(word => {
+        return {
+            caption: word,
+            value: word,
+            score: 100,
+            meta: "dbtemplate"
+        }
+    }
+    );
+    var completer = {
+        getCompletions: function (editor, session, pos, prefix, callback) {
+            callback(null, completion);
+        }
+    };
+    langTools.addCompleter(completer);
     exports.Mode = Mode;
 });
+
+
 
 (function () {
     ace.require(["ace/mode/dbtemplate"], function (m) {

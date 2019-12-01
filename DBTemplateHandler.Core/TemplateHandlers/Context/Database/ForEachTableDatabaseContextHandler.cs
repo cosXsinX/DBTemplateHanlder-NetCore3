@@ -6,12 +6,12 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
-    public class ForEachTableDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
+    public class ForEachTableDatabaseContextHandler : AbstractLoopTableDatabaseTemplateContextHandler
     {
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:FOREACH[";
-        public const String END_CONTEXT_WORD = "]::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext { get => "{:TDB:TABLE:FOREACH["; }
+        public override string EndContext { get => "]::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is table in the database";
 
         public override string processContext(string StringContext)
         {
@@ -33,6 +33,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
             return stringBuilder.ToString();
         }
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
+
     }
 }

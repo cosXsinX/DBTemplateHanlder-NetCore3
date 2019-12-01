@@ -17,16 +17,9 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests
         }
 
         [Test]
-        public void GetHighlightModelTest()
+        public void GetDbTemplateAceMode()
         {
-            var result = _tested.GetHighlightModel();
-            WriteInTestContext(result);
-        }
-
-        [Test]
-        public void GetSemanticFileModelTest()
-        {
-            var result = _tested.GetSemanticsFileJSONModel();
+            var result = _tested.GetDbTemplateAceMode();
             WriteInTestContext(result);
         }
 

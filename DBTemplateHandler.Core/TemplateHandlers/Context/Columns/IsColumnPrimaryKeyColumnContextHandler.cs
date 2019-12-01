@@ -9,21 +9,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsColumnPrimaryKeyColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:PRIMARY(";
+        public override string EndContext=> ")KEY:PRIMARY:::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current iteration column is a primary key column";
 
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:PRIMARY(";
-        public const String END_CONTEXT_WORD = ")KEY:PRIMARY:::}";
-
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
 
         public override string processContext(string StringContext)
         {
@@ -42,6 +32,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

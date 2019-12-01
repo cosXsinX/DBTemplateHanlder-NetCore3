@@ -1,4 +1,8 @@
-﻿using DBTemplateHandler.Core.TemplateHandlers.Context;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
+using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +70,14 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
             var result = contentWithPlaceHolder.Replace(highLightRulePlaceHolder, highLightRuleJson);
             return result;
         }
+        public string PopulateSemantic(string contentWithPlaceHolder)
+        {
+            const string highLightRulePlaceHolder = "{-->semantic<--}";
+            string highLightRuleJson = GetSemanticRulesJson();
+            var result = contentWithPlaceHolder.Replace(highLightRulePlaceHolder, highLightRuleJson);
+            return result;
+        }
+
 
 
         public static string AssemblyDirectory
@@ -79,12 +91,13 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
             }
         }
 
-        public FileModel GetHighlightModel()
+        public FileModel GetDbTemplateAceMode()
         {
             string fileName = "mode-dbtemplate.js";
             var highlightRulesWithPlaceHolders = Path.Combine(AssemblyDirectory, "Ressources", fileName);
             var fileContent = File.ReadAllText(highlightRulesWithPlaceHolders);
             var populatedFileContent = PopulateHighlightRuleContentWithPlaceHolder(fileContent);
+            populatedFileContent = PopulateSemantic(populatedFileContent);
             return new FileModel()
             {
                 FileName = fileName,
@@ -92,17 +105,33 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core
             };
         }
 
-        public FileModel GetSemanticsFileJSONModel()
+        
+
+        private string GetSemanticRulesJson()
         {
-            string filename = "dbtemplate-semantics.json";
             var handlers = templateContextHandlerRegister.GetHanlders<ITemplateContextHandler>().ToList();
-            var rules = handlers.Select(handler => new { startContext = handler.StartContext, endContext = handler.EndContext, type = handler.GetType().Name, isStartContextAndEndContextAnEntireWord = handler.isStartContextAndEndContextAnEntireWord }).ToList();
+            var rules = handlers.Select(handler =>
+                new
+                {
+                    startContext = handler.StartContext,
+                    endContext = handler.EndContext,
+                    handler = handler.GetType().Name,
+                    category = ToCategory(handler),
+                    isStartContextAndEndContextAnEntireWord = handler.isStartContextAndEndContextAnEntireWord
+                }).ToList();
             var fileContent = JsonSerializer.Serialize(rules);
-            return new FileModel()
-            {
-                FileName = filename,
-                Content = fileContent
-            };
+            return fileContent;
+        }
+
+        public string ToCategory(ITemplateContextHandler handler)
+        {
+            if (handler is AbstractLoopTableDatabaseTemplateContextHandler) return "table-loop";
+            if (handler is AbstractLoopColumnTableTemplateContextHandler) return "column-loop";
+            if (handler is AbstractFunctionTemplateContextHandler) return "function";
+            if (handler is AbstractDatabaseTemplateContextHandler) return "database";
+            if (handler is AbstractTableTemplateContextHandler) return "table";
+            if (handler is AbstractColumnTemplateContextHandler) return "column";
+            return "unknown";
         }
     }
 }

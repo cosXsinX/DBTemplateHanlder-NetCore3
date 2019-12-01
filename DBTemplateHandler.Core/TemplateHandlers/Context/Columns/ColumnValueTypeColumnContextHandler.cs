@@ -8,23 +8,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnValueTypeColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        private const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE";
-        private const String END_CONTEXT_WORD = "::}";
-
-        public const String TEMPLATE_TABLE_WORD = START_CONTEXT_WORD + END_CONTEXT_WORD;
-
-
-        public override string StartContext
-        {
-            get => START_CONTEXT_WORD;
-        }
-        public override string EndContext
-        {
-            get => END_CONTEXT_WORD;
-        }
-
+        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE";
+        public override string EndContext => "::}";
+        public override string ContextActionDescription => "Is replaced by the current column database model type";
 
         public override string processContext(string StringContext)
         {
@@ -36,7 +22,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
-                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (START_CONTEXT_WORD + END_CONTEXT_WORD) + "'");
+                throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (Signature) + "'");
             return columnModel.Type;
         }
 

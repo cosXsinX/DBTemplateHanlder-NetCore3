@@ -2,18 +2,15 @@
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsNotPrimaryColumnNotALastAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
+        public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN("; }
+        public override string EndContext { get => "):::}"; }
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is not the last column from the iterated not primary key column collection";
 
 
         public override string processContext(string StringContext)
@@ -45,6 +42,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
     }
 }

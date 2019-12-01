@@ -8,13 +8,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsNotNullColumnAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-
-        public const String START_CONTEXT_WORD = "{:TDB:TABLE:COLUMN:NOT:NULL:CURRENT:IS:FIRST:COLUMN(";
-        public const String END_CONTEXT_WORD = "):::}";
-        public override string StartContext { get => START_CONTEXT_WORD; }
-        public override string EndContext { get => END_CONTEXT_WORD; }
-
+        public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:NULL:CURRENT:IS:FIRST:COLUMN(";
+        public override string EndContext  => "):::}";
+        public override bool isStartContextAndEndContextAnEntireWord => false;
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is the first column from the iterated not nullable value column collection";
         public override string processContext(string StringContext)
         {
             if (StringContext == null)
@@ -47,6 +44,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         }
 
 
-        public override bool isStartContextAndEndContextAnEntireWord => false;
+
     }
 }
