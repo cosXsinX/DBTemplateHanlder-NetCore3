@@ -10,6 +10,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
         public string name { get; set; }
         public int column_id { get; set; }
         public byte system_type_id { get; set; }
+        public string system_type_name { get; set; }
         public int user_type_id { get; set; }
         public short max_length { get; set; }
         public byte precision { get; set; }

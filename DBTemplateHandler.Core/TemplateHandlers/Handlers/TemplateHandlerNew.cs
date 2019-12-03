@@ -31,6 +31,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
 
 
+        public static IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
+        {
+            return templateContextHandlerProvider.GetHandlers().Cast<ITemplateContextHandlerIdentity>().ToList();
+        }
 
 
         public static string HandleTemplate(string templateString,

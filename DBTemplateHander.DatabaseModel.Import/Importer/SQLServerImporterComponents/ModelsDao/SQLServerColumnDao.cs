@@ -13,6 +13,7 @@ object_id,
 name,
 column_id,
 system_type_id,
+TYPE_NAME(system_type_id) system_type_name,
 user_type_id,
 max_length,
 precision,
@@ -55,6 +56,7 @@ FROM sys.columns
             result.name = (string)dataReader["name"];
             result.column_id = (int)dataReader["column_id"];
             result.system_type_id = (byte)dataReader["system_type_id"];
+            result.system_type_name = (string)(dataReader["system_type_name"] is DBNull ? null : dataReader["system_type_name"]) ;
             result.user_type_id = (int)dataReader["user_type_id"];
             result.max_length = (short)dataReader["max_length"];
             result.precision = (byte)dataReader["precision"];

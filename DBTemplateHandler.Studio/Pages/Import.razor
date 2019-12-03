@@ -1,10 +1,9 @@
 ﻿@page "/import"
 @using DBTemplateHandler.Studio.Data
 @inject DatabaseModelImportService databaseModelImportService
-<h3>Import</h3>
 
 <div class="container form-group">
-    <h1>Database Designer</h1>
+    <h1>Import database model</h1>
     <div class="row ">
         <select class="form-control" @onchange="@SetSelectedManagedDbImporterName">
             @foreach (var dbImporterName in ManagedDbImporterNames)

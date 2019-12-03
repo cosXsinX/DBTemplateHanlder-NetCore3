@@ -1,5 +1,48 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Core.TemplateHandlers.Context
+@using DBTemplateHandler.Studio.Data
+@inject DBTemplateService dbTemplateService
 
-Welcome to your new app.
+
+    <div class="container">
+        <div class="row">
+            <h1>DB Template Handler</h1>
+        </div>
+        <div class="row">
+            This application aims to generate Data Access Layers agnosticly to the target language environment. To perform this purpose it will perform a jointure between three models
+            <ul>
+                <li>Database model -> A lightweight implementation of the database model which aggregate all the mandatory properties of the accessed database in order to implement a Data Access Layer</li>
+                <li>Templates -> Templates which are used to implement the data access layer and any other script related generation (as example : create table sql generation script templates)</li>
+                <li>Type mapping -> This is to define the mapping to perform between both environment accessing/accessed in order to implement the DAL</li>
+            </ul>
+        </div>
+        <div class="row">
+            Template specific keywords
+        </div>
+        @foreach (var semanticDescription in semanticDescriptions)
+        {
+            <div class="row">
+                <div class="col">
+                    @ToStringIdentifier(semanticDescription)
+                </div>
+                <div class="col">
+                    @semanticDescription.ContextActionDescription
+                </div>
+            </div>
+        }
+    </div>
+@code{
+    IList<ITemplateContextHandlerIdentity> semanticDescriptions = new List<ITemplateContextHandlerIdentity>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        semanticDescriptions = await dbTemplateService.GetAllItemplateContextHandlerIdentity();
+    }
+
+    public string ToStringIdentifier(ITemplateContextHandlerIdentity semantic)
+    {
+        return $"{semantic.StartContext}{((!semantic.isStartContextAndEndContextAnEntireWord) ? "..." : "")}{semantic.EndContext}";
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.Template;
+using DBTemplateHandler.Core.TemplateHandlers.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             }
         }
 
+
+        public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
+        {
+            return TemplateHandlerNew.GetAllItemplateContextHandlerIdentity();
+        }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {

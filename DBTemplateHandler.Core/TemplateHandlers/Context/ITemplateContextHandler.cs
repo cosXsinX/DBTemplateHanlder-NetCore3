@@ -2,7 +2,7 @@
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
-    public interface ITemplateContextHandler
+    public interface ITemplateContextHandlerIdentity
     {
         string StartContext { get; }
 
@@ -10,6 +10,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         string Signature { get; }
         string ContextActionDescription { get; }
         bool isStartContextAndEndContextAnEntireWord { get; }
+    }
+
+    public interface ITemplateContextHandler : ITemplateContextHandlerIdentity
+    {
+        
         string TrimContextFromContextWrapper(string stringContext);
 
         string processContext(string StringContext);

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DBTemplateHander.DatabaseModel.Import;
+using DBTemplateHandler.Core.TemplateHandlers.Context;
 
 namespace DBTemplateHandler.Studio.Data
 {
@@ -45,6 +46,11 @@ namespace DBTemplateHandler.Studio.Data
         public IList<string> AllFilePathTemplateWords
         {
             get => inputModelHandler?.AllFilePathTemplateWords??new List<string>();
+        }
+
+        public Task<IList<ITemplateContextHandlerIdentity>> GetAllItemplateContextHandlerIdentity()
+        {
+            return Task.FromResult(inputModelHandler.GetAllItemplateContextHandlerIdentity());
         }
 
         public void SaveDatabaseModel(string databaseModelPersistenceName, IDatabaseModel databaseModel)
@@ -85,6 +91,8 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.DeleteTemplates(templateGroupName);
         }
 
+        
+
         public Task<IList<ITemplateModel>> GetTemplateModels()
         {
             return Task.FromResult(persistenceFacade.GetAllTemplateModel());
@@ -113,6 +121,19 @@ namespace DBTemplateHandler.Studio.Data
         public Task<IDatabaseModel> GetDatabaseModelByPersistenceName(string persistenceName)
         {
             return Task.FromResult(persistenceFacade.GetDatabaseModelByPersistenceName(persistenceName));
+        }
+
+        private IList<string> ToAllDataTypesInternal(IDatabaseModel databaseModel)
+        {
+            if (databaseModel == null) new List<string>();
+            var tableModels = databaseModel?.Tables ?? new List<ITableModel>();
+            var columnModels = tableModels.SelectMany(m => m?.Columns ?? new List<IColumnModel>());
+            return columnModels.Select(m => m.Type).Distinct().ToList();
+        }
+
+        public Task<IList<string>> ToAllDataTypes(IDatabaseModel databaseModel)
+        {
+            return Task.FromResult(ToAllDataTypesInternal(databaseModel));
         }
 
         public IDatabaseModel GetDatabaseModelByPersistenceNameSync(string persistenceName)
