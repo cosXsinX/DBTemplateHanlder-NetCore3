@@ -1,0 +1,105 @@
+﻿@page "/type-set-editor"
+
+@using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Studio.Data
+@inject DBTemplateService dbTemplateService
+
+
+<div class="container">
+    <div class="row">
+        <h1>Type mappings</h1>
+    </div>
+    <div class="row">
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose</span>
+            </div>
+            @if (TypeSetNames != null)
+            {
+                <select class="form-control" @onchange="@SetCurrentTypeSetModel">
+                    <option value="">-- Select Type Set --</option>
+                    @foreach (var typeSetName in TypeSetNames)
+                    {
+                        <option value="@typeSetName">@typeSetName</option>
+                    }
+                </select>
+            }
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" @onclick="@CreateTypeSet"><span class="oi oi-plus" /></button>
+            <button class="btn btn-secondary" @onclick="@SaveTypeSet">Save</button>
+            <button class="btn btn-danger" @onclick="@DeleteTypeSet"><span class="oi oi-trash"></span></button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary"><span class="oi oi-plus" />Add Item</button>
+            <button class="btn btn-danger"><span class="oi oi-trash"></span>Delete Item</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-12">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Type</span>
+            </div>
+            <input type="text" class="form-control" @bind="@CurrentEditedType" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if (TypeSet != null)
+            {
+                <ul class="list-group" rows="10">
+                    @foreach (var currentType in TypeSet)
+                    {
+                        <li class="list-group-item @ActiveWhenCurrentType(currentType)">
+                            <div class="row">
+                                <div class="">
+                                    @currentType
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+@code{
+    public string CurrentEditedType { get; set; }
+    public IList<string> TypeSet { get; set; } = new List<string>();
+    public string CurrentTypeSetName { get; set; }
+    public IList<string> TypeSetNames { get; set; } = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        TypeSetNames = await dbTemplateService.GetAllTypeSetsPersistenceNames();
+    }
+
+    void CreateTypeSet()
+    {
+        CurrentTypeSetName = "Type set name";
+        TypeSet = new List<string>();
+    }
+
+    void SaveTypeSet()
+    {
+        dbTemplateService.SaveTypeSet(CurrentTypeSetName, TypeSet);
+    }
+
+    void DeleteTypeSet()
+    {
+        dbTemplateService.DeleteTypeSet(CurrentTypeSetName);
+    }
+
+    string ActiveWhenCurrentType(string currentType)
+    {
+        return currentType == CurrentEditedType ? "active" : "";
+    }
+
+    async void SetCurrentTypeSetModel(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        TypeSet = await dbTemplateService.GetTypeSetByPersistenceName(value);
+        CurrentTypeSetName = value;
+    }
+}

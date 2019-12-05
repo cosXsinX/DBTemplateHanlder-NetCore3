@@ -36,6 +36,12 @@ namespace DBTemplateHandler.Studio
                     DatabaseModelsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                         ApplicationRomingFolderName,
                         "databaseModels"),
+                    TypeSetFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
+                        "typeSets"),
+                    TypeMappingFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationRomingFolderName,
+                        "typeMappings"),
                 };
         public Startup(IConfiguration configuration)
         {

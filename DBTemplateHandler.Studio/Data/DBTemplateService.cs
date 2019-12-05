@@ -64,6 +64,7 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.DeleteDatabaseModel(databaseModelPersistenceName);
         }
 
+
         public void SaveTemplateModel(string templateGroupName, ITemplateModel templateModel)
         {
             var templateModels = persistenceFacade.GetTemplateModelsByTemplateGroupName(templateGroupName);
@@ -144,6 +145,27 @@ namespace DBTemplateHandler.Studio.Data
         public Task<IList<IDatabaseModel>> GetDatabaseModels()
         {
             return Task.FromResult(persistenceFacade.GetAllDatabaseModels());
+        }
+
+
+        public Task<IList<string>> GetAllTypeSetsPersistenceNames()
+        {
+            return Task.FromResult(persistenceFacade.GetAllTypeSetPersistenceNames());
+        }
+
+        public void SaveTypeSet(string typeSetName, IList<string> typeSet)
+        {
+            persistenceFacade.SaveTypeSet(typeSetName, typeSet);
+        }
+
+        public void DeleteTypeSet(string typeSetName)
+        {
+            persistenceFacade.DeleteTypeSet(typeSetName);
+        }
+
+        public Task<IList<string>> GetTypeSetByPersistenceName(string persistenceName)
+        {
+            return Task.FromResult(persistenceFacade.GetTypeSetByPersistenceName(persistenceName));
         }
 
         public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)

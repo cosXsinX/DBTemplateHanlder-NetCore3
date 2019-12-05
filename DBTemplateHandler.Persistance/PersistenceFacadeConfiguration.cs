@@ -8,5 +8,7 @@ namespace DBTemplateHandler.Persistance
     {
         public string TemplatesFolderPath { get; set; }
         public string DatabaseModelsFolderPath { get; set; }
+        public string TypeSetFolderPath { get; set; }
+        public string TypeMappingFolderPath { get; set; }
     }
 }

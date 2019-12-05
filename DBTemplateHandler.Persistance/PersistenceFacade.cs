@@ -14,9 +14,13 @@ namespace DBTemplateHandler.Persistance
     {
         private readonly Persistor<IList<TemplateModel>> templateModelPersistor;
         private readonly Persistor<PersistableDatabaseModel> databaseModelPersistor;
+        private readonly Persistor<IList<TypeMappingItem>> typeMappingPersistor;
+        private readonly Persistor<IList<string>> typeSetPersistor;
         private readonly DatabaseModelConverter databaseModelConverter = new DatabaseModelConverter();
         private readonly string templatesFolderPath;
         private readonly string databaseModelsFolderPath;
+        private readonly string typeMappingFolderPath;
+        private readonly string typeSetFolderPath;
         public PersistenceFacade(PersistenceFacadeConfiguration persistenceFacadeConfiguration)
         {
             if (persistenceFacadeConfiguration == null) throw new ArgumentNullException(nameof(persistenceFacadeConfiguration));
@@ -28,6 +32,14 @@ namespace DBTemplateHandler.Persistance
             databaseModelsFolderPath = persistenceFacadeConfiguration.DatabaseModelsFolderPath;
             if (!Directory.Exists(databaseModelsFolderPath)) Directory.CreateDirectory(databaseModelsFolderPath);
             databaseModelPersistor = new Persistor<PersistableDatabaseModel>(databaseModelsFolderPath);
+
+            typeMappingFolderPath = persistenceFacadeConfiguration.TypeMappingFolderPath;
+            if (!Directory.Exists(typeMappingFolderPath)) Directory.CreateDirectory(typeMappingFolderPath);
+            typeMappingPersistor = new Persistor<IList<TypeMappingItem>>(typeMappingFolderPath);
+
+            typeSetFolderPath = persistenceFacadeConfiguration.TypeSetFolderPath;
+            if (!Directory.Exists(typeSetFolderPath)) Directory.CreateDirectory(typeSetFolderPath);
+            typeSetPersistor = new Persistor<IList<string>>(typeSetFolderPath);
         }
 
         public IList<ITemplateModel> GetAllTemplateModel()
@@ -91,6 +103,52 @@ namespace DBTemplateHandler.Persistance
         public void DeleteDatabaseModel(string databaseModelPersistenceName)
         {
             databaseModelPersistor.Delete(databaseModelPersistenceName);
+        }
+
+        public IList<string> GetAllTypeMappingPersistenceNames()
+        {
+            return typeMappingPersistor.GetAllPersistanceNames();
+        }
+
+        public IList<IList<TypeMappingItem>> GetAllTypeMapping()
+        {
+            return typeMappingPersistor.GetAll().Cast<IList<TypeMappingItem>>().ToList();
+        }
+
+        public void SaveTypeMapping(string persistenceName, IList<TypeMappingItem> typeMapping)
+        {
+            typeMappingPersistor.Save(persistenceName, typeMapping);
+        }
+
+        public void DeleteTypeMapping(string persistenceName)
+        {
+            typeMappingPersistor.Delete(persistenceName);
+        }
+
+        public IList<string> GetAllTypeSetPersistenceNames()
+        {
+            return typeSetPersistor.GetAllPersistanceNames();
+        }
+
+        public IList<string> GetTypeSetByPersistenceName(string persistenceName)
+        {
+            var results = typeSetPersistor.GetByPersistenceName(persistenceName);
+            return results;
+        }
+
+        public IList<IList<string>> GetAllTypeSets()
+        {
+            return typeSetPersistor.GetAll().Cast<IList<string>>().ToList();
+        }
+
+        public void SaveTypeSet(string persistenceName, IList<string> typeSet)
+        {
+            typeSetPersistor.Save(persistenceName, typeSet);
+        }
+
+        public void DeleteTypeSet(string persistenceName)
+        {
+            typeSetPersistor.Delete(persistenceName);
         }
     }
 }
