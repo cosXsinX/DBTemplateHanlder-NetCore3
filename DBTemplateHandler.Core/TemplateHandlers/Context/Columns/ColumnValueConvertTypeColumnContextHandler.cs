@@ -1,8 +1,9 @@
 ﻿using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Core.Database.MetaDescriptors;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
@@ -13,28 +14,52 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => ")::}";
         public override string ContextActionDescription => "Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)";
 
-        public IDictionary<string, string> conversionMap = new Dictionary<string, string> 
-        { 
-            {"INT->JAVA","int" } 
+
+        private struct MappingKey
+        {
+            public string SourceType { get; set; }
+            public string DestinationTypeSet { get; set; }
+
+            public bool Equals(object other)
+            {
+                if (!(other is MappingKey)) return false;
+                var otherAsMappingKey = (MappingKey)other;
+                if (DestinationTypeSet.Equals(otherAsMappingKey.DestinationTypeSet)) return false;
+                if (SourceType != otherAsMappingKey.SourceType) return false;
+                return true;
+            }
+        }
+
+        //TODO Make that parametric
+        private IDictionary<MappingKey, string> conversionMap = new Dictionary<MappingKey, string>
+        {
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="INT"},"int" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="BIGINT"},"long" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="BOOLEAN"},"boolean" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="CHAR"},"char" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DATE"},"Date" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DATETIME"},"Date" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DECIMAL"},"double" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="INTEGER"},"int" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="NUMERIC"},"double" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="REAL"},"double" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="STRING"},"String" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="TEXT"},"String" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="TIME"},"Date" } ,
+            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="VARCHAR"},"String" } ,
+
         };
 
-        IDictionary<String, AbstractConversionHandler> ConversionHandlerMap = null;
+        private HashSet<string> DestinationTypeSets;
         private bool InitConversionHandlerMap()
         {
-            if (ConversionHandlerMap != null) return true;
-            ConversionHandlerMap = new Dictionary<string, ColumnValueConvertTypeColumnContextHandler.AbstractConversionHandler>();
-            JavaConversionHandler javaConversionHandler = new JavaConversionHandler();
-            ConversionHandlerMap.Add(javaConversionHandler.getTargetEnvironmentKey(), javaConversionHandler);
-            return (ConversionHandlerMap != null);
+
+            if (DestinationTypeSets != null) return true;
+            DestinationTypeSets = new HashSet<string>(conversionMap.Keys.Select(m => m.DestinationTypeSet));
+            return (DestinationTypeSets != null);
         }
 
-        private AbstractConversionHandler GetConversionHandlerForEnvironmentDestinationKey(String EnvironmentDestinationKey)
-        {
-            if (EnvironmentDestinationKey == null) return null;
-            if (!InitConversionHandlerMap()) return null;
-            if (!ConversionHandlerMap.ContainsKey(EnvironmentDestinationKey.ToUpper())) return null;
-            return ConversionHandlerMap[EnvironmentDestinationKey.ToUpper()];
-        }
+        
 
 
         public override string processContext(string StringContext)
@@ -50,53 +75,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 throw new Exception("There is a problem with the function provided in template '" +
                         (StartContext + TrimedStringContext + EndContext) +
                             "' -> The value parameter cannot be empty");
-            AbstractConversionHandler abstractConversionHandler =
-                    GetConversionHandlerForEnvironmentDestinationKey
-                        (TrimedStringContext);
-            if (abstractConversionHandler == null) return $"CONVERT:UNKNOWN({TrimedStringContext})";
-            return abstractConversionHandler.ConvertType(descriptionPojo.Type);
+            InitConversionHandlerMap();
+            if (!DestinationTypeSets.Contains(TrimedStringContext)) return $"CONVERT:UNKNOWN({TrimedStringContext})";
+            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext, SourceType = ColumnModel.Type }, out var result)) return result;
+            return ColumnModel.Type;
         }
 
-        private abstract class AbstractConversionHandler
-        {
-            public abstract AbstractDatabaseDescriptor getDatabaseDescriptor();
 
-            public abstract void setDatabaseDescriptor(AbstractDatabaseDescriptor descriptor);
-
-            public abstract string getTargetEnvironmentKey();
-
-            public abstract string ConvertType(string ConvertedTypeString);
-        }
-
-        private class JavaConversionHandler : AbstractConversionHandler
-        {
-            private const string TARGET_CONVERSION_KEY = "JAVA";
-            public override string getTargetEnvironmentKey()
-            {
-                return TARGET_CONVERSION_KEY.ToUpper();
-            }
-
-
-            public override string ConvertType(string ConvertedTypeString)
-            {
-                if (ConvertedTypeString == null) return null;
-                if (ConvertedTypeString.Equals("")) return "";
-                return _databaseDescriptor.ConvertTypeToJava(ConvertedTypeString);
-            }
-
-            private AbstractDatabaseDescriptor _databaseDescriptor =
-                    new SQLLiteDatabaseDescriptor();// TODO Make an other initialization
-            public override AbstractDatabaseDescriptor getDatabaseDescriptor()
-            {
-                return _databaseDescriptor;
-            }
-
-            public override void setDatabaseDescriptor(AbstractDatabaseDescriptor descriptor)
-            {
-                _databaseDescriptor = descriptor;
-            }
-
-        }
 
         public override bool isStartContextAndEndContextAnEntireWord => false;
 
