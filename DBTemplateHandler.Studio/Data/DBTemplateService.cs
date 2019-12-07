@@ -153,6 +153,10 @@ namespace DBTemplateHandler.Studio.Data
         {
             return Task.FromResult(persistenceFacade.GetAllTypeSetPersistenceNames());
         }
+        public Task<IList<TypeSetItem>> GetTypeSetByPersistenceName(string persistenceName)
+        {
+            return Task.FromResult(persistenceFacade.GetTypeSetByPersistenceName(persistenceName));
+        }
 
         public void SaveTypeSet(string typeSetName, IList<TypeSetItem> typeSet)
         {
@@ -164,9 +168,25 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.DeleteTypeSet(typeSetName);
         }
 
-        public Task<IList<TypeSetItem>> GetTypeSetByPersistenceName(string persistenceName)
+
+        public Task<IList<string>> GetAllTypeMappingPersistenceNames()
         {
-            return Task.FromResult(persistenceFacade.GetTypeSetByPersistenceName(persistenceName));
+            return Task.FromResult(persistenceFacade.GetAllTypeMappingPersistenceNames());
+        }
+
+        public Task<TypeMapping> GetTypeMappingByPersistenceName(string persistenceName)
+        {
+            return Task.FromResult(persistenceFacade.GetTypeMappingByPersistenceName(persistenceName));
+        }
+
+        public void SaveTypeMapping(string typeMappingName, TypeMapping typeMapping)
+        {
+            persistenceFacade.SaveTypeMapping(typeMappingName, typeMapping);
+        }
+
+        public void DeleteTypeMapping(string typeMappingName)
+        {
+            persistenceFacade.DeleteTypeMapping(typeMappingName);
         }
 
         public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)

@@ -1,6 +1,6 @@
 ﻿@page "/type-mapping"
 
-@using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Persistance.Serializable
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
@@ -14,18 +14,59 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Choose</span>
             </div>
-            <select class="form-control">
-                <option value="">-- Select Mapping --</option>
+            <select class="form-control" @bind="MappingName">
+                <option value="--- Select Type Mapping ---">--- Select Type Mapping ---</option>
+                @foreach(var mappingName in  MappingNames)
+                {
+                    <option value="@mappingName">@mappingName</option>
+                }
             </select>
         </div>
-        <div class="btn-group">
-            <button class="btn btn-primary"><span class="oi oi-plus" /></button>
-            <button class="btn btn-secondary">Save</button>
-            <button class="btn btn-danger"><span class="oi oi-trash"></span></button>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
+            </div>
+            <input type="text" @bind="MappingName" />
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary"><span class="oi oi-plus" />Add Item</button>
-            <button class="btn btn-danger"><span class="oi oi-trash"></span>Delete Item</button>
+            <button class="btn btn-primary" @onclick="@CreateTypeMapping"><span class="oi oi-plus" /></button>
+            <button class="btn btn-secondary" @onclick="@SaveTypeMapping">Save</button>
+            <button class="btn btn-danger" @onclick="@DeleteTypeMapping"><span class="oi oi-trash"></span></button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-5">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Source Type Set</span>
+            </div>
+            <select class="form-control" @bind="SourceTypeSetName">
+                <option>-- Source Type Set --</option>
+                @foreach (var typeSetName in TypeSetNames)
+                {
+                    <option value="@typeSetName">@typeSetName</option>
+                }
+            </select>
+        </div>
+        <div class="col-2">
+            <span class="oi oi-arrow-right" />
+        </div>
+        <div class="input-group col-5">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Destination Type Set</span>
+            </div>
+            <select class="form-control" @bind="DestinationTypeSetName">
+                <option>-- Destination Type Set --</option>
+                @foreach (var typeSetName in TypeSetNames)
+                {
+                    <option value="@typeSetName">@typeSetName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group">
+            <button class="btn btn-primary" @onclick="AddMappingItem"><span class="oi oi-plus" />Add Item</button>
+            <button class="btn btn-danger" @onclick="DeleteTypeMappingItem"><span class="oi oi-trash"></span>Delete Item</button>
         </div>
     </div>
     <div class="row">
@@ -33,39 +74,196 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Source Type</span>
             </div>
-            <input type="text" class="form-control" @bind="@SourceType" />
+            <select class="form-control" @bind="SourceType">
+                @foreach (var sourceTypeSetItem in SourceTypeSet)
+                {
+                    <option value="@sourceTypeSetItem.Name">@sourceTypeSetItem.Name</option>
+                }
+            </select>
         </div>
         <div class="col-2">
-            =>
+            <span class="oi oi-arrow-right" />
         </div>
         <div class="input-group col-5">
             <div class="input-group-prepend">
                 <span class="input-group-text">Destination Type</span>
             </div>
-            <input type="text" class="form-control" @bind="@DestinationType" />
+            <select class="form-control" @bind="DestinationType">
+                @foreach (var destinationTypeSetItem in DestinationTypeSet)
+                {
+                    <option value="@destinationTypeSetItem.Name">@destinationTypeSetItem.Name</option>
+                }
+            </select>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <ul class="list-group" rows="10">
-                <li class="list-group-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-5">
-                                Current source type
+    @if (CurrentTypeMapping?.TypeMappingItems != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <ul class="list-group" rows="10">
+                    @foreach (var currentMappingItem in CurrentTypeMapping.TypeMappingItems)
+                    {
+                        var mappingItemKey = ToIdentificationKey(currentMappingItem);
+                        <li class="list-group-item @ActiveWhenCurrentMappingType(mappingItemKey)" @onclick="@(() =>SetCurrentMappingItem(mappingItemKey))">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-5">
+                                        @currentMappingItem.SourceType
+                                    </div>
+                                    <div class="col-2"><span class="oi oi-arrow-right" /></div>
+                                    <div class="col-5">
+                                        @currentMappingItem.DestinationType
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-2">=></div>
-                            <div class="col-5">Current destination type</div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">Other source type => Other destination type</li>
-            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 @code{
-    public string SourceType { get; set; }
-    public string DestinationType { get; set; }
+    public string SourceType
+    {
+        get { return CurrentTypeMappingItem?.SourceType; }
+        set
+        {
+            if (CurrentTypeMappingItem == null) return;
+            CurrentTypeMappingItem.SourceType = value;
+        }
+    }
+    public string DestinationType
+    {
+        get { return CurrentTypeMappingItem?.DestinationType; }
+        set
+        {
+            if (CurrentTypeMappingItem == null) return;
+            CurrentTypeMappingItem.DestinationType = value;
+        }
+    }
+
+    private string MapingNameValue { get; set; }
+    public string MappingName {
+        get => MapingNameValue;
+        set
+        {
+            MapingNameValue = value;
+            SetTypeMapping();
+        }
+    }
+    public IList<string> MappingNames { get; set; } = new List<string>();
+    public DBTemplateHandler.Persistance.Serializable.TypeMapping CurrentTypeMapping { get; set; }
+
+    public TypeMappingItem CurrentTypeMappingItem { get; set; }
+
+    private string SourceTypeSetNameValue { get; set; }
+    public string SourceTypeSetName { get=> SourceTypeSetNameValue;
+        set {
+            SourceTypeSetNameValue = value;
+            SetSourceTypeSet();
+        }
+    }
+    private string DestinationTypeSetNameValue { get; set; }
+    public string DestinationTypeSetName
+    {
+        get => DestinationTypeSetNameValue;
+        set
+        {
+            DestinationTypeSetNameValue = value;
+            SetDestinationTypeSet();
+        }
+    }
+    public IList<string> TypeSetNames { get; set; } = new List<string>();
+
+    public IList<TypeSetItem> SourceTypeSet { get; set; } = new List<TypeSetItem>();
+    public IList<TypeSetItem> DestinationTypeSet { get; set; } = new List<TypeSetItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MappingNames = await dbTemplateService.GetAllTypeMappingPersistenceNames();
+        TypeSetNames = await dbTemplateService.GetAllTypeSetsPersistenceNames();
+    }
+
+    async void SetTypeMapping()
+    {
+        CurrentTypeMapping = await dbTemplateService.GetTypeMappingByPersistenceName(MappingName);
+        SourceTypeSetName = CurrentTypeMapping?.SourceTypeSetName;
+        DestinationTypeSetName = CurrentTypeMapping?.DestinationTypeSetName;
+    }
+
+    async void SetSourceTypeSet()
+    {
+        SourceTypeSet = await dbTemplateService.GetTypeSetByPersistenceName(SourceTypeSetName)??new List<TypeSetItem>();
+        if (CurrentTypeMapping != null) CurrentTypeMapping.SourceTypeSetName = SourceTypeSetName;
+    }
+
+    async void SetDestinationTypeSet()
+    {
+        DestinationTypeSet = await dbTemplateService.GetTypeSetByPersistenceName(DestinationTypeSetName) ?? new List<TypeSetItem>();
+        if (CurrentTypeMapping != null) CurrentTypeMapping.DestinationTypeSetName = DestinationTypeSetName;
+    }
+
+    string SelectedWhenCurrentSourceTypeSet(string sourceTypeName)
+    {
+        return sourceTypeName == CurrentTypeMapping?.SourceTypeSetName ? "selected" : "";
+    }
+
+    string SelectedWhenCurrentDestinationTypeSet(string sourceTypeName)
+    {
+        return sourceTypeName == CurrentTypeMapping?.DestinationTypeSetName ? "selected" : "";
+    }
+
+    string ToIdentificationKey(TypeMappingItem typeMappingItem)
+    {
+        return $"{typeMappingItem?.SourceType}---->{typeMappingItem?.DestinationType}";
+    }
+
+    string ActiveWhenCurrentMappingType(string currentMappingType)
+    {
+        return currentMappingType == ToIdentificationKey(CurrentTypeMappingItem) ? "active" : "";
+    }
+
+    void SetCurrentMappingItem(string mappingItemKey)
+    {
+        var typeMappingItems = CurrentTypeMapping?.TypeMappingItems;
+        if (typeMappingItems == null) return;
+        var selectedMappingItem = typeMappingItems.FirstOrDefault(m => ToIdentificationKey(m) == mappingItemKey);
+        CurrentTypeMappingItem = selectedMappingItem;
+    }
+
+    void CreateTypeMapping()
+    {
+        var typeMapping = new DBTemplateHandler.Persistance.Serializable.TypeMapping();
+        CurrentTypeMapping = typeMapping;
+        MappingName = "Mapping Name";
+    }
+
+    void SaveTypeMapping()
+    {
+        dbTemplateService.SaveTypeMapping(MappingName, CurrentTypeMapping);
+    }
+
+    void DeleteTypeMapping()
+    {
+        dbTemplateService.DeleteTypeMapping(MappingName);
+    }
+
+    void AddMappingItem()
+    {
+        if (CurrentTypeMapping == null) CreateTypeMapping();
+        if (CurrentTypeMapping.TypeMappingItems == null) CurrentTypeMapping.TypeMappingItems = new List<TypeMappingItem>();
+        CurrentTypeMappingItem = new TypeMappingItem();
+        CurrentTypeMapping.TypeMappingItems= (new List<TypeMappingItem> { CurrentTypeMappingItem}).Concat(CurrentTypeMapping.TypeMappingItems).ToList();;
+    }
+
+    void DeleteTypeMappingItem()
+    {
+        if (CurrentTypeMappingItem == null) return;
+        var typeMappingItems = CurrentTypeMapping?.TypeMappingItems ?? new List<TypeMappingItem>();
+        typeMappingItems.Remove(CurrentTypeMappingItem);
+        CurrentTypeMappingItem = typeMappingItems.FirstOrDefault();
+    }
+
 }

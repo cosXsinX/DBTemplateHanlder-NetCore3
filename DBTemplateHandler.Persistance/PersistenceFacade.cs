@@ -14,7 +14,7 @@ namespace DBTemplateHandler.Persistance
     {
         private readonly Persistor<IList<TemplateModel>> templateModelPersistor;
         private readonly Persistor<PersistableDatabaseModel> databaseModelPersistor;
-        private readonly Persistor<IList<TypeMappingItem>> typeMappingPersistor;
+        private readonly Persistor<TypeMapping> typeMappingPersistor;
         private readonly Persistor<IList<TypeSetItem>> typeSetPersistor;
         private readonly DatabaseModelConverter databaseModelConverter = new DatabaseModelConverter();
         private readonly string templatesFolderPath;
@@ -35,7 +35,7 @@ namespace DBTemplateHandler.Persistance
 
             typeMappingFolderPath = persistenceFacadeConfiguration.TypeMappingFolderPath;
             if (!Directory.Exists(typeMappingFolderPath)) Directory.CreateDirectory(typeMappingFolderPath);
-            typeMappingPersistor = new Persistor<IList<TypeMappingItem>>(typeMappingFolderPath);
+            typeMappingPersistor = new Persistor<TypeMapping>(typeMappingFolderPath);
 
             typeSetFolderPath = persistenceFacadeConfiguration.TypeSetFolderPath;
             if (!Directory.Exists(typeSetFolderPath)) Directory.CreateDirectory(typeSetFolderPath);
@@ -110,12 +110,18 @@ namespace DBTemplateHandler.Persistance
             return typeMappingPersistor.GetAllPersistanceNames();
         }
 
-        public IList<IList<TypeMappingItem>> GetAllTypeMapping()
+        public TypeMapping GetTypeMappingByPersistenceName(string persistenceName)
         {
-            return typeMappingPersistor.GetAll().Cast<IList<TypeMappingItem>>().ToList();
+            var result = typeMappingPersistor.GetByPersistenceName(persistenceName);
+            return result;
         }
 
-        public void SaveTypeMapping(string persistenceName, IList<TypeMappingItem> typeMapping)
+        public IList<TypeMapping> GetAllTypeMapping()
+        {
+            return typeMappingPersistor.GetAll().Cast<TypeMapping>().ToList();
+        }
+
+        public void SaveTypeMapping(string persistenceName, TypeMapping typeMapping)
         {
             typeMappingPersistor.Save(persistenceName, typeMapping);
         }
