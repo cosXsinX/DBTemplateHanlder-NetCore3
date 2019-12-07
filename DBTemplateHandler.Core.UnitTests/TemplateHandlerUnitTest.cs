@@ -111,34 +111,6 @@ namespace DBTemplateHandler.Core.UnitTests
             InitDatabaseDescriptionPOJO();
         }
 
-        [Test]
-        public void FirstTableColumnsAsJavaTableConstantsTest()
-        {
-            StringBuilder submittedTemplateStringBuilder = new StringBuilder();
-            submittedTemplateStringBuilder.Append("public class ColumnTableTemplateJavaTestTemplate {\n");
-            submittedTemplateStringBuilder.Append("\tpublic final static String TABLE_NAME = \"" + TemplateSemanticReferenceClass.TEMPLATE_TABLE_WORD + "\";\n");
-            submittedTemplateStringBuilder.Append("\t" + TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_START_CONTEXT + "\n");
-            submittedTemplateStringBuilder.Append("\tpublic final static String " + TemplateSemanticReferenceClass.TEMPLATE_FOREACH_CURRENT_COLUMN_WORD + "_COLUMN = \"" + TemplateSemanticReferenceClass.TEMPLATE_FOREACH_CURRENT_COLUMN_WORD + "\";\n");
-            submittedTemplateStringBuilder.Append("\t" + TemplateSemanticReferenceClass.TEMPLATE_FOREACH_COLUMN_END_CONTEXT + "\n");
-            submittedTemplateStringBuilder.Append("}\n");
-
-            AbstractDatabaseDescriptor descriptor = new SQLLiteDatabaseDescriptor();
-            TableTemplateHandler handler = TableTemplateHandler.TableDescriptionPOJOToTableTemplateHandler(_firstTableDescriptionPOJO, descriptor);
-            String outputString = handler.generateOutputStringFromTemplateString(submittedTemplateStringBuilder.ToString(), out var errors);
-
-            String expectedOutput = "public class ColumnTableTemplateJavaTestTemplate {\n" +
-            "\tpublic final static String TABLE_NAME = \"FIRST_TABLE_NAME\";\n" +
-            "\t\n" +
-            "\tpublic final static String PRIMARY_NOT_AUTO_COLUMN_NAME_COLUMN = \"PRIMARY_NOT_AUTO_COLUMN_NAME\";\n" +
-            "\t\n" +
-            "\tpublic final static String AUTO_COLUMN_NAME_COLUMN = \"AUTO_COLUMN_NAME\";\n" +
-            "\t\n" +
-            "}\n";
-
-            Assert.AreEqual(expectedOutput, outputString);
-        }
-
-
         const string NEW_LINE_CHAR = "\t\n";
         public static string GetContextHandlerSignatures<T>(string header) where T : ITemplateContextHandler
         {

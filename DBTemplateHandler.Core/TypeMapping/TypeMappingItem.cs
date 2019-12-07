@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DBTemplateHandler.Persistance.Serializable
+namespace DBTemplateHandler.Core.TypeMapping
 {
     public class TypeMappingItem : ITypeMappingItem
     {
-        public string SourceType { get; set; }
         public string DestinationType { get; set; }
+        public string SourceType { get; set; }
     }
 }

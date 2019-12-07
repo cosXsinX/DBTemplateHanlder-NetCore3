@@ -70,6 +70,7 @@ namespace DBTemplateHandler.Core.Database.MetaDescriptors
             else if (ConvertedType.Equals(BOOLEAN_COLUMN_TYPE)) return "boolean";
             else if (ConvertedType.Equals(CHAR_COLUMN_TYPE)) return "char";
             else if (ConvertedType.Equals(DATE_COLUMN_TYPE)) return "Date";
+            else if (ConvertedType.Equals(DATETIME_COLUMN_TYPE)) return "Date";
             else if (ConvertedType.Equals(DECIMAL_COLUMN_TYPE)) return "double";
             else if (ConvertedType.Equals(DOUBLE_COLUMN_TYPE)) return "double";
             else if (ConvertedType.Equals(INTEGER_COLUMN_TYPE)) return "int";

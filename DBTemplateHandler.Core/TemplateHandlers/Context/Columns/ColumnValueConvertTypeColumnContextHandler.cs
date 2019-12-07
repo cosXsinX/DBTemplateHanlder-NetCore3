@@ -13,7 +13,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => ")::}";
         public override string ContextActionDescription => "Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)";
 
-        
+        public IDictionary<string, string> conversionMap = new Dictionary<string, string> 
+        { 
+            {"INT->JAVA","int" } 
+        };
 
         IDictionary<String, AbstractConversionHandler> ConversionHandlerMap = null;
         private bool InitConversionHandlerMap()
@@ -50,7 +53,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             AbstractConversionHandler abstractConversionHandler =
                     GetConversionHandlerForEnvironmentDestinationKey
                         (TrimedStringContext);
-            return abstractConversionHandler.ConvertType(descriptionPojo.Type);//TODO Here provide database descriptor throughout pojo object
+            if (abstractConversionHandler == null) return $"CONVERT:UNKNOWN({TrimedStringContext})";
+            return abstractConversionHandler.ConvertType(descriptionPojo.Type);
         }
 
         private abstract class AbstractConversionHandler
