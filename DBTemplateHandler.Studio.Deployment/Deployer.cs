@@ -61,7 +61,12 @@ namespace DBTemplateHandler.Studio.Deployment
                 File.Copy(deployedDatabaseModel,Path.Combine(deploymentConfiguration.DatabaseModelsDeploymentPaths,Path.GetFileName(deployedDatabaseModel)), deploymentConfiguration.ForceReDeploy);
             }
 
+            var deployedTypeSetFiles = Path.Combine(AssemblyDirectory, "Deployed", "TypeSets");
+            var deployedTypeSets = Directory.GetFiles(deployedTypeSetFiles, "*.json");
+            foreach (var deployedTypeSet in deployedTypeSets)
+            {
+                File.Copy(deployedTypeSet, Path.Combine(deploymentConfiguration.TypeSetsDeploymentPaths, Path.GetFileName(deployedTypeSet)), deploymentConfiguration.ForceReDeploy);
+            }
         }
-
     }
 }

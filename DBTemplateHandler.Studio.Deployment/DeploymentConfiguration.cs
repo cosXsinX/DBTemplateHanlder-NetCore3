@@ -10,5 +10,7 @@ namespace DBTemplateHandler.Studio.Deployment
         public string DeploymentHistoryFolderPath { get; set; }
         public string DeploymentTemplateFolderPath { get; set; }
         public string DatabaseModelsDeploymentPaths { get; set; }
+        public string TypeSetsDeploymentPaths { get; set; }
+        public string TypeMappingDeploymentPaths { get; set; }
     }
 }

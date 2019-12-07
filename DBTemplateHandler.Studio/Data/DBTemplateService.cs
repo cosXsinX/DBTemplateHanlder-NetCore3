@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBTemplateHander.DatabaseModel.Import;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Persistance.Serializable;
 
 namespace DBTemplateHandler.Studio.Data
 {
@@ -153,7 +154,7 @@ namespace DBTemplateHandler.Studio.Data
             return Task.FromResult(persistenceFacade.GetAllTypeSetPersistenceNames());
         }
 
-        public void SaveTypeSet(string typeSetName, IList<string> typeSet)
+        public void SaveTypeSet(string typeSetName, IList<TypeSetItem> typeSet)
         {
             persistenceFacade.SaveTypeSet(typeSetName, typeSet);
         }
@@ -163,7 +164,7 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.DeleteTypeSet(typeSetName);
         }
 
-        public Task<IList<string>> GetTypeSetByPersistenceName(string persistenceName)
+        public Task<IList<TypeSetItem>> GetTypeSetByPersistenceName(string persistenceName)
         {
             return Task.FromResult(persistenceFacade.GetTypeSetByPersistenceName(persistenceName));
         }

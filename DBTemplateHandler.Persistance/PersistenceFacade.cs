@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Persistance
         private readonly Persistor<IList<TemplateModel>> templateModelPersistor;
         private readonly Persistor<PersistableDatabaseModel> databaseModelPersistor;
         private readonly Persistor<IList<TypeMappingItem>> typeMappingPersistor;
-        private readonly Persistor<IList<string>> typeSetPersistor;
+        private readonly Persistor<IList<TypeSetItem>> typeSetPersistor;
         private readonly DatabaseModelConverter databaseModelConverter = new DatabaseModelConverter();
         private readonly string templatesFolderPath;
         private readonly string databaseModelsFolderPath;
@@ -39,7 +39,7 @@ namespace DBTemplateHandler.Persistance
 
             typeSetFolderPath = persistenceFacadeConfiguration.TypeSetFolderPath;
             if (!Directory.Exists(typeSetFolderPath)) Directory.CreateDirectory(typeSetFolderPath);
-            typeSetPersistor = new Persistor<IList<string>>(typeSetFolderPath);
+            typeSetPersistor = new Persistor<IList<TypeSetItem>>(typeSetFolderPath);
         }
 
         public IList<ITemplateModel> GetAllTemplateModel()
@@ -130,18 +130,18 @@ namespace DBTemplateHandler.Persistance
             return typeSetPersistor.GetAllPersistanceNames();
         }
 
-        public IList<string> GetTypeSetByPersistenceName(string persistenceName)
+        public IList<TypeSetItem> GetTypeSetByPersistenceName(string persistenceName)
         {
             var results = typeSetPersistor.GetByPersistenceName(persistenceName);
             return results;
         }
 
-        public IList<IList<string>> GetAllTypeSets()
+        public IList<IList<TypeSetItem>> GetAllTypeSets()
         {
-            return typeSetPersistor.GetAll().Cast<IList<string>>().ToList();
+            return typeSetPersistor.GetAll().Cast<IList<TypeSetItem>>().ToList();
         }
 
-        public void SaveTypeSet(string persistenceName, IList<string> typeSet)
+        public void SaveTypeSet(string persistenceName, IList<TypeSetItem> typeSet)
         {
             typeSetPersistor.Save(persistenceName, typeSet);
         }

@@ -52,7 +52,8 @@ namespace DBTemplateHandler.Studio
                 DeploymentHistoryFolderPath = DeploymentHistoryFolderPath,
                 DeploymentTemplateFolderPath = persistenceConfig.TemplatesFolderPath,
                 DatabaseModelsDeploymentPaths = persistenceConfig.DatabaseModelsFolderPath,
-            });
+                TypeSetsDeploymentPaths = persistenceConfig.TypeSetFolderPath,
+            });  
         }
 
         public IConfiguration Configuration { get; }

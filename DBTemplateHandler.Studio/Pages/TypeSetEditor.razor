@@ -1,6 +1,6 @@
 ﻿@page "/type-set-editor"
 
-@using DBTemplateHandler.Core.Database
+@using DBTemplateHandler.Persistance.Serializable
 @using DBTemplateHandler.Studio.Data
 @inject DBTemplateService dbTemplateService
 
@@ -25,14 +25,20 @@
                 </select>
             }
         </div>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Set Name</span>
+            </div>
+            <input type="text" @bind="CurrentTypeSetName"/>
+        </div>
         <div class="btn-group">
             <button class="btn btn-primary" @onclick="@CreateTypeSet"><span class="oi oi-plus" /></button>
             <button class="btn btn-secondary" @onclick="@SaveTypeSet">Save</button>
             <button class="btn btn-danger" @onclick="@DeleteTypeSet"><span class="oi oi-trash"></span></button>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary"><span class="oi oi-plus" />Add Item</button>
-            <button class="btn btn-danger"><span class="oi oi-trash"></span>Delete Item</button>
+            <button class="btn btn-primary" @onclick="AddTypeItem"><span class="oi oi-plus" />Add Item</button>
+            <button class="btn btn-danger" @onclick="RemoveTypeItem"><span class="oi oi-trash"></span>Delete Item</button>
         </div>
     </div>
     <div class="row">
@@ -40,7 +46,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Type</span>
             </div>
-            <input type="text" class="form-control" @bind="@CurrentEditedType" />
+            <input type="text" class="form-control" @bind="@CurrentEditedTypeItemName" />
         </div>
     </div>
     <div class="row">
@@ -50,10 +56,10 @@
                 <ul class="list-group" rows="10">
                     @foreach (var currentType in TypeSet)
                     {
-                        <li class="list-group-item @ActiveWhenCurrentType(currentType)">
+                        <li class="list-group-item @ActiveWhenCurrentType(currentType.Name)" @onclick="@(() => SelectTypeItem(currentType.Name))">
                             <div class="row">
                                 <div class="">
-                                    @currentType
+                                    @currentType.Name
                                 </div>
                             </div>
                         </li>
@@ -65,8 +71,15 @@
 </div>
 
 @code{
-    public string CurrentEditedType { get; set; }
-    public IList<string> TypeSet { get; set; } = new List<string>();
+    public string CurrentEditedTypeItemName {
+        get {return CurrentEditedType?.Name; }
+        set {
+            if (CurrentEditedType == null) return;
+            CurrentEditedType.Name = value;
+        }
+    }
+    public TypeSetItem CurrentEditedType { get; set; }
+    public IList<TypeSetItem> TypeSet { get; set; } = new List<TypeSetItem>();
     public string CurrentTypeSetName { get; set; }
     public IList<string> TypeSetNames { get; set; } = new List<string>();
 
@@ -78,22 +91,24 @@
     void CreateTypeSet()
     {
         CurrentTypeSetName = "Type set name";
-        TypeSet = new List<string>();
+        TypeSet = new List<TypeSetItem>();
     }
 
-    void SaveTypeSet()
+    async void  SaveTypeSet()
     {
         dbTemplateService.SaveTypeSet(CurrentTypeSetName, TypeSet);
+        TypeSetNames = await dbTemplateService.GetAllTypeSetsPersistenceNames();
     }
 
-    void DeleteTypeSet()
+    async void DeleteTypeSet()
     {
         dbTemplateService.DeleteTypeSet(CurrentTypeSetName);
+        TypeSetNames = await dbTemplateService.GetAllTypeSetsPersistenceNames();
     }
 
     string ActiveWhenCurrentType(string currentType)
     {
-        return currentType == CurrentEditedType ? "active" : "";
+        return currentType == CurrentEditedTypeItemName ? "active" : "";
     }
 
     async void SetCurrentTypeSetModel(ChangeEventArgs e)
@@ -101,5 +116,24 @@
         var value = e.Value.ToString();
         TypeSet = await dbTemplateService.GetTypeSetByPersistenceName(value);
         CurrentTypeSetName = value;
+    }
+
+    void AddTypeItem()
+    {
+        CurrentEditedType = new TypeSetItem();
+        TypeSet = (new List<TypeSetItem> { CurrentEditedType}).Concat(TypeSet).ToList();
+
+    }
+
+    void RemoveTypeItem()
+    {
+        TypeSet.Remove(CurrentEditedType);
+        CurrentEditedType = TypeSet.FirstOrDefault();
+    }
+
+    void SelectTypeItem(string typeName)
+    {
+        var selectedType = TypeSet.FirstOrDefault(typeSetItem => typeSetItem.Name == typeName);
+        CurrentEditedType = selectedType;
     }
 }
