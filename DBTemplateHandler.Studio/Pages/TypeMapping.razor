@@ -26,7 +26,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Name</span>
             </div>
-            <input type="text" @bind="MappingName" />
+            <input type="text" @bind="MapingNameValue" />
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" @onclick="@CreateTypeMapping"><span class="oi oi-plus" /></button>
@@ -233,11 +233,13 @@
         CurrentTypeMappingItem = selectedMappingItem;
     }
 
+
+
     void CreateTypeMapping()
     {
         var typeMapping = new DBTemplateHandler.Persistance.Serializable.TypeMapping();
         CurrentTypeMapping = typeMapping;
-        MappingName = "Mapping Name";
+        MapingNameValue = "Mapping Name";
     }
 
     void SaveTypeMapping()

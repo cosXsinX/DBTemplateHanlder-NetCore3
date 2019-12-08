@@ -24,7 +24,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         private IDictionary<MappingKey,string> ToConversionMap(IList<ITypeMapping> typeMappings)
         {
             var intermediateResult = typeMappings.SelectMany(m => (m?.TypeMappingItems ?? new List<ITypeMappingItem>())
-                .Select(i => Tuple.Create(new MappingKey() { DestinationTypeSet = m.DestinationTypeSetName, SourceType = i.SourceType }, i.DestinationType))).ToList();
+                .Select(i => Tuple.Create(new MappingKey() { DestinationTypeSet = (m.DestinationTypeSetName??string.Empty).ToLowerInvariant(), SourceType = i.SourceType }, i.DestinationType))).ToList();
             var result = intermediateResult.GroupBy(m => m.Item1, m => m.Item2).ToDictionary(m => m.Key, m => m.First());
             return result;
         }
@@ -72,8 +72,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                         (StartContext + TrimedStringContext + EndContext) +
                             "' -> The value parameter cannot be empty");
             InitConversionHandlerMap();
-            if (!DestinationTypeSets.Contains(TrimedStringContext)) return $"CONVERT:UNKNOWN({TrimedStringContext})";
-            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext, SourceType = ColumnModel.Type }, out var result)) return result;
+            if (!DestinationTypeSets.Contains(TrimedStringContext.ToLowerInvariant())) return $"CONVERT:UNKNOWN({TrimedStringContext})";
+            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = ColumnModel.Type }, out var result)) return result;
             return ColumnModel.Type;
         }
 

@@ -1,1 +1,53 @@
-[{"Name":"int"},{"Name":"datetime"},{"Name":"money"},{"Name":"tinyint"},{"Name":"smallmoney"},{"Name":"uniqueidentifier"},{"Name":"xml"},{"Name":"smallint"},{"Name":"nvarchar"},{"Name":"decimal"},{"Name":"varchar"},{"Name":"nchar"},{"Name":"bit"},{"Name":"time"},{"Name":"varbinary"},{"Name":"numeric"},{"Name":"date"}]
+[
+  {
+    "Name": "int"
+  },
+  {
+    "Name": "datetime"
+  },
+  {
+    "Name": "money"
+  },
+  {
+    "Name": "tinyint"
+  },
+  {
+    "Name": "smallmoney"
+  },
+  {
+    "Name": "uniqueidentifier"
+  },
+  {
+    "Name": "xml"
+  },
+  {
+    "Name": "smallint"
+  },
+  {
+    "Name": "nvarchar"
+  },
+  {
+    "Name": "decimal"
+  },
+  {
+    "Name": "varchar"
+  },
+  {
+    "Name": "nchar"
+  },
+  {
+    "Name": "bit"
+  },
+  {
+    "Name": "time"
+  },
+  {
+    "Name": "varbinary"
+  },
+  {
+    "Name": "numeric"
+  },
+  {
+    "Name": "date"
+  }
+]

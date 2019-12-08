@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DBTemplateHander.DatabaseModel.Import;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
 using DBTemplateHandler.Persistance.Serializable;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 
 namespace DBTemplateHandler.Studio.Data
 {
@@ -166,12 +167,12 @@ namespace DBTemplateHandler.Studio.Data
             return Task.FromResult(persistenceFacade.GetAllTypeMappingPersistenceNames());
         }
 
-        public Task<TypeMapping> GetTypeMappingByPersistenceName(string persistenceName)
+        public Task<DBTemplateHandler.Persistance.Serializable.TypeMapping> GetTypeMappingByPersistenceName(string persistenceName)
         {
             return Task.FromResult(persistenceFacade.GetTypeMappingByPersistenceName(persistenceName));
         }
 
-        public void SaveTypeMapping(string typeMappingName, TypeMapping typeMapping)
+        public void SaveTypeMapping(string typeMappingName, DBTemplateHandler.Persistance.Serializable.TypeMapping typeMapping)
         {
             persistenceFacade.SaveTypeMapping(typeMappingName, typeMapping);
         }
@@ -183,16 +184,50 @@ namespace DBTemplateHandler.Studio.Data
 
         public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)
         {
+            var typeMappings = persistenceFacade.GetAllTypeMapping();
+            var sourceTypeAssociatedTypeMappings = typeMappings.Where(m => m.SourceTypeSetName == databaseModel.TypeSetName).Select(ToTypeMapping).ToList();
+
             IDatabaseTemplateHandlerInputModel databaseTemplateHandlerInputModel = new DatabaseTemplateHandlerInputModel()
             {
                 DatabaseModel = databaseModel,
                 TemplateModels = new List<ITemplateModel>()
                 {
                     templateModel
-                }
+                },
+                typeMappings = sourceTypeAssociatedTypeMappings
             };
             var result = inputModelHandler.Process(databaseTemplateHandlerInputModel);
             return result;
+        }
+
+        private ITypeMapping ToTypeMapping(DBTemplateHandler.Persistance.Serializable.TypeMapping converted)
+        {
+            var result = new TypeMapping();
+            result.DestinationTypeSetName = converted.DestinationTypeSetName;
+            result.SourceTypeSetName = converted.SourceTypeSetName;
+            result.TypeMappingItems = (converted?.TypeMappingItems ?? new List<DBTemplateHandler.Persistance.Serializable.TypeMappingItem>()).Select(ToTypeMappingItem).ToList();
+            return result;
+        }
+
+        public ITypeMappingItem ToTypeMappingItem(DBTemplateHandler.Persistance.Serializable.TypeMappingItem converted)
+        {
+            var result = new TypeMappingItem();
+            result.DestinationType = converted.DestinationType;
+            result.SourceType = converted.SourceType;
+            return result;
+        }
+
+        private class TypeMapping : ITypeMapping
+        {
+            public string DestinationTypeSetName { get; set ; }
+            public string SourceTypeSetName { get ; set ; }
+            public IList<ITypeMappingItem> TypeMappingItems { get ; set ; }
+        }
+
+        private class TypeMappingItem : ITypeMappingItem
+        {
+            public string DestinationType { get; set; }
+            public string SourceType { get ; set ; }
         }
     }
 }
