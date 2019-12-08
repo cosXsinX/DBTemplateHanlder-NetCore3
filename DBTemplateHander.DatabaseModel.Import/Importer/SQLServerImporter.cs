@@ -58,6 +58,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             ;
 
             IDatabaseModel databaseModel = ToDatabaseModel(sqlModelsWithIndexes);
+            databaseModel.TypeSetName = ManagedDbSystem;
             return databaseModel;
         }
 
@@ -122,6 +123,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
         {
             public string Name { get;set; }
             public IList<ITableModel> Tables { get;set; }
+            public string TypeSetName { get; set; }
         }
 
         public class ImporterTableModel : ITableModel

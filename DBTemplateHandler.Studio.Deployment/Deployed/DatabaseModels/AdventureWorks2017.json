@@ -1,4 +1,5 @@
 {
+  "TypeSetName": "Sql Server 2016",
   "Name": "AdventureWorks2017",
   "Tables": [
     {

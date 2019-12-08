@@ -34,13 +34,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             public string SourceType { get; set; }
             public string DestinationTypeSet { get; set; }
 
-            public bool Equals(object other)
+            public override bool Equals(object obj)
             {
-                if (!(other is MappingKey)) return false;
-                var otherAsMappingKey = (MappingKey)other;
-                if (DestinationTypeSet.Equals(otherAsMappingKey.DestinationTypeSet)) return false;
-                if (SourceType != otherAsMappingKey.SourceType) return false;
-                return true;
+                return obj is MappingKey key &&
+                       SourceType == key.SourceType &&
+                       DestinationTypeSet == key.DestinationTypeSet;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(SourceType, DestinationTypeSet);
             }
         }
 

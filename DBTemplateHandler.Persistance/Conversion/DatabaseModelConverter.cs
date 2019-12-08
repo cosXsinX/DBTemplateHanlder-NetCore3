@@ -1,9 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Persistance.Serializable;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DBTemplateHandler.Persistance.Conversion
 {
@@ -14,7 +11,8 @@ namespace DBTemplateHandler.Persistance.Conversion
             if (converted == null) return null;
             var result = new PersistableDatabaseModel();
             result.Name = converted.Name;
-            if(converted.Tables != null)
+            result.TypeSetName = converted.TypeSetName;
+            if (converted.Tables != null)
             {
                 result.Tables = converted.Tables.Select(ToPersistable).ToList();
             }
@@ -48,6 +46,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             if (converted == null) return null;
             var result = new DatabaseModel();
             result.Name = converted.Name;
+            result.TypeSetName = converted.TypeSetName;
             if (converted.Tables != null)
             {
                 result.Tables = converted.Tables.Select(ToUnPersisted).ToList();

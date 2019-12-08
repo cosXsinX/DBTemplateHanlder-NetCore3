@@ -1,5 +1,7 @@
 ﻿using DBTemplateHander.DatabaseModel.Import;
+using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Persistance;
+using DBTemplateHandler.Persistance.Serializable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +33,18 @@ namespace DBTemplateHandler.Studio.Data
             var databaseModel = importerProxy.ResolveAndImport(dbManagedName, connectionString);
             if (databaseModel == null) return "The database does not exists or the catalog is empty";
             persistenceFacade.Save(databaseModel.Name, databaseModel);
+            var typeSetItems = ToTypeSetItems(databaseModel);
+            if(typeSetItems.Any())persistenceFacade.SaveTypeSet(databaseModel.TypeSetName, typeSetItems);
             return "Import done";
+        }
+
+        private IList<TypeSetItem> ToTypeSetItems(IDatabaseModel databaseModel)
+        {
+            if (databaseModel == null) new List<string>();
+            var tableModels = databaseModel?.Tables ?? new List<ITableModel>();
+            var columnModels = tableModels.SelectMany(m => m?.Columns ?? new List<IColumnModel>());
+            return columnModels.Select(m => m.Type).Distinct().Where(m => !String.IsNullOrWhiteSpace(m))
+                .Select(m => new TypeSetItem() { Name = m }).ToList();
         }
 
     }

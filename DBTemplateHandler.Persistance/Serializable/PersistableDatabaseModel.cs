@@ -7,6 +7,7 @@ namespace DBTemplateHandler.Persistance.Serializable
 {
     public class PersistableDatabaseModel
     {
+        public string TypeSetName { get; set; }
         public string Name { get; set; }
         public List<PersistableTableModel> Tables { get; set; }
     }

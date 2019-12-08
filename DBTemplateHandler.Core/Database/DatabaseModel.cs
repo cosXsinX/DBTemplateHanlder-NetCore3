@@ -8,6 +8,7 @@ namespace DBTemplateHandler.Core.Database
     {
         public string Name { get; set; }
         public IList<ITableModel> Tables { get; set; }
+        public string TypeSetName { get; set; }
 
         public void UpdateContainedTablesParentReference()
         {
