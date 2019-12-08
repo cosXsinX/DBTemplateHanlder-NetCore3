@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class NotAutoColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+
+        public NotAutoColumnIndexColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:INDEX";
         public override string EndContext => "::}";
         public override bool isStartContextAndEndContextAnEntireWord => true;

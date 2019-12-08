@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
     public class FirstLetterToUpperCaseFunctionTemplateHandler : AbstractFunctionTemplateContextHandler
     {
+
+        public FirstLetterToUpperCaseFunctionTemplateHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:FUNCTION:FIRST:CHARACTER:TO:UPPER:CASE("; }
         public override string EndContext { get => ")::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;

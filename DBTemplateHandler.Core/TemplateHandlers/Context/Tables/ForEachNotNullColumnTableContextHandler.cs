@@ -7,6 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class ForEachNotNullColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
+        public ForEachNotNullColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
 
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH["; }
         public override string EndContext { get => "]::}"; }

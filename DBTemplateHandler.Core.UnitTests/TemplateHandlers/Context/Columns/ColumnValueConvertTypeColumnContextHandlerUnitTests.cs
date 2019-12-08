@@ -1,7 +1,9 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
 {
@@ -13,7 +15,31 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _tested = new ColumnValueConvertTypeColumnContextHandler();
+            var typeMappings = new List<ITypeMapping>()
+            {
+                new TypeMappingForTest()
+                {
+                    DestinationTypeSetName = "JAVA",
+                    TypeMappingItems = new List<ITypeMappingItem>()
+                    {
+                        new TypeMappingItemForTest(){SourceType="INT",DestinationType="int"},
+                        new TypeMappingItemForTest(){SourceType="BIGINT",DestinationType="long"},
+                        new TypeMappingItemForTest(){SourceType="BOOLEAN",DestinationType="boolean"},
+                        new TypeMappingItemForTest(){SourceType="CHAR",DestinationType="char"},
+                        new TypeMappingItemForTest(){SourceType="DATE",DestinationType="Date"},
+                        new TypeMappingItemForTest(){SourceType="DATETIME",DestinationType="Date"},
+                        new TypeMappingItemForTest(){SourceType="DECIMAL",DestinationType="double"},
+                        new TypeMappingItemForTest(){SourceType="INTEGER",DestinationType="int"},
+                        new TypeMappingItemForTest(){SourceType="NUMERIC",DestinationType="double"},
+                        new TypeMappingItemForTest(){SourceType="REAL",DestinationType="double"},
+                        new TypeMappingItemForTest(){SourceType="STRING",DestinationType="String"},
+                        new TypeMappingItemForTest(){SourceType="TEXT",DestinationType="String"},
+                        new TypeMappingItemForTest(){SourceType="TIME",DestinationType="Date"},
+                        new TypeMappingItemForTest(){SourceType="VARCHAR",DestinationType="String"},
+                    }
+                }
+            };
+            _tested = new ColumnValueConvertTypeColumnContextHandler(null,typeMappings);
         }
 
         [Test]
@@ -61,6 +87,19 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             _tested.ColumnModel = new ColumnModel() { Type = columnType, };
             var result = _tested.processContext($"{_tested.StartContext}{destinationTypeSet}{_tested.EndContext}");
             Assert.AreEqual(expectedOutput, result);
+        }
+
+        public class TypeMappingForTest : ITypeMapping
+        {
+            public string DestinationTypeSetName { get; set; }
+            public string SourceTypeSetName { get; set; }
+            public IList<ITypeMappingItem> TypeMappingItems { get; set; }
+        }
+
+        public class TypeMappingItemForTest : ITypeMappingItem
+        {
+            public string DestinationType { get; set; }
+            public string SourceType { get; set; }
         }
     }
 }

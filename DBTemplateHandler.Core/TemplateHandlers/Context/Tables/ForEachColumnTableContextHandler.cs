@@ -7,6 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class ForEachColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
+        public ForEachColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext  => "{:TDB:TABLE:COLUMN:FOREACH["; 
         public override string EndContext => "]::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

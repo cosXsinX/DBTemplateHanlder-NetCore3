@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsAutoColumnAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+
+        public IsAutoColumnAFirstAutoColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:FIRST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

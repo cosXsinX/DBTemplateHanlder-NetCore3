@@ -6,6 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public abstract class AbstractTableTemplateContextHandler : AbstractTemplateContextHandler, ITableTemplateContextHandler
     {
+        public AbstractTableTemplateContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public ITableModel TableModel { get; set; }
 
         public override string HandleTrimedContext(string StringTrimedContext)

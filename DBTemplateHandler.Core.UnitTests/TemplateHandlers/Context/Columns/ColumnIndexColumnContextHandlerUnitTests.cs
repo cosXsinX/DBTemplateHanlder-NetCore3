@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _tested = new ColumnIndexColumnContextHandler();
+            var templateHandlerNew = new TemplateHandlerNew(null);
+            _tested = new ColumnIndexColumnContextHandler(templateHandlerNew);
         }
 
         [Test]

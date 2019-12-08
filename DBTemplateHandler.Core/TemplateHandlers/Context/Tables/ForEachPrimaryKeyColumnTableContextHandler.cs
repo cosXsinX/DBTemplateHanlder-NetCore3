@@ -8,6 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class ForEachPrimaryKeyColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
+        public ForEachPrimaryKeyColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH["; }
         public override string EndContext { get => "]::}"; }
         public override string ContextActionDescription => "Is replaced by the intern context as many time as there is primary key column in the table";

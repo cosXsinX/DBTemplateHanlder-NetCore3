@@ -1,23 +1,24 @@
-﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
-using DBTemplateHandler.Core.TemplateHandlers.Context;
-using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
-using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
-using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Context;
 using DBTemplateHandler.Core.TemplateHandlers.Utilities;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class TemplateValidator
     {
 
-        private static readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>
-            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>
+            templateContextHandlerProvider;
 
-        public static bool TemplateStringValidation(String ValidatedTemplateString)
+        public TemplateValidator(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
+        {
+            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(templateHandlerNew, typeMappings);
+        }
+
+        public bool TemplateStringValidation(string ValidatedTemplateString)
         {
             if (!ContextOpeningAndClosureTemplateStringValidation(ValidatedTemplateString))
                 return false;
@@ -26,15 +27,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return true;
         }
 
-        private static bool ContextOpeningAndClosureTemplateStringValidation
-            (String ValidatedTemplateString)
+        private bool ContextOpeningAndClosureTemplateStringValidation
+            (string ValidatedTemplateString)
         {
             int startContextCount = templateContextHandlerProvider.CountStartContextWordIn(ValidatedTemplateString);
             int endContextCount = templateContextHandlerProvider.CountEndContextWordIn(ValidatedTemplateString);
             return startContextCount == endContextCount;
         }
 
-        private static bool ContextDepthTemplateStringValidation
+        private bool ContextDepthTemplateStringValidation
             (String ValidatedTemplateString)
         {
             String currentHandledTemplateString = ValidatedTemplateString;

@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.Template;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,19 +46,22 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
+            var TemplateHandlerNew = new TemplateHandlerNew(null);
             return TemplateHandlerNew.GetAllItemplateContextHandlerIdentity();
         }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
             var result = input.TemplateModels.SelectMany(templateModel =>
-                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel)).Cast<IHandledTemplateResultModel>().ToList();
+                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel, input.typeMappings)).Cast<IHandledTemplateResultModel>().ToList();
             return result;
         }
 
         public IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
-            (ITemplateModel templateModel, IDatabaseModel databaseModel)
+            (ITemplateModel templateModel, IDatabaseModel databaseModel,IList<ITypeMapping> typeMappings)
         {
+
+            var TemplateHandlerNew = new TemplateHandlerNew(typeMappings);
             if (databaseModel == null) yield break;
             if (templateModel == null) yield break;
             string databaseFilePathTemplateWord = DatabaseFilePathTemplateWord;
@@ -143,10 +147,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
         public IEnumerable<HandledTemplateResultModel> GenerateTableTemplateFiles
-        (TemplateModel templateModel, TableModel tableModel)
+        (TemplateModel templateModel, TableModel tableModel,IList<ITypeMapping> typeMappings)
         {
             if (tableModel == null) yield break;
 
+            var TemplateHandlerNew = new TemplateHandlerNew(typeMappings);
             string databaseFilePathTemplateWord = DatabaseFilePathTemplateWord;
             string tableFilePathTemplateWord = TableFilePathTemplateWord;
             string columnTemplateFileNameWord = ColumnTemplateFileNameWord;

@@ -9,35 +9,47 @@ using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using DBTemplateHandler.Core.TemplateHandlers.Utilities;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
     public class TemplateHandlerNew
     {
-        private static readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler> 
-            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler> 
+            templateContextHandlerProvider;
 
-        private static readonly TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>
-            databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>
+            databaseTemplateContextHandlerProvider;
 
-        private static readonly TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>
-            tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>
+            tableTemplateContextHandlerProvider;
         
-        private static readonly TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>
-            columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>
+            columnTemplateContextHandlerProvider;
         
-        private static readonly TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>
-            functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>();
+        private readonly TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>
+            functionTemplateContextHandlerProvider;
+
+        private readonly TemplateValidator templateValidator;
+
+        public TemplateHandlerNew(IList<ITypeMapping> typeMapping)
+        {
+            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMapping);
+            databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMapping);
+            tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMapping);
+            columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>(this,typeMapping);
+            functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(this,typeMapping);
+            templateValidator = new TemplateValidator(this,typeMapping);
+        }
 
 
-
-        public static IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
+        public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
             return templateContextHandlerProvider.GetHandlers().Cast<ITemplateContextHandlerIdentity>().ToList();
         }
 
 
-        public static string HandleTemplate(string templateString,
+        public string HandleTemplate(string templateString,
             IDatabaseModel databaseModel,
             ITableModel tableModel,
             IColumnModel columnModel)
@@ -78,14 +90,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
 
-        public static string HandleDatabaseTemplate(
+        public string HandleDatabaseTemplate(
                 string templateString, IDatabaseModel databaseModel)
         {
             if (databaseModel == null)
                 return templateString;
             if (!databaseTemplateContextHandlerProvider.ContainsAHandlerStartContextOfType(templateString))
                 return templateString;
-            if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
+            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
             UpdateContainedTables(databaseModel);
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
@@ -205,13 +217,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableTemplate(string templateString, ITableModel tableModel)
+        public string HandleTableTemplate(string templateString, ITableModel tableModel)
         {
             if (tableModel == null)
                 return templateString;
             if (!tableTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
-            if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
+            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
             UpdateContainedColumns(tableModel);
 
             string currentHandledTemplateString = templateString;
@@ -332,12 +344,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return currentHandledContextBufferStringBuilder.ToString();
         }
 
-        public static string HandleTableColumnTemplate(string templateString, IColumnModel descriptionPOJO)
+        public string HandleTableColumnTemplate(string templateString, IColumnModel descriptionPOJO)
         {
             if (descriptionPOJO == null) return templateString;
             if (!columnTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
-            if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
+            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
 
             string currentHandledTemplateString = templateString;
             Stack<string> StartContextWordStack = new Stack<string>();
@@ -470,13 +482,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             columns.ForEach(m => m.ParentTable = tableModel);
         }
 
-        public static string HandleFunctionTemplate(
+        public string HandleFunctionTemplate(
                 string templateString, IDatabaseModel databaseModel,
                 ITableModel tableModel, IColumnModel columnDescriptionPojo)
         {
             if (!functionTemplateContextHandlerProvider.
                     ContainsAHandlerStartContextOfType(templateString)) return templateString;
-            if (!TemplateValidator.TemplateStringValidation(templateString)) return templateString;
+            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
             if (databaseModel != null) UpdateContainedTables(databaseModel);
             if (tableModel != null) UpdateContainedColumns(tableModel);
 

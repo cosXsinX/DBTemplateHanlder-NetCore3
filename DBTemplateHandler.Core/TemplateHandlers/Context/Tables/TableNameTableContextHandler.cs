@@ -1,4 +1,5 @@
 ﻿using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class TableNameTableContextHandler : AbstractTableTemplateContextHandler
     {
 
+        public TableNameTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:CURRENT:NAME"; }
         public override string EndContext { get => "::}"; }
 

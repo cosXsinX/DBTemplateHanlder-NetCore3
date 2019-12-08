@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Core.TemplateHandlers.Utilities;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public class TemplateContextHandlerPackageProvider<U> where U: ITemplateContextHandler
     {
-        private readonly TemplateContextHandlerRegister _register = new TemplateContextHandlerRegister();
+        private readonly TemplateContextHandlerRegister _register;
 
-        public TemplateContextHandlerPackageProvider()
+        public TemplateContextHandlerPackageProvider(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
+            _register = new TemplateContextHandlerRegister(templateHandlerNew,typeMappings);
         }
 
         public IList<U> GetHandlers()

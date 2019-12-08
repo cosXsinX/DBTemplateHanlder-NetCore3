@@ -1,9 +1,18 @@
-﻿using System;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using System;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public abstract class AbstractTemplateContextHandler : ITemplateContextHandler
     {
+        public AbstractTemplateContextHandler(TemplateHandlerNew templateHandlerNew)
+        {
+            if (templateHandlerNew == null) throw new ArgumentNullException(nameof(templateHandlerNew));
+            TemplateHandlerNew = templateHandlerNew;
+        }
+
+        protected TemplateHandlerNew TemplateHandlerNew { get; }
+
         public abstract string StartContext { get; }
 
         public abstract string EndContext { get; }

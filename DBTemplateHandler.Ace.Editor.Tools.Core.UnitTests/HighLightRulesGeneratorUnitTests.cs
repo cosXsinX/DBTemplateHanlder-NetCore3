@@ -12,7 +12,8 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.UnitTests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            TemplateContextHandlerRegister register = new TemplateContextHandlerRegister();
+            var templateHandlerNew = new TemplateHandlerNew(null);
+            TemplateContextHandlerRegister register = new TemplateContextHandlerRegister(templateHandlerNew,null);
             _tested = new HighLightRulesGenerator(register);
         }
 

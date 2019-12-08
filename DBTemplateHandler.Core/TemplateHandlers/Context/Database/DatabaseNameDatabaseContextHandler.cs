@@ -1,4 +1,5 @@
 ﻿using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public class DatabaseNameDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
     {
+
+        public DatabaseNameDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
         private const string START_CONTEXT_WORD = "{:TDB:CURRENT:NAME";
         private const string END_CONTEXT_WORD = "::}";
 

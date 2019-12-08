@@ -8,9 +8,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 {
     public abstract class AbstractColumnTemplateContextHandler : AbstractTemplateContextHandler, IColumnTemplateContextHandler
     {
-        public AbstractColumnTemplateContextHandler()
+        public AbstractColumnTemplateContextHandler(TemplateHandlerNew templateHandlerNew):base(templateHandlerNew)
         {
-
         }
 
         public IColumnModel ColumnModel{get;set;}

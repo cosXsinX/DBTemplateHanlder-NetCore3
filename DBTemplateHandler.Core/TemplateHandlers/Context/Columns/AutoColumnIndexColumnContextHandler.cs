@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class AutoColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        public AutoColumnIndexColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+
         public override string StartContext => "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX";
         public override string EndContext => "::}";
         public int DefaultIndex => 0;

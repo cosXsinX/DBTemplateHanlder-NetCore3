@@ -1,10 +1,10 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
@@ -14,6 +14,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => ")::}";
         public override string ContextActionDescription => "Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)";
 
+        public ColumnValueConvertTypeColumnContextHandler(TemplateHandlerNew templateHandlerNew,IList<ITypeMapping> typeMappings):base(templateHandlerNew)
+        {
+            if (typeMappings == null) return;
+            if (!typeMappings.Any()) return;
+            conversionMap = ToConversionMap(typeMappings);
+        }
+
+        private IDictionary<MappingKey,string> ToConversionMap(IList<ITypeMapping> typeMappings)
+        {
+            var intermediateResult = typeMappings.SelectMany(m => (m?.TypeMappingItems ?? new List<ITypeMappingItem>())
+                .Select(i => Tuple.Create(new MappingKey() { DestinationTypeSet = m.DestinationTypeSetName, SourceType = i.SourceType }, i.DestinationType))).ToList();
+            var result = intermediateResult.GroupBy(m => m.Item1, m => m.Item2).ToDictionary(m => m.Key, m => m.First());
+            return result;
+        }
 
         private struct MappingKey
         {
@@ -30,25 +44,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             }
         }
 
-        //TODO Make that parametric
-        private IDictionary<MappingKey, string> conversionMap = new Dictionary<MappingKey, string>
-        {
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="INT"},"int" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="BIGINT"},"long" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="BOOLEAN"},"boolean" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="CHAR"},"char" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DATE"},"Date" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DATETIME"},"Date" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="DECIMAL"},"double" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="INTEGER"},"int" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="NUMERIC"},"double" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="REAL"},"double" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="STRING"},"String" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="TEXT"},"String" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="TIME"},"Date" } ,
-            {new MappingKey(){ DestinationTypeSet="JAVA",SourceType="VARCHAR"},"String" } ,
-
-        };
+        private readonly IDictionary<MappingKey, string> conversionMap = new Dictionary<MappingKey, string>();
 
         private HashSet<string> DestinationTypeSets;
         private bool InitConversionHandlerMap()
@@ -58,9 +54,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             DestinationTypeSets = new HashSet<string>(conversionMap.Keys.Select(m => m.DestinationTypeSet));
             return (DestinationTypeSets != null);
         }
-
-        
-
 
         public override string processContext(string StringContext)
         {

@@ -8,6 +8,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public class ForEachTableDatabaseContextHandler : AbstractLoopTableDatabaseTemplateContextHandler
     {
+        public ForEachTableDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew){}
+
         public override string StartContext { get => "{:TDB:TABLE:FOREACH["; }
         public override string EndContext { get => "]::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;
