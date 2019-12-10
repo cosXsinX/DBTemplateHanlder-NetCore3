@@ -1,9 +1,9 @@
 [
   {
-    "Name": "java.util.Date"
+    "Name": "Date"
   },
   {
-    "Name": "java.lang.String"
+    "Name": "String"
   },
   {
     "Name": "char"

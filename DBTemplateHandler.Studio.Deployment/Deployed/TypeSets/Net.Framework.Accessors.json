@@ -1,0 +1,41 @@
+[
+  {
+    "Name": "GetByte()"
+  },
+  {
+    "Name": "GetInt16()"
+  },
+  {
+    "Name": "GetFloat()"
+  },
+  {
+    "Name": "GetInt32()"
+  },
+  {
+    "Name": "GetGuid()"
+  },
+  {
+    "Name": "GetDouble()"
+  },
+  {
+    "Name": "GetDateTime()"
+  },
+  {
+    "Name": "GetDecimal()"
+  },
+  {
+    "Name": "GetValue()"
+  },
+  {
+    "Name": "GetString()"
+  },
+  {
+    "Name": "GetBoolean()"
+  },
+  {
+    "Name": "GetBytes()"
+  },
+  {
+    "Name": "GetInt64()"
+  }
+]

@@ -1,0 +1,114 @@
+{
+  "SourceTypeSetName": "Sql Server 2016",
+  "DestinationTypeSetName": "C#",
+  "TypeMappingItems": [
+    {
+      "SourceType": "xml",
+      "DestinationType": "Xml"
+    },
+    {
+      "SourceType": "varchar",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "varbinary",
+      "DestinationType": "byte[]"
+    },
+    {
+      "SourceType": "uniqueidentifier",
+      "DestinationType": "Guid"
+    },
+    {
+      "SourceType": "tinyint",
+      "DestinationType": "byte"
+    },
+    {
+      "SourceType": "timestamp",
+      "DestinationType": "byte"
+    },
+    {
+      "SourceType": "time",
+      "DestinationType": "TimeSpan"
+    },
+    {
+      "SourceType": "sql_variant",
+      "DestinationType": "object"
+    },
+    {
+      "SourceType": "smallmoney",
+      "DestinationType": "decimal"
+    },
+    {
+      "SourceType": "smalldatetime",
+      "DestinationType": "DateTime"
+    },
+    {
+      "SourceType": "rowversion",
+      "DestinationType": "byte[]"
+    },
+    {
+      "SourceType": "nvarchar",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "numeric",
+      "DestinationType": "decimal"
+    },
+    {
+      "SourceType": "ntext",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "nchar",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "money",
+      "DestinationType": "decimal"
+    },
+    {
+      "SourceType": "int",
+      "DestinationType": "int"
+    },
+    {
+      "SourceType": "image",
+      "DestinationType": "byte[]"
+    },
+    {
+      "SourceType": "float",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "varbinary",
+      "DestinationType": "byte[]"
+    },
+    {
+      "SourceType": "decimal",
+      "DestinationType": "decimal"
+    },
+    {
+      "SourceType": "datetimeoffset",
+      "DestinationType": "DateTimeOffset"
+    },
+    {
+      "SourceType": "datetime",
+      "DestinationType": "DateTime"
+    },
+    {
+      "SourceType": "char",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "bit",
+      "DestinationType": "bool"
+    },
+    {
+      "SourceType": "binary",
+      "DestinationType": "byte[]"
+    },
+    {
+      "SourceType": "bigint",
+      "DestinationType": "long"
+    }
+  ]
+}

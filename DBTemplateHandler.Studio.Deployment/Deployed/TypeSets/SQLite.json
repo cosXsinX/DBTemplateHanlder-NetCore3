@@ -1,1 +1,50 @@
-[{"Name":"TIME"},{"Name":"TEXT"},{"Name":"STRING"},{"Name":"REAL"},{"Name":"NUMERIC"},{"Name":"INTEGER"},{"Name":"DOUBLE"},{"Name":"DECIMAL"},{"Name":"DATETIME"},{"Name":"DATE"},{"Name":"CHAR"},{"Name":"BIGINT"},{"Name":"BLOB"},{"Name":"INT"},{"Name":"VARCHAR"},{"Name":"BOOLEAN"}]
+[
+  {
+    "Name": "TIME"
+  },
+  {
+    "Name": "TEXT"
+  },
+  {
+    "Name": "STRING"
+  },
+  {
+    "Name": "REAL"
+  },
+  {
+    "Name": "NUMERIC"
+  },
+  {
+    "Name": "INTEGER"
+  },
+  {
+    "Name": "DOUBLE"
+  },
+  {
+    "Name": "DECIMAL"
+  },
+  {
+    "Name": "DATETIME"
+  },
+  {
+    "Name": "DATE"
+  },
+  {
+    "Name": "CHAR"
+  },
+  {
+    "Name": "BIGINT"
+  },
+  {
+    "Name": "BLOB"
+  },
+  {
+    "Name": "INT"
+  },
+  {
+    "Name": "VARCHAR"
+  },
+  {
+    "Name": "BOOLEAN"
+  }
+]

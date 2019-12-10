@@ -1,5 +1,44 @@
 [
   {
+    "Name": "timestamp"
+  },
+  {
+    "Name": "text"
+  },
+  {
+    "Name": "sql_variant"
+  },
+  {
+    "Name": "smalldatetime"
+  },
+  {
+    "Name": "rowversion"
+  },
+  {
+    "Name": "real"
+  },
+  {
+    "Name": "ntext"
+  },
+  {
+    "Name": "image"
+  },
+  {
+    "Name": "float"
+  },
+  {
+    "Name": "datetimeoffset"
+  },
+  {
+    "Name": "char"
+  },
+  {
+    "Name": "binary"
+  },
+  {
+    "Name": "bigint"
+  },
+  {
     "Name": "int"
   },
   {

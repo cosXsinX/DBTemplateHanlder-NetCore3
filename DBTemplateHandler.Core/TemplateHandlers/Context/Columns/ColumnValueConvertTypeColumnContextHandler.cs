@@ -77,8 +77,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return ColumnModel.Type;
         }
 
-
-
         public override bool isStartContextAndEndContextAnEntireWord => false;
 
     }
