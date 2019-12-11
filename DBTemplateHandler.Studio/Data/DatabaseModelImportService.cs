@@ -34,8 +34,17 @@ namespace DBTemplateHandler.Studio.Data
             if (databaseModel == null) return "The database does not exists or the catalog is empty";
             persistenceFacade.Save(databaseModel.Name, databaseModel);
             var typeSetItems = ToTypeSetItems(databaseModel);
-            if(typeSetItems.Any())persistenceFacade.SaveTypeSet(databaseModel.TypeSetName, typeSetItems);
+            var alreadyPersistedTypeSetItems = persistenceFacade.GetTypeSetByPersistenceName(databaseModel.TypeSetName);
+            var mergedTypeSetItems = Merge(typeSetItems, alreadyPersistedTypeSetItems);
+            if(typeSetItems.Any())persistenceFacade.SaveTypeSet(databaseModel.TypeSetName, mergedTypeSetItems);
             return "Import done";
+        }
+
+        private IList<TypeSetItem> Merge(IList<TypeSetItem> destination, IList<TypeSetItem> merged)
+        {
+            var destinationNames = new HashSet<string>(destination.Select(m => m?.Name?? string.Empty).Distinct());
+            var result = destination.Concat(merged.Where(m => !destinationNames.Contains(m?.Name ?? string.Empty))).ToList();
+            return result;
         }
 
         private IList<TypeSetItem> ToTypeSetItems(IDatabaseModel databaseModel)

@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "SQL_WVARCHAR"
+  },
+  {
+    "Name": "SQL_WLONGVARCHAR"
+  },
+  {
+    "Name": "SQL_WCHAR"
+  },
+  {
+    "Name": "SQL_VARBINARY"
+  },
+  {
+    "Name": "SQL_TYPE_TIMESTAMP"
+  },
+  {
+    "Name": "SQL_TYPE_TIMES"
+  },
+  {
+    "Name": "SQL_TINYINT"
+  },
+  {
+    "Name": "SQL_SMALLINT"
+  },
+  {
+    "Name": "SQL_REAL"
+  },
+  {
+    "Name": "SQL_NUMERIC"
+  },
+  {
+    "Name": "SQL_LONGVARBINARY"
+  },
+  {
+    "Name": "SQL_LONG_VARCHAR"
+  },
+  {
+    "Name": "SQL_INTEGER"
+  },
+  {
+    "Name": "SQL_GUID"
+  },
+  {
+    "Name": "SQL_DOUBLE"
+  },
+  {
+    "Name": "SQL_DECIMAL"
+  },
+  {
+    "Name": "SQL_CHAR"
+  },
+  {
+    "Name": "SQL_BIT"
+  },
+  {
+    "Name": "SQL_BINARY"
+  },
+  {
+    "Name": "SQL_BIGINT"
+  }
+]
