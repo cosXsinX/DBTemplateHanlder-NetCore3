@@ -8,6 +8,9 @@
     <None Update="Deployed\DatabaseModels\AdventureWorks2017.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Deployed\Templates\CSharpDataAccess.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Deployed\Templates\JavaDataAccess.Exemple.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
