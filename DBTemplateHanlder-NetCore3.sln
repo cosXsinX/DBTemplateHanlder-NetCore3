@@ -4,8 +4,6 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Core", "DBTemplateHandler.Core\DBTemplateHandler.Core.csproj", "{D306F3A7-B67A-451B-B691-7A17C74A5CB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Api", "DBTemplateHandler.Api\DBTemplateHandler.Api.csproj", "{1036B733-2C17-4CFF-AB32-2DB3E8045581}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Core.UnitTests", "DBTemplateHandler.Core.UnitTests\DBTemplateHandler.Core.UnitTests.csproj", "{2F1D9AEC-AE10-4E5F-83BF-8DAE2516E5F0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Service.Contracts", "DBTemplateHandler.Service.Contracts\DBTemplateHandler.Service.Contracts.csproj", "{CE6AD450-1E8D-4BF1-A607-F7E74996FD15}"
@@ -26,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.DatabaseM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Utils", "DBTemplateHandler.Utils\DBTemplateHandler.Utils.csproj", "{3BAA1549-24B9-435A-9DF2-E09F54EAEE68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Utils.UnitTests", "DBTemplateHandler.Utils.UnitTests\DBTemplateHandler.Utils.UnitTests.csproj", "{D014A7AA-EE5C-49AC-934D-FBED886D7BFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Utils.UnitTests", "DBTemplateHandler.Utils.UnitTests\DBTemplateHandler.Utils.UnitTests.csproj", "{D014A7AA-EE5C-49AC-934D-FBED886D7BFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +36,6 @@ Global
 		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D306F3A7-B67A-451B-B691-7A17C74A5CB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1036B733-2C17-4CFF-AB32-2DB3E8045581}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F1D9AEC-AE10-4E5F-83BF-8DAE2516E5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F1D9AEC-AE10-4E5F-83BF-8DAE2516E5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F1D9AEC-AE10-4E5F-83BF-8DAE2516E5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU

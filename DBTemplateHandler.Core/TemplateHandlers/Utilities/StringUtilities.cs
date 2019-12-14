@@ -4,8 +4,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
     public static class StringUtilities
     {
 
-        public static String getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence
-        (String submittedString, String SearchedWord)
+        public static string getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence
+        (string submittedString, string SearchedWord)
         {
             if (submittedString == null) return null;
             if (SearchedWord == null) return null;
@@ -15,8 +15,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Utilities
             return submittedString.Substring(0, FirstOccurenceIndex);
         }
 
-        public static String getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
-        (String submittedString, String SearchedWord)
+        public static string getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence
+        (string submittedString, string SearchedWord)
         {
             if (submittedString == null) return null;
             if (SearchedWord == null) return null;

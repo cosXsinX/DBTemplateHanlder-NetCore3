@@ -7,13 +7,13 @@ using DBTemplateHandler.Service.Contracts.TypeMapping;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
-    public class TemplateContextHandlerPackageProvider<U> where U: ITemplateContextHandler
+    public class TemplateContextHandlerPackageProvider<U> : ITemplateContextHandlerPackageProvider<U> where U : ITemplateContextHandler
     {
         private readonly TemplateContextHandlerRegister _register;
 
         public TemplateContextHandlerPackageProvider(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
-            _register = new TemplateContextHandlerRegister(templateHandlerNew,typeMappings);
+            _register = new TemplateContextHandlerRegister(templateHandlerNew, typeMappings);
         }
 
         public IList<U> GetHandlers()
@@ -126,15 +126,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             {
                 var currentEndWord = currentHandler.EndContext;
                 var currentlastIndexOf = submittedString.LastIndexOf(currentEndWord, StringComparison.Ordinal);
-                var currentEndWordEndsWithResult = result == null? false :currentEndWord.EndsWith(result);
+                var currentEndWordEndsWithResult = result == null ? false : currentEndWord.EndsWith(result);
                 var ResultEndsWithcurrentEndWord = result == null ? false : result.EndsWith(currentEndWord);
                 string currentWordLengthWithoutResult = null;
-                if(currentEndWordEndsWithResult && (currentEndWord.Length - result.Length <= currentEndWord.Length))
+                if (currentEndWordEndsWithResult && (currentEndWord.Length - result.Length <= currentEndWord.Length))
                     currentWordLengthWithoutResult = currentEndWord.Substring(0, currentEndWord.Length - result.Length);
-                var currentWordLengthWithoutResultLength = currentWordLengthWithoutResult == null ? 0: currentWordLengthWithoutResult.Length;
-                if (currentlastIndexOf >= 0 && 
+                var currentWordLengthWithoutResultLength = currentWordLengthWithoutResult == null ? 0 : currentWordLengthWithoutResult.Length;
+                if (currentlastIndexOf >= 0 &&
                     (
-                        (EarliestPosition == -1) 
+                        (EarliestPosition == -1)
                         || (currentlastIndexOf > EarliestPosition)
                         || (currentlastIndexOf < EarliestPosition && currentWordLengthWithoutResultLength == (EarliestPosition - currentlastIndexOf) && currentEndWordEndsWithResult && !ResultEndsWithcurrentEndWord)))
                 {
