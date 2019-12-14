@@ -4,9 +4,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DBTemplateHandler.Core.UnitTests.Handlers
 {
@@ -30,7 +28,7 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
         {
             DatabaseNameDatabaseContextHandler databaseNameDatabaseContextHandler = new DatabaseNameDatabaseContextHandler(templateHandlerNew);
             TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
-            var results = _tested.ExtractAllContext($"{databaseNameDatabaseContextHandler.Signature}-{tableNameTableContextHandler.Signature}");
+            var results = _tested.ExtractAllContextUntilDepth($"{databaseNameDatabaseContextHandler.Signature}-{tableNameTableContextHandler.Signature}",0);
             Assert.IsNotNull(results);
             var resultAsList = results.ToList();
             CollectionAssert.IsNotEmpty(resultAsList);
@@ -51,5 +49,100 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
             Assert.AreEqual(second.current.EndContextDelimiter, tableNameTableContextHandler.EndContext);
         }
 
+        [Test]
+        public void ShouldReturnOnlyOneContextWhenTwoStartContextDelimiterAndOnlyOneEndContext()
+        {
+            DatabaseNameDatabaseContextHandler databaseNameDatabaseContextHandler = new DatabaseNameDatabaseContextHandler(templateHandlerNew);
+            TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
+            var results = _tested.ExtractAllContextUntilDepth($"{databaseNameDatabaseContextHandler.Signature}-{tableNameTableContextHandler.StartContext}", 0);
+            Assert.IsNotNull(results);
+            var resultAsList = results.ToList();
+            CollectionAssert.IsNotEmpty(resultAsList);
+            Assert.AreEqual(1, resultAsList.Count);
+            var first = resultAsList[0];
+            Assert.IsNotNull(first.current);
+            Assert.IsNotNull(first.childs);
+            CollectionAssert.IsEmpty(first.childs);
+            Assert.AreEqual(first.current.StartContextDelimiter, databaseNameDatabaseContextHandler.StartContext);
+            Assert.AreEqual(first.current.InnerContent, String.Empty);
+            Assert.AreEqual(first.current.EndContextDelimiter, databaseNameDatabaseContextHandler.EndContext);
+        }
+
+
+        [Test]
+        public void ShouldReturnOnlyOneContextWithTheSecondNested()
+        {
+            ForEachTableDatabaseContextHandler forEachTableDatabaseContextHandler = new ForEachTableDatabaseContextHandler(templateHandlerNew);
+            TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
+            var results = _tested.ExtractAllContextUntilDepth($"{forEachTableDatabaseContextHandler.StartContext}{tableNameTableContextHandler.StartContext}{tableNameTableContextHandler.EndContext}{forEachTableDatabaseContextHandler.EndContext}", 1);
+            Assert.IsNotNull(results);
+            var resultAsList = results.ToList();
+            CollectionAssert.IsNotEmpty(resultAsList);
+            Assert.AreEqual(1, resultAsList.Count);
+            var first = resultAsList[0];
+            Assert.IsNotNull(first.current);
+            Assert.IsNotNull(first.childs);
+            CollectionAssert.IsNotEmpty(first.childs);
+            Assert.AreEqual(first.current.StartContextDelimiter, forEachTableDatabaseContextHandler.StartContext);
+            Assert.AreEqual(first.current.InnerContent, $"{tableNameTableContextHandler.StartContext}{tableNameTableContextHandler.EndContext}");
+            Assert.AreEqual(first.current.EndContextDelimiter, forEachTableDatabaseContextHandler.EndContext);
+            Assert.AreEqual(1, first.childs.Count);
+            var firstChild = first.childs.First();
+            Assert.IsNotNull(firstChild.current);
+            Assert.IsNotNull(firstChild.childs);
+            Assert.AreEqual(firstChild.current.StartContextDelimiter, tableNameTableContextHandler.StartContext);
+            Assert.AreEqual(firstChild.current.InnerContent, String.Empty);
+            Assert.AreEqual(firstChild.current.EndContextDelimiter, tableNameTableContextHandler.EndContext);
+        }
+
+        [Test]
+        public void ShouldReturnOnlyOneContextWithoutTheSecondNestedWhenOnlySecondNestedStartContextIsPresent()
+        {
+            ForEachTableDatabaseContextHandler forEachTableDatabaseContextHandler = new ForEachTableDatabaseContextHandler(templateHandlerNew);
+            TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
+            var results = _tested.ExtractAllContextUntilDepth(
+                $"{forEachTableDatabaseContextHandler.StartContext}{tableNameTableContextHandler.StartContext}{forEachTableDatabaseContextHandler.EndContext}", 1);
+            Assert.IsNotNull(results);
+            var resultAsList = results.ToList();
+            CollectionAssert.IsNotEmpty(resultAsList);
+            Assert.AreEqual(1, resultAsList.Count);
+            var first = resultAsList[0];
+            Assert.IsNotNull(first.current);
+            Assert.IsNotNull(first.childs);
+            CollectionAssert.IsEmpty(first.childs);
+            Assert.AreEqual(first.current.StartContextDelimiter, forEachTableDatabaseContextHandler.StartContext);
+            Assert.AreEqual(first.current.InnerContent, $"{tableNameTableContextHandler.StartContext}");
+            Assert.AreEqual(first.current.EndContextDelimiter, forEachTableDatabaseContextHandler.EndContext);
+        }
+
+        [Test]
+        public void ShouldReturnTwoContextWithoutTheSecondNestedWhenOnlySecondNestedStartContextIsPresentAndThirdIsFollwingTheFirst()
+        {
+            ForEachTableDatabaseContextHandler forEachTableDatabaseContextHandler = new ForEachTableDatabaseContextHandler(templateHandlerNew);
+            TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
+            DatabaseNameDatabaseContextHandler databaseNameDatabaseContextHandler = new DatabaseNameDatabaseContextHandler(templateHandlerNew);
+
+            var results = _tested.ExtractAllContextUntilDepth(
+                $"{forEachTableDatabaseContextHandler.StartContext}{tableNameTableContextHandler.StartContext}{forEachTableDatabaseContextHandler.EndContext}" +
+                $"{databaseNameDatabaseContextHandler.StartContext}{databaseNameDatabaseContextHandler.EndContext}", 1);
+            Assert.IsNotNull(results);
+            var resultAsList = results.ToList();
+            CollectionAssert.IsNotEmpty(resultAsList);
+            Assert.AreEqual(2, resultAsList.Count);
+            var first = resultAsList[0];
+            Assert.IsNotNull(first.current);
+            Assert.IsNotNull(first.childs);
+            CollectionAssert.IsEmpty(first.childs);
+            Assert.AreEqual(first.current.StartContextDelimiter, forEachTableDatabaseContextHandler.StartContext);
+            Assert.AreEqual(first.current.InnerContent, $"{tableNameTableContextHandler.StartContext}");
+            Assert.AreEqual(first.current.EndContextDelimiter, forEachTableDatabaseContextHandler.EndContext);
+            var second = resultAsList[1];
+            Assert.IsNotNull(second.current);
+            Assert.IsNotNull(second.childs);
+            CollectionAssert.IsEmpty(second.childs);
+            Assert.AreEqual(second.current.StartContextDelimiter, databaseNameDatabaseContextHandler.StartContext);
+            Assert.AreEqual(second.current.InnerContent, String.Empty);
+            Assert.AreEqual(second.current.EndContextDelimiter, databaseNameDatabaseContextHandler.EndContext);
+        }
     }
 }

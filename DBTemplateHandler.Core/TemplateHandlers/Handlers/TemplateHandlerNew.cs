@@ -31,6 +31,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             functionTemplateContextHandlerProvider;
 
         private readonly TemplateValidator templateValidator;
+        private readonly ContextVisitor<AbstractTemplateContextHandler> contextVisitor;
+
 
         public TemplateHandlerNew(IList<ITypeMapping> typeMapping)
         {
@@ -40,6 +42,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>(this,typeMapping);
             functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(this,typeMapping);
             templateValidator = new TemplateValidator(this,typeMapping);
+            contextVisitor = new ContextVisitor<AbstractTemplateContextHandler>(templateContextHandlerProvider);
         }
 
 
@@ -109,7 +112,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 GetHandlerStartContextWordAtEarliestPosition(currentHandledTemplateString);
             string earliestEndContextWord = templateContextHandlerProvider.
                     GetHandlerEndContextWordAtEarliestPosition(currentHandledTemplateString);
-            while (earliestStartContextWord != null || earliestEndContextWord != null)
+
+
+            while (earliestStartContextWord != null || earliestEndContextWord != null )
             {
                 if (earliestStartContextWord != null && earliestEndContextWord != null)
                 {

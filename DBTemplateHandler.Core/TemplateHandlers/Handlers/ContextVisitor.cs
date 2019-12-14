@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             this.templateContextHandlerPackageProvider = templateContextHandlerPackageProvider;
         }
 
-        public IEnumerable<ContextComposite> ExtractAllContext(string templateContent)
+        public IEnumerable<ContextComposite> ExtractAllContextUntilDepth(string templateContent,int depth)
         {
             var workingContent = templateContent;
             var earliestStartContext = templateContextHandlerPackageProvider.GetHandlerStartContextWordAtEarliestPosition(workingContent);
@@ -52,11 +52,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     EndContextDelimiter = correspondingEndContext,
                     InnerContent = contextContent,
                 },
-                childs = ExtractAllContext(contextContent).ToList(),
+                childs = depth>0? ExtractAllContextUntilDepth(contextContent,depth-1).ToList() : new List<ContextComposite>(),
             };
             
             var unprocessedPart = StringUtilities.getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence(workingContentWithoutStartContextAndLeftSide, correspondingEndContext);
-            var followingContexts = ExtractAllContext(unprocessedPart);
+            var followingContexts = ExtractAllContextUntilDepth(unprocessedPart,depth);
             foreach (var followingContext in followingContexts)
                 yield return followingContext;
         }
