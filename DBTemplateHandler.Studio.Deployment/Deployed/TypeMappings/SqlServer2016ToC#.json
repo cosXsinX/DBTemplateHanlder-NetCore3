@@ -3,6 +3,10 @@
   "DestinationTypeSetName": "C#",
   "TypeMappingItems": [
     {
+      "SourceType": "geography",
+      "DestinationType": "DbGeography"
+    },
+    {
       "SourceType": "xml",
       "DestinationType": "Xml"
     },
