@@ -30,4 +30,10 @@
     <Folder Include="wwwroot\scripts\jquery-ui\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\DBTemplateHandlerTemplateEditorImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

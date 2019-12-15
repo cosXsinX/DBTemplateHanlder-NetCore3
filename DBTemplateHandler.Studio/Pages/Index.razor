@@ -11,15 +11,20 @@
             <h1>DB Template Handler</h1>
         </div>
         <div class="row">
-            This application aims to generate Data Access Layers agnosticly to the target language environment. To perform this purpose it will perform a jointure between three models
-            <ul>
-                <li>Database model -> A lightweight implementation of the database model which aggregate all the mandatory properties of the accessed database in order to implement a Data Access Layer</li>
-                <li>Templates -> Templates which are used to implement the data access layer and any other script related generation (as example : create table sql generation script templates)</li>
-                <li>Type mapping -> This is to define the mapping to perform between both environment accessing/accessed in order to implement the DAL</li>
-            </ul>
+            <p class="lead">
+                This application aims to generate Data Access Layers agnosticly to the target language environment. To perform this purpose it will perform a jointure between three models
+                <ul>
+                    <li>Database model -> A lightweight implementation of the database model which aggregate all the mandatory properties of the accessed database in order to implement a Data Access Layer</li>
+                    <li>Templates -> Templates which are used to implement the data access layer and any other script related generation (as example : create table sql generation script templates)</li>
+                    <li>Type mapping -> This is to define the mapping to perform between both environment accessing/accessed in order to implement the DAL</li>
+                </ul>
+            </p>
         </div>
         <div class="row">
-            Template specific keywords
+            <img src="/images/DBTemplateHandlerTemplateEditorImage.png" class="img-fluid" alt="Image" />
+        </div>
+        <div class="row">
+            <h2>Template specific keywords</h2>
         </div>
         @foreach (var semanticDescription in semanticDescriptions)
         {
