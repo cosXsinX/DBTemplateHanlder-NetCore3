@@ -51,6 +51,9 @@
     "Name": "date"
   },
   {
+    "Name": "hierarchyid"
+  },
+  {
     "Name": "geography"
   },
   {

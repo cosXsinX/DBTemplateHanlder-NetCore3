@@ -3,6 +3,18 @@
   "DestinationTypeSetName": "C#",
   "TypeMappingItems": [
     {
+      "SourceType": "hierarchyid",
+      "DestinationType": "string"
+    },
+    {
+      "SourceType": "smallint",
+      "DestinationType": "short"
+    },
+    {
+      "SourceType": "date",
+      "DestinationType": "DateTime"
+    },
+    {
       "SourceType": "geography",
       "DestinationType": "DbGeography"
     },
