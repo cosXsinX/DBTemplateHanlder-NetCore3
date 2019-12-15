@@ -12,6 +12,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public string StartContextDelimiter { get; set; }
         public string EndContextDelimiter { get; set; }
         public string InnerContent { get; set; }
+        public int StartIndex { get; set; }
+        public int ContextDepth { get; set; }
+        public string Content { get => String.Join(String.Empty, new[] { StartContextDelimiter, InnerContent, EndContextDelimiter }); }
     }
 
     public class ContextComposite
@@ -31,34 +34,178 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             this.templateContextHandlerPackageProvider = templateContextHandlerPackageProvider;
         }
 
-        public IEnumerable<ContextComposite> ExtractAllContextUntilDepth(string templateContent,int depth)
+        public HashSet<string> ToDelimiterFilter(IEnumerable<string> contextDelimiters)
         {
-            var workingContent = templateContent;
-            var earliestStartContext = templateContextHandlerPackageProvider.GetHandlerStartContextWordAtEarliestPosition(workingContent);
-            if (earliestStartContext == null) yield break;
-            var contextHandler = templateContextHandlerPackageProvider.GetStartContextCorrespondingContextHandler(earliestStartContext);
-            var correspondingEndContext = contextHandler.EndContext;
-            var workingContentWithoutStartContextAndLeftSide = StringUtilities.getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence(workingContent, earliestStartContext);
-            var earliestEndContext = templateContextHandlerPackageProvider.GetHandlerEndContextWordAtEarliestPosition(workingContentWithoutStartContextAndLeftSide);
-            if (earliestEndContext == null) yield break;
-            var contextContent = StringUtilities.getLeftPartOfSubmittedStringBeforeFirstSearchedWordOccurence(workingContentWithoutStartContextAndLeftSide, correspondingEndContext);
-            if (contextContent == workingContentWithoutStartContextAndLeftSide) yield break;
+            return new HashSet<string>(contextDelimiters.SelectMany(ToDelimiterFilter).Distinct());
+        }
 
-            yield return new ContextComposite
+        public IEnumerable<string> ToDelimiterFilter(string contextDelimiter)
+        {
+            string current = String.Empty;
+            foreach(char character in contextDelimiter)
             {
-                current = new Context
-                {
-                    StartContextDelimiter = earliestStartContext,
-                    EndContextDelimiter = correspondingEndContext,
-                    InnerContent = contextContent,
-                },
-                childs = depth>0? ExtractAllContextUntilDepth(contextContent,depth-1).ToList() : new List<ContextComposite>(),
+                current = String.Concat(current, character);
+                yield return current;
+            }
+        }
+
+
+        private class StartContextInfo
+        {
+            public string StartContextIdentifier { get; set; }
+            public int StartContextIndex { get; set; }
+            public string CorrespondingEndContextIdentifier { get; set; }
+        }
+
+
+        private ContextComposite ToNewContextComposite(Context context)
+        {
+            return new ContextComposite()
+            {
+                current = context,
+                childs = new List<ContextComposite>(),
             };
-            
-            var unprocessedPart = StringUtilities.getRightPartOfSubmittedStringAfterFirstSearchedWordOccurence(workingContentWithoutStartContextAndLeftSide, correspondingEndContext);
-            var followingContexts = ExtractAllContextUntilDepth(unprocessedPart,depth);
-            foreach (var followingContext in followingContexts)
-                yield return followingContext;
+        }
+
+        private ContextComposite ToRootContextComposite(string templateContent)
+        {
+            return new ContextComposite()
+            {
+                current = new Context()
+                {
+                    ContextDepth = -200,
+                    StartContextDelimiter = String.Empty,
+                    EndContextDelimiter = String.Empty,
+                    InnerContent = templateContent,
+                    StartIndex = 0,
+                },
+                childs = new List<ContextComposite>(),
+            };
+        }
+
+        public IEnumerable<ContextComposite> ExtractAllContextUntilDepth(string templateContent, int depth)
+        {
+            var contextes = ExtractAllContextUntilDepthPrivList(templateContent, depth);
+            var contextComposites = contextes.Select(ToNewContextComposite).Reverse().ToList();
+            Stack<ContextComposite> contextCompositeStack = new Stack<ContextComposite>();
+
+            IList<ContextComposite> parentContextCompositesChilds = new List<ContextComposite>();
+            var rootComposite = ToRootContextComposite(templateContent);
+            ContextComposite parentContextComposite = rootComposite;
+            ContextComposite formerContext = rootComposite;
+            foreach (var context in contextComposites)
+            {
+                if(formerContext.current.ContextDepth < context.current.ContextDepth )
+                {
+                    parentContextCompositesChilds = new List<ContextComposite>();
+                    parentContextComposite = formerContext;
+                    parentContextComposite.childs.Add(context);
+                    contextCompositeStack.Push(context);
+                    formerContext = context;
+                    continue;
+                }
+
+                if(formerContext.current.ContextDepth == context.current.ContextDepth)
+                {
+                    parentContextComposite.childs.Add(context);
+                    formerContext = context;
+                    continue;
+                }
+
+                if(formerContext.current.ContextDepth> context.current.ContextDepth)
+                {
+                    var ancestors = contextCompositeStack.Where(m => m.current.ContextDepth < context.current.ContextDepth);
+                    var parent = ancestors.FirstOrDefault();
+                    if (parent == null)
+                    {
+                        parentContextComposite = rootComposite;
+                        contextCompositeStack.Clear();
+                    }
+                    else
+                    {
+                        contextCompositeStack = new Stack<ContextComposite>(ancestors);
+                        parentContextComposite = parent;
+                    }
+
+                    parentContextComposite.childs.Add(context);
+                    contextCompositeStack.Push(context);
+                }
+                formerContext = context;
+            }
+            return rootComposite.childs.Reverse().ToList();
+        }
+
+        private IEnumerable<Context> ExtractAllContextUntilDepthPriv(string templateContent,int depth)
+        {
+            var handlers = templateContextHandlerPackageProvider.GetHandlers();
+            var handlersByStartContextes = handlers.ToDictionary(m => m.StartContext);
+            var startContextes = new HashSet<string>(handlersByStartContextes.Keys);
+            var endContextes = new HashSet<string>(handlers.Select(m => m.EndContext).Distinct());
+            var startContextDelimiterFilter = ToDelimiterFilter(startContextes);
+            var endContextDelimiterFilter = ToDelimiterFilter(endContextes);
+            var currentCharAggregation = String.Empty;
+
+            Stack<StartContextInfo> startContextInfoStack = new Stack<StartContextInfo>();
+            for(int currentCharIndex = 0; currentCharIndex<templateContent.Length;currentCharIndex++ )
+            {
+                var currentChar = templateContent[currentCharIndex];
+                currentCharAggregation = string.Concat(currentCharAggregation, currentChar);
+                if(!startContextDelimiterFilter.Contains(currentCharAggregation) && !endContextDelimiterFilter.Contains(currentCharAggregation))
+                {
+                    currentCharAggregation = String.Empty;
+                    continue;
+                }
+
+                if ((startContextDelimiterFilter.Contains(currentCharAggregation) || endContextDelimiterFilter.Contains(currentCharAggregation)) 
+                    && (!startContextes.Contains(currentCharAggregation) && !endContextes.Contains(currentCharAggregation))) continue;
+
+                if(startContextDelimiterFilter.Contains(currentCharAggregation) && startContextes.Contains(currentCharAggregation))
+                {
+                    var startContextInfo = new StartContextInfo()
+                    {
+                        StartContextIdentifier = currentCharAggregation,
+                        StartContextIndex = currentCharIndex - currentCharAggregation.Length + 1,
+                        CorrespondingEndContextIdentifier = handlersByStartContextes[currentCharAggregation].EndContext,
+                    };
+                    startContextInfoStack.Push(startContextInfo);
+                    currentCharAggregation = String.Empty;
+                    continue;
+                }
+                
+
+                if(endContextDelimiterFilter.Contains(currentCharAggregation) && endContextes.Contains(currentCharAggregation))
+                {
+                    var lastStartContextInfo = startContextInfoStack.FirstOrDefault();
+                    if(lastStartContextInfo == null || lastStartContextInfo?.CorrespondingEndContextIdentifier != currentCharAggregation)
+                    {
+                        currentCharAggregation = String.Empty;
+                        continue;
+                    }
+
+                    int innerStartContextIndex = lastStartContextInfo.StartContextIndex + lastStartContextInfo.StartContextIdentifier.Length;
+                    int InnerContextLen = currentCharIndex + 1 - innerStartContextIndex - lastStartContextInfo.CorrespondingEndContextIdentifier.Length;
+                    int contextDepth = startContextInfoStack.Count;
+                    if (depth + 1 >= contextDepth)
+                    {
+                        yield return new Context()
+                        {
+                            StartContextDelimiter = lastStartContextInfo.StartContextIdentifier,
+                            EndContextDelimiter = lastStartContextInfo.CorrespondingEndContextIdentifier,
+                            InnerContent = templateContent.Substring(innerStartContextIndex, InnerContextLen),
+                            ContextDepth = contextDepth,
+                            StartIndex = lastStartContextInfo.StartContextIndex,
+                        };
+                    }
+                    startContextInfoStack.Pop();
+                    currentCharAggregation = String.Empty;
+                    continue;
+                }
+            }
+        }
+
+        private IList<Context> ExtractAllContextUntilDepthPrivList(string templateContent, int depth)
+        {
+            return ExtractAllContextUntilDepthPriv(templateContent, depth).ToList();
         }
     }
 }

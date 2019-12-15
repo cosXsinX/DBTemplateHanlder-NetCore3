@@ -22,7 +22,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void DefaultIndexShouldBeMinus1Value()
         {
-            Assert.AreEqual(-1, _tested.DefaultIndex);
+            Assert.AreEqual(0, _tested.DefaultIndex);
         }
 
         [Test]

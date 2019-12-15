@@ -60,7 +60,5 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
             Assert.AreEqual($"{databaseName}-{tableName}", resultItem.Path);
             Assert.AreEqual($"{databaseName}-{tableName}", resultItem.Content);
         }
-
-
     }
 }

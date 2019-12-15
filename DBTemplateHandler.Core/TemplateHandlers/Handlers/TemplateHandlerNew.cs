@@ -58,40 +58,51 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             IColumnModel columnModel)
         {
             if (templateString == null) return null;
-            string handlerStartContext =
-                templateContextHandlerProvider.
-                    GetHandlerStartContextWordAtEarliestPosition(templateString);
-            if (handlerStartContext == null) return templateString;
+            
+            var contextes = contextVisitor.ExtractAllContextUntilDepth(templateString, 0);
+            var result = templateString;
+            var charDiffSum = 0;
+            foreach (var context in contextes)
+            {
+                var contextContent = context.current.Content;
+                var contextContentProcessed = HandlerContextString(contextContent, databaseModel, tableModel, columnModel);
+                result = $"{result.Substring(0, context.current.StartIndex + charDiffSum)}{contextContentProcessed}{result.Substring(context.current.StartIndex + contextContent.Length + charDiffSum)}";
+                charDiffSum = charDiffSum + contextContentProcessed.Length - contextContent.Length;
+            }
+            return result;
+        }
 
-            AbstractTemplateContextHandler handler = templateContextHandlerProvider
-                    .GetStartContextCorrespondingContextHandler(handlerStartContext);
 
+        private string HandlerContextString(string contextString,
+            IDatabaseModel databaseModel,
+            ITableModel tableModel,
+            IColumnModel columnModel)
+        {
+            string handlerStartContext = templateContextHandlerProvider.GetHandlerStartContextWordAtEarliestPosition(contextString);
+            if (handlerStartContext == null) return contextString;
 
+            AbstractTemplateContextHandler handler = templateContextHandlerProvider.GetStartContextCorrespondingContextHandler(handlerStartContext);
             if (handler is AbstractFunctionTemplateContextHandler)
             {
-                return HandleFunctionTemplate(templateString, databaseModel, tableModel, columnModel);
+                return HandleFunctionTemplate(contextString, databaseModel, tableModel, columnModel);
             }
             else if (handler is AbstractDatabaseTemplateContextHandler)
             {
-                if (databaseModel == null)
-                    return templateString;
-                return HandleDatabaseTemplate(templateString, databaseModel);
+                if (databaseModel == null) return contextString;
+                return HandleDatabaseTemplate(contextString, databaseModel);
             }
             else if (handler is AbstractTableTemplateContextHandler)
             {
-                if (tableModel == null)
-                    return templateString;
-                return HandleTableTemplate(templateString, tableModel);
+                if (tableModel == null) return contextString;
+                return HandleTableTemplate(contextString, tableModel);
             }
             else if (handler is AbstractColumnTemplateContextHandler)
             {
-                if (columnModel == null)
-                    return templateString;
-                return HandleTableColumnTemplate(templateString, columnModel);
+                if (columnModel == null) return contextString;
+                return HandleTableColumnTemplate(contextString, columnModel);
             }
-            return null;
+            return contextString;
         }
-
 
         public string HandleDatabaseTemplate(
                 string templateString, IDatabaseModel databaseModel)

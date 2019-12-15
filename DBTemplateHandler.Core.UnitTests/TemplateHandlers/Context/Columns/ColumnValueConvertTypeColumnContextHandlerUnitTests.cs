@@ -39,7 +39,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
                     }
                 }
             };
-            _tested = new ColumnValueConvertTypeColumnContextHandler(null,typeMappings);
+            _tested = new ColumnValueConvertTypeColumnContextHandler(new Core.TemplateHandlers.Handlers.TemplateHandlerNew(typeMappings),typeMappings); //Bad check how to make full IOC
         }
 
         [Test]
