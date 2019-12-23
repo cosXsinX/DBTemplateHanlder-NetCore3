@@ -13,6 +13,6 @@
   },
   {
     "TemplatedFilePath": "%databaseName%\\%databaseName%.DataAccess.csproj",
-    "TemplatedFileContent": "\u003CProject Sdk=\u0022Microsoft.NET.Sdk\u0022\u003E\r\n\r\n  \u003CPropertyGroup\u003E\r\n    \u003CTargetFramework\u003Enetcoreapp3.0\u003C/TargetFramework\u003E\r\n  \u003C/PropertyGroup\u003E\r\n\r\n  \u003CItemGroup\u003E\r\n    \u003CPackageReference Include=\u0022System.Data.SqlClient\u0022 Version=\u00224.7.0\u0022 /\u003E\r\n  \u003C/ItemGroup\u003E\r\n\r\n\u003C/Project\u003E"
+    "TemplatedFileContent": "\u003CProject Sdk=\u0022Microsoft.NET.Sdk\u0022\u003E\r\n\r\n  \u003CPropertyGroup\u003E\r\n    \u003CTargetFramework\u003Enetcoreapp3.0\u003C/TargetFramework\u003E\r\n  \u003C/PropertyGroup\u003E\r\n\r\n  \u003CItemGroup\u003E\r\n    \u003CPackageReference Include=\u0022Microsoft.SqlServer.Types\u0022 Version=\u002214.0.1016.290\u0022 /\u003E\r\n    \u003CPackageReference Include=\u0022System.Data.SqlClient\u0022 Version=\u00224.8.0\u0022 /\u003E\r\n  \u003C/ItemGroup\u003E\r\n\r\n\u003C/Project\u003E"
   }
 ]

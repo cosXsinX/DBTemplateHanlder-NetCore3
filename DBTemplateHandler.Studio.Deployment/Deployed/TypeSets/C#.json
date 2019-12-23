@@ -1,9 +1,9 @@
 [
   {
-    "Name": "DbGeography"
+    "Name": "Microsoft.SqlServer.Types.SqlGeography"
   },
   {
-    "Name": "Xml"
+    "Name": "System.Xml.XmlDocument"
   },
   {
     "Name": "Guid"

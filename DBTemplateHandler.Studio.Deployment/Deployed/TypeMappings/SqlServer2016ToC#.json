@@ -1,5 +1,5 @@
 {
-  "SourceTypeSetName": "Sql Server 2016",
+  "SourceTypeSetName": "C#",
   "DestinationTypeSetName": "C#",
   "TypeMappingItems": [
     {
@@ -16,11 +16,11 @@
     },
     {
       "SourceType": "geography",
-      "DestinationType": "DbGeography"
+      "DestinationType": "Microsoft.SqlServer.Types.SqlGeography"
     },
     {
       "SourceType": "xml",
-      "DestinationType": "Xml"
+      "DestinationType": "System.Xml.XmlDocument"
     },
     {
       "SourceType": "varchar",
