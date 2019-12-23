@@ -1314,7 +1314,7 @@
           "IsNotNull": true,
           "IsPrimaryKey": true,
           "Name": "DocumentNode",
-          "Type": null,
+          "Type": "hierarchyid",
           "ParentTable": null
         },
         {
@@ -1728,7 +1728,7 @@
           "IsNotNull": false,
           "IsPrimaryKey": false,
           "Name": "SpatialLocation",
-          "Type": null,
+          "Type": "geography",
           "ParentTable": null
         },
         {
@@ -3599,7 +3599,7 @@
           "IsNotNull": true,
           "IsPrimaryKey": true,
           "Name": "DocumentNode",
-          "Type": null,
+          "Type": "hierarchyid",
           "ParentTable": null
         },
         {
@@ -3878,7 +3878,7 @@
           "IsNotNull": false,
           "IsPrimaryKey": true,
           "Name": "OrganizationNode",
-          "Type": null,
+          "Type": "hierarchyid",
           "ParentTable": null
         },
         {

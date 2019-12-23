@@ -12,6 +12,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
         public byte system_type_id { get; set; }
         public string system_type_name { get; set; }
         public int user_type_id { get; set; }
+        public string user_type_name { get; set; }
         public short max_length { get; set; }
         public byte precision { get; set; }
         public byte scale { get; set; }
