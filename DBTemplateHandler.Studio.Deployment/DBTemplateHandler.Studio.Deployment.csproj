@@ -44,6 +44,12 @@
     <None Update="Deployed\TypeSets\SQLite.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Deployed\TypeMappings\SqlServer2016ToC#.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Deployed\TypeMappings\SqlServer2016ToJava.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
