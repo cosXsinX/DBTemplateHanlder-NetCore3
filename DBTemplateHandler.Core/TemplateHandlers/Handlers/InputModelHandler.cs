@@ -4,6 +4,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Context;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
@@ -57,6 +58,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return result;
         }
 
+        private string ToTemplateFilePathToOSDependantPath(string filePath)
+        {
+            return filePath.Replace('\\', Path.DirectorySeparatorChar);
+        }
+
         public IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
             (ITemplateModel templateModel, IDatabaseModel databaseModel,IList<ITypeMapping> typeMappings)
         {
@@ -69,6 +75,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             string columnTemplateFileNameWord = ColumnTemplateFileNameWord;
             string templateFileContent = templateModel.TemplatedFileContent ?? string.Empty;
             string templateFilePath = templateModel.TemplatedFilePath ?? string.Empty;
+            templateFilePath = ToTemplateFilePathToOSDependantPath(templateFilePath);
             bool containsTblWord =
                     templateFilePath.
                         Contains(tableFilePathTemplateWord);

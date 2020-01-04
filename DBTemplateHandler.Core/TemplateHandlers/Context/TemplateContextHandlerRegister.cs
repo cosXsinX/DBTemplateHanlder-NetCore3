@@ -72,6 +72,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             new ForEachTableDatabaseContextHandler(templateHandlerNew),
             //Functions
             new FirstLetterToUpperCaseFunctionTemplateHandler(templateHandlerNew),
+            new ReplaceWithFunctionTemplateHandler(templateHandlerNew),
         };
         }
 

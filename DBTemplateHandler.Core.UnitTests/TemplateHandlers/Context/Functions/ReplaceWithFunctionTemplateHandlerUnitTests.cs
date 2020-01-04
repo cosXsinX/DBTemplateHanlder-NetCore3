@@ -25,6 +25,30 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Functions
             Assert.Throws<ArgumentNullException>(() => _tested.processContext(null));
         }
 
-        //TODO implement missing Unit tests
+        [Test]
+        public void ShouldReturnEmptyStringWhenInternValueInContextIsStringEmpty()
+        {
+            var result = _tested.processContext($"{_tested.StartContext}{String.Empty}{_tested.EndContext}");
+            Assert.AreEqual(String.Empty, result);
+        }
+
+        [Test]
+        public void ShouldReturnInternValueWhenInternContextDoesNotContainsWithKeyWord()
+        {
+            string internContext = "Hello World";
+            var result = _tested.processContext($"{_tested.StartContext}{internContext}{_tested.EndContext}");
+            Assert.AreEqual(internContext, result);
+        }
+
+        [Test]
+        public void ShouldReturnReplacedWhiteSpacesByStringEmptyValue()
+        {
+            string internContext = "Hello World";
+            var processed = $"{_tested.StartContext}{internContext}{_tested.WithSeparator}{" "}{_tested.BySeparator}{String.Empty}{_tested.EndContext}";
+            TestContext.Out.WriteLine($"{nameof(processed)}->'{processed}'");
+            var result = _tested.processContext(processed);
+            Assert.AreEqual("HelloWorld", result);
+        }
+
     }
 }
