@@ -1,5 +1,5 @@
 {
-  "SourceTypeSetName": "C#",
+  "SourceTypeSetName": "Sql Server 2016",
   "DestinationTypeSetName": "C#",
   "TypeMappingItems": [
     {
