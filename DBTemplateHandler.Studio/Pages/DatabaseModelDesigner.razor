@@ -65,6 +65,7 @@
             <div class="row">
                 <div class="col-12">
                     <button class="btn btn-primary @DisabledTableInputAttribute" @onclick="@CreateTableModel">Add New</button>
+                    <button class="btn btn-danger @DisabledDeleteTableButtonAttribute" @onclick="@DeleteTableModel">Delete</button>
                 </div>
             </div>
             <div class="row">
@@ -96,6 +97,7 @@
             <div class="row">
                 <div class="col-12">
                     <button class="btn btn-primary @DisabledAddColumnButtonAttribute" @onclick="@CreateColumnModel">Add New</button>
+                    <button class="btn btn-danger @DisabledDeleteColumnButtonAttribute" @onclick="@DeleteCurrentColumnModel">Delete</button>
                 </div>
             </div>
             <div class="row">
@@ -201,7 +203,9 @@
 @code {
 
     private string DisabledTableInputAttribute { get => currentDatabaseModel == null ? "disabled" : String.Empty; }
+    private string DisabledDeleteTableButtonAttribute { get => currentDatabaseModel == null || currentTableModel == null ? "disabled" : String.Empty; }
     private string DisabledAddColumnButtonAttribute { get => currentTableModel == null ? "disabled" : String.Empty; }
+    private string DisabledDeleteColumnButtonAttribute { get => currentTableModel == null || currentColumModel == null ? "disabled" : String.Empty; }
 
     private string ActiveAttributeWhenTableIsCurrentTableModel(ITableModel tableModel)
     {
@@ -444,6 +448,14 @@
         currentDatabaseModel.Tables.Add(currentTableModel);
     }
 
+    void DeleteTableModel()
+    {
+        if (currentDatabaseModel == null) return;
+        if (currentTableModel == null) return;
+        currentDatabaseModel.Tables.Remove(currentTableModel);
+        currentTableModel = null;
+    }
+
     void CreateColumnModel()
     {
         if (currentTableModel == null) return;
@@ -452,5 +464,13 @@
         if (currentTableModel == null) CreateTableModel();
         if (currentTableModel.Columns == null) currentTableModel.Columns = new List<IColumnModel>();
         currentTableModel.Columns.Add(currentColumModel);
+    }
+
+    void DeleteCurrentColumnModel()
+    {
+        if (currentTableModel == null) return;
+        if (currentColumModel == null) return;
+        currentTableModel.Columns.Remove(currentColumModel);
+        currentColumModel = null;
     }
 }
