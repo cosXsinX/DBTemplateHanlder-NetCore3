@@ -1,6 +1,7 @@
 ﻿@page "/database-model-designer"
 @using DBTemplateHandler.Core.Database
 @using DBTemplateHandler.Studio.Data
+@using DBTemplateHandler.Persistance.Serializable
 @inject DBTemplateService dbTemplateService
 
 
@@ -47,7 +48,7 @@
             </div>
             @if (TypeSetNames != null)
             {
-                <select class="form-control" @onchange="@SetTypeSet">
+                <select class="form-control" @bind="CurrentDatatabaseTypeSet">
                     <option value="">-- Select Database model --</option>
                     @foreach (var typeSetName in TypeSetNames)
                     {
@@ -346,18 +347,27 @@
     {
         var value = e.Value.ToString();
         currentDatabaseModel = await dbTemplateService.GetDatabaseModelByPersistenceName(value);
-        ColumnDataTypes = (await dbTemplateService.GetTypeSetByPersistenceName(currentDatabaseModel.TypeSetName)).Select(m => m.Name).ToList();
+        SetColumnDataTypes();
         TypeSetNames = (await dbTemplateService.GetAllTypeSetsPersistenceNames());
         currentDatabaseModelPersistenceName = value;
         currentTableModel = null;
         currentColumModel = null;
     }
 
-    async void SetTypeSet(ChangeEventArgs e)
+    async void SetColumnDataTypes()
     {
-        var value = e.Value.ToString();
-        currentDatabaseModel.TypeSetName = value;
-        ColumnDataTypes = (await dbTemplateService.GetTypeSetByPersistenceName(currentDatabaseModel.TypeSetName)).Select(m => m.Name).ToList();
+        ColumnDataTypes = ((await dbTemplateService.GetTypeSetByPersistenceName(currentDatabaseModel?.TypeSetName))??new List<TypeSetItem>()).Select(m => m.Name).ToList();
+    }
+
+    public string CurrentDatatabaseTypeSet
+    {
+        get { return currentDatabaseModel?.TypeSetName; }
+        set
+        {
+            if (currentDatabaseModel == null) return;
+            currentDatabaseModel.TypeSetName = value;
+            SetColumnDataTypes();
+        }
     }
 
     int currentCount = 0;
