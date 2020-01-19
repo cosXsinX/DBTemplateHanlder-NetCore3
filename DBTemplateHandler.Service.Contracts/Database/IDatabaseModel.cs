@@ -6,6 +6,7 @@ namespace DBTemplateHandler.Core.Database
     {
         string TypeSetName { get; set; }
         string Name { get; set; }
+        string ConnectionString { get; set; }
         IList<ITableModel> Tables { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace DBTemplateHandler.Persistance.Serializable
     {
         public string TypeSetName { get; set; }
         public string Name { get; set; }
+        public string ConnectionString { get; set; }
         public List<PersistableTableModel> Tables { get; set; }
     }
 

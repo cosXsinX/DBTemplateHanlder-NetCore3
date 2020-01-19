@@ -4,12 +4,12 @@ using System;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
-    public class DatabaseNameDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
+    public class ConnectionStringDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
     {
-        public DatabaseNameDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
-        public override string StartContext { get => "{:TDB:CURRENT:NAME"; }
+        public ConnectionStringDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public override string StartContext { get => "{:TDB:CURRENT:CONNECTION:STRING"; }
         public override string EndContext { get => "::}"; }
-        public override string ContextActionDescription => "Is replaced by the current database name";
+        public override string ContextActionDescription => "Is replaced by the current database connection string";
 
         public override string processContext(string StringContext)
         {
@@ -22,10 +22,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (TrimedStringContext != "")
                 throw new Exception($"There is a problem with the provided StringContext :'{StringContext}' to the suited word '{Signature}'");
-            return descriptionPojo.Name;
+            return descriptionPojo.ConnectionString;
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
-
     }
 }

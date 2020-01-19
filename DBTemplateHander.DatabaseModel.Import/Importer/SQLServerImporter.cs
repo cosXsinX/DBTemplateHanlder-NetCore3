@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.Models;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.ModelsDao;
 using DBTemplateHandler.Core.Database;
@@ -57,7 +56,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
                 Select(m => new SqlModelJointure() { database = m.Item1.database, table = m.Item1.table, column = m.Item1.column, index = m.Item2?.index, indexColumn = m.Item2?.indexColumn }).ToList();
             ;
 
-            IDatabaseModel databaseModel = ToDatabaseModel(sqlModelsWithIndexes);
+            IDatabaseModel databaseModel = ToDatabaseModel(connectionString,sqlModelsWithIndexes);
             databaseModel.TypeSetName = ManagedDbSystem;
             return databaseModel;
         }
@@ -71,22 +70,24 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public SQLServerIndexesModel index { get; set; }
         }
 
-        public IDatabaseModel ToDatabaseModel(IList<SqlModelJointure> sqlModels)
+        public IDatabaseModel ToDatabaseModel(string connectionString, IList<SqlModelJointure> sqlModels)
         {
             var SqlServerTableModels = sqlModels
                 .GroupBy(m => m.table.object_id)
                 .Select(m => Tuple.Create(m.First().table,m.ToList())).ToList();
             var sqlServerDatabaseModel = sqlModels.FirstOrDefault()?.database;
-            var result = ToDatabaseModel(sqlServerDatabaseModel, SqlServerTableModels);
+            var result = ToDatabaseModel(connectionString, sqlServerDatabaseModel, SqlServerTableModels);
             return result;
         }
 
 
-        public IDatabaseModel ToDatabaseModel(SQLServerDatabaseModel sqlDatabaseModel, IList<Tuple<SQLServerTableModel, List<SqlModelJointure>>> sqlTableAndColumnsTuples)
+        public IDatabaseModel ToDatabaseModel(string connectionString, 
+            SQLServerDatabaseModel sqlDatabaseModel, IList<Tuple<SQLServerTableModel, List<SqlModelJointure>>> sqlTableAndColumnsTuples)
         {
             if (sqlDatabaseModel == null) return null;
             var result = new ImportedDatabaseModel();
             result.Name = sqlDatabaseModel.database_name??"Unknown Database";
+            result.ConnectionString = connectionString??"Unknown Connection String";
             result.Tables = sqlTableAndColumnsTuples.Select(ToTableModel).ToList();
             return result;
         }
@@ -127,6 +128,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public string Name { get;set; }
             public IList<ITableModel> Tables { get;set; }
             public string TypeSetName { get; set; }
+            public string ConnectionString { get; set; }
         }
 
         public class ImporterTableModel : ITableModel

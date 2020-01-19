@@ -11,6 +11,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             if (converted == null) return null;
             var result = new PersistableDatabaseModel();
             result.Name = converted.Name;
+            result.ConnectionString = converted.ConnectionString;
             result.TypeSetName = converted.TypeSetName;
             if (converted.Tables != null)
             {
@@ -46,6 +47,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             if (converted == null) return null;
             var result = new DatabaseModel();
             result.Name = converted.Name;
+            result.ConnectionString = converted.ConnectionString;
             result.TypeSetName = converted.TypeSetName;
             if (converted.Tables != null)
             {

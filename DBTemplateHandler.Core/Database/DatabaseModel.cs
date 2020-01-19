@@ -4,9 +4,10 @@ using System.Collections.Generic;
 namespace DBTemplateHandler.Core.Database
 {
     [Serializable]
-    public class DatabaseModel :IDatabaseModel
+    public class DatabaseModel:IDatabaseModel
     {
         public string Name { get; set; }
+        public string ConnectionString { get; set; }
         public IList<ITableModel> Tables { get; set; }
         public string TypeSetName { get; set; }
 
