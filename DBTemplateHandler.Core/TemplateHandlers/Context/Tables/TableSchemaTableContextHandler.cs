@@ -11,7 +11,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override string EndContext { get => "::}"; }
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
-        public override string ContextActionDescription => "Is replaced by the current table name";
+        public override string ContextActionDescription => "Is replaced by the current table schema name";
         public override string processContext(string StringContext)
         {
             if (StringContext == null)
