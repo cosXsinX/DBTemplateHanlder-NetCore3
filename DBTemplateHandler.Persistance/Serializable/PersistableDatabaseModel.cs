@@ -16,6 +16,7 @@ namespace DBTemplateHandler.Persistance.Serializable
     public class PersistableTableModel
     {
         public string Name { get; set; }
+        public string Schema { get; set; }
         public List<PersistableColumnModel> Columns { get; set; }
     }
 

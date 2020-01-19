@@ -24,6 +24,7 @@ namespace DBTemplateHandler.Persistance.Conversion
         {
             var result = new PersistableTableModel();
             result.Name = converted.Name;
+            result.Schema = converted.Schema;
             if(converted.Columns != null)
             {
                 result.Columns = converted.Columns.Select(ToPersistable).ToList();
@@ -60,6 +61,7 @@ namespace DBTemplateHandler.Persistance.Conversion
         {
             var result = new TableModel();
             result.Name = converted.Name;
+            result.Schema = converted.Schema;
             if (converted.Columns != null)
             {
                 result.Columns = converted.Columns.Select(ToUnPersisted).ToList();

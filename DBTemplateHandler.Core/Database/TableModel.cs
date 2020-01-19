@@ -17,6 +17,7 @@ namespace DBTemplateHandler.Core.Database
             Name = name;
         }
         public string Name { get; set; }
+        public string Schema { get; set; }
         public IList<IColumnModel> Columns { get; set; }
 
         public IDatabaseModel ParentDatabase { get; set; }

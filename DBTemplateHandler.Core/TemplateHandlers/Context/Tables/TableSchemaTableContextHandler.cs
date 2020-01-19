@@ -4,11 +4,10 @@ using System;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
-    public class TableNameTableContextHandler : AbstractTableTemplateContextHandler
+    public class TableSchemaTableContextHandler : AbstractTableTemplateContextHandler
     {
-
-        public TableNameTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
-        public override string StartContext { get => "{:TDB:TABLE:CURRENT:NAME"; }
+        public TableSchemaTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public override string StartContext { get => "{:TDB:TABLE:CURRENT:SCHEMA"; }
         public override string EndContext { get => "::}"; }
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
@@ -24,8 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '{Signature}'");
-            return table.Name;
+            return table.Schema;
         }
-
     }
 }

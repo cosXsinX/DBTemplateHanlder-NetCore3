@@ -6,6 +6,7 @@ namespace DBTemplateHandler.Core.Database
     {
         IList<IColumnModel> Columns { get; set; }
         string Name { get; set; }
+        string Schema { get; set; }
         IDatabaseModel ParentDatabase { get; set; }
     }
 }

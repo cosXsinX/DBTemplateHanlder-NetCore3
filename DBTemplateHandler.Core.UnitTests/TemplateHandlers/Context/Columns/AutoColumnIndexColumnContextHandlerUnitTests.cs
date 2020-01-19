@@ -164,6 +164,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             public IList<IColumnModel> Columns {get;set;}
             public string Name {get;set;}
             public IDatabaseModel ParentDatabase {get;set;}
+            public string Schema { get; set; }
         }
 
         public class ColumnModel : IColumnModel
