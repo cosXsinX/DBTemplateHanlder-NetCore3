@@ -47,7 +47,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
                 .Select(m => new {database = m.Item1.Item1, table = m.Item1.Item2, column = m.Item2 }).ToList();
 
             var indexColumnsAndIndexesSqlModels =
-                indexColumnsModels.InnerJoin(indexesModels.Where(m => m.is_primary_key ?? false), m => m.object_id, m => m.object_id)
+                indexColumnsModels.InnerJoin(indexesModels.Where(m => m.is_primary_key ?? false), m => $"{m.object_id}-{m.index_id}", m => $"{m.object_id}-{m.index_id}")
                 .Select(m => new { indexColumn = m.Item1, index = m.Item2}).ToList();
 
 
