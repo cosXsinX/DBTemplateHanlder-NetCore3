@@ -1,6 +1,7 @@
 {
   "TypeSetName": "Sql Server 2016",
   "Name": "AdventureWorks2017",
+  "ConnectionString": "Data Source=DESKTOP-JNFJSV9\\SQLEXPRESS01;Initial Catalog=AdventureWorks2017;Integrated Security=True;",
   "Tables": [
     {
       "Name": "EmployeePayHistory",
