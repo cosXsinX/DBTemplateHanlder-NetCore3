@@ -27,6 +27,7 @@ namespace DBTemplateHandler.Persistance.Serializable
         public bool IsPrimaryKey { get ; set ; }
         public string Name { get ; set ; }
         public string Type { get ; set ; }
+        public int ValueMaxSize { get; set; }
         public ITableModel ParentTable { get ; set ; }
     }
 

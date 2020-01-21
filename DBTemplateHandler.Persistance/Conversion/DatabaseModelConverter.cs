@@ -40,6 +40,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.IsPrimaryKey = converted.IsPrimaryKey;
             result.Name = converted.Name;
             result.Type = converted.Type;
+            result.ValueMaxSize = converted.ValueMaxSize;
             return result;
         }
 
@@ -77,6 +78,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.IsPrimaryKey = converted.IsPrimaryKey;
             result.Name = converted.Name;
             result.Type = converted.Type;
+            result.ValueMaxSize = converted.ValueMaxSize;
             return result;
         }
     }

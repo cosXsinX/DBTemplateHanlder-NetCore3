@@ -163,6 +163,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             public string Name { get; set; }
             public string Type { get; set; }
             public ITableModel ParentTable { get; set; }
+            public int ValueMaxSize { get; set; }
         }
     }
 }

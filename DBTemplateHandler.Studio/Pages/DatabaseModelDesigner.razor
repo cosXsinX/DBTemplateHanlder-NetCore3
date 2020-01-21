@@ -148,10 +148,9 @@
                 <div class="row">
                     <h3>Current column</h3>
                 </div>
-
                 <div class="row input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Value type</span>
+                        <span class="input-group-text">Value Max Size</span>
                     </div>
                     @if (ColumnDataTypes != null)
                     {
@@ -163,6 +162,12 @@
                             }
                         </select>
                     }
+                </div>
+                <div class="row input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Value Max Size</span>
+                    </div>
+                    <input type="text" class="form-control" @bind="@CurrentColumnValueMaxSize" />
                 </div>
                 <div class="row">
                     <div class="col-12 input-group">
@@ -367,6 +372,16 @@
         {
             if (currentColumModel == null) return;
             currentColumModel.Name = value;
+        }
+    }
+
+    private int? CurrentColumnValueMaxSize
+    {
+        get => currentColumModel?.ValueMaxSize;
+        set
+        {
+            if (currentColumModel == null) return;
+            currentColumModel.ValueMaxSize = value.Value;
         }
     }
 

@@ -27,6 +27,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             new ColumnNameColumnContextHandler(templateHandlerNew),
             new ColumnValueConvertTypeColumnContextHandler(templateHandlerNew,typeMappings),
             new ColumnValueTypeColumnContextHandler(templateHandlerNew),
+            new ColumnValueMaxSizeColumnContextHandler(templateHandlerNew),
             new IsAutoColumnAFirstAutoColumnContextHandler(templateHandlerNew),
             new IsAutoColumnALastAutoColumnContextHandler(templateHandlerNew),
             new IsAutoColumnNotAFirstAutoColumnContextHandler(templateHandlerNew),

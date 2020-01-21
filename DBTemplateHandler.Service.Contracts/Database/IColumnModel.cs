@@ -7,6 +7,7 @@
         bool IsPrimaryKey { get; set; }
         string Name { get; set; }
         string Type { get; set; }
+        int ValueMaxSize { get; set; }
         public ITableModel ParentTable { get; set; }
     }
 }
