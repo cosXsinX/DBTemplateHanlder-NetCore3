@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DBTemplateHander.DatabaseModel.Import\DBTemplateHander.DatabaseModel.Import.csproj" />
+    <ProjectReference Include="..\DBTemplateHandler.Ace.Editor.Tools.Core.Console\DBTemplateHandler.Ace.Editor.Tools.Core.Console.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Core\DBTemplateHandler.Core.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Persistance\DBTemplateHandler.Persistance.csproj" />
     <ProjectReference Include="..\DBTemplateHandler.Studio.Deployment\DBTemplateHandler.Studio.Deployment.csproj" />
@@ -35,5 +36,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(TargetDir)DBTemplateHandler.Ace.Editor.Tools.Core.Console.exe BuildDBTemplateMode -Path &quot;..\..\..\wwwroot\scripts\ace\&quot; -Force" />
+  </Target>
 
 </Project>

@@ -3,6 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <StartupObject>DBTemplateHandler.Ace.Editor.Tools.Core.Console.Program</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DBTemplateHandler.Ace.Editor.Tools.Core\DBTemplateHandler.Ace.Editor.Tools.Core.csproj" />
+  </ItemGroup>
 
 </Project>

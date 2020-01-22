@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -17,10 +18,17 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.Console.ActionsCommand
 
         public string ActionName => actionName;
 
+        private readonly HighLightRulesGenerator _highLightRulesGenerator;
+        public BuildDBTemplateModeAction(HighLightRulesGenerator highLightRulesGenerator)
+        {
+            if (highLightRulesGenerator == null) throw new ArgumentNullException(nameof(highLightRulesGenerator));
+            _highLightRulesGenerator = highLightRulesGenerator;
+        }
+
         public void Run(string[] args)
         {
             var lowerCasedArgs = args.Select(arg => arg.ToLower()).ToList();
-            string destinationPath = "mode-dbtemplate.js";
+            string destinationPath = "";
             if(lowerCasedArgs.Contains(DestinationArgCommandDeclaration.ToLower()))
             {
                 var destinationArgCommandDeclarationIndex = lowerCasedArgs.IndexOf(DestinationArgCommandDeclaration.ToLower());
@@ -30,8 +38,32 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.Console.ActionsCommand
                     destinationPath = args[destinationArgIndex];
                 }
             }
-            
-            
+            bool force = args.Contains(ForceArgCommandDeclaration);
+
+            var fileModel = _highLightRulesGenerator.GetDbTemplateAceMode();
+            Directory.GetCurrentDirectory();
+            string destinationFileFullName;
+            if (String.IsNullOrWhiteSpace(destinationPath))
+            {
+                destinationFileFullName = Path.Combine(Directory.GetCurrentDirectory(),  fileModel.FileName);
+            }
+            else
+            {
+                destinationFileFullName = Path.Combine(Directory.GetCurrentDirectory(), destinationPath, fileModel.FileName);
+            }
+            if(File.Exists(destinationFileFullName) && force)
+            {
+                File.Delete(destinationFileFullName);
+            }
+            else if(!force)
+            {
+                System.Console.Error.WriteLine($"{destinationFileFullName} already exists, nothing has been done. You can use '-Force' arg in order to overwrite the existing file");
+                return;
+            }
+            var directoryRoot = Path.GetPathRoot(destinationFileFullName);
+            if (!Directory.Exists(directoryRoot)) Directory.CreateDirectory(directoryRoot);
+            File.WriteAllText(destinationFileFullName, fileModel.Content);
+            System.Console.WriteLine($"{destinationFileFullName} successfully created");
         }
     }
 }

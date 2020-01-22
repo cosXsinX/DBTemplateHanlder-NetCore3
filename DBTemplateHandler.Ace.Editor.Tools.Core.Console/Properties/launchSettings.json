@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DBTemplateHandler.Ace.Editor.Tools.Core.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "BuildDBTemplateMode -Force"
+    }
+  }
+}
