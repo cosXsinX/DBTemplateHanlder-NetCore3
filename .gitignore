@@ -40,3 +40,6 @@
 /DBTemplateHander.DatabaseModel.Import/.editorconfig
 /DBTemplateHandler.Utils.UnitTests/bin/Debug/netcoreapp3.0
 /DBTemplateHandler.Utils.UnitTests/obj
+/DBTemplateHandler.Ace.Editor.Tools.Console/obj/Debug/netcoreapp3.0
+/DBTemplateHandler.Ace.Editor.Tools.Console/obj
+/DBTemplateHandler.Ace.Editor.Tools.Core.Console/obj
