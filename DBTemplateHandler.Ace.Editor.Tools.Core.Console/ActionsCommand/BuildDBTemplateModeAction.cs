@@ -41,7 +41,7 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.Console.ActionsCommand
             bool force = args.Contains(ForceArgCommandDeclaration);
 
             var fileModel = _highLightRulesGenerator.GetDbTemplateAceMode();
-            Directory.GetCurrentDirectory();
+
             string destinationFileFullName;
             if (String.IsNullOrWhiteSpace(destinationPath))
             {
@@ -60,7 +60,7 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.Console.ActionsCommand
                 System.Console.Error.WriteLine($"{destinationFileFullName} already exists, nothing has been done. You can use '-Force' arg in order to overwrite the existing file");
                 return;
             }
-            var directoryRoot = Path.GetPathRoot(destinationFileFullName);
+            var directoryRoot = Path.GetDirectoryName(destinationFileFullName);
             if (!Directory.Exists(directoryRoot)) Directory.CreateDirectory(directoryRoot);
             File.WriteAllText(destinationFileFullName, fileModel.Content);
             System.Console.WriteLine($"{destinationFileFullName} successfully created");

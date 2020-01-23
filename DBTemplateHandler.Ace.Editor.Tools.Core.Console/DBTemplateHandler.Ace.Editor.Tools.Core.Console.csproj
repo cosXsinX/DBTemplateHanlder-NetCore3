@@ -10,4 +10,8 @@
     <ProjectReference Include="..\DBTemplateHandler.Ace.Editor.Tools.Core\DBTemplateHandler.Ace.Editor.Tools.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DestinationTarget\" />
+  </ItemGroup>
+
 </Project>
