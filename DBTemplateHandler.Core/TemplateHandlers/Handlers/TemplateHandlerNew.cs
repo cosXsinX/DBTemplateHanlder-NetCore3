@@ -33,18 +33,25 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateValidator templateValidator;
         private readonly ContextVisitor<AbstractTemplateContextHandler> contextVisitor;
 
+        private readonly IList<ITypeMapping> typeMappings;
 
-        public TemplateHandlerNew(IList<ITypeMapping> typeMapping)
+        public TemplateHandlerNew(IList<ITypeMapping> typeMappings)
         {
-            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMapping);
-            databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMapping);
-            tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMapping);
-            columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>(this,typeMapping);
-            functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(this,typeMapping);
-            templateValidator = new TemplateValidator(this,typeMapping);
+            this.typeMappings = typeMappings; 
+            templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMappings);
+            databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMappings);
+            tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMappings);
+            columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>(this,typeMappings);
+            functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(this,typeMappings);
+            templateValidator = new TemplateValidator(this,typeMappings);
             contextVisitor = new ContextVisitor<AbstractTemplateContextHandler>(templateContextHandlerProvider);
         }
 
+        public void OverwriteTypeMapping(IList<ITypeMapping> typeMappings)
+        {
+            throw new NotImplementedException();
+        }
+        
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
