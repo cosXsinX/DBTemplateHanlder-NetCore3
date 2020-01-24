@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -39,35 +40,30 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
                 return $"{{:TDB:PREPROCESSOR:MAPPING:WARNING:NOT:HANDLED({TrimmedStringContext}):PREPROCESSOR:WARNING:NOT:HANDLED:}}";
 
             var headerMatches = mappingHeaderRegex.Matches(TrimmedStringContext);
-            var headerMatch = FirstOrDefault(headerMatches);
-            var header = ExtractMatch(headerMatch,TrimmedStringContext);
+            var headerMatch = headerMatches.FirstOrDefault();
+            var headerAsString = ExtractMatch(headerMatch,TrimmedStringContext);
             //TODO
             var itemMatches = mappingItemRegex.Matches(TrimmedStringContext);
-            var matches = Enumerate(itemMatches);
-            //TODO
+            var matches = itemMatches.Select(m => m);
+            var itemAsStrings = matches.Select(m => ExtractMatch(m, TrimmedStringContext)).ToList();
+            var items = itemAsStrings.Select(ToTypeMappingItem).ToList();
             throw new NotImplementedException();
-        }
-
-        private Match FirstOrDefault(MatchCollection matches)
-        {
-            foreach(Match current in matches)
-            {
-                return current;
-            }
-            return null;
-        }
-
-        private IEnumerable<Match> Enumerate(MatchCollection matches)
-        {
-            foreach(Match match in matches)
-            {
-                yield return match;
-            }
         }
 
         private string ExtractMatch(Match match,string containing)
         {
             return containing.Substring(match.Index, match.Length);
+        }
+
+        private TypeMapping.TypeMappingItem ToTypeMappingItem(string itemAsString)
+        {
+            var splitted = Regex.Split(itemAsString, ")<-\\][ \\n\\t]*=>[ \\n\\t]*\\[->\\(").ToList();
+            var sourceType = splitted[0].TrimStart().Substring(0, "[->(".Length);
+            var destinationType = splitted[1].TrimEnd();
+            if (destinationType.EndsWith(",")) destinationType.Substring(0, destinationType.Length - 1);
+            destinationType.TrimEnd().Substring(0, destinationType.Length - ")<-]".Length);
+            var result = new TypeMapping.TypeMappingItem() { SourceType = sourceType, DestinationType = destinationType };
+            return result;
         }
     }
 }
