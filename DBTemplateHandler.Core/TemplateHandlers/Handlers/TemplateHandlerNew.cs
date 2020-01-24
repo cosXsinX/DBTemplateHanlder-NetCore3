@@ -72,7 +72,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             foreach (var context in contextes)
             {
                 var contextContent = context.current.Content;
-                var contextContentProcessed = HandlerContextString(contextContent, databaseModel, tableModel, columnModel);
+                var contextContentProcessed = HandleContextString(contextContent, databaseModel, tableModel, columnModel);
                 result = $"{result.Substring(0, context.current.StartIndex + charDiffSum)}{contextContentProcessed}{result.Substring(context.current.StartIndex + contextContent.Length + charDiffSum)}";
                 charDiffSum = charDiffSum + contextContentProcessed.Length - contextContent.Length;
             }
@@ -80,7 +80,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
 
-        private string HandlerContextString(string contextString,
+        private string HandleContextString(string contextString,
             IDatabaseModel databaseModel,
             ITableModel tableModel,
             IColumnModel columnModel)

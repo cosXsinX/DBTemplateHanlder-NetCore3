@@ -14,17 +14,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 
         }
 
-        public string HandleTrimedContext(string StringTrimedContext)
+        public override string HandleTrimedContext(string StringTrimedContext)
         {
-            throw new NotImplementedException();
+            var result = PrepareProcessor(StringTrimedContext);
+            return result;
         }
 
-        public string processContext(string StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            return HandleTrimedContext(TrimedStringContext);
         }
+
+        public abstract string PrepareProcessor(string TrimmedStringContext);
 
     }
 }

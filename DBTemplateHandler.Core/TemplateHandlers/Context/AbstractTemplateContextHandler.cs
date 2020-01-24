@@ -23,7 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 
         public abstract string ContextActionDescription { get; }
 
-        public String TrimContextFromContextWrapper(string stringContext)
+        public string TrimContextFromContextWrapper(string stringContext)
         {
 
             if (!stringContext.StartsWith(StartContext, StringComparison.Ordinal))
