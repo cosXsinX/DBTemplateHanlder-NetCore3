@@ -33,11 +33,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateValidator templateValidator;
         private readonly ContextVisitor<AbstractTemplateContextHandler> contextVisitor;
 
-        private readonly IList<ITypeMapping> typeMappings;
-
         public TemplateHandlerNew(IList<ITypeMapping> typeMappings)
         {
-            this.typeMappings = typeMappings; 
+            TypeMappings = typeMappings??new List<ITypeMapping>(); 
             templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMappings);
             databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMappings);
             tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMappings);
@@ -49,9 +47,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public void OverwriteTypeMapping(IList<ITypeMapping> typeMappings)
         {
-            throw new NotImplementedException();
+            TypeMappings.MergeAndAttachTypeMappingItems(typeMappings);
         }
-        
+
+        public IList<ITypeMapping> TypeMappings { get; }
+
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {

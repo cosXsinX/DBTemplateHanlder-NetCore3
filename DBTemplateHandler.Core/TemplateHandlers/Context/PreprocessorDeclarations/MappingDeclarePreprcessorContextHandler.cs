@@ -1,4 +1,6 @@
-﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+﻿using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 {
     public class MappingDeclarePreprcessorContextHandler : AbstactPreprocessorContextHandler
     {
-        public MappingDeclarePreprcessorContextHandler(TemplateHandlerNew templateHandlerNew ) 
+        public MappingDeclarePreprcessorContextHandler(TemplateHandlerNew templateHandlerNew) 
             :base(templateHandlerNew)
         {
-            
         }
+
+        public IDatabaseModel DatabaseModel { get; set; }
 
         public override string StartContext => "{:TDB:PREPROCESSOR:MAPPING:DECLARE(";
 
@@ -42,27 +45,56 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
             var headerMatches = mappingHeaderRegex.Matches(TrimmedStringContext);
             var headerMatch = headerMatches.FirstOrDefault();
             var headerAsString = ExtractMatch(headerMatch,TrimmedStringContext);
-            //TODO
+            string destinationTypeSetName = ToDestinationTypeSetName(headerAsString);
+
             var itemMatches = mappingItemRegex.Matches(TrimmedStringContext);
             var matches = itemMatches.Select(m => m);
             var itemAsStrings = matches.Select(m => ExtractMatch(m, TrimmedStringContext)).ToList();
-            var items = itemAsStrings.Select(ToTypeMappingItem).ToList();
-            throw new NotImplementedException();
+            var items = itemAsStrings.Select(ToTypeMappingItem).Cast<ITypeMappingItem>().ToList();
+            TemplateHandlerNew.OverwriteTypeMapping(new[] { 
+                new TypeMapping() { 
+                    SourceTypeSetName=DatabaseModel?.TypeSetName??"UnknownTypeSet" ,
+                    DestinationTypeSetName = destinationTypeSetName,
+                    TypeMappingItems = items 
+                } 
+            });
+            return string.Empty;
         }
+
+        private class TypeMapping : ITypeMapping
+        {
+            public string DestinationTypeSetName { get; set; }
+            public string SourceTypeSetName { get; set; }
+            public IList<ITypeMappingItem> TypeMappingItems { get; set; }
+        }
+
+        private class TypeMappingItem : ITypeMappingItem
+        {
+            public string DestinationType { get; set; }
+            public string SourceType { get; set; }
+        }
+
 
         private string ExtractMatch(Match match,string containing)
         {
             return containing.Substring(match.Index, match.Length);
         }
 
-        private TypeMapping.TypeMappingItem ToTypeMappingItem(string itemAsString)
+        private string ToDestinationTypeSetName(string headerString)
         {
-            var splitted = Regex.Split(itemAsString, ")<-\\][ \\n\\t]*=>[ \\n\\t]*\\[->\\(").ToList();
+            var header = Regex.Split(headerString, "\\)<-\\][ \\n\\t]*<=>[ \\n\\t]*\\[").First();
+            header = header.Substring("[->(".Length);
+            return header;
+        }
+
+        private TypeMappingItem ToTypeMappingItem(string itemAsString)
+        {
+            var splitted = Regex.Split(itemAsString, "\\)<-\\][ \\n\\t]*=>[ \\n\\t]*\\[->\\(").ToList();
             var sourceType = splitted[0].TrimStart().Substring(0, "[->(".Length);
             var destinationType = splitted[1].TrimEnd();
             if (destinationType.EndsWith(",")) destinationType.Substring(0, destinationType.Length - 1);
             destinationType.TrimEnd().Substring(0, destinationType.Length - ")<-]".Length);
-            var result = new TypeMapping.TypeMappingItem() { SourceType = sourceType, DestinationType = destinationType };
+            var result = new TypeMappingItem() { SourceType = sourceType, DestinationType = destinationType };
             return result;
         }
     }

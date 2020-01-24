@@ -26,6 +26,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
-
     }
 }
