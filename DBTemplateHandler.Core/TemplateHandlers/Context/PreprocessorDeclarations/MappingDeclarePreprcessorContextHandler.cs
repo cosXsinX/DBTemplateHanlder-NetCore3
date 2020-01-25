@@ -28,14 +28,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
         public override string ContextActionDescription => "Define the column types template code association mapping proxy for the processed template group context.";
 
         //TODO add in the mapping item first element all but something
-        //\[->\(.*\)<-\][ \n\t]*<=>[ \n\t]*\[([ \n\t]*\[->\(.*\)<-\][ \n\t]*=>[ \n\t]*\[->\(.*\)<-\][ \n\t]*(,)?)+[ \n\t]*\]
+        //\[->\(.*\)<-\]\s*<=>\s*\[(\s*\[->\(.*\)<-\]\s*=>\s*\[->\(.*\)<-\]\s*(,)?)+\s*\]
 
-        private const string mappingHeaderRegexPattern = "\\[->\\(.*\\)<-\\][ \\n\\t]*<=>[ \\n\\t]*\\[";
+        private const string mappingHeaderRegexPattern = "\\[->\\(.*\\)<-\\]\\s*<=>\\s*\\[";
         Regex mappingHeaderRegex = new Regex(mappingHeaderRegexPattern);
-        private const string mappingItemRegexPattern = "([ \\n\\t]*\\[->\\(.*\\)<-\\][ \\n\\t]*=>[ \\n\\t]*\\[->\\(.*\\)<-\\][ \\n\\t]*(,)?)";
+        private const string mappingItemRegexPattern = "(\\s*\\[->\\(.*\\)<-\\]\\s*=>\\s*\\[->\\(.*\\)<-\\]\\s*(,)?)";
         Regex mappingItemRegex = new Regex(mappingItemRegexPattern);
-        Regex regex = new Regex(mappingHeaderRegexPattern + mappingItemRegexPattern +"+[ \\n\\t]*\\]");
-
+        Regex regex = new Regex(mappingHeaderRegexPattern + mappingItemRegexPattern +"+\\s*\\]");
         
         public override string PrepareProcessor(string TrimmedStringContext)
         {
@@ -82,18 +81,18 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 
         private string ToDestinationTypeSetName(string headerString)
         {
-            var header = Regex.Split(headerString, "\\)<-\\][ \\n\\t]*<=>[ \\n\\t]*\\[").First();
+            var header = Regex.Split(headerString, "\\)<-\\]\\s*<=>\\s*\\[").First();
             header = header.Substring("[->(".Length);
             return header;
         }
 
         private TypeMappingItem ToTypeMappingItem(string itemAsString)
         {
-            var splitted = Regex.Split(itemAsString, "\\)<-\\][ \\n\\t]*=>[ \\n\\t]*\\[->\\(").ToList();
-            var sourceType = splitted[0].TrimStart().Substring(0, "[->(".Length);
+            var splitted = Regex.Split(itemAsString, "\\)<-\\]\\s*=>\\s*\\[->\\(").ToList();
+            var sourceType = splitted[0].TrimStart().Substring("[->(".Length);
             var destinationType = splitted[1].TrimEnd();
-            if (destinationType.EndsWith(",")) destinationType.Substring(0, destinationType.Length - 1);
-            destinationType.TrimEnd().Substring(0, destinationType.Length - ")<-]".Length);
+            if (destinationType.EndsWith(",")) destinationType = destinationType.Substring(0, destinationType.Length - 1);
+            destinationType = destinationType.TrimEnd().Substring(0, destinationType.Length - ")<-]".Length);
             var result = new TypeMappingItem() { SourceType = sourceType, DestinationType = destinationType };
             return result;
         }

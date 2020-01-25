@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Service.Contracts.TypeMapping
     {
         public static IEnumerable<ITypeMapping> MergeAndAttachTypeMappingItems(this IEnumerable<ITypeMapping> overwrittens, IEnumerable<ITypeMapping> overwrittings)
         {
-            Func<ITypeMapping, string> keyFunc = m => $"{m.SourceTypeSetName}-{m.DestinationTypeSetName}";
+            Func<ITypeMapping, string> keyFunc = m => $"{m?.SourceTypeSetName}-{m?.DestinationTypeSetName}";
             var overwrittenWithKeys = overwrittens.Select(overwritten => (key: keyFunc(overwritten), overwritten)).ToList();
             var overwrittingWithKeys = overwrittings.Select(overwritting => (key: keyFunc(overwritting), overwritting)).ToList();
             var overwrittenKeySet = new HashSet<string>(overwrittenWithKeys.Select(m => m.key).Distinct());
@@ -28,7 +28,7 @@ namespace DBTemplateHandler.Service.Contracts.TypeMapping
 
         public static IEnumerable<ITypeMappingItem> OverwriteWith(this IEnumerable<ITypeMappingItem> overwrittens, IEnumerable<ITypeMappingItem> overwrittings)
         {
-            Func<ITypeMappingItem, string> keyFunc = m => $"{m.SourceType}-{m.DestinationType}";
+            Func<ITypeMappingItem, string> keyFunc = m => $"{m?.SourceType}-{m?.DestinationType}";
             var overwrittingByKey = new HashSet<string>(overwrittings.Select(keyFunc).Distinct()) ;
             var overwrittenWithKey = overwrittens.Select(typeMappingItem => (key : keyFunc(typeMappingItem), typeMappingItem));
             var notOverwritten = overwrittenWithKey.Where(m => !overwrittingByKey.Contains(m.key)).Select(m => m.typeMappingItem);

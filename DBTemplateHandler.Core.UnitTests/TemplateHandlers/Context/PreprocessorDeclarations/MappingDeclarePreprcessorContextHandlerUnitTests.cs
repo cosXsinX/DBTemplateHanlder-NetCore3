@@ -3,6 +3,7 @@ using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.PreprocessorDeclarations
@@ -18,22 +19,47 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
             _tested = new MappingDeclarePreprcessorContextHandlerForTest(new TemplateHandlerNew(null));
         }
 
-        [Test]
-        public void Test()
-        {
-          var processed = @"{:TDB:PREPROCESSOR:MAPPING:DECLARE([->(DESTINATION_ENV_B_NAME)<-]<=>[
-[->(TYPE1_ENV_A)<-]=>[->(TYPE1_ENV_B)<-],
-[->(TYPE2_ENV_A)<-]=>[->(TYPE2_ENV_B)<-],
-[->(TYPE3_ENV_A)<-]=>[->(TYPE3_ENV_B)<-]
-]):PREPROCESSOR:}";
-            _tested.processContext(processed);
-            Assert.IsNotNull(_tested.TemplateHandlerNew);
+        const string envB = nameof(envB);
+        const string envAType1 = nameof(envAType1);
+        const string envAType2 = nameof(envAType2);
+        const string envAType3 = nameof(envAType3);
+        const string envBType1 = nameof(envBType1);
+        const string envBType2 = nameof(envBType2);
+        const string envBType3 = nameof(envBType3);
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ShouldReturnAccurateMapping(bool endItemEndWithComa)
+        {
+
+            var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE(
+[->({envB})<-]<=>[
+[->({envAType1})<-]=>[->({envBType1})<-],
+[->({envAType2})<-]=>[->({envBType2})<-],
+[->({envAType3})<-]=>[->({envBType3})<-]{(endItemEndWithComa?",":string.Empty)}
+]
+):PREPROCESSOR:}}";
+            var result = _tested.processContext(processed);
+            Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
-            CollectionAssert.IsNotEmpty(_tested.TemplateHandlerNew.TypeMappings);
+            var typeMappings = _tested.TemplateHandlerNew.TypeMappings;
+            CollectionAssert.IsNotEmpty(typeMappings);
+            Assert.AreEqual(1, typeMappings.Count);
+            var typeMapping = typeMappings.Single();
+            Assert.AreEqual(typeMapping.DestinationTypeSetName, envB);
+            Assert.IsNotNull(typeMapping.TypeMappingItems);
+            CollectionAssert.IsNotEmpty(typeMapping.TypeMappingItems);
+            CollectionAssert.AreEquivalent(
+                typeMapping.TypeMappingItems.Select(m => $"{m.SourceType}-{m.DestinationType}"),
+                new[] {
+                    $"{envAType1}-{envBType1}",
+                    $"{envAType2}-{envBType2}",
+                    $"{envAType3}-{envBType3}",
+                });
+            Assert.AreEqual(string.Empty, result);
         }
 
-        
+
 
     }
     public class MappingDeclarePreprcessorContextHandlerForTest : MappingDeclarePreprcessorContextHandler

@@ -33,9 +33,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateValidator templateValidator;
         private readonly ContextVisitor<AbstractTemplateContextHandler> contextVisitor;
 
+
+        private readonly List<ITypeMapping> typeMappingsField;
+        public IList<ITypeMapping> TypeMappings => typeMappingsField;
+
         public TemplateHandlerNew(IList<ITypeMapping> typeMappings)
         {
-            TypeMappings = typeMappings??new List<ITypeMapping>(); 
+            typeMappingsField = typeMappingsField??new List<ITypeMapping>(); 
             templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMappings);
             databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMappings);
             tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMappings);
@@ -45,12 +49,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             contextVisitor = new ContextVisitor<AbstractTemplateContextHandler>(templateContextHandlerProvider);
         }
 
+        //TODO Bad architecture problem symptom => template handler should not manage type mapping
         public void OverwriteTypeMapping(IList<ITypeMapping> typeMappings)
         {
-            TypeMappings.MergeAndAttachTypeMappingItems(typeMappings);
+            var newTypeMappings = TypeMappings.MergeAndAttachTypeMappingItems(typeMappings).ToList();
+            typeMappingsField.Clear();
+            typeMappingsField.AddRange(newTypeMappings);
         }
 
-        public IList<ITypeMapping> TypeMappings { get; }
 
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
