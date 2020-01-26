@@ -2,6 +2,7 @@
 
 @using DBTemplateHandler.Persistance.Serializable
 @using DBTemplateHandler.Studio.Data
+@using DBTemplateHandler.Service.Contracts.TypeMapping
 @inject DBTemplateService dbTemplateService
 
 
@@ -16,7 +17,7 @@
             </div>
             <select class="form-control" @bind="MappingName">
                 <option value="--- Select Type Mapping ---">--- Select Type Mapping ---</option>
-                @foreach(var mappingName in  MappingNames)
+                @foreach (var mappingName in MappingNames)
                 {
                     <option value="@mappingName">@mappingName</option>
                 }
@@ -122,9 +123,50 @@
             </div>
         </div>
     }
+<div class="row mr-1 border border-primary rounded form-group">
+    <div class="container-fluid mr-1 border border-secondary rounded" readonly>
+        <div class="row mr-1 justify-content-between">
+            <div class="col-4 h4">
+                Preprocessor Generator
+            </div>
+            <div class="col-2">
+                <div class="btn-group">
+                    <button class="btn btn-secondary" @onclick="@GeneratePreprocessorDeclaration">Generate</button>
+                </div>
+            </div>
+        </div>
+        @if (TypeMappingPreprocessorEquivalent != null)
+        {
+
+
+            <div class="row mr-1">
+                Preprocessor declaration
+            </div>
+            <div class="row mr-1 border border-info rounded">
+                <textarea class="form-control" rows="10">
+                    @TypeMappingPreprocessorEquivalent
+                </textarea>
+            </div>
+        }
+    </div>
+</div>
+
 </div>
 
 @code{
+
+    private void GeneratePreprocessorDeclaration()
+    {
+        if (CurrentTypeMapping == null) return;
+        TypeMappingPreprocessorEquivalent = dbTemplateService.ToPreprocessorMappingDeclarationString(new List<ITypeMapping>() { dbTemplateService.ToTypeMapping(CurrentTypeMapping) });
+    }
+
+    public string TypeMappingPreprocessorEquivalent
+    {
+        get;
+        set;
+    }
+
     public string SourceType
     {
         get { return CurrentTypeMappingItem?.SourceType; }
@@ -145,7 +187,8 @@
     }
 
     private string MapingNameValue { get; set; }
-    public string MappingName {
+    public string MappingName
+    {
         get => MapingNameValue;
         set
         {
@@ -159,8 +202,11 @@
     public TypeMappingItem CurrentTypeMappingItem { get; set; }
 
     private string SourceTypeSetNameValue { get; set; }
-    public string SourceTypeSetName { get=> SourceTypeSetNameValue;
-        set {
+    public string SourceTypeSetName
+    {
+        get => SourceTypeSetNameValue;
+        set
+        {
             SourceTypeSetNameValue = value;
             SetSourceTypeSet();
         }
@@ -195,7 +241,7 @@
 
     async void SetSourceTypeSet()
     {
-        SourceTypeSet = await dbTemplateService.GetTypeSetByPersistenceName(SourceTypeSetName)??new List<TypeSetItem>();
+        SourceTypeSet = await dbTemplateService.GetTypeSetByPersistenceName(SourceTypeSetName) ?? new List<TypeSetItem>();
         if (CurrentTypeMapping != null) CurrentTypeMapping.SourceTypeSetName = SourceTypeSetName;
     }
 
@@ -257,7 +303,7 @@
         if (CurrentTypeMapping == null) CreateTypeMapping();
         if (CurrentTypeMapping.TypeMappingItems == null) CurrentTypeMapping.TypeMappingItems = new List<TypeMappingItem>();
         CurrentTypeMappingItem = new TypeMappingItem();
-        CurrentTypeMapping.TypeMappingItems= (new List<TypeMappingItem> { CurrentTypeMappingItem}).Concat(CurrentTypeMapping.TypeMappingItems).ToList();;
+        CurrentTypeMapping.TypeMappingItems = (new List<TypeMappingItem> { CurrentTypeMappingItem }).Concat(CurrentTypeMapping.TypeMappingItems).ToList(); ;
     }
 
     void DeleteTypeMappingItem()

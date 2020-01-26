@@ -96,5 +96,19 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
             var result = new TypeMappingItem() { SourceType = sourceType, DestinationType = destinationType };
             return result;
         }
+
+
+        public string ToContextString(ITypeMapping converted)
+        {
+            if (converted == null) return string.Empty;
+            if (!converted.TypeMappingItems?.Any()??false) return string.Empty;
+            return @$"{StartContext}([->({converted.DestinationTypeSetName})<-]<=>[{ToConstextString(converted.TypeMappingItems)}
+]{EndContext}";
+        }
+
+        private string ToConstextString(IList<ITypeMappingItem> typeMappingItems)
+        {
+            return string.Join($",{Environment.NewLine}", typeMappingItems.Select(m => $"[->({m.SourceType})<-]=>[->({m.DestinationType})<-]"));
+        }
     }
 }

@@ -185,7 +185,7 @@ namespace DBTemplateHandler.Studio.Data
         public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)
         {
             var typeMappings = persistenceFacade.GetAllTypeMapping();
-            var sourceTypeAssociatedTypeMappings = typeMappings.Where(m => m.SourceTypeSetName == databaseModel.TypeSetName).Select(ToTypeMapping).ToList();
+            var sourceTypeAssociatedTypeMappings = typeMappings.Where(m => m?.SourceTypeSetName == databaseModel.TypeSetName).Select(ToTypeMapping).ToList();
 
             IDatabaseTemplateHandlerInputModel databaseTemplateHandlerInputModel = new DatabaseTemplateHandlerInputModel()
             {
@@ -200,7 +200,12 @@ namespace DBTemplateHandler.Studio.Data
             return result;
         }
 
-        private ITypeMapping ToTypeMapping(DBTemplateHandler.Persistance.Serializable.TypeMapping converted)
+        public string ToPreprocessorMappingDeclarationString(IList<ITypeMapping> typeMappings)
+        {
+            return inputModelHandler.ToPreprocessorMappingDeclarationString(typeMappings);
+        }
+
+        public ITypeMapping ToTypeMapping(DBTemplateHandler.Persistance.Serializable.TypeMapping converted)
         {
             var result = new TypeMapping();
             result.DestinationTypeSetName = converted.DestinationTypeSetName;

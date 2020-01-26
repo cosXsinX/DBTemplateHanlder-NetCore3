@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.Template;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
+using DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclarations;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             }
         }
 
+        public string ToPreprocessorMappingDeclarationString(IList<ITypeMapping> typeMappings)
+        {
+            if (typeMappings == null) return string.Empty;
+            if (!typeMappings.Any()) return string.Empty;
+            var templateHandler = new TemplateHandlerNew(null);
+            var preprocessor = new MappingDeclarePreprcessorContextHandler(templateHandler);
+            return string.Join(Environment.NewLine, typeMappings.Select(preprocessor.ToContextString));
+        }
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
