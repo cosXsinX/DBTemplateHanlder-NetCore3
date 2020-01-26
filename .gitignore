@@ -44,3 +44,4 @@
 /DBTemplateHandler.Ace.Editor.Tools.Console/obj
 /DBTemplateHandler.Ace.Editor.Tools.Core.Console/obj
 /DBTemplateHandler.Ace.Editor.Tools.Core.Console/bin/Debug/netcoreapp3.0
+/DBTemplateHandler.Service.Contracts.UnitTests/obj

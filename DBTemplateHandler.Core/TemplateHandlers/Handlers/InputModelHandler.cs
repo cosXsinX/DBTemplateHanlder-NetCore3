@@ -53,8 +53,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
-            var result = input.TemplateModels.SelectMany(templateModel =>
-                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel, input.typeMappings)).Cast<IHandledTemplateResultModel>().ToList();
+            var typeMappings = input.typeMappings ?? new List<ITypeMapping>();
+            var TemplateHandlerNew = new TemplateHandlerNew(typeMappings);
+            var templatePreprocessor = new TemplatePreprocessor(TemplateHandlerNew, typeMappings);
+            var templateModels = input.TemplateModels;
+            templatePreprocessor.PreProcess(templateModels);
+            var result = templateModels.SelectMany(templateModel =>
+                GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel, TemplateHandlerNew)).Cast<IHandledTemplateResultModel>().ToList();
             return result;
         }
 
@@ -63,11 +68,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return filePath.Replace('\\', Path.DirectorySeparatorChar);
         }
 
-        public IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
-            (ITemplateModel templateModel, IDatabaseModel databaseModel,IList<ITypeMapping> typeMappings)
+        private IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
+            (ITemplateModel templateModel, IDatabaseModel databaseModel,TemplateHandlerNew templateHandlerNew)
         {
-
-            var TemplateHandlerNew = new TemplateHandlerNew(typeMappings);
             if (databaseModel == null) yield break;
             if (templateModel == null) yield break;
             string databaseFilePathTemplateWord = DatabaseFilePathTemplateWord;
@@ -99,7 +102,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                         string currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
                                     Replace(columnTemplateFileNameWord, currentColumn.Name);
-                        string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                        string handlerOutput = templateHandlerNew.HandleTemplate(
                                 templateFileContent,
                                     databaseModel, currentTable, currentColumn);
                         string destinationFilePath = currentColumnReplacedDestinationRelativePath;
@@ -123,7 +126,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(tableFilePathTemplateWord,
                                         currentTable.Name);
-                    string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                    string handlerOutput = templateHandlerNew.HandleTemplate(
                                 templateFileContent,
                                     databaseModel, currentTable, null);
                     string destinationFilePath = currentTableReplacedDestinationRelativePath;
@@ -141,7 +144,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                 databaseFilePathTemplateWord,
                                     databaseModel.Name);
 
-                string handlerOutput = TemplateHandlerNew.HandleTemplate(
+                string handlerOutput = templateHandlerNew.HandleTemplate(
                             templateFileContent,
                                 databaseModel, null, null);
                 string destinationFilePath = currentDatabaseReplacedDestinationRelativePath;

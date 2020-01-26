@@ -2,6 +2,7 @@
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
+using DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclarations;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
@@ -21,6 +22,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             _contextHandlers =
             new List<ITemplateContextHandler>()
             {
+                //Preprocessors contextes
+                new MappingDeclarePreprcessorContextHandler(templateHandlerNew),
                 //Column contextes
                 new AutoColumnIndexColumnContextHandler(templateHandlerNew),
                 new ColumnIndexColumnContextHandler(templateHandlerNew),

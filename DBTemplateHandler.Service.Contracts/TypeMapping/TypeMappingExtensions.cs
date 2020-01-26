@@ -16,9 +16,9 @@ namespace DBTemplateHandler.Service.Contracts.TypeMapping
             var overwrittingKeySet = new HashSet<string>(overwrittingWithKeys.Select(m => m.key).Distinct());
             var notContainedInOverwritten = overwrittingWithKeys.Where(m => !overwrittenKeySet.Contains(m.key)).Select(m => m.overwritting);
             
-            var containedInOverwritten = overwrittingWithKeys.Where(m => overwrittingKeySet.Contains(m.key))
+            var containedInOverwritten = overwrittingWithKeys.Where(m => overwrittenKeySet.Contains(m.key))
                 .GroupBy(m => m.key, m => m.overwritting).ToDictionary(m => m.Key, m => m.First());
-            var containedInOverwritting = overwrittenWithKeys.Where(m => overwrittenKeySet.Contains(m.key))
+            var containedInOverwritting = overwrittenWithKeys.Where(m => overwrittingKeySet.Contains(m.key))
                 .GroupBy(m => m.key, m => m.overwritten).Select(m => (key : m.Key, overwritten : m.First())).ToList();
 
             containedInOverwritting.ForEach(m => m.overwritten.TypeMappingItems.OverwriteWith(containedInOverwritten[m.key].TypeMappingItems));
