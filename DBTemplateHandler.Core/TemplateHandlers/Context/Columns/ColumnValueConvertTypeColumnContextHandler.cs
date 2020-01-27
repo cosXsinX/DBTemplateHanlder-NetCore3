@@ -16,13 +16,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public ColumnValueConvertTypeColumnContextHandler(TemplateHandlerNew templateHandlerNew,IList<ITypeMapping> typeMappings):base(templateHandlerNew)
         {
-            if (typeMappings == null) return;
-            if (!typeMappings.Any()) return;
-            conversionMap = ToConversionMap(typeMappings);
+
         }
 
         private IDictionary<MappingKey,string> ToConversionMap(IList<ITypeMapping> typeMappings)
         {
+            if (typeMappings == null || !typeMappings.Any()) return new Dictionary<MappingKey, string>();
             var intermediateResult = typeMappings.SelectMany(m => (m?.TypeMappingItems ?? new List<ITypeMappingItem>())
                 .Select(i => Tuple.Create(new MappingKey() { DestinationTypeSet = (m.DestinationTypeSetName??string.Empty).ToLowerInvariant(), SourceType = i.SourceType }, i.DestinationType))).ToList();
             var result = intermediateResult.GroupBy(m => m.Item1, m => m.Item2).ToDictionary(m => m.Key, m => m.First());
@@ -47,13 +46,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             }
         }
 
-        private readonly IDictionary<MappingKey, string> conversionMap = new Dictionary<MappingKey, string>();
-
         private HashSet<string> DestinationTypeSets;
+        private IDictionary<MappingKey, string> conversionMap;
         private bool InitConversionHandlerMap()
         {
-
             if (DestinationTypeSets != null) return true;
+            conversionMap = ToConversionMap(TemplateHandlerNew.TypeMappings);
             DestinationTypeSets = new HashSet<string>(conversionMap.Keys.Select(m => m.DestinationTypeSet));
             return (DestinationTypeSets != null);
         }

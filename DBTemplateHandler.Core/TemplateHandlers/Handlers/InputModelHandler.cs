@@ -49,7 +49,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (typeMappings == null) return string.Empty;
             if (!typeMappings.Any()) return string.Empty;
-            var templateHandler = new TemplateHandlerNew(null);
+            var templateHandler = new TemplateHandlerNew(typeMappings);
             var preprocessor = new MappingDeclarePreprcessorContextHandler(templateHandler);
             return string.Join(Environment.NewLine, typeMappings.Select(preprocessor.ToContextString));
         }
