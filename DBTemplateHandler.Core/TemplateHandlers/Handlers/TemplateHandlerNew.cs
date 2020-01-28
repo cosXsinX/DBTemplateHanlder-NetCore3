@@ -39,7 +39,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public TemplateHandlerNew(IList<ITypeMapping> typeMappings)
         {
-            typeMappingsField = typeMappingsField??new List<ITypeMapping>(); 
+            typeMappingsField = typeMappings?.ToList()?? new List<ITypeMapping>(); 
             templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(this,typeMappings);
             databaseTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractDatabaseTemplateContextHandler>(this,typeMappings);
             tableTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTableTemplateContextHandler>(this,typeMappings);
