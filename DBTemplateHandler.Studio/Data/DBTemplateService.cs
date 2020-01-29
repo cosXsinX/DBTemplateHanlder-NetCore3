@@ -182,7 +182,7 @@ namespace DBTemplateHandler.Studio.Data
             persistenceFacade.DeleteTypeMapping(typeMappingName);
         }
 
-        public IList<IHandledTemplateResultModel> Process(ITemplateModel templateModel,IDatabaseModel databaseModel)
+        public IList<IHandledTemplateResultModel> Process(IEnumerable<ITemplateModel> templateModel,IDatabaseModel databaseModel)
         {
             var typeMappings = persistenceFacade.GetAllTypeMapping();
             var sourceTypeAssociatedTypeMappings = typeMappings.Where(m => m?.SourceTypeSetName == databaseModel.TypeSetName).Select(ToTypeMapping).ToList();
@@ -190,15 +190,13 @@ namespace DBTemplateHandler.Studio.Data
             IDatabaseTemplateHandlerInputModel databaseTemplateHandlerInputModel = new DatabaseTemplateHandlerInputModel()
             {
                 DatabaseModel = databaseModel,
-                TemplateModels = new List<ITemplateModel>()
-                {
-                    templateModel
-                },
+                TemplateModels = templateModel.ToList(),
                 typeMappings = sourceTypeAssociatedTypeMappings
             };
             var result = inputModelHandler.Process(databaseTemplateHandlerInputModel);
             return result;
         }
+
 
         public string ToPreprocessorMappingDeclarationString(IList<ITypeMapping> typeMappings)
         {

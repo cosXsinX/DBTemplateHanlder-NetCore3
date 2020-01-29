@@ -31,7 +31,6 @@ namespace DBTemplateHandler.Studio.Controllers
         [HttpGet()]
         public IActionResult Export(string id)
         {
-            var decodedId = System.Net.WebUtility.UrlDecode(id);
             if(!exportIdFilterRegex.IsMatch(id)) return NoContent();
             var splittedId = id.Split(")->(");
             var databaseModelName = splittedId[0].Substring(1, splittedId[0].Length - 1);
@@ -42,7 +41,7 @@ namespace DBTemplateHandler.Studio.Controllers
             var decodedtemplateGroupName = templateGroupName;
             var databaseModel = dBTemplateService.GetDatabaseModelByPersistenceNameSync(decodedDatabaseModelName);
             var templateModelGroup = dBTemplateService.GetTemplateModelByPersistenceNameSync(decodedtemplateGroupName);
-            var resultFiles = templateModelGroup.SelectMany(m => dBTemplateService.Process(m, databaseModel)).ToList();
+            var resultFiles = dBTemplateService.Process(templateModelGroup, databaseModel).ToList();
             var zipArchiveName = $"{decodedDatabaseModelName}-{decodedtemplateGroupName}";
             var zipArchiveFilePath = exportService.ToZipArchive(zipArchiveName, resultFiles);
             FileStream fs = System.IO.File.Open(zipArchiveFilePath, FileMode.Open);

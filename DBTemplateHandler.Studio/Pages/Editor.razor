@@ -274,10 +274,11 @@
 
     async void RunGeneration()
     {
+        if (currentTemplateModels == null) return;
         if (CurrentTemplateModel == null) return;
         if (currentDatabaseModel == null) return;
         CurrentTemplateFileContent = await GetEditorContent();
-        results = dbTemplateService.Process(CurrentTemplateModel, currentDatabaseModel);
+        results = dbTemplateService.Process(currentTemplateModels, currentDatabaseModel);
         StateHasChanged();
     }
 

@@ -12,7 +12,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override string EndContext => "]::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context as many time as there is column in the table";
-        public override String processContext(String StringContext)
+        public override string processContext(string StringContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
@@ -22,7 +22,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (ColumnModel currentColumn in descriptionPojo.Columns)
+            foreach (IColumnModel currentColumn in descriptionPojo.Columns)
             {
                 string treated = TemplateHandlerNew.HandleTableColumnTemplate(TrimedStringContext, currentColumn);
                 treated = TemplateHandlerNew.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn);
