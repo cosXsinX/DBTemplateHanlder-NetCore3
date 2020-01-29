@@ -28,7 +28,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Utils.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Ace.Editor.Tools.Core.Console", "DBTemplateHandler.Ace.Editor.Tools.Core.Console\DBTemplateHandler.Ace.Editor.Tools.Core.Console.csproj", "{BB4E0E9C-A5CA-4B30-8C1A-ED5FDD088899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTemplateHandler.Service.Contracts.UnitTests", "DBTemplateHandler.Service.Contracts.UnitTests\DBTemplateHandler.Service.Contracts.UnitTests.csproj", "{A5C746AA-1514-4AFA-B631-9E8F700306D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBTemplateHandler.Service.Contracts.UnitTests", "DBTemplateHandler.Service.Contracts.UnitTests\DBTemplateHandler.Service.Contracts.UnitTests.csproj", "{A5C746AA-1514-4AFA-B631-9E8F700306D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D24AC43-E6F0-4AAE-8CAE-E9BA0F8AF6BC}"
+	ProjectSection(SolutionItems) = preProject
+		Nuget.config = Nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
