@@ -71,7 +71,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                             "' -> The value parameter cannot be empty");
             InitConversionHandlerMap();
             if (!DestinationTypeSets.Contains(TrimedStringContext.ToLowerInvariant())) return $"CONVERT:UNKNOWN({TrimedStringContext})";
-            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = ColumnModel.Type }, out var result)) return result;
+            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = ColumnModel.Type }, out var result))
+            {
+                var processedResult = TemplateHandlerNew.HandleTableColumnTemplate(result, ColumnModel);
+                return processedResult;
+            }
+             
             return ColumnModel.Type;
         }
 

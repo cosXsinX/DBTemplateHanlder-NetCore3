@@ -9,5 +9,13 @@ namespace DBTemplateHandler.Core.UnitTests.ModelImplementation
     {
         public string TemplatedFileContent { get; set; }
         public string TemplatedFilePath { get; set; }
+
+        public ITemplateModel Copy()
+        {
+            var result = new TemplateModelForTest();
+            result.TemplatedFilePath = result.TemplatedFilePath;
+            result.TemplatedFileContent = result.TemplatedFileContent;
+            return result;
+        }
     }
 }

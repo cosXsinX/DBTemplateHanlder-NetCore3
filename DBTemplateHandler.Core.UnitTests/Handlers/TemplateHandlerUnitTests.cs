@@ -2,9 +2,7 @@
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.UnitTests.Handlers
 {
@@ -42,7 +40,7 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
 
 
         [Test]
-        public void PreProcessTest()
+        public void InlineMappingLoadTest()
         {
             var firstContext = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE(
 [->({envB})<-]<=>[
@@ -82,6 +80,14 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
         {
             public string TemplatedFileContent { get; set; }
             public string TemplatedFilePath { get; set ; }
+
+            public ITemplateModel Copy()
+            {
+                var result = new TemplateModelForTest();
+                result.TemplatedFilePath = result.TemplatedFilePath;
+                result.TemplatedFileContent = result.TemplatedFileContent;
+                return result;
+            }
         }
 
     }

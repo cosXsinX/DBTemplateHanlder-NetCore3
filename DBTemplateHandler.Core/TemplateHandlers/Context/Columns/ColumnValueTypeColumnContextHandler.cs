@@ -2,16 +2,15 @@
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnValueTypeColumnContextHandler : AbstractColumnTemplateContextHandler
     {
+        private ColumnValueTypeSemanticDefinition semanticDefinition = new ColumnValueTypeSemanticDefinition();
         public ColumnValueTypeColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
-        public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE";
-        public override string EndContext => "::}";
+        public override string StartContext => semanticDefinition.StartContext;
+        public override string EndContext => semanticDefinition.EndContext;
         public override string ContextActionDescription => "Is replaced by the current column database model type";
 
         public override string processContext(string StringContext)
@@ -30,6 +29,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
 
         public override bool isStartContextAndEndContextAnEntireWord => true;
+    }
 
+    public class ColumnValueTypeSemanticDefinition
+    {
+        public string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:TYPE";
+        public string EndContext => "::}";
+        public string Signature => $"{StartContext}{EndContext}";
     }
 }

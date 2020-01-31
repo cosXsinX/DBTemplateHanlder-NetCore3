@@ -4,5 +4,6 @@
     {
         string TemplatedFileContent { get; set; }
         string TemplatedFilePath { get; set; }
+        ITemplateModel Copy();
     }
 }

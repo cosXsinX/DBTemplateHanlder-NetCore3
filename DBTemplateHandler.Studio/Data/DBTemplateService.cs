@@ -190,7 +190,7 @@ namespace DBTemplateHandler.Studio.Data
             IDatabaseTemplateHandlerInputModel databaseTemplateHandlerInputModel = new DatabaseTemplateHandlerInputModel()
             {
                 DatabaseModel = databaseModel,
-                TemplateModels = templateModel.ToList(),
+                TemplateModels = templateModel.Select(m => m.Copy()).ToList(),
                 typeMappings = sourceTypeAssociatedTypeMappings
             };
             var result = inputModelHandler.Process(databaseTemplateHandlerInputModel);
