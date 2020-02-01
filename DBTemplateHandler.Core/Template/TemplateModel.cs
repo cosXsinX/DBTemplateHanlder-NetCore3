@@ -12,8 +12,8 @@ namespace DBTemplateHandler.Core.Template
         public ITemplateModel Copy()
         {
             var result = new TemplateModel();
-            result.TemplatedFilePath = result.TemplatedFilePath;
-            result.TemplatedFileContent = result.TemplatedFileContent;
+            result.TemplatedFilePath = this.TemplatedFilePath;
+            result.TemplatedFileContent = this.TemplatedFileContent;
             return result;
         }
     }
