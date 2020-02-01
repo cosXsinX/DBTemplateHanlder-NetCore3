@@ -38,7 +38,11 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet run --project &quot;..\DBTemplateHandler.Ace.Editor.Tools.Core.Console&quot; -- BuildDBTemplateMode -Destination &quot;wwwroot\scripts\ace&quot; -Force &gt; DBTemplateHandler.Ace.Editor.Tools.Core.Console.BuildDBTemplateOutput.txt" />
+    <Exec Command="REM dotnet run --project &quot;..\DBTemplateHandler.Ace.Editor.Tools.Core.Console&quot; -- BuildDBTemplateMode -Destination &quot;wwwroot\scripts\ace&quot; -Force &gt; DBTemplateHandler.Ace.Editor.Tools.Core.Console.BuildDBTemplateOutput.txt" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="" />
   </Target>
 
 </Project>
