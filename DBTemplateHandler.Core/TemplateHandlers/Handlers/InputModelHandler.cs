@@ -100,13 +100,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                         templateFilePath.Replace(
                                 databaseFilePathTemplateWord,
                                     databaseModel.Name);
-                foreach (TableModel currentTable in databaseModel.Tables)
+                foreach (ITableModel currentTable in databaseModel.Tables)
                 {
                     string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.
                                 Replace(tableFilePathTemplateWord,
                                         currentTable.Name);
-                    foreach (ColumnModel currentColumn in currentTable.Columns)
+                    foreach (IColumnModel currentColumn in currentTable.Columns)
                     {
                         string currentColumnReplacedDestinationRelativePath =
                                 currentTableReplacedDestinationRelativePath.
@@ -129,7 +129,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                         templateFilePath.Replace(
                                 databaseFilePathTemplateWord,
                                     databaseModel.Name);
-                foreach (TableModel currentTable in databaseModel.Tables)
+                foreach (ITableModel currentTable in databaseModel.Tables)
                 {
                     string currentTableReplacedDestinationRelativePath =
                             currentDatabaseReplacedDestinationRelativePath.

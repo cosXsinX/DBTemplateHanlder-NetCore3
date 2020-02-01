@@ -46,9 +46,11 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
             var headerAsString = ExtractMatch(headerMatch,TrimmedStringContext);
             string destinationTypeSetName = ToDestinationTypeSetName(headerAsString);
 
-            var itemMatches = mappingItemRegex.Matches(TrimmedStringContext);
-            var matches = itemMatches.Select(m => m);
-            var itemAsStrings = matches.Select(m => ExtractMatch(m, TrimmedStringContext)).ToList();
+            var trimmedContextWithoutHeader = TrimmedStringContext.Substring(headerMatch.Index + headerMatch.Length);
+            trimmedContextWithoutHeader = trimmedContextWithoutHeader.Substring(0, trimmedContextWithoutHeader.Length - 1);
+            var itemMatches = mappingItemRegex.Matches(trimmedContextWithoutHeader).ToList();
+            var itemAsStrings = itemMatches.Select(m => ExtractMatch(m, trimmedContextWithoutHeader)).ToList();
+            var firstOrDefaultItemAsString = itemAsStrings.FirstOrDefault();
             var items = itemAsStrings.Select(ToTypeMappingItem).Cast<ITypeMappingItem>().ToList();
             TemplateHandlerNew.OverwriteTypeMapping(new[] { 
                 new TypeMapping() { 
@@ -72,7 +74,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
             public string DestinationType { get; set; }
             public string SourceType { get; set; }
         }
-
 
         private string ExtractMatch(Match match,string containing)
         {

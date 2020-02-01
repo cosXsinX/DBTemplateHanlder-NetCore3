@@ -133,5 +133,82 @@ namespace DBTemplateHandler.Core.UnitTests.InputModelHandlerCaseTests
             return $@"{{:TDB:TABLE:FOREACH[{{:TDB:TABLE:COLUMN:FOREACH[{{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}}->{{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE({destinationEnv})::}}
 ]::}}]::}}";
         }
+
+
+        [Test]
+        public void FirstDeclaredElementShouldBeWellMapped()
+        {
+            var tableName = "helloWorld";
+            var templatePath = "%tableName%";
+            var templateContent = @"{:TDB:PREPROCESSOR:MAPPING:DECLARE(([->(C#)<-]<=>[[->(hierarchyid)<-]=>[->(string)<-],
+[->(smallint)<-]=>[->(short)<-],
+[->(date)<-]=>[->(DateTime)<-],
+[->(geography)<-]=>[->(Microsoft.SqlServer.Types.SqlGeography)<-],
+[->(xml)<-]=>[->(System.Xml.XmlDocument)<-],
+[->(varchar)<-]=>[->(string)<-],
+[->(varbinary)<-]=>[->(byte[])<-],
+[->(uniqueidentifier)<-]=>[->(Guid)<-],
+[->(tinyint)<-]=>[->(byte)<-],
+[->(timestamp)<-]=>[->(byte)<-],
+[->(time)<-]=>[->(TimeSpan)<-],
+[->(sql_variant)<-]=>[->(object)<-],
+[->(smallmoney)<-]=>[->(decimal)<-],
+[->(smalldatetime)<-]=>[->(DateTime)<-],
+[->(rowversion)<-]=>[->(byte[])<-],
+[->(nvarchar)<-]=>[->(string)<-],
+[->(numeric)<-]=>[->(decimal)<-],
+[->(ntext)<-]=>[->(string)<-],
+[->(nchar)<-]=>[->(string)<-],
+[->(money)<-]=>[->(decimal)<-],
+[->(int)<-]=>[->(int)<-],
+[->(image)<-]=>[->(byte[])<-],
+[->(float)<-]=>[->(double)<-],
+[->(varbinary)<-]=>[->(byte[])<-],
+[->(decimal)<-]=>[->(decimal)<-],
+[->(datetimeoffset)<-]=>[->(DateTimeOffset)<-],
+[->(datetime)<-]=>[->(DateTime)<-],
+[->(char)<-]=>[->(string)<-],
+[->(bit)<-]=>[->(bool)<-],
+[->(binary)<-]=>[->(byte[])<-],
+[->(bigint)<-]=>[->(long)<-]
+]):PREPROCESSOR:}" + ToTestTemplate("C#");
+            IDatabaseTemplateHandlerInputModel inputModel = new InputModelForTest()
+            {
+                DatabaseModel = new DatabaseModelForTest()
+                {
+                    Tables = new List<ITableModel>()
+                    {
+                        new TableModelForTest()
+                        {
+                            Name = tableName,
+                            Columns = new List<IColumnModel>()
+                            {
+                                new ColumnModelForTest()
+                                {
+                                    Name = $"hierarchyIdColumn",
+                                    Type = $"hierarchyid",
+                                },
+                            }
+                        }
+                    }
+                },
+                TemplateModels = new List<ITemplateModel>()
+                {
+                    new TemplateModelForTest()
+                    {
+                        TemplatedFileContent = templateContent,
+                        TemplatedFilePath = templatePath,
+                    }
+                }
+            };
+            var processingResults = inputModelHandler.Process(inputModel);
+            Assert.IsNotNull(processingResults);
+            CollectionAssert.IsNotEmpty(processingResults);
+            var paths = processingResults.Select(m => m.Path).ToList();
+            CollectionAssert.AllItemsAreUnique(paths);
+            CollectionAssert.Contains(paths, tableName);
+            Assert.AreEqual(@$"hierarchyIdColumn->string
+", processingResults.Single().Content);
+        }
     }
 }
