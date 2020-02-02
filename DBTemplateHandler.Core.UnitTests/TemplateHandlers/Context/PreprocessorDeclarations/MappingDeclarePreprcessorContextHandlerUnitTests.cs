@@ -1,10 +1,7 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclarations;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.PreprocessorDeclarations
 {
