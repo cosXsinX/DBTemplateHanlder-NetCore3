@@ -2,8 +2,6 @@
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
@@ -25,7 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception($"There is a problem with the provided {nameof(StringContext)} :'{StringContext}' to the suited word '" + (Signature) + "'");
-            return $"{columnModel?.ValueMaxSize}";
+            return $"{columnModel.ValueMaxSize}";
         }
 
 

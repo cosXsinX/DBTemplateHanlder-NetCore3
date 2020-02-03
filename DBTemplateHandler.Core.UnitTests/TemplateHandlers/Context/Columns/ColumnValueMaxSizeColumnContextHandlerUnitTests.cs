@@ -21,6 +21,12 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         }
 
         [Test]
+        public void IsStartContextAndEndContextAnEntireWordShouldReturnTrue()
+        {
+            Assert.IsTrue(_tested.isStartContextAndEndContextAnEntireWord);
+        }
+
+        [Test]
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
             string StringContext = null;
