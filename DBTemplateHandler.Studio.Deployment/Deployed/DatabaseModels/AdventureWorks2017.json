@@ -13,7 +13,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -22,7 +22,7 @@
           "IsPrimaryKey": true,
           "Name": "RateChangeDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -31,7 +31,7 @@
           "IsPrimaryKey": false,
           "Name": "Rate",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -40,7 +40,7 @@
           "IsPrimaryKey": false,
           "Name": "PayFrequency",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -49,7 +49,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -64,7 +64,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -73,7 +73,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesReasonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -82,7 +82,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -97,7 +97,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -106,7 +106,7 @@
           "IsPrimaryKey": false,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -115,7 +115,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesQuota",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -124,7 +124,7 @@
           "IsPrimaryKey": false,
           "Name": "Bonus",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -133,7 +133,7 @@
           "IsPrimaryKey": false,
           "Name": "CommissionPct",
           "Type": "smallmoney",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -142,7 +142,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesYTD",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -151,7 +151,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesLastYear",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -160,7 +160,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -169,7 +169,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -184,7 +184,7 @@
           "IsPrimaryKey": true,
           "Name": "IllustrationID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -202,7 +202,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -217,7 +217,7 @@
           "IsPrimaryKey": true,
           "Name": "JobCandidateID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -226,7 +226,7 @@
           "IsPrimaryKey": false,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -244,7 +244,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -259,7 +259,7 @@
           "IsPrimaryKey": true,
           "Name": "LocationID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -268,7 +268,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -277,7 +277,7 @@
           "IsPrimaryKey": false,
           "Name": "CostRate",
           "Type": "smallmoney",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -286,7 +286,7 @@
           "IsPrimaryKey": false,
           "Name": "Availability",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -295,7 +295,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -310,7 +310,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -337,7 +337,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -346,7 +346,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -361,7 +361,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -370,7 +370,7 @@
           "IsPrimaryKey": true,
           "Name": "QuotaDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -379,7 +379,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesQuota",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -388,7 +388,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -397,7 +397,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -412,7 +412,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -421,7 +421,7 @@
           "IsPrimaryKey": false,
           "Name": "PersonType",
           "Type": "nchar",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 2,
           "ParentTable": null
         },
         {
@@ -430,7 +430,7 @@
           "IsPrimaryKey": false,
           "Name": "NameStyle",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -439,7 +439,7 @@
           "IsPrimaryKey": false,
           "Name": "Title",
           "Type": "nvarchar",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -448,7 +448,7 @@
           "IsPrimaryKey": false,
           "Name": "FirstName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -457,7 +457,7 @@
           "IsPrimaryKey": false,
           "Name": "MiddleName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -466,7 +466,7 @@
           "IsPrimaryKey": false,
           "Name": "LastName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -475,7 +475,7 @@
           "IsPrimaryKey": false,
           "Name": "Suffix",
           "Type": "nvarchar",
-          "ValueMaxSize": 20,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -484,7 +484,7 @@
           "IsPrimaryKey": false,
           "Name": "EmailPromotion",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -511,7 +511,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -520,7 +520,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -535,7 +535,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesReasonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -544,7 +544,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -553,7 +553,7 @@
           "IsPrimaryKey": false,
           "Name": "ReasonType",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -562,7 +562,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -577,7 +577,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesTaxRateID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -586,7 +586,7 @@
           "IsPrimaryKey": false,
           "Name": "StateProvinceID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -595,7 +595,7 @@
           "IsPrimaryKey": false,
           "Name": "TaxType",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -604,7 +604,7 @@
           "IsPrimaryKey": false,
           "Name": "TaxRate",
           "Type": "smallmoney",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -613,7 +613,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -622,7 +622,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -631,7 +631,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -646,7 +646,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -655,7 +655,7 @@
           "IsPrimaryKey": true,
           "Name": "CreditCardID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -664,7 +664,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -679,7 +679,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -688,7 +688,7 @@
           "IsPrimaryKey": true,
           "Name": "PhoneNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -697,7 +697,7 @@
           "IsPrimaryKey": true,
           "Name": "PhoneNumberTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -706,7 +706,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -721,7 +721,7 @@
           "IsPrimaryKey": true,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -730,7 +730,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -739,7 +739,7 @@
           "IsPrimaryKey": false,
           "Name": "CountryRegionCode",
           "Type": "nvarchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -748,7 +748,7 @@
           "IsPrimaryKey": false,
           "Name": "Group",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -757,7 +757,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesYTD",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -766,7 +766,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesLastYear",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -775,7 +775,7 @@
           "IsPrimaryKey": false,
           "Name": "CostYTD",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -784,7 +784,7 @@
           "IsPrimaryKey": false,
           "Name": "CostLastYear",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -793,7 +793,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -802,7 +802,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -817,7 +817,7 @@
           "IsPrimaryKey": true,
           "Name": "PhoneNumberTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -826,7 +826,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -835,7 +835,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -850,7 +850,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -859,7 +859,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -868,7 +868,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -877,7 +877,7 @@
           "IsPrimaryKey": false,
           "Name": "MakeFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -886,7 +886,7 @@
           "IsPrimaryKey": false,
           "Name": "FinishedGoodsFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -895,7 +895,7 @@
           "IsPrimaryKey": false,
           "Name": "Color",
           "Type": "nvarchar",
-          "ValueMaxSize": 30,
+          "ValueMaxSize": 15,
           "ParentTable": null
         },
         {
@@ -904,7 +904,7 @@
           "IsPrimaryKey": false,
           "Name": "SafetyStockLevel",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -913,7 +913,7 @@
           "IsPrimaryKey": false,
           "Name": "ReorderPoint",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -922,7 +922,7 @@
           "IsPrimaryKey": false,
           "Name": "StandardCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -931,7 +931,7 @@
           "IsPrimaryKey": false,
           "Name": "ListPrice",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -940,7 +940,7 @@
           "IsPrimaryKey": false,
           "Name": "Size",
           "Type": "nvarchar",
-          "ValueMaxSize": 10,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -949,7 +949,7 @@
           "IsPrimaryKey": false,
           "Name": "SizeUnitMeasureCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -958,7 +958,7 @@
           "IsPrimaryKey": false,
           "Name": "WeightUnitMeasureCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -967,7 +967,7 @@
           "IsPrimaryKey": false,
           "Name": "Weight",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -976,7 +976,7 @@
           "IsPrimaryKey": false,
           "Name": "DaysToManufacture",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -985,7 +985,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductLine",
           "Type": "nchar",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 2,
           "ParentTable": null
         },
         {
@@ -994,7 +994,7 @@
           "IsPrimaryKey": false,
           "Name": "Class",
           "Type": "nchar",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 2,
           "ParentTable": null
         },
         {
@@ -1003,7 +1003,7 @@
           "IsPrimaryKey": false,
           "Name": "Style",
           "Type": "nchar",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 2,
           "ParentTable": null
         },
         {
@@ -1012,7 +1012,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductSubcategoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1021,7 +1021,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductModelID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1030,7 +1030,7 @@
           "IsPrimaryKey": false,
           "Name": "SellStartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1039,7 +1039,7 @@
           "IsPrimaryKey": false,
           "Name": "SellEndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1048,7 +1048,7 @@
           "IsPrimaryKey": false,
           "Name": "DiscontinuedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1057,7 +1057,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1066,7 +1066,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1081,7 +1081,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1090,7 +1090,7 @@
           "IsPrimaryKey": true,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1099,7 +1099,7 @@
           "IsPrimaryKey": true,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1108,7 +1108,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1117,7 +1117,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1126,7 +1126,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1141,7 +1141,7 @@
           "IsPrimaryKey": true,
           "Name": "ScrapReasonID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -1150,7 +1150,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1159,7 +1159,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1174,7 +1174,7 @@
           "IsPrimaryKey": true,
           "Name": "ShiftID",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -1183,7 +1183,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1192,7 +1192,7 @@
           "IsPrimaryKey": false,
           "Name": "StartTime",
           "Type": "time",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1201,7 +1201,7 @@
           "IsPrimaryKey": false,
           "Name": "EndTime",
           "Type": "time",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1210,7 +1210,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1225,7 +1225,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductCategoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1234,7 +1234,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1243,7 +1243,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1252,7 +1252,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1267,7 +1267,7 @@
           "IsPrimaryKey": true,
           "Name": "ShipMethodID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1276,7 +1276,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1285,7 +1285,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipBase",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -1294,7 +1294,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipRate",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -1303,7 +1303,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1312,7 +1312,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1327,7 +1327,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1336,7 +1336,7 @@
           "IsPrimaryKey": true,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1345,7 +1345,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1354,7 +1354,7 @@
           "IsPrimaryKey": false,
           "Name": "StandardCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -1363,7 +1363,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1378,7 +1378,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductDescriptionID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1387,7 +1387,7 @@
           "IsPrimaryKey": false,
           "Name": "Description",
           "Type": "nvarchar",
-          "ValueMaxSize": 800,
+          "ValueMaxSize": 400,
           "ParentTable": null
         },
         {
@@ -1396,7 +1396,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1405,7 +1405,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1420,7 +1420,7 @@
           "IsPrimaryKey": true,
           "Name": "ShoppingCartItemID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1429,7 +1429,7 @@
           "IsPrimaryKey": false,
           "Name": "ShoppingCartID",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1438,7 +1438,7 @@
           "IsPrimaryKey": false,
           "Name": "Quantity",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1447,7 +1447,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1456,7 +1456,7 @@
           "IsPrimaryKey": false,
           "Name": "DateCreated",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1465,7 +1465,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1480,7 +1480,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1498,7 +1498,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1513,7 +1513,7 @@
           "IsPrimaryKey": true,
           "Name": "DatabaseLogID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1522,7 +1522,7 @@
           "IsPrimaryKey": false,
           "Name": "PostTime",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1531,7 +1531,7 @@
           "IsPrimaryKey": false,
           "Name": "DatabaseUser",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -1540,7 +1540,7 @@
           "IsPrimaryKey": false,
           "Name": "Event",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -1549,7 +1549,7 @@
           "IsPrimaryKey": false,
           "Name": "Schema",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -1558,7 +1558,7 @@
           "IsPrimaryKey": false,
           "Name": "Object",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -1591,7 +1591,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1600,7 +1600,7 @@
           "IsPrimaryKey": true,
           "Name": "LocationID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -1609,7 +1609,7 @@
           "IsPrimaryKey": false,
           "Name": "Shelf",
           "Type": "nvarchar",
-          "ValueMaxSize": 20,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1618,7 +1618,7 @@
           "IsPrimaryKey": false,
           "Name": "Bin",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -1627,7 +1627,7 @@
           "IsPrimaryKey": false,
           "Name": "Quantity",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -1636,7 +1636,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1645,7 +1645,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1660,7 +1660,7 @@
           "IsPrimaryKey": true,
           "Name": "SpecialOfferID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1669,7 +1669,7 @@
           "IsPrimaryKey": false,
           "Name": "Description",
           "Type": "nvarchar",
-          "ValueMaxSize": 510,
+          "ValueMaxSize": 255,
           "ParentTable": null
         },
         {
@@ -1678,7 +1678,7 @@
           "IsPrimaryKey": false,
           "Name": "DiscountPct",
           "Type": "smallmoney",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1687,7 +1687,7 @@
           "IsPrimaryKey": false,
           "Name": "Type",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1696,7 +1696,7 @@
           "IsPrimaryKey": false,
           "Name": "Category",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -1705,7 +1705,7 @@
           "IsPrimaryKey": false,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1714,7 +1714,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1723,7 +1723,7 @@
           "IsPrimaryKey": false,
           "Name": "MinQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1732,7 +1732,7 @@
           "IsPrimaryKey": false,
           "Name": "MaxQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1741,7 +1741,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1750,7 +1750,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1765,7 +1765,7 @@
           "IsPrimaryKey": true,
           "Name": "ErrorLogID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1774,7 +1774,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorTime",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1783,7 +1783,7 @@
           "IsPrimaryKey": false,
           "Name": "UserName",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -1792,7 +1792,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorNumber",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1801,7 +1801,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorSeverity",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1810,7 +1810,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorState",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1819,7 +1819,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorProcedure",
           "Type": "nvarchar",
-          "ValueMaxSize": 252,
+          "ValueMaxSize": 126,
           "ParentTable": null
         },
         {
@@ -1828,7 +1828,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorLine",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1837,7 +1837,7 @@
           "IsPrimaryKey": false,
           "Name": "ErrorMessage",
           "Type": "nvarchar",
-          "ValueMaxSize": 8000,
+          "ValueMaxSize": 4000,
           "ParentTable": null
         }
       ]
@@ -1852,7 +1852,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1861,7 +1861,7 @@
           "IsPrimaryKey": true,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1870,7 +1870,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1879,7 +1879,7 @@
           "IsPrimaryKey": false,
           "Name": "ListPrice",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -1888,7 +1888,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1903,7 +1903,7 @@
           "IsPrimaryKey": true,
           "Name": "AddressID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1912,7 +1912,7 @@
           "IsPrimaryKey": false,
           "Name": "AddressLine1",
           "Type": "nvarchar",
-          "ValueMaxSize": 120,
+          "ValueMaxSize": 60,
           "ParentTable": null
         },
         {
@@ -1921,7 +1921,7 @@
           "IsPrimaryKey": false,
           "Name": "AddressLine2",
           "Type": "nvarchar",
-          "ValueMaxSize": 120,
+          "ValueMaxSize": 60,
           "ParentTable": null
         },
         {
@@ -1930,7 +1930,7 @@
           "IsPrimaryKey": false,
           "Name": "City",
           "Type": "nvarchar",
-          "ValueMaxSize": 60,
+          "ValueMaxSize": 30,
           "ParentTable": null
         },
         {
@@ -1939,7 +1939,7 @@
           "IsPrimaryKey": false,
           "Name": "StateProvinceID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1948,7 +1948,7 @@
           "IsPrimaryKey": false,
           "Name": "PostalCode",
           "Type": "nvarchar",
-          "ValueMaxSize": 30,
+          "ValueMaxSize": 15,
           "ParentTable": null
         },
         {
@@ -1966,7 +1966,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -1975,7 +1975,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -1990,7 +1990,7 @@
           "IsPrimaryKey": true,
           "Name": "SpecialOfferID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -1999,7 +1999,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2008,7 +2008,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2017,7 +2017,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2032,7 +2032,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductModelID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2041,7 +2041,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2068,7 +2068,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2077,7 +2077,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2092,7 +2092,7 @@
           "IsPrimaryKey": true,
           "Name": "AddressTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2101,7 +2101,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2110,7 +2110,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2119,7 +2119,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2134,7 +2134,7 @@
           "IsPrimaryKey": true,
           "Name": "StateProvinceID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2143,7 +2143,7 @@
           "IsPrimaryKey": false,
           "Name": "StateProvinceCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -2152,7 +2152,7 @@
           "IsPrimaryKey": false,
           "Name": "CountryRegionCode",
           "Type": "nvarchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -2161,7 +2161,7 @@
           "IsPrimaryKey": false,
           "Name": "IsOnlyStateProvinceFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2170,7 +2170,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2179,7 +2179,7 @@
           "IsPrimaryKey": false,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2188,7 +2188,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2197,7 +2197,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2212,7 +2212,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductModelID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2221,7 +2221,7 @@
           "IsPrimaryKey": true,
           "Name": "IllustrationID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2230,7 +2230,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2245,7 +2245,7 @@
           "IsPrimaryKey": true,
           "Name": "SystemInformationID",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -2254,7 +2254,7 @@
           "IsPrimaryKey": false,
           "Name": "Database Version",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -2263,7 +2263,7 @@
           "IsPrimaryKey": false,
           "Name": "VersionDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2272,7 +2272,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2287,7 +2287,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductModelID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2296,7 +2296,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductDescriptionID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2305,7 +2305,7 @@
           "IsPrimaryKey": true,
           "Name": "CultureID",
           "Type": "nchar",
-          "ValueMaxSize": 12,
+          "ValueMaxSize": 6,
           "ParentTable": null
         },
         {
@@ -2314,7 +2314,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2329,7 +2329,7 @@
           "IsPrimaryKey": true,
           "Name": "BillOfMaterialsID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2338,7 +2338,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductAssemblyID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2347,7 +2347,7 @@
           "IsPrimaryKey": false,
           "Name": "ComponentID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2356,7 +2356,7 @@
           "IsPrimaryKey": false,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2365,7 +2365,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2374,7 +2374,7 @@
           "IsPrimaryKey": false,
           "Name": "UnitMeasureCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -2383,7 +2383,7 @@
           "IsPrimaryKey": false,
           "Name": "BOMLevel",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -2392,7 +2392,7 @@
           "IsPrimaryKey": false,
           "Name": "PerAssemblyQty",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -2401,7 +2401,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2416,7 +2416,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2425,7 +2425,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2434,7 +2434,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesPersonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2452,7 +2452,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2461,7 +2461,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2476,7 +2476,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductPhotoID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2494,7 +2494,7 @@
           "IsPrimaryKey": false,
           "Name": "ThumbnailPhotoFileName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2512,7 +2512,7 @@
           "IsPrimaryKey": false,
           "Name": "LargePhotoFileName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2521,7 +2521,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2536,7 +2536,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2545,7 +2545,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductPhotoID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2554,7 +2554,7 @@
           "IsPrimaryKey": false,
           "Name": "Primary",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2563,7 +2563,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2578,7 +2578,7 @@
           "IsPrimaryKey": true,
           "Name": "TransactionID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2587,7 +2587,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2596,7 +2596,7 @@
           "IsPrimaryKey": false,
           "Name": "ReferenceOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2605,7 +2605,7 @@
           "IsPrimaryKey": false,
           "Name": "ReferenceOrderLineID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2614,7 +2614,7 @@
           "IsPrimaryKey": false,
           "Name": "TransactionDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2623,7 +2623,7 @@
           "IsPrimaryKey": false,
           "Name": "TransactionType",
           "Type": "nchar",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 1,
           "ParentTable": null
         },
         {
@@ -2632,7 +2632,7 @@
           "IsPrimaryKey": false,
           "Name": "Quantity",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2641,7 +2641,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -2650,7 +2650,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2665,7 +2665,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductReviewID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2674,7 +2674,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2683,7 +2683,7 @@
           "IsPrimaryKey": false,
           "Name": "ReviewerName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2692,7 +2692,7 @@
           "IsPrimaryKey": false,
           "Name": "ReviewDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2701,7 +2701,7 @@
           "IsPrimaryKey": false,
           "Name": "EmailAddress",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2710,7 +2710,7 @@
           "IsPrimaryKey": false,
           "Name": "Rating",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2719,7 +2719,7 @@
           "IsPrimaryKey": false,
           "Name": "Comments",
           "Type": "nvarchar",
-          "ValueMaxSize": 7700,
+          "ValueMaxSize": 3850,
           "ParentTable": null
         },
         {
@@ -2728,7 +2728,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2743,7 +2743,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2752,7 +2752,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2761,7 +2761,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2776,7 +2776,7 @@
           "IsPrimaryKey": true,
           "Name": "TransactionID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2785,7 +2785,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2794,7 +2794,7 @@
           "IsPrimaryKey": false,
           "Name": "ReferenceOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2803,7 +2803,7 @@
           "IsPrimaryKey": false,
           "Name": "ReferenceOrderLineID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2812,7 +2812,7 @@
           "IsPrimaryKey": false,
           "Name": "TransactionDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2821,7 +2821,7 @@
           "IsPrimaryKey": false,
           "Name": "TransactionType",
           "Type": "nchar",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 1,
           "ParentTable": null
         },
         {
@@ -2830,7 +2830,7 @@
           "IsPrimaryKey": false,
           "Name": "Quantity",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2839,7 +2839,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -2848,7 +2848,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2863,7 +2863,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductSubcategoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2872,7 +2872,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductCategoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2881,7 +2881,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -2890,7 +2890,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2899,7 +2899,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2914,7 +2914,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2923,7 +2923,7 @@
           "IsPrimaryKey": true,
           "Name": "AddressID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2932,7 +2932,7 @@
           "IsPrimaryKey": true,
           "Name": "AddressTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2941,7 +2941,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -2950,7 +2950,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -2965,7 +2965,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2974,7 +2974,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2983,7 +2983,7 @@
           "IsPrimaryKey": false,
           "Name": "AverageLeadTime",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -2992,7 +2992,7 @@
           "IsPrimaryKey": false,
           "Name": "StandardPrice",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3001,7 +3001,7 @@
           "IsPrimaryKey": false,
           "Name": "LastReceiptCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3010,7 +3010,7 @@
           "IsPrimaryKey": false,
           "Name": "LastReceiptDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3019,7 +3019,7 @@
           "IsPrimaryKey": false,
           "Name": "MinOrderQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3028,7 +3028,7 @@
           "IsPrimaryKey": false,
           "Name": "MaxOrderQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3037,7 +3037,7 @@
           "IsPrimaryKey": false,
           "Name": "OnOrderQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3046,7 +3046,7 @@
           "IsPrimaryKey": false,
           "Name": "UnitMeasureCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3055,7 +3055,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3070,7 +3070,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3079,7 +3079,7 @@
           "IsPrimaryKey": true,
           "Name": "PersonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3088,7 +3088,7 @@
           "IsPrimaryKey": true,
           "Name": "ContactTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3097,7 +3097,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3106,7 +3106,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3121,7 +3121,7 @@
           "IsPrimaryKey": true,
           "Name": "UnitMeasureCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3130,7 +3130,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3139,7 +3139,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3154,7 +3154,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3163,7 +3163,7 @@
           "IsPrimaryKey": false,
           "Name": "AccountNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 30,
+          "ValueMaxSize": 15,
           "ParentTable": null
         },
         {
@@ -3172,7 +3172,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3181,7 +3181,7 @@
           "IsPrimaryKey": false,
           "Name": "CreditRating",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3190,7 +3190,7 @@
           "IsPrimaryKey": false,
           "Name": "PreferredVendorStatus",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3199,7 +3199,7 @@
           "IsPrimaryKey": false,
           "Name": "ActiveFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3208,7 +3208,7 @@
           "IsPrimaryKey": false,
           "Name": "PurchasingWebServiceURL",
           "Type": "nvarchar",
-          "ValueMaxSize": 2048,
+          "ValueMaxSize": 1024,
           "ParentTable": null
         },
         {
@@ -3217,7 +3217,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3232,7 +3232,7 @@
           "IsPrimaryKey": true,
           "Name": "ContactTypeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3241,7 +3241,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3250,7 +3250,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3265,7 +3265,7 @@
           "IsPrimaryKey": true,
           "Name": "CountryRegionCode",
           "Type": "nvarchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3274,7 +3274,7 @@
           "IsPrimaryKey": true,
           "Name": "CurrencyCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3283,7 +3283,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3298,7 +3298,7 @@
           "IsPrimaryKey": true,
           "Name": "CountryRegionCode",
           "Type": "nvarchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3307,7 +3307,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3316,7 +3316,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3331,7 +3331,7 @@
           "IsPrimaryKey": true,
           "Name": "WorkOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3340,7 +3340,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3349,7 +3349,7 @@
           "IsPrimaryKey": false,
           "Name": "OrderQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3358,7 +3358,7 @@
           "IsPrimaryKey": false,
           "Name": "StockedQty",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3367,7 +3367,7 @@
           "IsPrimaryKey": false,
           "Name": "ScrappedQty",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3376,7 +3376,7 @@
           "IsPrimaryKey": false,
           "Name": "StartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3385,7 +3385,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3394,7 +3394,7 @@
           "IsPrimaryKey": false,
           "Name": "DueDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3403,7 +3403,7 @@
           "IsPrimaryKey": false,
           "Name": "ScrapReasonID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3412,7 +3412,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3427,7 +3427,7 @@
           "IsPrimaryKey": true,
           "Name": "PurchaseOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3436,7 +3436,7 @@
           "IsPrimaryKey": true,
           "Name": "PurchaseOrderDetailID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3445,7 +3445,7 @@
           "IsPrimaryKey": false,
           "Name": "DueDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3454,7 +3454,7 @@
           "IsPrimaryKey": false,
           "Name": "OrderQty",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3463,7 +3463,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3472,7 +3472,7 @@
           "IsPrimaryKey": false,
           "Name": "UnitPrice",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3481,7 +3481,7 @@
           "IsPrimaryKey": false,
           "Name": "LineTotal",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3490,7 +3490,7 @@
           "IsPrimaryKey": false,
           "Name": "ReceivedQty",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -3499,7 +3499,7 @@
           "IsPrimaryKey": false,
           "Name": "RejectedQty",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -3508,7 +3508,7 @@
           "IsPrimaryKey": false,
           "Name": "StockedQty",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 9,
           "ParentTable": null
         },
         {
@@ -3517,7 +3517,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3532,7 +3532,7 @@
           "IsPrimaryKey": true,
           "Name": "CreditCardID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3541,7 +3541,7 @@
           "IsPrimaryKey": false,
           "Name": "CardType",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3550,7 +3550,7 @@
           "IsPrimaryKey": false,
           "Name": "CardNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -3559,7 +3559,7 @@
           "IsPrimaryKey": false,
           "Name": "ExpMonth",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3568,7 +3568,7 @@
           "IsPrimaryKey": false,
           "Name": "ExpYear",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3577,7 +3577,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3592,7 +3592,7 @@
           "IsPrimaryKey": true,
           "Name": "CultureID",
           "Type": "nchar",
-          "ValueMaxSize": 12,
+          "ValueMaxSize": 6,
           "ParentTable": null
         },
         {
@@ -3601,7 +3601,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3610,7 +3610,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3625,7 +3625,7 @@
           "IsPrimaryKey": true,
           "Name": "WorkOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3634,7 +3634,7 @@
           "IsPrimaryKey": true,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3643,7 +3643,7 @@
           "IsPrimaryKey": true,
           "Name": "OperationSequence",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3652,7 +3652,7 @@
           "IsPrimaryKey": false,
           "Name": "LocationID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -3661,7 +3661,7 @@
           "IsPrimaryKey": false,
           "Name": "ScheduledStartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3670,7 +3670,7 @@
           "IsPrimaryKey": false,
           "Name": "ScheduledEndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3679,7 +3679,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualStartDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3688,7 +3688,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualEndDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3697,7 +3697,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualResourceHrs",
           "Type": "decimal",
-          "ValueMaxSize": 5,
+          "ValueMaxSize": 9,
           "ParentTable": null
         },
         {
@@ -3706,7 +3706,7 @@
           "IsPrimaryKey": false,
           "Name": "PlannedCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3715,7 +3715,7 @@
           "IsPrimaryKey": false,
           "Name": "ActualCost",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3724,7 +3724,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3739,7 +3739,7 @@
           "IsPrimaryKey": true,
           "Name": "CurrencyCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3748,7 +3748,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -3757,7 +3757,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3772,7 +3772,7 @@
           "IsPrimaryKey": true,
           "Name": "PurchaseOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3781,7 +3781,7 @@
           "IsPrimaryKey": false,
           "Name": "RevisionNumber",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3790,7 +3790,7 @@
           "IsPrimaryKey": false,
           "Name": "Status",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3799,7 +3799,7 @@
           "IsPrimaryKey": false,
           "Name": "EmployeeID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3808,7 +3808,7 @@
           "IsPrimaryKey": false,
           "Name": "VendorID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3817,7 +3817,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipMethodID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3826,7 +3826,7 @@
           "IsPrimaryKey": false,
           "Name": "OrderDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3835,7 +3835,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3844,7 +3844,7 @@
           "IsPrimaryKey": false,
           "Name": "SubTotal",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3853,7 +3853,7 @@
           "IsPrimaryKey": false,
           "Name": "TaxAmt",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3862,7 +3862,7 @@
           "IsPrimaryKey": false,
           "Name": "Freight",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3871,7 +3871,7 @@
           "IsPrimaryKey": false,
           "Name": "TotalDue",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3880,7 +3880,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3895,7 +3895,7 @@
           "IsPrimaryKey": true,
           "Name": "CurrencyRateID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3904,7 +3904,7 @@
           "IsPrimaryKey": false,
           "Name": "CurrencyRateDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -3913,7 +3913,7 @@
           "IsPrimaryKey": false,
           "Name": "FromCurrencyCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3922,7 +3922,7 @@
           "IsPrimaryKey": false,
           "Name": "ToCurrencyCode",
           "Type": "nchar",
-          "ValueMaxSize": 6,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -3931,7 +3931,7 @@
           "IsPrimaryKey": false,
           "Name": "AverageRate",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3940,7 +3940,7 @@
           "IsPrimaryKey": false,
           "Name": "EndOfDayRate",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -3949,7 +3949,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -3964,7 +3964,7 @@
           "IsPrimaryKey": true,
           "Name": "CustomerID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3973,7 +3973,7 @@
           "IsPrimaryKey": false,
           "Name": "PersonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3982,7 +3982,7 @@
           "IsPrimaryKey": false,
           "Name": "StoreID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -3991,7 +3991,7 @@
           "IsPrimaryKey": false,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4009,7 +4009,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4018,7 +4018,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4033,7 +4033,7 @@
           "IsPrimaryKey": true,
           "Name": "DepartmentID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4042,7 +4042,7 @@
           "IsPrimaryKey": false,
           "Name": "Name",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -4051,7 +4051,7 @@
           "IsPrimaryKey": false,
           "Name": "GroupName",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -4060,7 +4060,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4084,7 +4084,7 @@
           "IsPrimaryKey": false,
           "Name": "DocumentLevel",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4093,7 +4093,7 @@
           "IsPrimaryKey": false,
           "Name": "Title",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -4102,7 +4102,7 @@
           "IsPrimaryKey": false,
           "Name": "Owner",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4111,7 +4111,7 @@
           "IsPrimaryKey": false,
           "Name": "FolderFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4120,7 +4120,7 @@
           "IsPrimaryKey": false,
           "Name": "FileName",
           "Type": "nvarchar",
-          "ValueMaxSize": 800,
+          "ValueMaxSize": 400,
           "ParentTable": null
         },
         {
@@ -4129,7 +4129,7 @@
           "IsPrimaryKey": false,
           "Name": "FileExtension",
           "Type": "nvarchar",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 8,
           "ParentTable": null
         },
         {
@@ -4138,7 +4138,7 @@
           "IsPrimaryKey": false,
           "Name": "Revision",
           "Type": "nchar",
-          "ValueMaxSize": 10,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4147,7 +4147,7 @@
           "IsPrimaryKey": false,
           "Name": "ChangeNumber",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4156,7 +4156,7 @@
           "IsPrimaryKey": false,
           "Name": "Status",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -4183,7 +4183,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4192,7 +4192,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4207,7 +4207,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4216,7 +4216,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesOrderDetailID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4225,7 +4225,7 @@
           "IsPrimaryKey": false,
           "Name": "CarrierTrackingNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -4234,7 +4234,7 @@
           "IsPrimaryKey": false,
           "Name": "OrderQty",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4243,7 +4243,7 @@
           "IsPrimaryKey": false,
           "Name": "ProductID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4252,7 +4252,7 @@
           "IsPrimaryKey": false,
           "Name": "SpecialOfferID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4261,7 +4261,7 @@
           "IsPrimaryKey": false,
           "Name": "UnitPrice",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4270,7 +4270,7 @@
           "IsPrimaryKey": false,
           "Name": "UnitPriceDiscount",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4279,7 +4279,7 @@
           "IsPrimaryKey": false,
           "Name": "LineTotal",
           "Type": "numeric",
-          "ValueMaxSize": 17,
+          "ValueMaxSize": 38,
           "ParentTable": null
         },
         {
@@ -4288,7 +4288,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4297,7 +4297,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4312,7 +4312,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4321,7 +4321,7 @@
           "IsPrimaryKey": true,
           "Name": "EmailAddressID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4330,7 +4330,7 @@
           "IsPrimaryKey": false,
           "Name": "EmailAddress",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -4339,7 +4339,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4348,7 +4348,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4363,7 +4363,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4372,7 +4372,7 @@
           "IsPrimaryKey": false,
           "Name": "NationalIDNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 30,
+          "ValueMaxSize": 15,
           "ParentTable": null
         },
         {
@@ -4381,7 +4381,7 @@
           "IsPrimaryKey": false,
           "Name": "LoginID",
           "Type": "nvarchar",
-          "ValueMaxSize": 512,
+          "ValueMaxSize": 256,
           "ParentTable": null
         },
         {
@@ -4399,7 +4399,7 @@
           "IsPrimaryKey": false,
           "Name": "OrganizationLevel",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4408,7 +4408,7 @@
           "IsPrimaryKey": false,
           "Name": "JobTitle",
           "Type": "nvarchar",
-          "ValueMaxSize": 100,
+          "ValueMaxSize": 50,
           "ParentTable": null
         },
         {
@@ -4417,7 +4417,7 @@
           "IsPrimaryKey": false,
           "Name": "BirthDate",
           "Type": "date",
-          "ValueMaxSize": 3,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4426,7 +4426,7 @@
           "IsPrimaryKey": false,
           "Name": "MaritalStatus",
           "Type": "nchar",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 1,
           "ParentTable": null
         },
         {
@@ -4435,7 +4435,7 @@
           "IsPrimaryKey": false,
           "Name": "Gender",
           "Type": "nchar",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 1,
           "ParentTable": null
         },
         {
@@ -4444,7 +4444,7 @@
           "IsPrimaryKey": false,
           "Name": "HireDate",
           "Type": "date",
-          "ValueMaxSize": 3,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4453,7 +4453,7 @@
           "IsPrimaryKey": false,
           "Name": "SalariedFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4462,7 +4462,7 @@
           "IsPrimaryKey": false,
           "Name": "VacationHours",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4471,7 +4471,7 @@
           "IsPrimaryKey": false,
           "Name": "SickLeaveHours",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4480,7 +4480,7 @@
           "IsPrimaryKey": false,
           "Name": "CurrentFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4489,7 +4489,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4498,7 +4498,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4513,7 +4513,7 @@
           "IsPrimaryKey": true,
           "Name": "SalesOrderID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4522,7 +4522,7 @@
           "IsPrimaryKey": false,
           "Name": "RevisionNumber",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -4531,7 +4531,7 @@
           "IsPrimaryKey": false,
           "Name": "OrderDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4540,7 +4540,7 @@
           "IsPrimaryKey": false,
           "Name": "DueDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4549,7 +4549,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4558,7 +4558,7 @@
           "IsPrimaryKey": false,
           "Name": "Status",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -4567,7 +4567,7 @@
           "IsPrimaryKey": false,
           "Name": "OnlineOrderFlag",
           "Type": "bit",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4576,7 +4576,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesOrderNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -4585,7 +4585,7 @@
           "IsPrimaryKey": false,
           "Name": "PurchaseOrderNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 50,
+          "ValueMaxSize": 25,
           "ParentTable": null
         },
         {
@@ -4594,7 +4594,7 @@
           "IsPrimaryKey": false,
           "Name": "AccountNumber",
           "Type": "nvarchar",
-          "ValueMaxSize": 30,
+          "ValueMaxSize": 15,
           "ParentTable": null
         },
         {
@@ -4603,7 +4603,7 @@
           "IsPrimaryKey": false,
           "Name": "CustomerID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4612,7 +4612,7 @@
           "IsPrimaryKey": false,
           "Name": "SalesPersonID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4621,7 +4621,7 @@
           "IsPrimaryKey": false,
           "Name": "TerritoryID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4630,7 +4630,7 @@
           "IsPrimaryKey": false,
           "Name": "BillToAddressID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4639,7 +4639,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipToAddressID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4648,7 +4648,7 @@
           "IsPrimaryKey": false,
           "Name": "ShipMethodID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4657,7 +4657,7 @@
           "IsPrimaryKey": false,
           "Name": "CreditCardID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4675,7 +4675,7 @@
           "IsPrimaryKey": false,
           "Name": "CurrencyRateID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4684,7 +4684,7 @@
           "IsPrimaryKey": false,
           "Name": "SubTotal",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4693,7 +4693,7 @@
           "IsPrimaryKey": false,
           "Name": "TaxAmt",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4702,7 +4702,7 @@
           "IsPrimaryKey": false,
           "Name": "Freight",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4711,7 +4711,7 @@
           "IsPrimaryKey": false,
           "Name": "TotalDue",
           "Type": "money",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 19,
           "ParentTable": null
         },
         {
@@ -4720,7 +4720,7 @@
           "IsPrimaryKey": false,
           "Name": "Comment",
           "Type": "nvarchar",
-          "ValueMaxSize": 256,
+          "ValueMaxSize": 128,
           "ParentTable": null
         },
         {
@@ -4729,7 +4729,7 @@
           "IsPrimaryKey": false,
           "Name": "rowguid",
           "Type": "uniqueidentifier",
-          "ValueMaxSize": 16,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4738,7 +4738,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
@@ -4753,7 +4753,7 @@
           "IsPrimaryKey": true,
           "Name": "BusinessEntityID",
           "Type": "int",
-          "ValueMaxSize": 4,
+          "ValueMaxSize": 10,
           "ParentTable": null
         },
         {
@@ -4762,7 +4762,7 @@
           "IsPrimaryKey": true,
           "Name": "DepartmentID",
           "Type": "smallint",
-          "ValueMaxSize": 2,
+          "ValueMaxSize": 5,
           "ParentTable": null
         },
         {
@@ -4771,7 +4771,7 @@
           "IsPrimaryKey": true,
           "Name": "ShiftID",
           "Type": "tinyint",
-          "ValueMaxSize": 1,
+          "ValueMaxSize": 3,
           "ParentTable": null
         },
         {
@@ -4780,7 +4780,7 @@
           "IsPrimaryKey": true,
           "Name": "StartDate",
           "Type": "date",
-          "ValueMaxSize": 3,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4789,7 +4789,7 @@
           "IsPrimaryKey": false,
           "Name": "EndDate",
           "Type": "date",
-          "ValueMaxSize": 3,
+          "ValueMaxSize": 0,
           "ParentTable": null
         },
         {
@@ -4798,7 +4798,7 @@
           "IsPrimaryKey": false,
           "Name": "ModifiedDate",
           "Type": "datetime",
-          "ValueMaxSize": 8,
+          "ValueMaxSize": 0,
           "ParentTable": null
         }
       ]
