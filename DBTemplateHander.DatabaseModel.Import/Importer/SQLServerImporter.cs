@@ -56,7 +56,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
                 .Select(m => new { database = m.Item1.database, table = m.Item1.table, schema = m.Item1.schema, column = m.Item2 }).ToList();
 
             var indexColumnsAndIndexesSqlModels =
-                indexColumnsModels.InnerJoin(indexesModels.Where(m => m.is_primary_key ?? false), m => $"{m.object_id}-{m.index_id}", m => $"{m.object_id}-{m.index_id}")
+                indexColumnsModels.InnerJoin(indexesModels.Where(m => m.is_primary_key ?? false), m => $"{m.object_id}-{m.index_id}", m => $"{m.object_id}-{m.index_id}") //TODO Remove this filter Where(m => m.is_primary_key ?? false) and manage the indexation correctly
                 .Select(m => new { indexColumn = m.Item1, index = m.Item2}).ToList();
 
 
@@ -133,6 +133,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             result.IsNotNull = !converted.column.is_nullable;
             result.Type = converted.column.system_type_name??converted.column.user_type_name;
             result.ValueMaxSize = ((converted?.informationSchemaColumns?.CHARACTER_MAXIMUM_LENGTH)??converted?.informationSchemaColumns?.NUMERIC_PRECISION)??0;
+            result.IsIndexed = converted?.index != null;
             return result;
         }
 
@@ -165,6 +166,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public string Type { get;set; }
             public int ValueMaxSize { get; set; }
             public ITableModel ParentTable { get;set; }
+            public bool IsIndexed { get; set; }
         }
     }
 }

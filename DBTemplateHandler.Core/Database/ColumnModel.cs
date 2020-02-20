@@ -22,5 +22,6 @@ namespace DBTemplateHandler.Core.Database
         public bool IsNotNull { get; set; }
         public int ValueMaxSize { get; set; }
         public ITableModel ParentTable { get; set; }
+        public bool IsIndexed { get; set; }
     }
 }

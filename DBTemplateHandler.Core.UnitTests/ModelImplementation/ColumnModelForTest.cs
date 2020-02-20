@@ -11,5 +11,6 @@ namespace DBTemplateHandler.Core.UnitTests.ModelImplementation
         public string Type { get; set; }
         public int ValueMaxSize { get; set; }
         public ITableModel ParentTable { get; set; }
+        public bool IsIndexed { get; set; }
     }
 }

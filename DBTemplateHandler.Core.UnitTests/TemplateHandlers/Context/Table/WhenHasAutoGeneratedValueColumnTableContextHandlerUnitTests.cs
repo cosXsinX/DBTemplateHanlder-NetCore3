@@ -76,6 +76,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
             public string Type { get; set; }
             public ITableModel ParentTable { get; set; }
             public int ValueMaxSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public bool IsIndexed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         }
     }
 }

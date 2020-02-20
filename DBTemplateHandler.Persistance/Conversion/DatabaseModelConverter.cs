@@ -41,6 +41,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.Name = converted.Name;
             result.Type = converted.Type;
             result.ValueMaxSize = converted.ValueMaxSize;
+            result.IsIndexed = converted.IsIndexed;
             return result;
         }
 
@@ -79,6 +80,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.Name = converted.Name;
             result.Type = converted.Type;
             result.ValueMaxSize = converted.ValueMaxSize;
+            result.IsIndexed = converted.IsIndexed;
             return result;
         }
     }
