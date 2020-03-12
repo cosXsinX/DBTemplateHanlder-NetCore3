@@ -14,7 +14,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:INDEXED:FOREACH["; }
         public override string EndContext { get => "]::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;
-        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is indexed column in the table";
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not indexed column in the table";
 
         public override string processContext(string StringContext)
         {
