@@ -7,14 +7,13 @@ using System.Linq;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
-    public class IsIndexedColumnAFirstIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
+    public class IsIndexedColumnALastIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-
-        public IsIndexedColumnAFirstIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
-        public override string StartContext => "{:TDB:TABLE:COLUMN:INDEXED:FOREACH:CURRENT:IS:FIRST:COLUMN(";
+        public IsIndexedColumnALastIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public override string StartContext => "{:TDB:TABLE:COLUMN:INDEXED:FOREACH:CURRENT:IS:LAST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
-        public override string ContextActionDescription => "Is replaced by the inner context when the current column is the first column from the iterated indexed column collection";
+        public override string ContextActionDescription => "Is replaced by the inner context when the current column is the last column from the iterated indexed column collection";
 
         public override string processContext(string StringContext)
         {
@@ -31,7 +30,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             
             if (columnModel.IsIndexed == false) return string.Empty;
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            var indexedColumn = columnList.FirstOrDefault(currentColumn => currentColumn.IsIndexed);
+            var indexedColumn = columnList.LastOrDefault(currentColumn => currentColumn.IsIndexed);
             if (indexedColumn == default(IColumnModel)) return string.Empty;
             if (indexedColumn.Equals(columnModel)) return HandleTrimedContext(TrimedStringContext);
             return string.Empty;

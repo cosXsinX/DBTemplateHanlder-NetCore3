@@ -57,6 +57,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
                 new IsPrimaryColumnNotAFirstAutoColumnContextHandler(templateHandlerNew),
                 new IsPrimaryColumnNotALastAutoColumnContextHandler(templateHandlerNew),
                 new IsIndexedColumnAFirstIndexedColumnContextHandler(templateHandlerNew),
+                new IsIndexedColumnALastIndexedColumnContextHandler(templateHandlerNew),
                 new NotAutoColumnIndexColumnContextHandler(templateHandlerNew),
                 new NotNullColumnIndexColumnContextHandler(templateHandlerNew),
                 new NotPrimaryColumnIndexColumnContextHandler(templateHandlerNew),
