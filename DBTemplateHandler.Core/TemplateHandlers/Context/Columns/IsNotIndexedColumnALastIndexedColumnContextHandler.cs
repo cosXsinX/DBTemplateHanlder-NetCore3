@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsNotIndexedColumnALastIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
         public IsNotIndexedColumnALastIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
-        public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:INDEXED:FOREACH:CURRENT:IS:FIRST:COLUMN(";
+        public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:INDEXED:FOREACH:CURRENT:IS:LAST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the inner context when the current column is the last column from the iterated not indexed column collection";
