@@ -5,6 +5,7 @@ using System.Linq;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.Models;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.ModelsDao;
 using DBTemplateHandler.Core.Database;
+using DBTemplateHandler.Service.Contracts.Database;
 using DBTemplateHandler.Utils;
 
 namespace DBTemplateHander.DatabaseModel.Import.Importer
@@ -158,6 +159,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public string Name { get;set; }
             public string Schema { get; set; }
             public IDatabaseModel ParentDatabase { get;set; }
+            public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
         }
 
         public class ImporterColumnModel : IColumnModel

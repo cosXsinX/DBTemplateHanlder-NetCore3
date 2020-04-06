@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Service.Contracts.Database;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -165,6 +166,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             public string Name {get;set;}
             public IDatabaseModel ParentDatabase {get;set;}
             public string Schema { get; set; }
+            public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
         }
 
         public class ColumnModel : IColumnModel

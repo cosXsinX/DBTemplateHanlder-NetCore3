@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DBTemplateHandler.Service.Contracts.Database;
+using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {
@@ -8,5 +9,6 @@ namespace DBTemplateHandler.Core.Database
         string Name { get; set; }
         string Schema { get; set; }
         IDatabaseModel ParentDatabase { get; set; }
+        IList<IForeignKeyConstraintModel> ForeignKeyConstraints {get;set;}
     }
 }

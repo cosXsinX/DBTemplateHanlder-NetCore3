@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Tables;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Service.Contracts.Database;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
             public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public string Schema { get; set; }
             public IDatabaseModel ParentDatabase { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
         }
     }
 }

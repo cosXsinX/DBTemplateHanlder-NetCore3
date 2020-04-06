@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DBTemplateHandler.Service.Contracts.Database;
 
 namespace DBTemplateHandler.Core.Database
 {
@@ -21,8 +22,9 @@ namespace DBTemplateHandler.Core.Database
         public IList<IColumnModel> Columns { get; set; }
 
         public IDatabaseModel ParentDatabase { get; set; }
-	
-	    public void UpdateContainedColumnsParentReference()
+        public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
+
+        public void UpdateContainedColumnsParentReference()
         {
             foreach (ColumnModel currentColumn in Columns)
             {
