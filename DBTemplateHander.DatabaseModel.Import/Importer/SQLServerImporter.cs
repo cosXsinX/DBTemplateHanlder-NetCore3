@@ -20,6 +20,8 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
         private readonly SQLServerIndexesDao sqlServerIndexesDao = new SQLServerIndexesDao();
         private readonly SQLServerIndexColumnsDao sqlServerIndexColumnsDao = new SQLServerIndexColumnsDao();
         private readonly SQLServerSchemasDao sqlServerSchemasDao = new SQLServerSchemasDao();
+        private readonly SQLServerForeignKeyColumnsDao sqlServerForeignKeyColumnsDao = new SQLServerForeignKeyColumnsDao();
+        private readonly SQLServerForeignKeysDao sqLServerForeignKeysDao = new SQLServerForeignKeysDao();
 
         private readonly SQLServerInformationSchemaColumnsDao sqlServerInformationSchemaColumnsDao = new SQLServerInformationSchemaColumnsDao();
 
@@ -37,6 +39,8 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             var indexColumnsModels = sqlServerIndexColumnsDao.GetAll(sqlConnection);
             var indexesModels = sqlServerIndexesDao.GetAll(sqlConnection);
             var schemasModels = sqlServerSchemasDao.GetAll(sqlConnection);
+            var foreignKeyModels = sqLServerForeignKeysDao.GetAll(sqlConnection);
+            var foreignKeyColumnsModels = sqlServerForeignKeyColumnsDao.GetAll(sqlConnection);
 
             var informationSchemaColumnModels = sqlServerInformationSchemaColumnsDao.GetAll(sqlConnection);
             sqlConnection.Close();
@@ -65,11 +69,34 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
                 databaseAndTableModelAndSchemaAndColumnModel.LeftJoin(indexColumnsAndIndexesSqlModels, m => $"{m.column.object_id}-{m.column.column_id}", m => $"{m.index.object_id}-{m.indexColumn.column_id}").
                 Select(m => new SqlModelJointure() { database = m.Item1.database, table = m.Item1.table, schema = m.Item1.schema, 
                     column = m.Item1.column, index = m.Item2?.index, indexColumn = m.Item2?.indexColumn }).ToList();
-
+            
             var sqlModelJointureWithColumnSchemaInformation =
                 sqlModelsWithIndexes.LeftJoin(informationSchemaColumnModels, m => $"{m?.database?.database_name}-{m?.schema?.name}-{m?.table?.name}-{m?.column?.name}", m => $"{m.TABLE_CATALOG}-{m.TABLE_SCHEMA}-{m.TABLE_NAME}-{m.COLUMN_NAME}").ToList();
 
             sqlModelJointureWithColumnSchemaInformation.ForEach(m => m.Item1.informationSchemaColumns = m.Item2);
+
+            //TODO understand the sys model of sql server
+            //var primaryforeignKeysAndForeignKeysColumn = foreignKeyColumnsModels.LeftJoin(foreignKeyModels,
+            //    m => $"{m.parent_object_id}",
+            //    m => $"{m.parent_object_id}").ToList();
+
+            //var primaryforeignKeysAndColumns = primaryforeignKeysAndForeignKeysColumn.LeftJoin(sqlModelsWithIndexes, 
+            //    m => $"{m.Item1.parent_object_id}-{m.Item1.parent_column_id}", 
+            //    m => $"{m.column.object_id}-{m.column.column_id}").ToList();
+            
+            //var foreignforeignKeysAndForeignKeysColumn = foreignKeyColumnsModels.LeftJoin(foreignKeyModels,
+            //    m => $"{m.referenced_object_id}",
+            //    m => $"{m.referenced_object_id}").ToList();
+
+            //var foreignforeignKeysAndColumns = foreignforeignKeysAndForeignKeysColumn.LeftJoin(sqlModelsWithIndexes,
+            //    m => $"{m.Item1.referenced_object_id}-{m.Item1.referenced_column_id}",
+            //    m => $"{m.column.object_id}-{m.column.column_id}").ToList();
+
+
+            //var foreignKeyConstraints = primaryforeignKeysAndColumns.InnerJoin(foreignforeignKeysAndColumns,
+            //    m => $"{m.Item1.Item1.constraint_object_id}-{m.Item1.Item1.constraint_column_id}",
+            //    m => $"{m.Item1.Item1.constraint_object_id}-{m.Item1.Item1.constraint_column_id}").ToList();
+
 
             IDatabaseModel databaseModel = ToDatabaseModel(connectionString,sqlModelsWithIndexes);
             databaseModel.TypeSetName = ManagedDbSystem;
@@ -172,6 +199,12 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public int ValueMaxSize { get; set; }
             public ITableModel ParentTable { get;set; }
             public bool IsIndexed { get; set; }
+        }
+
+        public class ImporterForeignKeyConstraintModel : IForeignKeyConstraintModel
+        {
+            public IList<IColumnModel> PrimaryKeyColumns { get; set; }
+            public IList<IColumnModel> ForeignKeyColumns { get; set; }
         }
     }
 }

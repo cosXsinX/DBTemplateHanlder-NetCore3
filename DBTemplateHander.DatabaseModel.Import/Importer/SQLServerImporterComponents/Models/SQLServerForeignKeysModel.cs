@@ -36,7 +36,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
         /// 2 = Set null
         /// 3 = Set default
         /// </summary>
-        public short delete_referential_action { get; set; }
+        public byte delete_referential_action { get; set; }
 
         /// <summary>
         /// Description of the referential action that was declared for this FOREIGN KEY when a delete occurs:
@@ -54,7 +54,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterCompon
         /// 2 = Set null
         /// 3 = Set default
         /// </summary>
-        public short update_referential_action { get; set; }
+        public byte update_referential_action { get; set; }
 
         /// <summary>
         /// Description of the referential action that was declared for this FOREIGN KEY when an update happens:
