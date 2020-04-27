@@ -76,14 +76,25 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             sqlModelJointureWithColumnSchemaInformation.ForEach(m => m.Item1.informationSchemaColumns = m.Item2);
 
             //TODO understand the sys model of sql server
-            //var primaryforeignKeysAndForeignKeysColumn = foreignKeyColumnsModels.LeftJoin(foreignKeyModels,
-            //    m => $"{m.parent_object_id}",
-            //    m => $"{m.parent_object_id}").ToList();
+            var foreignKeyAndForeignKeyColumns = foreignKeyColumnsModels.InnerJoin(foreignKeyModels,
+                m => $"{m.constraint_object_id}-{m.parent_object_id}-{m.referenced_object_id}",
+                m => $"{m.object_id}-{m.parent_object_id}-{m.referenced_object_id}")
+                    .Select(m => new { foreignKeyColumn = m.Item1 , foreignKey = m.Item2 }) .ToList();
+
+            var referencedKeyAndSqlModelJointure = foreignKeyAndForeignKeyColumns.InnerJoin(sqlModelsWithIndexes,
+                m => $"{m.foreignKeyColumn.referenced_object_id}-{m.foreignKeyColumn.referenced_column_id}",
+                m => $"{m.table.object_id}-{m.column.column_id}")
+                    .Select(m =>new {m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column}).ToList();
+
+            var foreignKeyAndSqlModelJointure = foreignKeyAndForeignKeyColumns.InnerJoin(sqlModelsWithIndexes,
+                m => $"{m.foreignKeyColumn.parent_object_id}-{m.foreignKeyColumn.parent_column_id}",
+                m => $"{m.table.object_id}-{m.column.column_id}")
+                    .Select(m => new { m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column }).ToList();
 
             //var primaryforeignKeysAndColumns = primaryforeignKeysAndForeignKeysColumn.LeftJoin(sqlModelsWithIndexes, 
             //    m => $"{m.Item1.parent_object_id}-{m.Item1.parent_column_id}", 
             //    m => $"{m.column.object_id}-{m.column.column_id}").ToList();
-            
+
             //var foreignforeignKeysAndForeignKeysColumn = foreignKeyColumnsModels.LeftJoin(foreignKeyModels,
             //    m => $"{m.referenced_object_id}",
             //    m => $"{m.referenced_object_id}").ToList();
@@ -205,6 +216,12 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
         {
             public IList<IColumnModel> PrimaryKeyColumns { get; set; }
             public IList<IColumnModel> ForeignKeyColumns { get; set; }
+        }
+
+        private class WithReferenceKeyImporterInstanceWrapper<T> where T:class
+        {
+            public string ReferenceKey { get; set; }
+            public T Reference { get; set; }
         }
     }
 }

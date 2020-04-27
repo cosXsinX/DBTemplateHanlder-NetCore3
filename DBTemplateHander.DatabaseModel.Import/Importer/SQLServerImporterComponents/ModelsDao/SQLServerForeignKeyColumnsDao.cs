@@ -25,7 +25,7 @@ from sys.foreign_key_columns";
             result.parent_object_id = (int)dataReader["parent_object_id"];
             result.parent_column_id = (int)dataReader["parent_column_id"];
             result.referenced_object_id = (int)dataReader["referenced_object_id"];
-            result.referenced_object_id = (int)dataReader["referenced_object_id"];
+            result.referenced_column_id = (int)dataReader["referenced_column_id"];
             return result;
         }
     }
