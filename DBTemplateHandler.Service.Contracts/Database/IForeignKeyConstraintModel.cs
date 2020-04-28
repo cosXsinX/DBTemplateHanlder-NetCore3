@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Service.Contracts.Database
 {
     public interface IForeignKeyConstraintModel
     {
-        public IList<IColumnModel> PrimaryKeyColumns { get; set; }
-        public IList<IColumnModel> ForeignKeyColumns { get; set; }
+        public string ConstraintName { get; set; }
+        public IList<IForeignKeyConstraintElementModel> Elements { get; set; }
     }
 }

@@ -75,7 +75,11 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
 
             sqlModelJointureWithColumnSchemaInformation.ForEach(m => m.Item1.informationSchemaColumns = m.Item2);
 
-            //TODO understand the sys model of sql server
+            IDatabaseModel databaseModel = ToDatabaseModel(connectionString, sqlModelsWithIndexes);
+            databaseModel.TypeSetName = ManagedDbSystem;
+
+
+            //Second step => Consraint jointure
             var foreignKeyAndForeignKeyColumns = foreignKeyColumnsModels.InnerJoin(foreignKeyModels,
                 m => $"{m.constraint_object_id}-{m.parent_object_id}-{m.referenced_object_id}",
                 m => $"{m.object_id}-{m.parent_object_id}-{m.referenced_object_id}")
@@ -84,33 +88,41 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             var referencedKeyAndSqlModelJointure = foreignKeyAndForeignKeyColumns.InnerJoin(sqlModelsWithIndexes,
                 m => $"{m.foreignKeyColumn.referenced_object_id}-{m.foreignKeyColumn.referenced_column_id}",
                 m => $"{m.table.object_id}-{m.column.column_id}")
-                    .Select(m =>new {m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column}).ToList();
+                    .Select(m =>new {m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column, m.Item2.schema}).ToList();
 
             var foreignKeyAndSqlModelJointure = foreignKeyAndForeignKeyColumns.InnerJoin(sqlModelsWithIndexes,
                 m => $"{m.foreignKeyColumn.parent_object_id}-{m.foreignKeyColumn.parent_column_id}",
                 m => $"{m.table.object_id}-{m.column.column_id}")
-                    .Select(m => new { m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column }).ToList();
+                    .Select(m => new { m.Item1.foreignKey, m.Item1.foreignKeyColumn, m.Item2.database, m.Item2.table, m.Item2.column, m.Item2.schema }).ToList();
 
-            //var primaryforeignKeysAndColumns = primaryforeignKeysAndForeignKeysColumn.LeftJoin(sqlModelsWithIndexes, 
-            //    m => $"{m.Item1.parent_object_id}-{m.Item1.parent_column_id}", 
-            //    m => $"{m.column.object_id}-{m.column.column_id}").ToList();
+            var foreignKeyAndReferencedKeyJointure = referencedKeyAndSqlModelJointure.InnerJoin(foreignKeyAndSqlModelJointure,
+                m => $"{m.foreignKey.object_id}-{m.foreignKey.parent_object_id}",
+                m => $"{m.foreignKey.object_id}-{m.foreignKey.parent_object_id}")
+                .Select(m => new SqlConstraintJointureModel
+                {
+                    ForeignKey = m.Item1.foreignKey,
+                    ReferencedTable = m.Item1.table,
+                    ReferencedColumn = m.Item1.column,
+                    ReferenceSchema = m.Item1.schema,
+                    PrimaryTable = m.Item2.table,
+                    PrimaryColumn = m.Item2.column,
+                    PrimarySchema = m.Item2.schema,
+                }).ToList();
 
-            //var foreignforeignKeysAndForeignKeysColumn = foreignKeyColumnsModels.LeftJoin(foreignKeyModels,
-            //    m => $"{m.referenced_object_id}",
-            //    m => $"{m.referenced_object_id}").ToList();
+            var daabaseTableConstraintGrouping = databaseModel.Tables.Cast<ImportedTableModelWithMetaData>()
+                .InnerJoin(foreignKeyAndReferencedKeyJointure, m => m.object_id, m => m.PrimaryTable.object_id)
+                .GroupBy(m => m.Item1.object_id)
+                .Select(m => Tuple.Create(m.First().Item1,m.ToList().Select(m => m.Item2)));
 
-            //var foreignforeignKeysAndColumns = foreignforeignKeysAndForeignKeysColumn.LeftJoin(sqlModelsWithIndexes,
-            //    m => $"{m.Item1.referenced_object_id}-{m.Item1.referenced_column_id}",
-            //    m => $"{m.column.object_id}-{m.column.column_id}").ToList();
+            databaseModel.Tables = daabaseTableConstraintGrouping.Select(m =>
+                new ImportedTableModel()
+                {
+                    Columns = m.Item1.Columns,
+                    Name = m.Item1.Name,
+                    Schema = m.Item1.Schema,
+                    ForeignKeyConstraints = ToForeignKeyConstraints(m.Item2.ToList())
+                }).Cast<ITableModel>().ToList();
 
-
-            //var foreignKeyConstraints = primaryforeignKeysAndColumns.InnerJoin(foreignforeignKeysAndColumns,
-            //    m => $"{m.Item1.Item1.constraint_object_id}-{m.Item1.Item1.constraint_column_id}",
-            //    m => $"{m.Item1.Item1.constraint_object_id}-{m.Item1.Item1.constraint_column_id}").ToList();
-
-
-            IDatabaseModel databaseModel = ToDatabaseModel(connectionString,sqlModelsWithIndexes);
-            databaseModel.TypeSetName = ManagedDbSystem;
             return databaseModel;
         }
 
@@ -124,6 +136,8 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public SQLServerSchemasModel schema { get; set; }
             public SQLServerInformationSchemaColumnsModel informationSchemaColumns { get; set; }
         }
+
+        
 
         public IDatabaseModel ToDatabaseModel(string connectionString, IList<SqlModelJointure> sqlModels)
         {
@@ -152,7 +166,8 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
 
         public ITableModel ToTableModel(Tuple<SQLServerTableModel,SQLServerSchemasModel,List<SqlModelJointure>> sqlTableAndSchemaAndColumns)
         {
-            var result = new ImportedTableModel();
+            var result = new ImportedTableModelWithMetaData();
+            result.object_id = sqlTableAndSchemaAndColumns.Item1.object_id;
             result.Name = sqlTableAndSchemaAndColumns.Item1.name;
             result.Schema = sqlTableAndSchemaAndColumns.Item2.name;
             result.Columns = sqlTableAndSchemaAndColumns.Item3
@@ -180,8 +195,47 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
         }
 
 
-        
 
+
+        public class SqlConstraintJointureModel
+        {
+            public SQLServerForeignKeysModel ForeignKey { get; set; }
+            public SQLServerTableModel ReferencedTable { get; set; }
+            public SQLServerColumnModel ReferencedColumn { get; set; }
+            public SQLServerSchemasModel ReferenceSchema { get; set; }
+            public SQLServerTableModel PrimaryTable { get; set; }
+            public SQLServerColumnModel PrimaryColumn { get; set; }
+            public SQLServerSchemasModel PrimarySchema { get; set; }
+        }
+
+        public IList<IForeignKeyConstraintModel> ToForeignKeyConstraints(IList<SqlConstraintJointureModel> converteds)
+        {
+            var constraintJointureGrouped = converteds.GroupBy(m => m.ForeignKey.object_id).Select(m => m.ToList());
+            var result = constraintJointureGrouped.Select(m => new ImporterForeignKeyConstraintModel()
+            {
+                ConstraintName = m.First().ForeignKey.name,
+                Elements = m.Select(ToForeignKeyConstraintElement).ToList()
+            }).Cast<IForeignKeyConstraintModel>().ToList();
+            return result;
+        }
+
+        public IForeignKeyConstraintElementModel ToForeignKeyConstraintElement(SqlConstraintJointureModel converted)
+        {
+            var result = new ImporterForeignKeyConstraintElementModel();
+            result.Foreign = new ImporterColumnReferenceModel()
+            {
+                ColumnName = converted.ReferencedColumn.name,
+                TableName = converted.ReferencedTable.name,
+                SchemaName = converted.ReferenceSchema.name,
+            };
+            result.Primary = new ImporterColumnReferenceModel()
+            {
+                ColumnName = converted.PrimaryColumn.name,
+                TableName = converted.PrimaryTable.name,
+                SchemaName = converted.PrimarySchema.name,
+            };
+            return result;
+        }
 
         public class ImportedDatabaseModel : IDatabaseModel
         {
@@ -191,6 +245,7 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public string ConnectionString { get; set; }
         }
 
+        
         public class ImportedTableModel : ITableModel
         {
             public IList<IColumnModel> Columns { get;set; }
@@ -198,6 +253,11 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
             public string Schema { get; set; }
             public IDatabaseModel ParentDatabase { get;set; }
             public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
+        }
+
+        private class ImportedTableModelWithMetaData : ImportedTableModel, ITableModel
+        {
+            public int object_id { get; set; }
         }
 
         public class ImporterColumnModel : IColumnModel
@@ -214,8 +274,21 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
 
         public class ImporterForeignKeyConstraintModel : IForeignKeyConstraintModel
         {
-            public IList<IColumnModel> PrimaryKeyColumns { get; set; }
-            public IList<IColumnModel> ForeignKeyColumns { get; set; }
+            public IList<IForeignKeyConstraintElementModel> Elements { get; set; }
+            public string ConstraintName { get; set; }
+        }
+
+        public class ImporterForeignKeyConstraintElementModel : IForeignKeyConstraintElementModel
+        {
+            public IColumnReferenceModel Primary { get; set; }
+            public IColumnReferenceModel Foreign { get; set; }
+        }
+
+        public class ImporterColumnReferenceModel : IColumnReferenceModel
+        {
+            public string ColumnName { get; set; }
+            public string TableName { get; set; }
+            public string SchemaName { get; set; }
         }
 
         private class WithReferenceKeyImporterInstanceWrapper<T> where T:class
