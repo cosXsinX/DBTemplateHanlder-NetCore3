@@ -5,241 +5,262 @@
 @inject DBTemplateService dbTemplateService
 
 
-    <div class="container">
-        <h1>Database Designer</h1>
-        <div class="row form-group">
-            <div class="col-2 text-primary">
-                <h5>Databases</h5>
-            </div>
-            <div class="col-2 btn-group">
-                <button class="btn btn-primary" @onclick="@CreateDatabaseModel"><span class="oi oi-plus" /></button>
-                <button class="btn btn-secondary" @onclick="@SaveCurrentDatabase">Save</button>
-                <button class="btn btn-danger" @onclick="@DeleteCurrentDatabase"><span class="oi oi-trash"></span></button>
-            </div>
-            <div class="col-4 input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Name</span>
-                </div>
-                <input type="text" class="form-control" @bind="@currentDatabaseModelPersistenceName" />
-            </div>
-            <div class="col-4 input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Choose</span>
-                </div>
-                @if (databaseModelPersistenceNames != null)
-                {
-                    <select class="form-control" @onchange="@SetCurrentDatabaseModel">
-                        <option value="">-- Select Database model --</option>
-                        @foreach (var databaseModelPersistenceName in databaseModelPersistenceNames)
-                        {
-                            <option value="@databaseModelPersistenceName">@databaseModelPersistenceName</option>
-                        }
-                    </select>
-                }
-            </div>
+<div class="container">
+    <h1>Database Designer</h1>
+    <div class="row form-group">
+        <div class="col-2 text-primary">
+            <h5>Databases</h5>
         </div>
-        <div class="row form-group">
-            <div class="col-2 text-primary">
-                <h5>Type set</h5>
-            </div>
-            <div class="col-4 input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Choose</span>
-                </div>
-                @if (TypeSetNames != null)
-                {
-                    <select class="form-control" @bind="CurrentDatatabaseTypeSet">
-                        <option value="">-- Select Database model --</option>
-                        @foreach (var typeSetName in TypeSetNames)
-                        {
-                            <option value="@typeSetName">@typeSetName</option>
-                        }
-                    </select>
-                }
-            </div>
+        <div class="col-2 btn-group">
+            <button class="btn btn-primary" @onclick="@CreateDatabaseModel"><span class="oi oi-plus" /></button>
+            <button class="btn btn-secondary" @onclick="@SaveCurrentDatabase">Save</button>
+            <button class="btn btn-danger" @onclick="@DeleteCurrentDatabase"><span class="oi oi-trash"></span></button>
         </div>
-        <div class="row form-group">
-            <div class="col-2 text-primary">
-                <h5>Source</h5>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
             </div>
-            <div class="col-10 input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Connection string</span>
-                </div>
-                <input type="text" class="form-control" @bind="@CurrentDatabaseConnectionString" />
-            </div>
+            <input type="text" class="form-control" @bind="@currentDatabaseModelPersistenceName" />
         </div>
-        <div class="row form-group">
-            <div class="col-4">
-                <div class="row">
-                    <h3>Tables</h3>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose</span>
+            </div>
+            @if (databaseModelPersistenceNames != null)
+            {
+                <select class="form-control" @onchange="@SetCurrentDatabaseModel">
+                    <option value="">-- Select Database model --</option>
+                    @foreach (var databaseModelPersistenceName in databaseModelPersistenceNames)
+                    {
+                        <option value="@databaseModelPersistenceName">@databaseModelPersistenceName</option>
+                    }
+                </select>
+            }
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-2 text-primary">
+            <h5>Type set</h5>
+        </div>
+        <div class="col-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose</span>
+            </div>
+            @if (TypeSetNames != null)
+            {
+                <select class="form-control" @bind="CurrentDatatabaseTypeSet">
+                    <option value="">-- Select Database model --</option>
+                    @foreach (var typeSetName in TypeSetNames)
+                    {
+                        <option value="@typeSetName">@typeSetName</option>
+                    }
+                </select>
+            }
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-2 text-primary">
+            <h5>Source</h5>
+        </div>
+        <div class="col-10 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Connection string</span>
+            </div>
+            <input type="text" class="form-control" @bind="@CurrentDatabaseConnectionString" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-4">
+            <div class="row">
+                <h3>Tables</h3>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary @DisabledTableInputAttribute" @onclick="@CreateTableModel">Add New</button>
+                    <button class="btn btn-danger @DisabledDeleteTableButtonAttribute" @onclick="@DeleteTableModel">Delete</button>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-primary @DisabledTableInputAttribute" @onclick="@CreateTableModel">Add New</button>
-                        <button class="btn btn-danger @DisabledDeleteTableButtonAttribute" @onclick="@DeleteTableModel">Delete</button>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name</span>
                     </div>
+                    <input type="text" class="form-control @DisabledTableInputAttribute" @bind="@CurrentTableModelName" />
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Schema</span>
+                    </div>
+                    <input type="text" class="form-control @DisabledTableInputAttribute" @bind="@CurrentTableModelSchema" />
+                </div>
+            </div>
+            <div class="row pre-scrollable">
+                <div class="col-12">
+                    @if (currentDatabaseModel != null)
+                    {
+                        <ul class="list-group" rows="10">
+                            @foreach (var tableModel in currentDatabaseModel.Tables.OrderBy(tableModel => $"{tableModel.Schema}-{tableModel.Name}"))
+                            {
+                                <li class="list-group-item @ActiveAttributeWhenTableIsCurrentTableModel(tableModel)" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Schema - @tableModel.Name</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <h3>Columns</h3>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary @DisabledAddColumnButtonAttribute" @onclick="@CreateColumnModel">Add New</button>
+                    <button class="btn btn-danger @DisabledDeleteColumnButtonAttribute" @onclick="@DeleteCurrentColumnModel">Delete</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Name</span>
                         </div>
-                        <input type="text" class="form-control @DisabledTableInputAttribute" @bind="@CurrentTableModelName" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Schema</span>
-                        </div>
-                        <input type="text" class="form-control @DisabledTableInputAttribute" @bind="@CurrentTableModelSchema" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        @if (currentDatabaseModel != null)
-                        {
-                            <ul class="list-group" rows="10">
-                                @foreach (var tableModel in currentDatabaseModel.Tables.OrderBy(tableModel => $"{tableModel.Schema}-{tableModel.Name}"))
-                                {
-                                    <li class="list-group-item @ActiveAttributeWhenTableIsCurrentTableModel(tableModel)" @onclick="@(() => SetCurrentTable(tableModel))">@tableModel.Schema - @tableModel.Name</li>
-                                }
-                            </ul>
-                        }
+                        <input type="text" class="form-control" @bind="@CurrentColumnName" />
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="row">
-                    <h3>Columns</h3>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-primary @DisabledAddColumnButtonAttribute" @onclick="@CreateColumnModel">Add New</button>
-                        <button class="btn btn-danger @DisabledDeleteColumnButtonAttribute" @onclick="@DeleteCurrentColumnModel">Delete</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Name</span>
-                            </div>
-                            <input type="text" class="form-control" @bind="@CurrentColumnName" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        @if (currentTableModel != null && currentTableModel.Columns != null)
-                        {
-                            <ul class="list-group" rows="10">
-                                @foreach (var column in currentTableModel.Columns)
-                                {
-                                    <li class="list-group-item @ActiveAttributeWhenTableIsCurrentColumnModel(column)" @onclick="@(() => SetCurrentColumn(column))">@column.Name</li>
-                                }
-                            </ul>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="row">
-                    <h3>Current column</h3>
-                </div>
-                <div class="row input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Value Max Size</span>
-                    </div>
-                    @if (ColumnDataTypes != null)
+            <div class="row pre-scrollable">
+                <div class="col-12">
+                    @if (currentTableModel != null && currentTableModel.Columns != null)
                     {
-                        <select class="form-control @DisabledAddColumnButtonAttribute" @bind="@CurrentColumnModelType">
-                            <option value="">-- Select Type --</option>
-                            @foreach (var currentType in ColumnDataTypes)
+                        <ul class="list-group" rows="10">
+                            @foreach (var column in currentTableModel.Columns)
                             {
-                                <option value="@currentType">@currentType</option>
+                                <li class="list-group-item @ActiveAttributeWhenTableIsCurrentColumnModel(column)" @onclick="@(() => SetCurrentColumn(column))">@column.Name</li>
                             }
-                        </select>
+                        </ul>
                     }
                 </div>
-                <div class="row input-group">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <h3>Current column</h3>
+            </div>
+            <div class="row input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Value Max Size</span>
+                </div>
+                @if (ColumnDataTypes != null)
+                {
+                    <select class="form-control @DisabledAddColumnButtonAttribute" @bind="@CurrentColumnModelType">
+                        <option value="">-- Select Type --</option>
+                        @foreach (var currentType in ColumnDataTypes)
+                        {
+                            <option value="@currentType">@currentType</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="row input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Value Max Size</span>
+                </div>
+                <input type="text" class="form-control" @bind="@CurrentColumnValueMaxSize" />
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Value Max Size</span>
+                        <span class="input-group-text">Is Auto</span>
                     </div>
-                    <input type="text" class="form-control" @bind="@CurrentColumnValueMaxSize" />
-                </div>
-                <div class="row">
-                    <div class="col-12 input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Is Auto</span>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
-                                <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsAutoGeneratedAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsAutoGenerated" @onclick="@ToggleIsAutoGenerated" />Yes
-                                </label>
-                                <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsNotAutoGeneratedAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsAutoGenerated)" @onclick="@ToggleIsAutoGenerated" />No
-                                </label>
-                            </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsAutoGeneratedAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsAutoGenerated" @onclick="@ToggleIsAutoGenerated" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsAutoGeneratedAttribute @ActiveWhenIsNotAutoGeneratedAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsAutoGenerated)" @onclick="@ToggleIsAutoGenerated" />No
+                            </label>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Is Not Null</span>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
-                                <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNotNullAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsNotNull" @onclick="@ToggleIsNotNullGenerated" />Yes
-                                </label>
-                                <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNullAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsNotNull)" @onclick="@ToggleIsNotNullGenerated" />No
-                                </label>
-                            </div>
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Not Null</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNotNullAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsNotNull" @onclick="@ToggleIsNotNullGenerated" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsNotNullAttribute @ActiveWhenIsNullAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsNotNull)" @onclick="@ToggleIsNotNullGenerated" />No
+                            </label>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Is Primary Key</span>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
-                                <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsPrimaryKeyAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsPrimaryKey" @onclick="@ToggleIsPrimaryKey" />Yes
-                                </label>
-                                <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsNotPrimaryKeyAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsPrimaryKey)" @onclick="@ToggleIsPrimaryKey" />No
-                                </label>
-                            </div>
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Primary Key</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsPrimaryKeyAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsPrimaryKey" @onclick="@ToggleIsPrimaryKey" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsPrimaryKeyAttribute @ActiveWhenIsNotPrimaryKeyAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsPrimaryKey)" @onclick="@ToggleIsPrimaryKey" />No
+                            </label>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Is Indexed</span>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
-                                <label class="btn @BtnClassIsIndexedAttribute @ActiveWhenIsIndexedAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsIndexed" @onclick="@ToggleIsIndexed" />Yes
-                                </label>
-                                <label class="btn @BtnClassIsIndexedAttribute @ActiveWhenIsNotIndexedKeyAttribute">
-                                    <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsIndexed)" @onclick="@ToggleIsIndexed" />No
-                                </label>
-                            </div>
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Is Indexed</span>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-toggle @DisabledAddColumnButtonAttribute" data-toggle="buttons">
+                            <label class="btn @BtnClassIsIndexedAttribute @ActiveWhenIsIndexedAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@true" checked="@IsIndexed" @onclick="@ToggleIsIndexed" />Yes
+                            </label>
+                            <label class="btn @BtnClassIsIndexedAttribute @ActiveWhenIsNotIndexedKeyAttribute">
+                                <input type="radio" autocomplete="off" name="isautogenerated" value="@false" checked="@(!IsIndexed)" @onclick="@ToggleIsIndexed" />No
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row form-group">
+        <div class="col-12">
+            <div class="row">
+                <h3>Table Constraints</h3>
+            </div>
+            <div class="row pre-scrollable">
+                <div class="col-12">
+                    @if (currentTableModel != null && currentTableModel.ForeignKeyConstraints != null)
+                    {
+                        <ul class="list-group" rows="10">
+                            @foreach (var foreaignKeyConstraint in currentTableModel.ForeignKeyConstraints)
+                            {
+                                <li class="list-group-item">@foreaignKeyConstraint.ConstraintName</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
 
 
 @code {
@@ -447,7 +468,7 @@
 
     async void SetColumnDataTypes()
     {
-        ColumnDataTypes = ((await dbTemplateService.GetTypeSetByPersistenceName(currentDatabaseModel?.TypeSetName))??new List<TypeSetItem>()).Select(m => m.Name).ToList();
+        ColumnDataTypes = ((await dbTemplateService.GetTypeSetByPersistenceName(currentDatabaseModel?.TypeSetName)) ?? new List<TypeSetItem>()).Select(m => m.Name).ToList();
     }
 
     public string CurrentDatatabaseTypeSet
@@ -464,7 +485,8 @@
     public string CurrentDatabaseConnectionString
     {
         get { return currentDatabaseModel?.ConnectionString; }
-        set {
+        set
+        {
             if (currentDatabaseModel == null) return;
             currentDatabaseModel.ConnectionString = value;
         }
