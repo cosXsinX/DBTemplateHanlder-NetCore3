@@ -18,6 +18,7 @@ namespace DBTemplateHandler.Persistance.Serializable
         public string Name { get; set; }
         public string Schema { get; set; }
         public List<PersistableColumnModel> Columns { get; set; }
+        public List<PersistableForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
     }
 
     public class PersistableColumnModel : IColumnModel
@@ -30,6 +31,25 @@ namespace DBTemplateHandler.Persistance.Serializable
         public int ValueMaxSize { get; set; }
         public ITableModel ParentTable { get ; set ; }
         public bool IsIndexed { get; set; }
+    }
+
+    public class PersistableForeignKeyConstraintModel
+    {
+        public string ConstraintName { get; set; }
+        public List<PersistableForeignKeyConstraintElementModel> Elements { get; set; }
+    }
+
+    public class PersistableForeignKeyConstraintElementModel
+    {
+        public PersistableColumnReferenceModel Primary { get; set; }
+        public PersistableColumnReferenceModel Foreign { get; set; }
+    }
+
+    public class PersistableColumnReferenceModel
+    {
+        public string ColumnName { get; set; }
+        public string TableName { get; set; }
+        public string SchemaName { get; set; }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Persistance.Serializable;
+using DBTemplateHandler.Service.Contracts.Database;
 using System.Linq;
 
 namespace DBTemplateHandler.Persistance.Conversion
@@ -13,10 +14,7 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.Name = converted.Name;
             result.ConnectionString = converted.ConnectionString;
             result.TypeSetName = converted.TypeSetName;
-            if (converted.Tables != null)
-            {
-                result.Tables = converted.Tables.Select(ToPersistable).ToList();
-            }
+            if (converted.Tables != null) result.Tables = converted.Tables.Select(ToPersistable).ToList();
             return result;
         }
 
@@ -25,10 +23,8 @@ namespace DBTemplateHandler.Persistance.Conversion
             var result = new PersistableTableModel();
             result.Name = converted.Name;
             result.Schema = converted.Schema;
-            if(converted.Columns != null)
-            {
-                result.Columns = converted.Columns.Select(ToPersistable).ToList();
-            }
+            if (converted.Columns != null) result.Columns = converted.Columns.Select(ToPersistable).ToList();
+            if (converted.ForeignKeyConstraints != null) result.ForeignKeyConstraints = converted.ForeignKeyConstraints.Select(ToPersistable).ToList();
             return result;
         }
 
@@ -42,6 +38,31 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.Type = converted.Type;
             result.ValueMaxSize = converted.ValueMaxSize;
             result.IsIndexed = converted.IsIndexed;
+            return result;
+        }
+
+        public PersistableForeignKeyConstraintModel ToPersistable(IForeignKeyConstraintModel converted)
+        {
+            var result = new PersistableForeignKeyConstraintModel();
+            result.ConstraintName = converted.ConstraintName;
+            if (converted.Elements != null) result.Elements = converted.Elements.Select(ToPersistable).ToList();
+            return result;
+        }
+
+        public PersistableForeignKeyConstraintElementModel ToPersistable(IForeignKeyConstraintElementModel converted)
+        {
+            var result = new PersistableForeignKeyConstraintElementModel();
+            if (converted.Foreign != null) result.Foreign = ToPersistable(converted.Foreign);
+            if (converted.Primary != null) result.Primary = ToPersistable(converted.Primary);
+            return result;
+        }
+
+        public PersistableColumnReferenceModel ToPersistable(IColumnReferenceModel converted)
+        {
+            var result = new PersistableColumnReferenceModel();
+            result.ColumnName = converted.ColumnName;
+            result.TableName = converted.TableName;
+            result.SchemaName = converted.SchemaName;
             return result;
         }
 
@@ -64,10 +85,8 @@ namespace DBTemplateHandler.Persistance.Conversion
             var result = new TableModel();
             result.Name = converted.Name;
             result.Schema = converted.Schema;
-            if (converted.Columns != null)
-            {
-                result.Columns = converted.Columns.Select(ToUnPersisted).ToList();
-            }
+            if (converted.Columns != null)result.Columns = converted.Columns.Select(ToUnPersisted).ToList();
+            if (converted.ForeignKeyConstraints != null) result.ForeignKeyConstraints = converted.ForeignKeyConstraints.Select(ToUnPersisted).ToList();
             return result;
         }
 
@@ -81,6 +100,31 @@ namespace DBTemplateHandler.Persistance.Conversion
             result.Type = converted.Type;
             result.ValueMaxSize = converted.ValueMaxSize;
             result.IsIndexed = converted.IsIndexed;
+            return result;
+        }
+
+        public IForeignKeyConstraintModel ToUnPersisted(PersistableForeignKeyConstraintModel converted)
+        {
+            var result = new ForeignKeyConstraintModel();
+            result.ConstraintName = converted.ConstraintName;
+            if (converted.Elements != null) result.Elements = converted.Elements.Select(ToUnPersisted).ToList();
+            return result;
+        }
+
+        public IForeignKeyConstraintElementModel ToUnPersisted(PersistableForeignKeyConstraintElementModel converted)
+        {
+            var result = new ForeignKeyConstraintElementModel();
+            if (converted.Foreign != null) result.Foreign = ToUnPersisted(converted.Foreign);
+            if (converted.Primary != null) result.Primary = ToUnPersisted(converted.Primary);
+            return result;
+        }
+
+        public IColumnReferenceModel ToUnPersisted(PersistableColumnReferenceModel converted)
+        {
+            var result = new ColumnReferenceModel();
+            result.ColumnName = converted.ColumnName;
+            result.TableName = converted.TableName;
+            result.SchemaName = converted.SchemaName;
             return result;
         }
     }
