@@ -317,37 +317,68 @@
                 <div class="col-4">
                     <div class="row">
                         <h4>Constraint component</h4>
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Constrained Column</span>
-                                </div>
-                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementPrimaryColumnName" />
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Constrained Column</span>
                             </div>
+                            @if (currentTableModel?.Columns != null)
+                            {
+                                <select class="form-control" @bind="CurrentForeignKeyConstraintElementPrimaryColumnName">
+                                    <option value="">-- Select Column --</option>
+                                    @foreach (var column in currentTableModel?.Columns)
+                                    {
+                                        <option value="@column.Name">@column.Name</option>
+                                    }
+                                </select>
+                            }
                         </div>
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">External ref schema</span>
-                                </div>
-                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignSchemaName" />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">External ref schema</span>
                             </div>
+                            @if (currentDatabaseModel?.Tables != null)
+                            {
+                                <select class="form-control" @bind="CurrentForeignKeyConstraintElementForeignSchemaName">
+                                    <option value="">-- Select Schema --</option>
+                                    @foreach (var schemaName in currentDatabaseModel.Tables.Select(m => m.Schema).Distinct())
+                                    {
+                                        <option value="@schemaName">@schemaName</option>
+                                    }
+                                </select>
+                            }
                         </div>
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">External ref table</span>
-                                </div>
-                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignTableName" />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">External ref table</span>
                             </div>
+                            @if (currentDatabaseModel?.Tables != null)
+                            {
+                                <select class="form-control" @bind="CurrentForeignKeyConstraintElementForeignTableName">
+                                    <option value="">-- Select Table --</option>
+                                    @foreach (var tableModel in currentDatabaseModel.Tables.Where(m => m.Schema == CurrentForeignKeyConstraintElementForeignSchemaName))
+                                    {
+                                        <option value="@tableModel.Name">@tableModel.Name</option>
+                                    }
+                                </select>
+                            }
                         </div>
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">External ref column</span>
-                                </div>
-                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignColumnName" />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">External ref schema</span>
                             </div>
+                            @if (currentDatabaseModel?.Tables.FirstOrDefault(m => m.Schema == CurrentForeignKeyConstraintElementForeignSchemaName && 
+                             m.Name == CurrentForeignKeyConstraintElementForeignTableName)?.Columns != null)
+                            {
+                                <select class="form-control" @bind="CurrentForeignKeyConstraintElementForeignColumnName">
+                                    <option value="">-- Select Column --</option>
+                                    @foreach (var column in currentDatabaseModel?.Tables.FirstOrDefault(m => m.Schema == CurrentForeignKeyConstraintElementForeignSchemaName && 
+                                            m.Name == CurrentForeignKeyConstraintElementForeignTableName)?.Columns)
+                                    {
+                                        <option value="@column.Name">@column.Name</option>
+                                    }
+                                </select>
+                            }
                         </div>
                     </div>
                 </div>
