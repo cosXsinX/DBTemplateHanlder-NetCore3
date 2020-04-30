@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBTemplateHandler.Service.Contracts.Database
+﻿namespace DBTemplateHandler.Core.Database
 {
     public interface IForeignKeyConstraintElementModel
     {

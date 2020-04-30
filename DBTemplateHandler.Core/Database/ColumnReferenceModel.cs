@@ -1,9 +1,4 @@
-﻿using DBTemplateHandler.Service.Contracts.Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBTemplateHandler.Core.Database
+﻿namespace DBTemplateHandler.Core.Database
 {
     public class ColumnReferenceModel : IColumnReferenceModel
     {

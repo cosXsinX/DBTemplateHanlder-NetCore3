@@ -1,9 +1,6 @@
-﻿using DBTemplateHandler.Core.Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace DBTemplateHandler.Service.Contracts.Database
+namespace DBTemplateHandler.Core.Database
 {
     public interface IForeignKeyConstraintModel
     {

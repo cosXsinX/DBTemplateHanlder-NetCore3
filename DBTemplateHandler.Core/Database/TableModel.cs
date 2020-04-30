@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using DBTemplateHandler.Service.Contracts.Database;
 
 namespace DBTemplateHandler.Core.Database
 {
-    [Serializable]
     public class TableModel : ITableModel
     {
 

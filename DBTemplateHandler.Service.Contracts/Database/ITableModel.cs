@@ -1,5 +1,4 @@
-﻿using DBTemplateHandler.Service.Contracts.Database;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {

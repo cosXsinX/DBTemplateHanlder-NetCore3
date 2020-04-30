@@ -1,6 +1,5 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Persistance.Serializable;
-using DBTemplateHandler.Service.Contracts.Database;
 using System.Linq;
 
 namespace DBTemplateHandler.Persistance.Conversion

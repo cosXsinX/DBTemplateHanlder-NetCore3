@@ -5,7 +5,6 @@ using System.Linq;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.Models;
 using DBTemplateHander.DatabaseModel.Import.Importer.SQLServerImporterComponents.ModelsDao;
 using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Service.Contracts.Database;
 using DBTemplateHandler.Utils;
 
 namespace DBTemplateHander.DatabaseModel.Import.Importer

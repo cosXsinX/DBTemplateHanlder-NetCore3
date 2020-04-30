@@ -239,26 +239,120 @@
             </div>
         </div>
     </div>
+    <div class="ui-menu-divider" />
     <div class="row form-group">
         <div class="col-12">
             <div class="row">
-                <h3>Table Constraints</h3>
-            </div>
-            <div class="row pre-scrollable">
                 <div class="col-12">
-                    @if (currentTableModel != null && currentTableModel.ForeignKeyConstraints != null)
-                    {
-                        <ul class="list-group" rows="10">
-                            @foreach (var foreaignKeyConstraint in currentTableModel.ForeignKeyConstraints)
+                    <h3>Table Foreign Key Constraints</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="row">
+                        <h4>Constraints</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary @DisabledAddForeignKeyConstraintButtonAttribute" @onclick="@CreateForeignKeyConstraintModel">Add New</button>
+                            <button class="btn btn-danger @DisabledDeleteForeignKeyConstraintButtonAttribute" @onclick="@DeleteCurrentForeignKeyConstraintModel">Delete</button>
+                        </div>
+                    </div>
+                    <div class="row pre-scrollable">
+                        <div class="col-12">
+                            @if (currentTableModel != null && currentTableModel.ForeignKeyConstraints != null)
                             {
-                                <li class="list-group-item">@foreaignKeyConstraint.ConstraintName</li>
+                                <ul class="list-group" rows="10">
+                                    @foreach (var foreaignKeyConstraint in currentTableModel.ForeignKeyConstraints)
+                                    {
+                                        <li class="list-group-item @ActiveAttributeWhenForeignKeyConstraintIsCurrentForeignKeyConstraint(foreaignKeyConstraint)"
+                                            @onclick="@(() => SetCurrentForeignKeyConstraint(foreaignKeyConstraint))">@foreaignKeyConstraint.ConstraintName</li>
+                                        }
+                                </ul>
                             }
-                        </ul>
-                    }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <h4>Current Foreign Key Constraints</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary @DisabledAddForeignKeyConstraintElementButtonAttribute" @onclick="@CreateForeignKeyConstraintElementModel">Add New</button>
+                            <button class="btn btn-danger @DisabledDeleteForeignKeyConstraintElementButtonAttribute" @onclick="@DeleteCurrentForeignKeyConstraintElementModel">Delete</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Name</span>
+                            </div>
+                            <input type="text" class="form-control" @bind="@CurrentForeignKeyConstraintName" />
+                        </div>
+                    </div>
+                    <div class="row pre-scrollable">
+                        <div class="col-12">
+                            @if (currentForeignKeyConstraint != null && currentForeignKeyConstraint.Elements != null)
+                            {
+                                <ul class="list-group" rows="10">
+                                    @foreach (var element in currentForeignKeyConstraint.Elements)
+                                    {
+                                        <li class="list-group-item list-group-item-action flex-column align-items-start
+                                            @ActiveAttributeWhenForeignKeyConstraintElementIsCurrentForeignKeyConstraintElement(element)" @onclick="@(() => SetCurrentForeignKeyConstraintElement(element))">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p>Constrained : @(element?.Primary?.ColumnName)</p>
+                                                    <p>Foreign ref : @(element?.Foreign?.SchemaName) -> @(element?.Foreign?.TableName) -> @(element?.Foreign?.ColumnName)</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <h4>Constraint component</h4>
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Constrained Column</span>
+                                </div>
+                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementPrimaryColumnName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">External ref schema</span>
+                                </div>
+                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignSchemaName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">External ref table</span>
+                                </div>
+                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignTableName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">External ref column</span>
+                                </div>
+                                <input type="text" class="form-control disabled" @bind="@CurrentForeignKeyConstraintElementForeignColumnName" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 
@@ -269,6 +363,10 @@
     private string DisabledDeleteTableButtonAttribute { get => currentDatabaseModel == null || currentTableModel == null ? "disabled" : String.Empty; }
     private string DisabledAddColumnButtonAttribute { get => currentTableModel == null ? "disabled" : String.Empty; }
     private string DisabledDeleteColumnButtonAttribute { get => currentTableModel == null || currentColumModel == null ? "disabled" : String.Empty; }
+    private string DisabledAddForeignKeyConstraintButtonAttribute { get => currentTableModel == null ? "disabled" : String.Empty; }
+    private string DisabledDeleteForeignKeyConstraintButtonAttribute { get => currentTableModel == null || currentForeignKeyConstraint == null ? "disabled" : String.Empty; }
+    private string DisabledAddForeignKeyConstraintElementButtonAttribute { get => currentForeignKeyConstraint == null ? "disabled" : String.Empty; }
+    private string DisabledDeleteForeignKeyConstraintElementButtonAttribute { get => currentForeignKeyConstraint == null || currentForeignKeyConstraintElement == null ? "disabled" : String.Empty; }
 
     private string ActiveAttributeWhenTableIsCurrentTableModel(ITableModel tableModel)
     {
@@ -278,6 +376,16 @@
     private string ActiveAttributeWhenTableIsCurrentColumnModel(IColumnModel columnModel)
     {
         return currentColumModel == columnModel ? "active" : String.Empty;
+    }
+
+    private string ActiveAttributeWhenForeignKeyConstraintIsCurrentForeignKeyConstraint(IForeignKeyConstraintModel foreignKeyConstraintModel)
+    {
+        return foreignKeyConstraintModel == currentForeignKeyConstraint ? "active" : String.Empty;
+    }
+
+    private string ActiveAttributeWhenForeignKeyConstraintElementIsCurrentForeignKeyConstraintElement(IForeignKeyConstraintElementModel foreignKeyConstraintElementModel)
+    {
+        return foreignKeyConstraintElementModel == currentForeignKeyConstraintElement ? "active" : String.Empty;
     }
 
     private string BtnClassIsAutoGeneratedAttribute
@@ -453,6 +561,60 @@
         }
     }
 
+    private string CurrentForeignKeyConstraintName
+    {
+        get => currentForeignKeyConstraint?.ConstraintName;
+        set
+        {
+            if (currentForeignKeyConstraint == null) return;
+            currentForeignKeyConstraint.ConstraintName = value;
+        }
+    }
+
+    private string CurrentForeignKeyConstraintElementPrimaryColumnName
+    {
+        get => currentForeignKeyConstraintElement?.Primary?.ColumnName;
+        set
+        {
+            if (currentForeignKeyConstraintElement == null) return;
+            if (currentForeignKeyConstraintElement.Primary == null) return;
+            currentForeignKeyConstraintElement.Primary.ColumnName = value;
+        }
+    }
+
+    private string CurrentForeignKeyConstraintElementForeignColumnName
+    {
+        get => currentForeignKeyConstraintElement?.Foreign?.ColumnName;
+        set
+        {
+            if (currentForeignKeyConstraintElement == null) return;
+            if (currentForeignKeyConstraintElement.Foreign == null) return;
+            currentForeignKeyConstraintElement.Foreign.ColumnName = value;
+        }
+    }
+
+    private string CurrentForeignKeyConstraintElementForeignTableName
+    {
+        get => currentForeignKeyConstraintElement?.Foreign?.TableName;
+        set
+        {
+            if (currentForeignKeyConstraintElement == null) return;
+            if (currentForeignKeyConstraintElement.Foreign == null) return;
+            currentForeignKeyConstraintElement.Foreign.TableName = value;
+        }
+    }
+
+    private string CurrentForeignKeyConstraintElementForeignSchemaName
+    {
+        get => currentForeignKeyConstraintElement?.Foreign?.SchemaName;
+        set
+        {
+            if (currentForeignKeyConstraintElement == null) return;
+            if (currentForeignKeyConstraintElement.Foreign == null) return;
+            currentForeignKeyConstraintElement.Foreign.SchemaName = value;
+        }
+    }
+
     public IList<string> TypeSetNames { get; set; }
 
     async void SetCurrentDatabaseModel(ChangeEventArgs e)
@@ -500,6 +662,8 @@
     IDatabaseModel currentDatabaseModel;
     ITableModel currentTableModel;
     IColumnModel currentColumModel;
+    IForeignKeyConstraintModel currentForeignKeyConstraint;
+    IForeignKeyConstraintElementModel currentForeignKeyConstraintElement;
 
     private IList<string> ColumnDataTypes = new List<string> { };
 
@@ -529,11 +693,23 @@
     {
         currentTableModel = tableModel;
         currentColumModel = null;
+        currentForeignKeyConstraint = null;
     }
 
     void SetCurrentColumn(IColumnModel columnModel)
     {
         currentColumModel = columnModel;
+    }
+
+    void SetCurrentForeignKeyConstraint(IForeignKeyConstraintModel foreignKeyConstraintModel)
+    {
+        currentForeignKeyConstraint = foreignKeyConstraintModel;
+        currentForeignKeyConstraintElement = null;
+    }
+
+    void SetCurrentForeignKeyConstraintElement(IForeignKeyConstraintElementModel foreignKeyConstraintElementModel)
+    {
+        currentForeignKeyConstraintElement = foreignKeyConstraintElementModel;
     }
 
     public string CurrentColumnModelType
@@ -604,5 +780,48 @@
         if (currentColumModel == null) return;
         currentTableModel.Columns.Remove(currentColumModel);
         currentColumModel = null;
+    }
+
+    void CreateForeignKeyConstraintModel()
+    {
+        if (currentTableModel == null) return;
+        currentForeignKeyConstraint = new ForeignKeyConstraintModel();
+        currentForeignKeyConstraint.ConstraintName = "Foreign key constraint name here";
+        if (currentTableModel.ForeignKeyConstraints == null) currentTableModel.ForeignKeyConstraints = new List<IForeignKeyConstraintModel>();
+        currentTableModel.ForeignKeyConstraints.Add(currentForeignKeyConstraint);
+    }
+
+    void DeleteCurrentForeignKeyConstraintModel()
+    {
+        if (currentTableModel == null) return;
+        if (currentForeignKeyConstraint == null) return;
+        currentTableModel.ForeignKeyConstraints.Remove(currentForeignKeyConstraint);
+        currentForeignKeyConstraint = null;
+    }
+
+    void CreateForeignKeyConstraintElementModel()
+    {
+        if (currentTableModel == null) return;
+        if (currentForeignKeyConstraint == null) return;
+        currentForeignKeyConstraintElement = new ForeignKeyConstraintElementModel()
+        {
+            Primary = new ColumnReferenceModel()
+            {
+                SchemaName = currentTableModel.Schema,
+                TableName = currentTableModel.Name,
+            },
+            Foreign = new ColumnReferenceModel()
+        };
+        if (currentForeignKeyConstraint.Elements == null) currentForeignKeyConstraint.Elements = new List<IForeignKeyConstraintElementModel>();
+        currentForeignKeyConstraint.Elements.Add(currentForeignKeyConstraintElement);
+    }
+
+    void DeleteCurrentForeignKeyConstraintElementModel()
+    {
+        if (currentTableModel == null) return;
+        if (currentForeignKeyConstraint == null) return;
+        if (currentForeignKeyConstraintElement == null) return;
+        currentForeignKeyConstraint.Elements.Remove(currentForeignKeyConstraintElement);
+        currentForeignKeyConstraintElement = null;
     }
 }
