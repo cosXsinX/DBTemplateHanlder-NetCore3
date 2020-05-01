@@ -1,11 +1,9 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
-using DBTemplateHandler.Service.Contracts.Database;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
 {

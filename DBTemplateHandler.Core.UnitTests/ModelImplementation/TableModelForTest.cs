@@ -1,5 +1,4 @@
 ﻿using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Service.Contracts.Database;
 using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.UnitTests.ModelImplementation

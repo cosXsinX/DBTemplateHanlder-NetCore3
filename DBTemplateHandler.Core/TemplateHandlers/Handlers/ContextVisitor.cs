@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
-    public class Context
+    public class TemplateContext
     {
         public string StartContextDelimiter { get; set; }
         public string EndContextDelimiter { get; set; }
@@ -17,10 +17,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public string Content { get => String.Join(String.Empty, new[] { StartContextDelimiter, InnerContent, EndContextDelimiter }); }
     }
 
-    public class ContextComposite
+    public class DatabaseTemplateContext : TemplateContext{}
+    public class TableTemplateContext : TemplateContext { }
+    public class ColumnTemplateContext : TemplateContext { }
+    public class ConstraintTemplateContext : TemplateContext { }
+    public class FunctionTemplateContext: TemplateContext { }
+
+    public class TemplateContextComposite
     {
-        public Context current { get; set; }
-        public IList<ContextComposite> childs { get; set; }
+        public TemplateContext current { get; set; }
+        public IList<TemplateContextComposite> childs { get; set; }
     }
 
 
@@ -58,20 +64,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
 
-        private ContextComposite ToNewContextComposite(Context context)
+        private TemplateContextComposite ToNewContextComposite(TemplateContext context)
         {
-            return new ContextComposite()
+            return new TemplateContextComposite()
             {
                 current = context,
-                childs = new List<ContextComposite>(),
+                childs = new List<TemplateContextComposite>(),
             };
         }
 
-        private ContextComposite ToRootContextComposite(string templateContent)
+        private TemplateContextComposite ToRootContextComposite(string templateContent)
         {
-            return new ContextComposite()
+            return new TemplateContextComposite()
             {
-                current = new Context()
+                current = new TemplateContext()
                 {
                     ContextDepth = -200,
                     StartContextDelimiter = String.Empty,
@@ -79,25 +85,25 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     InnerContent = templateContent,
                     StartIndex = 0,
                 },
-                childs = new List<ContextComposite>(),
+                childs = new List<TemplateContextComposite>(),
             };
         }
 
-        public IEnumerable<ContextComposite> ExtractAllContextUntilDepth(string templateContent, int depth)
+        public IEnumerable<TemplateContextComposite> ExtractAllContextUntilDepth(string templateContent, int depth)
         {
             var contextes = ExtractAllContextUntilDepthPrivList(templateContent, depth);
             var contextComposites = contextes.Select(ToNewContextComposite).Reverse().ToList();
-            Stack<ContextComposite> contextCompositeStack = new Stack<ContextComposite>();
+            Stack<TemplateContextComposite> contextCompositeStack = new Stack<TemplateContextComposite>();
 
-            IList<ContextComposite> parentContextCompositesChilds = new List<ContextComposite>();
+            IList<TemplateContextComposite> parentContextCompositesChilds = new List<TemplateContextComposite>();
             var rootComposite = ToRootContextComposite(templateContent);
-            ContextComposite parentContextComposite = rootComposite;
-            ContextComposite formerContext = rootComposite;
+            TemplateContextComposite parentContextComposite = rootComposite;
+            TemplateContextComposite formerContext = rootComposite;
             foreach (var context in contextComposites)
             {
                 if(formerContext.current.ContextDepth < context.current.ContextDepth )
                 {
-                    parentContextCompositesChilds = new List<ContextComposite>();
+                    parentContextCompositesChilds = new List<TemplateContextComposite>();
                     parentContextComposite = formerContext;
                     parentContextComposite.childs.Add(context);
                     contextCompositeStack.Push(context);
@@ -123,7 +129,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     }
                     else
                     {
-                        contextCompositeStack = new Stack<ContextComposite>(ancestors);
+                        contextCompositeStack = new Stack<TemplateContextComposite>(ancestors);
                         parentContextComposite = parent;
                     }
 
@@ -135,7 +141,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return rootComposite.childs.Reverse().ToList();
         }
 
-        private IEnumerable<Context> ExtractAllContextUntilDepthPriv(string templateContent,int depth)
+        private IEnumerable<TemplateContext> ExtractAllContextUntilDepthPriv(string templateContent,int depth)
         {
             var handlers = templateContextHandlerPackageProvider.GetHandlers();
             var handlersByStartContextes = handlers.ToDictionary(m => m.StartContext);
@@ -187,7 +193,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                     int contextDepth = startContextInfoStack.Count;
                     if (depth + 1 >= contextDepth)
                     {
-                        yield return new Context()
+                        yield return new TemplateContext()
                         {
                             StartContextDelimiter = lastStartContextInfo.StartContextIdentifier,
                             EndContextDelimiter = lastStartContextInfo.CorrespondingEndContextIdentifier,
@@ -203,7 +209,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             }
         }
 
-        private IList<Context> ExtractAllContextUntilDepthPrivList(string templateContent, int depth)
+        private IList<TemplateContext> ExtractAllContextUntilDepthPrivList(string templateContent, int depth)
         {
             return ExtractAllContextUntilDepthPriv(templateContent, depth).ToList();
         }

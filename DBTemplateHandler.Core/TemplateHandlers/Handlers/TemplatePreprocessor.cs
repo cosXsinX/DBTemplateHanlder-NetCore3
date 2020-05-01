@@ -27,7 +27,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             templateModelList.ForEach(template => PreProcess(template,handlers));
         }
 
-        private string ToContextValue(ContextComposite contextComposite)
+        private string ToContextValue(TemplateContextComposite contextComposite)
         {
             return $"{contextComposite.current.StartContextDelimiter}{contextComposite.current.InnerContent}{contextComposite.current.EndContextDelimiter}";
         }
@@ -51,7 +51,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             templateModel.TemplatedFileContent = result;
         }
 
-        private string PreProcess(string templateFileContent,ContextComposite contextComposite, 
+        private string PreProcess(string templateFileContent,TemplateContextComposite contextComposite, 
             IDictionary<string, AbstactPreprocessorContextHandler> handlersByStartContext)
         {
             if (!handlersByStartContext.TryGetValue(contextComposite.current.StartContextDelimiter, out var handler)) return templateFileContent;
