@@ -1,0 +1,111 @@
+﻿
+using System;
+using System.Data.SqlClient;
+using AdventureWorks2017.Models;
+
+namespace AdventureWorks2017.SqlServer.DataAccessObjects
+{
+    public class EmployeePayHistoryDao : AbstractDaoWithPrimaryKey<EmployeePayHistoryModel,EmployeePayHistoryModelPrimaryKey>
+    {
+        public override string SelectQuery => @"select 
+             [BusinessEntityID],
+             [RateChangeDate],
+             [Rate],
+             [PayFrequency],
+             [ModifiedDate]
+ from [HumanResources].[EmployeePayHistory]";
+
+        protected override EmployeePayHistoryModel ToModel(SqlDataReader dataReader)
+        {
+            var result = new EmployeePayHistoryModel();
+             result.BusinessEntityID = (int)(dataReader["BusinessEntityID"]);
+             result.RateChangeDate = (DateTime)(dataReader["RateChangeDate"]);
+             result.Rate = (decimal)(dataReader["Rate"]);
+             result.PayFrequency = (byte)(dataReader["PayFrequency"]);
+             result.ModifiedDate = (DateTime)(dataReader["ModifiedDate"]);
+            return result;
+        }
+        
+        public override string InsertQuery => @"Insert Into [HumanResources].[EmployeePayHistory]
+(
+[BusinessEntityID],
+[RateChangeDate],
+[Rate],
+[PayFrequency],
+[ModifiedDate]
+)
+VALUES
+(
+@BusinessEntityID,
+@RateChangeDate,
+@Rate,
+@PayFrequency,
+@ModifiedDate
+)";
+
+        public override void InsertionGeneratedAutoIdMapping(object id, EmployeePayHistoryModel inserted)
+        {
+        }
+
+        public override void InsertionParameterMapping(SqlCommand sqlCommand, EmployeePayHistoryModel inserted)
+        {
+            sqlCommand.Parameters.AddWithValue("@BusinessEntityID", inserted.BusinessEntityID);
+            sqlCommand.Parameters.AddWithValue("@RateChangeDate", inserted.RateChangeDate);
+            sqlCommand.Parameters.AddWithValue("@Rate", inserted.Rate);
+            sqlCommand.Parameters.AddWithValue("@PayFrequency", inserted.PayFrequency);
+            sqlCommand.Parameters.AddWithValue("@ModifiedDate", inserted.ModifiedDate);
+
+        }
+
+        public override string UpdateQuery =>
+            @"Update [HumanResources].[EmployeePayHistory]
+Set
+    [Rate]=@Rate,
+    [PayFrequency]=@PayFrequency,
+    [ModifiedDate]=@ModifiedDate
+Where
+[BusinessEntityID]=@BusinessEntityID  AND 
+[RateChangeDate]=@RateChangeDate 
+";
+
+        public override void UpdateParameterMapping(SqlCommand sqlCommand, EmployeePayHistoryModel updated)
+        {
+            sqlCommand.Parameters.AddWithValue("@Rate", updated.Rate);
+            sqlCommand.Parameters.AddWithValue("@PayFrequency", updated.PayFrequency);
+            sqlCommand.Parameters.AddWithValue("@ModifiedDate", updated.ModifiedDate);
+        }
+
+        public override void UpdateWhereParameterMapping(SqlCommand sqlCommand, EmployeePayHistoryModel updated)
+        {
+            sqlCommand.Parameters.AddWithValue("@BusinessEntityID", updated.BusinessEntityID);
+            sqlCommand.Parameters.AddWithValue("@RateChangeDate", updated.RateChangeDate);
+        }
+
+        public override string DeleteQuery =>
+@"delete from
+    [HumanResources].[EmployeePayHistory]
+where
+[BusinessEntityID]=@BusinessEntityID  AND 
+[RateChangeDate]=@RateChangeDate 
+";
+
+        public override void DeleteWhereParameterMapping(SqlCommand sqlCommand, EmployeePayHistoryModel deleted)
+        {
+            sqlCommand.Parameters.AddWithValue("@BusinessEntityID", deleted.BusinessEntityID);
+            sqlCommand.Parameters.AddWithValue("@RateChangeDate", deleted.RateChangeDate);
+        }
+
+        public override string ByPrimaryWhereConditionWithArgs => 
+@"BusinessEntityID=@BusinessEntityID  AND 
+RateChangeDate=@RateChangeDate 
+";
+
+        public override void MapPrimaryParameters(EmployeePayHistoryModelPrimaryKey key, SqlCommand sqlCommand)
+        {
+            sqlCommand.Parameters.AddWithValue("@BusinessEntityID", key.BusinessEntityID);
+            sqlCommand.Parameters.AddWithValue("@RateChangeDate", key.RateChangeDate);
+
+        }
+
+    }
+}

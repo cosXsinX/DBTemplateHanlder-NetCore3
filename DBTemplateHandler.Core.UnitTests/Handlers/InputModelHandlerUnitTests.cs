@@ -25,7 +25,7 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
         [Test]
         public void ShouldReturnDatabaseNameAndTableName()
         {
-            var templateHandlerNew = new TemplateHandlerNew(null);
+            var templateHandlerNew = TemplateHandlerBuilder.Build(null);
             DatabaseNameDatabaseContextHandler databaseNameDatabaseContextHandler = new DatabaseNameDatabaseContextHandler(templateHandlerNew);
             TableNameTableContextHandler tableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
             string databaseName = "DatabaseName";

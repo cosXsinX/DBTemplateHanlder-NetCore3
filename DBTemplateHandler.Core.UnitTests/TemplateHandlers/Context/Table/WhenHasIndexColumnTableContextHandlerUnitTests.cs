@@ -15,8 +15,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var templateHandlerNew = new TemplateHandlerNew(null);
-            _tested = new WhenHasIndexColumnTableContextHandler(templateHandlerNew);
+            var templateHandler = TemplateHandlerBuilder.Build(null);
+            _tested = new WhenHasIndexColumnTableContextHandler(templateHandler);
         }
 
         [Test]

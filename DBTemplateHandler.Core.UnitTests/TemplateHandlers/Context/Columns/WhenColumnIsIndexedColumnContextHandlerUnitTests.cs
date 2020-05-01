@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _tested = new WhenColumnIsIndexedColumnContextHandler(new TemplateHandlerNew(null));
+            _tested = new WhenColumnIsIndexedColumnContextHandler(TemplateHandlerBuilder.Build(null));
         }
 
         [Test]

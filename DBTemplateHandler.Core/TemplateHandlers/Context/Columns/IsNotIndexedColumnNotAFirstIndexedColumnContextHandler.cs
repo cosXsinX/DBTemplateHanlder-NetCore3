@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsNotIndexedColumnNotAFirstIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public IsNotIndexedColumnNotAFirstIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsNotIndexedColumnNotAFirstIndexedColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:INDEXED:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

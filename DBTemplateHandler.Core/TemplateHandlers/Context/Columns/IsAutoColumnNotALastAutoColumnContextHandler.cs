@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsAutoColumnNotALastAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public IsAutoColumnNotALastAutoColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsAutoColumnNotALastAutoColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the inner context when the current column is not the last column from the iterated auto generated value column collection";
         public override string StartContext => "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(";

@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsIndexedColumnAFirstIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public IsIndexedColumnAFirstIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsIndexedColumnAFirstIndexedColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:INDEXED:FOREACH:CURRENT:IS:FIRST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

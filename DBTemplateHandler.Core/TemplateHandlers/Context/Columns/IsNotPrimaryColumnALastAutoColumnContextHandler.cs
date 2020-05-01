@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsNotPrimaryColumnALastAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public IsNotPrimaryColumnALastAutoColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsNotPrimaryColumnALastAutoColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

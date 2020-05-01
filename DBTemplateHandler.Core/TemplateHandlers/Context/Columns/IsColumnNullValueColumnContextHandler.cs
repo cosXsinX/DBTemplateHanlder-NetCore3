@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnNullValueColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public IsColumnNullValueColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsColumnNullValueColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL(";
         public override string EndContext => "):::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

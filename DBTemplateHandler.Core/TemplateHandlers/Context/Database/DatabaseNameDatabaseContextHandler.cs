@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public class DatabaseNameDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
     {
-        public DatabaseNameDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public DatabaseNameDatabaseContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:CURRENT:NAME"; }
         public override string EndContext { get => "::}"; }
         public override string ContextActionDescription => "Is replaced by the current database name";

@@ -49,24 +49,45 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         {
             if (typeMappings == null) return string.Empty;
             if (!typeMappings.Any()) return string.Empty;
-            var templateHandler = new TemplateHandlerNew(typeMappings);
+            var templateHandler = TemplateHandlerBuilder.Build(typeMappings);
             var preprocessor = new MappingDeclarePreprcessorContextHandler(templateHandler);
             return string.Join(Environment.NewLine, typeMappings.Select(preprocessor.ToContextString));
         }
 
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
-            var TemplateHandlerNew = new TemplateHandlerNew(null);
+            var TemplateHandlerNew = TemplateHandlerBuilder.Build(null);
             return TemplateHandlerNew.GetAllItemplateContextHandlerIdentity();
+        }
+
+        private void UpdateDatabaseTableParent(IDatabaseModel databaseModel)
+        {
+            var tables = databaseModel?.Tables?.ToList();
+            if (tables == null) return;
+            tables.ForEach(table =>
+            {
+                table.ParentDatabase = databaseModel;
+                UpdateTableColumnParent(table);
+            });
+        }
+
+        private void UpdateTableColumnParent(ITableModel tableModel)
+        {
+            var columns = tableModel?.Columns?.ToList();
+            if(columns != null)
+            {
+                columns.ForEach(column => column.ParentTable = tableModel);
+            }
         }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
             var typeMappings = input.typeMappings ?? new List<ITypeMapping>();
-            var TemplateHandlerNew = new TemplateHandlerNew(typeMappings);
+            var TemplateHandlerNew = TemplateHandlerBuilder.Build(typeMappings);
             var templatePreprocessor = new TemplatePreprocessor(TemplateHandlerNew, typeMappings);
             var templateModels = input.TemplateModels;
             templatePreprocessor.PreProcess(templateModels);
+            UpdateDatabaseTableParent(input.DatabaseModel);
             var result = templateModels.SelectMany(templateModel =>
                 GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel, TemplateHandlerNew)).Cast<IHandledTemplateResultModel>().ToList();
             return result;
@@ -78,7 +99,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         }
 
         private IEnumerable<HandledTemplateResultModel> GenerateDatabaseTemplateFiles
-            (ITemplateModel templateModel, IDatabaseModel databaseModel,TemplateHandlerNew templateHandlerNew)
+            (ITemplateModel templateModel, IDatabaseModel databaseModel,ITemplateHandler templateHandlerNew)
         {
             if (databaseModel == null) yield break;
             if (templateModel == null) yield break;

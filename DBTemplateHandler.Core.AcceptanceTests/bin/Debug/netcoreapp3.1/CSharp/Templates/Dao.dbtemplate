@@ -1,0 +1,117 @@
+﻿{:TDB:PREPROCESSOR:MAPPING:DECLARE(([->(C#)<-]<=>[[->(hierarchyid)<-]=>[->(Microsoft.SqlServer.Types.SqlHierarchyId)<-],
+[->(smallint)<-]=>[->(short)<-],
+[->(date)<-]=>[->(DateTime)<-],
+[->(geography)<-]=>[->(Microsoft.SqlServer.Types.SqlGeography)<-],
+[->(xml)<-]=>[->(System.Xml.XmlDocument)<-],
+[->(varchar)<-]=>[->(string)<-],
+[->(varbinary)<-]=>[->(byte[])<-],
+[->(uniqueidentifier)<-]=>[->(Guid)<-],
+[->(tinyint)<-]=>[->(byte)<-],
+[->(timestamp)<-]=>[->(byte)<-],
+[->(time)<-]=>[->(TimeSpan)<-],
+[->(sql_variant)<-]=>[->(object)<-],
+[->(smallmoney)<-]=>[->(decimal)<-],
+[->(smalldatetime)<-]=>[->(DateTime)<-],
+[->(rowversion)<-]=>[->(byte[])<-],
+[->(nvarchar)<-]=>[->(string)<-],
+[->(numeric)<-]=>[->(decimal)<-],
+[->(ntext)<-]=>[->(string)<-],
+[->(nchar)<-]=>[->(string)<-],
+[->(money)<-]=>[->(decimal)<-],
+[->(int)<-]=>[->(int)<-],
+[->(image)<-]=>[->(byte[])<-],
+[->(float)<-]=>[->(double)<-],
+[->(varbinary)<-]=>[->(byte[])<-],
+[->(decimal)<-]=>[->(decimal)<-],
+[->(datetimeoffset)<-]=>[->(DateTimeOffset)<-],
+[->(datetime)<-]=>[->(DateTime)<-],
+[->(char)<-]=>[->(string)<-],
+[->(bit)<-]=>[->(bool)<-],
+[->(binary)<-]=>[->(byte[])<-],
+[->(bigint)<-]=>[->(long)<-]
+]):PREPROCESSOR:}
+using System;
+using System.Data.SqlClient;
+using {:TDB:CURRENT:NAME::}.Models;
+
+namespace {:TDB:CURRENT:NAME::}.SqlServer.DataAccessObjects
+{
+    public class {:TDB:TABLE:CURRENT:NAME::}Dao : AbstractDaoWithPrimaryKey<{:TDB:TABLE:CURRENT:NAME::}Model,{:TDB:TABLE:CURRENT:NAME::}ModelPrimaryKey>
+    {
+        public override string SelectQuery => @"select 
+{:TDB:TABLE:COLUMN:FOREACH[             [{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(,):::}
+]::} from [{:TDB:TABLE:CURRENT:SCHEMA::}].[{:TDB:TABLE:CURRENT:NAME::}]";
+
+        protected override {:TDB:TABLE:CURRENT:NAME::}Model ToModel(SqlDataReader dataReader)
+        {
+            var result = new {:TDB:TABLE:CURRENT:NAME::}Model();
+{:TDB:TABLE:COLUMN:FOREACH[             result.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} = ({:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(C#)::}{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL(?):::})(dataReader["{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}"]{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL( is DBNull ? null : dataReader["{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}"] ):::});
+]::}            return result;
+        }
+        
+        public override string InsertQuery => @"Insert Into [{:TDB:TABLE:CURRENT:SCHEMA::}].[{:TDB:TABLE:CURRENT:NAME::}]
+(
+{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH[[{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(,):::}
+]::})
+{:TDB:TABLE:CURRENT:WHEN:HAS:AUTO(output 
+{:TDB:TABLE:COLUMN:AUTO:FOREACH[inserted.[{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(,):::}
+]::})::}
+VALUES
+(
+{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH[@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(,):::}
+]::})";
+
+        public override void InsertionGeneratedAutoIdMapping(object id, {:TDB:TABLE:CURRENT:NAME::}Model inserted)
+        {
+{:TDB:TABLE:COLUMN:AUTO:FOREACH[            inserted.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} = ({:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(C#)::})id;
+]::}        }
+
+        public override void InsertionParameterMapping(SqlCommand sqlCommand, {:TDB:TABLE:CURRENT:NAME::}Model inserted)
+        {
+{:TDB:TABLE:COLUMN:NOT:AUTO:FOREACH[            sqlCommand.Parameters.AddWithValue("@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}", inserted.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::});
+]::}
+        }
+
+        public override string UpdateQuery =>
+            @"Update [{:TDB:TABLE:CURRENT:SCHEMA::}].[{:TDB:TABLE:CURRENT:NAME::}]
+Set
+{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH[    [{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]=@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN(,):::}
+]::}
+Where
+{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[[{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]=@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} {:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN( AND ):::}
+]::}";
+
+        public override void UpdateParameterMapping(SqlCommand sqlCommand, {:TDB:TABLE:CURRENT:NAME::}Model updated)
+        {
+{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH[            sqlCommand.Parameters.AddWithValue("@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}", updated.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::});
+]::}        }
+
+        public override void UpdateWhereParameterMapping(SqlCommand sqlCommand, {:TDB:TABLE:CURRENT:NAME::}Model updated)
+        {
+{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[            sqlCommand.Parameters.AddWithValue("@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}", updated.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::});
+]::}        }
+
+        public override string DeleteQuery =>
+@"delete from
+    [{:TDB:TABLE:CURRENT:SCHEMA::}].[{:TDB:TABLE:CURRENT:NAME::}]
+where
+{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[[{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}]=@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} {:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN( AND ):::}
+]::}";
+
+        public override void DeleteWhereParameterMapping(SqlCommand sqlCommand, {:TDB:TABLE:CURRENT:NAME::}Model deleted)
+        {
+{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[            sqlCommand.Parameters.AddWithValue("@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}", deleted.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::});
+]::}        }
+
+        public override string ByPrimaryWhereConditionWithArgs => 
+@"{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}=@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} {:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:LAST:COLUMN( AND ):::}
+]::}";
+
+        public override void MapPrimaryParameters({:TDB:TABLE:CURRENT:NAME::}ModelPrimaryKey key, SqlCommand sqlCommand)
+        {
+{:TDB:TABLE:COLUMN:PRIMARY:FOREACH[            sqlCommand.Parameters.AddWithValue("@{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::}", key.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::});
+]::}
+        }
+
+    }
+}

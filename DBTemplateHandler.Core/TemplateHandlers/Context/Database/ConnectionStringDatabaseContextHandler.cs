@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public class ConnectionStringDatabaseContextHandler : AbstractDatabaseTemplateContextHandler
     {
-        public ConnectionStringDatabaseContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ConnectionStringDatabaseContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:CURRENT:CONNECTION:STRING"; }
         public override string EndContext { get => "::}"; }
         public override string ContextActionDescription => "Is replaced by the current database connection string";

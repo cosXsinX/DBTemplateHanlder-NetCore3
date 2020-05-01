@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class ForEachColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
-        public ForEachColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ForEachColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext  => "{:TDB:TABLE:COLUMN:FOREACH["; 
         public override string EndContext => "]::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
@@ -24,8 +24,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             StringBuilder stringBuilder = new StringBuilder();
             foreach (IColumnModel currentColumn in descriptionPojo.Columns)
             {
-                string treated = TemplateHandlerNew.HandleTableColumnTemplate(TrimedStringContext, currentColumn);
-                treated = TemplateHandlerNew.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn);
+                string treated = TemplateHandler.HandleTableColumnTemplate(TrimedStringContext, currentColumn);
+                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn);
                 stringBuilder.Append(treated);
             }
             return stringBuilder.ToString();

@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsPrimaryColumnNotAFirstAutoColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public IsPrimaryColumnNotAFirstAutoColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsPrimaryColumnNotAFirstAutoColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:NOT:FIRST:COLUMN("; }
         public override string EndContext { get => "):::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;

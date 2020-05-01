@@ -17,7 +17,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
         private readonly string destinationTypeStartContext;
         private readonly string destinationTypeEndContext;
 
-        public MappingDeclarePreprcessorContextHandler(TemplateHandlerNew templateHandlerNew) 
+        public MappingDeclarePreprcessorContextHandler(ITemplateHandler templateHandlerNew) 
             :base(templateHandlerNew)
         {
             sourceTypeStartContext = "[->(";
@@ -74,7 +74,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
             trimmedContextWithoutHeader = trimmedContextWithoutHeader.Substring(0, trimmedContextWithoutHeader.Length - 1);
             var items = ToTypeMappingItems(trimmedContextWithoutHeader).ToList();
             
-            TemplateHandlerNew.OverwriteTypeMapping(new[] { 
+            TemplateHandler.OverwriteTypeMapping(new[] { 
                 new TypeMapping() { 
                     SourceTypeSetName=DatabaseModel?.TypeSetName??"UnknownTypeSet" ,
                     DestinationTypeSetName = destinationTypeSetName,

@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 {
     public abstract class AbstractConstraintTemplateContextHandler : AbstractTemplateContextHandler, IColumnTemplateContextHandler
     {
-        public AbstractConstraintTemplateContextHandler(TemplateHandlerNew templateHandlerNew):base(templateHandlerNew)
+        public AbstractConstraintTemplateContextHandler(ITemplateHandler templateHandlerNew):base(templateHandlerNew)
         {
         }
 
@@ -17,13 +17,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
         public override string HandleTrimedContext(string StringTrimedContext)
         {
             if (StringTrimedContext == null) return null;
-            IForeignKeyConstraintModel columnModel = ForeignKeyConstraintModel;
-            if (columnModel == null) return StringTrimedContext;
+            IForeignKeyConstraintModel constraintModel = ForeignKeyConstraintModel;
+            if (constraintModel == null) return StringTrimedContext;
             //ITableModel tableModel = columnModel.ParentTable;
             //IDatabaseModel databaseModel = null;
             //if (tableModel != null)
             //    databaseModel = tableModel.ParentDatabase;
-            //return TemplateHandlerNew.
+            //return ITemplateHandler.
             //    HandleTemplate(StringTrimedContext, databaseModel,
             //            tableModel, columnModel);
             return StringTrimedContext;

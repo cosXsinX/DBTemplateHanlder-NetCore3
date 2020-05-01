@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class ForEachNotNullColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
-        public ForEachNotNullColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ForEachNotNullColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
 
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:NULL:FOREACH["; }
         public override string EndContext { get => "]::}"; }
@@ -29,9 +29,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
                 if (currentColumn.IsNotNull)
                 {
                     String treated =
-                            TemplateHandlerNew.HandleTableColumnTemplate
+                            TemplateHandler.HandleTableColumnTemplate
                                 (TrimedStringContext, currentColumn);
-                    treated = TemplateHandlerNew.
+                    treated = TemplateHandler.
                             HandleFunctionTemplate
                                             (treated, descriptionPojo.ParentDatabase,
                                                     descriptionPojo, currentColumn);

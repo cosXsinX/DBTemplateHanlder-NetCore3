@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnValueMaxSizeColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public ColumnValueMaxSizeColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ColumnValueMaxSizeColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:MAX:SIZE";
         public override string EndContext => "::}";
         public override string ContextActionDescription => "Is replaced by the current column value max/length size";

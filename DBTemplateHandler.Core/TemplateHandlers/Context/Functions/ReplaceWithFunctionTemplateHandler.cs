@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
     public class ReplaceWithFunctionTemplateHandler : AbstractFunctionTemplateContextHandler
     {
 
-        public ReplaceWithFunctionTemplateHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ReplaceWithFunctionTemplateHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:FUNCTION:REPLACE("; }
         public string WithSeparator { get => "<-:WITH:["; }
         public string BySeparator { get => "]:BY:["; }

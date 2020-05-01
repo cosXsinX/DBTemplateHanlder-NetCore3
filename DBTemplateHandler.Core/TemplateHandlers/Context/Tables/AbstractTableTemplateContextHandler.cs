@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public abstract class AbstractTableTemplateContextHandler : AbstractTemplateContextHandler, ITableTemplateContextHandler
     {
-        public AbstractTableTemplateContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public AbstractTableTemplateContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public ITableModel TableModel { get; set; }
 
         public override string HandleTrimedContext(string StringTrimedContext)
@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 		    ITableModel table = TableModel;
 		    if(table == null) return StringTrimedContext;
 		    IDatabaseModel database = table.ParentDatabase;
-		    return TemplateHandlerNew.
+		    return TemplateHandler.
                     HandleTemplate(StringTrimedContext, database,
                             table, null );
 	    }

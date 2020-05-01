@@ -40,7 +40,7 @@ namespace DBTemplateHandler.Ace.Editor.Tools.Core.Console
 
         private static BuildDBTemplateModeAction CreateBuildDBTemplateModeAction()
         {
-            var templateHandlerNew = new TemplateHandlerNew(null);
+            var templateHandlerNew = TemplateHandlerBuilder.Build(null);
             TemplateContextHandlerRegister register = new TemplateContextHandlerRegister(templateHandlerNew, null);
             var highLightRulesGenerator = new HighLightRulesGenerator(register);
             return new BuildDBTemplateModeAction(highLightRulesGenerator);

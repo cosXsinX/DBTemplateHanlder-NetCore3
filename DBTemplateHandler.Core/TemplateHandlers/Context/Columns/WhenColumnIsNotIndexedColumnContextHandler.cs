@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class WhenColumnIsNotIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public WhenColumnIsNotIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public WhenColumnIsNotIndexedColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:WHEN:IS:NOT:INDEXED(";
 
         public override string EndContext => ")::}";

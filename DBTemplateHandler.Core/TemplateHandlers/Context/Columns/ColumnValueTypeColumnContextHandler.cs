@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class ColumnValueTypeColumnContextHandler : AbstractColumnTemplateContextHandler
     {
         private ColumnValueTypeSemanticDefinition semanticDefinition = new ColumnValueTypeSemanticDefinition();
-        public ColumnValueTypeColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ColumnValueTypeColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => semanticDefinition.StartContext;
         public override string EndContext => semanticDefinition.EndContext;
         public override string ContextActionDescription => "Is replaced by the current column database model type";

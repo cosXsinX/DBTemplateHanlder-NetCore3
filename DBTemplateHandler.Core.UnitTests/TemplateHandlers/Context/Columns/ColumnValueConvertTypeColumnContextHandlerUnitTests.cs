@@ -1,5 +1,6 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
 using NUnit.Framework;
 using System;
@@ -62,7 +63,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
                     }
                 },
             };
-            _tested = new ColumnValueConvertTypeColumnContextHandler(new Core.TemplateHandlers.Handlers.TemplateHandlerNew(typeMappings),typeMappings); //Bad check how to make full IOC
+            _tested = new ColumnValueConvertTypeColumnContextHandler(TemplateHandlerBuilder.Build(typeMappings),typeMappings); //Bad check how to make full IOC
         }
 
         [Test]

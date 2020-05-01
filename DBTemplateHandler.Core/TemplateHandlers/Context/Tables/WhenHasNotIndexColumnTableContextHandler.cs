@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class WhenHasNotIndexColumnTableContextHandler : AbstractTableTemplateContextHandler
     {
-        public WhenHasNotIndexColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public WhenHasNotIndexColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:CURRENT:WHEN:HAS:NOT:INDEX(";
 
         public override string EndContext => ")::}";
@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             if ((table?.Columns ?? new List<IColumnModel>()).Any(m => m.IsIndexed))
                 return String.Empty;
             
-            var result = TemplateHandlerNew.
+            var result = TemplateHandler.
                             HandleFunctionTemplate
                                             (TrimedStringContext, TableModel.ParentDatabase,TableModel, null);
             return result;

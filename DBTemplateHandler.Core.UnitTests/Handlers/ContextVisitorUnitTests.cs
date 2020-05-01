@@ -11,14 +11,15 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
     [TestFixture]
     public class ContextVisitorUnitTests
     {
-        private TemplateHandlerNew templateHandlerNew;
+        private ITemplateHandler templateHandlerNew;
         private ContextVisitor<ITemplateContextHandler> _tested;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            templateHandlerNew = new TemplateHandlerNew(null);
-            ITemplateContextHandlerPackageProvider<ITemplateContextHandler> templateContextHandlerPackageProvider = new TemplateContextHandlerPackageProvider<ITemplateContextHandler>(templateHandlerNew,null);
+            templateHandlerNew = TemplateHandlerBuilder.Build(null);
+            ITemplateContextHandlerPackageProvider<ITemplateContextHandler> templateContextHandlerPackageProvider = 
+                new TemplateContextHandlerPackageProvider<ITemplateContextHandler>(templateHandlerNew,null);
             _tested = new ContextVisitor<ITemplateContextHandler>(templateContextHandlerPackageProvider);
 
         }

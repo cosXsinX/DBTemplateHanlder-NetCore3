@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class ForEachNotPrimaryKeyColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
-        public ForEachNotPrimaryKeyColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ForEachNotPrimaryKeyColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH["; }
         public override string EndContext { get => "]::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;
@@ -30,9 +30,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
                 if (!currentColumn.IsPrimaryKey)
                 {
                     String treated =
-                            TemplateHandlerNew.HandleTableColumnTemplate
+                            TemplateHandler.HandleTableColumnTemplate
                                 (TrimedStringContext, currentColumn);
-                    treated = TemplateHandlerNew.
+                    treated = TemplateHandler.
                             HandleFunctionTemplate
                                             (treated, descriptionPojo.ParentDatabase,
                                                     descriptionPojo, currentColumn);

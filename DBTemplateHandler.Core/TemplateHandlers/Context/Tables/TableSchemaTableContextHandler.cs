@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class TableSchemaTableContextHandler : AbstractTableTemplateContextHandler
     {
-        public TableSchemaTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public TableSchemaTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:CURRENT:SCHEMA"; }
         public override string EndContext { get => "::}"; }
 

@@ -5,13 +5,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public abstract class AbstractTemplateContextHandler : ITemplateContextHandler
     {
-        public AbstractTemplateContextHandler(TemplateHandlerNew templateHandlerNew)
+        public AbstractTemplateContextHandler(ITemplateHandler templateHandlerNew)
         {
             if (templateHandlerNew == null) throw new ArgumentNullException(nameof(templateHandlerNew));
-            TemplateHandlerNew = templateHandlerNew;
+            TemplateHandler = templateHandlerNew;
         }
 
-        protected TemplateHandlerNew TemplateHandlerNew { get; }
+        protected ITemplateHandler TemplateHandler { get; }
 
         public abstract string StartContext { get; }
 

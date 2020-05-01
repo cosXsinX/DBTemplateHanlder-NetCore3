@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsPrimaryColumnALastPrimaryColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public IsPrimaryColumnALastPrimaryColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsPrimaryColumnALastPrimaryColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:PRIMARY:FOREACH:CURRENT:IS:LAST:COLUMN("; }
         public override string EndContext { get => "):::}"; }
 

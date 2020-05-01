@@ -155,11 +155,25 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             for(int currentCharIndex = 0; currentCharIndex<templateContent.Length;currentCharIndex++ )
             {
                 var currentChar = templateContent[currentCharIndex];
+                var formerCharAggregation = currentCharAggregation;
                 currentCharAggregation = string.Concat(currentCharAggregation, currentChar);
                 if(!startContextDelimiterFilter.Contains(currentCharAggregation) && !endContextDelimiterFilter.Contains(currentCharAggregation))
                 {
                     currentCharAggregation = String.Empty;
-                    continue;
+                    if ((startContextDelimiterFilter.Contains($"{currentChar}"))|| (endContextDelimiterFilter.Contains($"{currentChar}")))
+                    {
+                        currentCharAggregation = string.Concat(currentCharAggregation, currentChar);
+                    }
+                    //TODO Manage this case specifically (index 1178)
+                    else if(formerCharAggregation != string.Empty && endContextDelimiterFilter.Contains($"{formerCharAggregation.First()}") 
+                        && endContextDelimiterFilter.Contains($"{string.Join("",formerCharAggregation.Skip(1))}{currentChar}"))
+                    {
+                        currentCharAggregation = $"{string.Join("", formerCharAggregation.Skip(1))}{currentChar}";
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
 
                 if ((startContextDelimiterFilter.Contains(currentCharAggregation) || endContextDelimiterFilter.Contains(currentCharAggregation)) 

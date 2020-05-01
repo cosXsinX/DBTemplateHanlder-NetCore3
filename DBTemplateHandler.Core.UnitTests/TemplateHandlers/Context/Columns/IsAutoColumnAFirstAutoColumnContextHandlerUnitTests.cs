@@ -1,4 +1,5 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
+using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _tested = new IsAutoColumnAFirstAutoColumnContextHandler(new Core.TemplateHandlers.Handlers.TemplateHandlerNew(null));
+            _tested = new IsAutoColumnAFirstAutoColumnContextHandler(TemplateHandlerBuilder.Build(null));
         }
 
         [Test]

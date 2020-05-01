@@ -11,7 +11,7 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
     {
         private TemplatePreprocessor _tested;
 
-        private TemplateHandlerNew _templateHandlerNew;
+        private ITemplateHandler _templateHandler;
 
         private IList<ITypeMapping> _typeMappings;
         
@@ -19,8 +19,8 @@ namespace DBTemplateHandler.Core.UnitTests.Handlers
         public void OneTimeSetUp()
         {
             _typeMappings = new List<ITypeMapping>();
-            _templateHandlerNew = new TemplateHandlerNew(_typeMappings);
-            _tested = new TemplatePreprocessor(_templateHandlerNew, _typeMappings);
+            _templateHandler = TemplateHandlerBuilder.Build(_typeMappings);
+            _tested = new TemplatePreprocessor(_templateHandler, _typeMappings);
         }
 
 

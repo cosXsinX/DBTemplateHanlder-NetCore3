@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class ForEachIndexedColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
 
-        public ForEachIndexedColumnTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ForEachIndexedColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:INDEXED:FOREACH["; }
         public override string EndContext { get => "]::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => false;
@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             var indexedColumns = table.Columns.Where(m => m.IsIndexed);
             var eachIndexedcolumnResult = indexedColumns
-                .Select(currentColumn => TemplateHandlerNew.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn));
+                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn));
             var result = string.Join(string.Empty, eachIndexedcolumnResult);
             return result;
         }

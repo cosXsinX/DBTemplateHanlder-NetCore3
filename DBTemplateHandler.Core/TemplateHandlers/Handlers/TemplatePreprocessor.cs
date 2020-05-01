@@ -12,7 +12,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateContextHandlerPackageProvider<AbstactPreprocessorContextHandler> preprocessorContextHandlerRegister;
         private readonly ContextVisitor<AbstactPreprocessorContextHandler> contextVisitor;
         
-        public TemplatePreprocessor(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
+        public TemplatePreprocessor(ITemplateHandler templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
             preprocessorContextHandlerRegister = new TemplateContextHandlerPackageProvider<AbstactPreprocessorContextHandler>(templateHandlerNew, typeMappings);
             contextVisitor = new ContextVisitor<AbstactPreprocessorContextHandler>(preprocessorContextHandlerRegister);

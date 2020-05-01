@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 {
     public abstract class AbstractLoopTableDatabaseTemplateContextHandler : AbstractDatabaseTemplateContextHandler
     {
-        public AbstractLoopTableDatabaseTemplateContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew)
+        public AbstractLoopTableDatabaseTemplateContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew)
         {
 
         }

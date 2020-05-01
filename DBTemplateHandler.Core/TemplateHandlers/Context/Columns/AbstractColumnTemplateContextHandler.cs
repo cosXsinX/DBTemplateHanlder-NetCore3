@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 {
     public abstract class AbstractColumnTemplateContextHandler : AbstractTemplateContextHandler, IColumnTemplateContextHandler
     {
-        public AbstractColumnTemplateContextHandler(TemplateHandlerNew templateHandlerNew):base(templateHandlerNew)
+        public AbstractColumnTemplateContextHandler(ITemplateHandler templateHandlerNew):base(templateHandlerNew)
         {
         }
 
@@ -23,7 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
             IDatabaseModel databaseModel = null;
             if (tableModel != null)
                 databaseModel = tableModel.ParentDatabase;
-            return TemplateHandlerNew.
+            return TemplateHandler.
                 HandleTemplate(StringTrimedContext, databaseModel,
                         tableModel, columnModel);
         }

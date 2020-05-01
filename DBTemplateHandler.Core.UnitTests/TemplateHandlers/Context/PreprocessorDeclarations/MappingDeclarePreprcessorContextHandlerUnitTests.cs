@@ -21,7 +21,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
         [TestCase(true)]
         public void ShouldReturnAccurateMapping(bool endItemEndWithComa)
         {
-            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(new TemplateHandlerNew(null));
+            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerBuilder.Build(null));
             var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE(
 [->({envB})<-]<=>[
 [->({envAType1})<-]=>[->({envBType1})<-],
@@ -52,7 +52,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
         [TestCase]
         public void ShouldOneLineDeclarationWork()
         {
-            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(new TemplateHandlerNew(null));
+            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerBuilder.Build(null));
             var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE([->({envB})<-]<=>[[->({envAType1})<-]=>[->({envBType1})<-]]):PREPROCESSOR:}}";
             var result = _tested.processContext(processed); Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
@@ -72,7 +72,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
         [TestCase]
         public void ShouldOneLineDeclarationWithTwoTypeMappingWork()
         {
-            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(new TemplateHandlerNew(null));
+            MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerBuilder.Build(null));
             var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE([->({envB})<-]<=>[[->({envAType1})<-]=>[->({envBType1})<-],[->({envAType2})<-]=>[->({envBType2})<-]]):PREPROCESSOR:}}";
             var result = _tested.processContext(processed); Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
@@ -95,11 +95,11 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
 
     public class MappingDeclarePreprcessorContextHandlerForTest : MappingDeclarePreprcessorContextHandler
     {
-        public MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerNew templateHandlerNew)
+        public MappingDeclarePreprcessorContextHandlerForTest(ITemplateHandler templateHandlerNew)
             : base(templateHandlerNew)
         {
         }
 
-        public new TemplateHandlerNew TemplateHandlerNew { get => base.TemplateHandlerNew; }
+        public new ITemplateHandler TemplateHandlerNew { get => base.TemplateHandler; }
     }
 }

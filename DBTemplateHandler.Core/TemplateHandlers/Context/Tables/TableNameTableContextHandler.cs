@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public class TableNameTableContextHandler : AbstractTableTemplateContextHandler
     {
 
-        public TableNameTableContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public TableNameTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:CURRENT:NAME"; }
         public override string EndContext { get => "::}"; }
 

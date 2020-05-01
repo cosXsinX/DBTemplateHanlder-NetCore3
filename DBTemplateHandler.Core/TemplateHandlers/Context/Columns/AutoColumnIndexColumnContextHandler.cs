@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class AutoColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public AutoColumnIndexColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public AutoColumnIndexColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
 
         public override string StartContext => "{:TDB:TABLE:COLUMN:AUTO:FOREACH:CURRENT:INDEX";
         public override string EndContext => "::}";

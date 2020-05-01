@@ -13,7 +13,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>
             templateContextHandlerProvider;
 
-        public TemplateValidator(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
+        public TemplateValidator(ITemplateHandler templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
             templateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler>(templateHandlerNew, typeMappings);
         }

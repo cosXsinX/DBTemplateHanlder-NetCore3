@@ -8,6 +8,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
     public abstract class AbstractLoopColumnTableTemplateContextHandler : AbstractTableTemplateContextHandler
     {
 
-        public AbstractLoopColumnTableTemplateContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public AbstractLoopColumnTableTemplateContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
     }
 }

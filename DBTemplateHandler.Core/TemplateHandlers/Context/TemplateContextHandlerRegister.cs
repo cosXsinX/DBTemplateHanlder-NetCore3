@@ -14,7 +14,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
     {
         private readonly IList<ITemplateContextHandler> _contextHandlers = new List<ITemplateContextHandler>(){ };
 
-        public TemplateContextHandlerRegister(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
+        public TemplateContextHandlerRegister(ITemplateHandler templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
             _contextHandlers =
             new List<ITemplateContextHandler>()

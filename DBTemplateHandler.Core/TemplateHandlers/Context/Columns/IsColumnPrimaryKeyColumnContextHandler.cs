@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class IsColumnPrimaryKeyColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public IsColumnPrimaryKeyColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsColumnPrimaryKeyColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:PRIMARY(";
         public override string EndContext=> ")KEY:PRIMARY:::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;

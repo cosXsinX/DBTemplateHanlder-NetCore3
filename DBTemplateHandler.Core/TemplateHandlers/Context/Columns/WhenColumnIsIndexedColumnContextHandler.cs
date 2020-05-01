@@ -7,7 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class WhenColumnIsIndexedColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public WhenColumnIsIndexedColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public WhenColumnIsIndexedColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:WHEN:IS:INDEXED(";
 
         public override string EndContext => ")::}";

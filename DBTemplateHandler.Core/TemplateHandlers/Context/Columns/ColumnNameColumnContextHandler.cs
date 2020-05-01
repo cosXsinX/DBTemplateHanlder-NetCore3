@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class ColumnNameColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public ColumnNameColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public ColumnNameColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME";
         public override string EndContext => "::}";
         public override string ContextActionDescription => "Is replaced by the current column name from the iteration";

@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnAFirstColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public IsColumnAFirstColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsColumnAFirstColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:FIRST:COLUMN(";
         public override string EndContext => "):::}";
         public override string ContextActionDescription => "Is replaced by empty value or by the inner context when the current column is the first column from the current table column collection";

@@ -14,8 +14,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var templateHandlerNew = new TemplateHandlerNew(null);
-            _tested = new IsColumnNullValueColumnContextHandler(templateHandlerNew);
+            var templateHandler = TemplateHandlerBuilder.Build(null);
+            _tested = new IsColumnNullValueColumnContextHandler(templateHandler);
         }
 
         [Test]

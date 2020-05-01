@@ -10,7 +10,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
     public class PrimaryColumnIndexColumnContextHandler : AbstractColumnTemplateContextHandler
     {
 
-        public PrimaryColumnIndexColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public PrimaryColumnIndexColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext { get => "{:TDB:TABLE:COLUMN:NOT:PRIMARY:FOREACH:CURRENT:INDEX"; }
         public override string EndContext { get => "::}"; }
         public override bool isStartContextAndEndContextAnEntireWord => true;

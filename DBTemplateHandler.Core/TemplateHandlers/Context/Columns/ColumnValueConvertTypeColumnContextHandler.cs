@@ -14,7 +14,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => ")::}";
         public override string ContextActionDescription => "Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)";
 
-        public ColumnValueConvertTypeColumnContextHandler(TemplateHandlerNew templateHandlerNew,IList<ITypeMapping> typeMappings):base(templateHandlerNew)
+        public ColumnValueConvertTypeColumnContextHandler(ITemplateHandler templateHandler,IList<ITypeMapping> typeMappings):base(templateHandler)
         {
 
         }
@@ -51,7 +51,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         private bool InitConversionHandlerMap()
         {
             if (DestinationTypeSets != null) return true;
-            conversionMap = ToConversionMap(TemplateHandlerNew.TypeMappings);
+            conversionMap = ToConversionMap(TemplateHandler.TypeMappings);
             DestinationTypeSets = new HashSet<string>(conversionMap.Keys.Select(m => m.DestinationTypeSet));
             return (DestinationTypeSets != null);
         }
@@ -73,7 +73,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (!DestinationTypeSets.Contains(TrimedStringContext.ToLowerInvariant())) return $"CONVERT:UNKNOWN({TrimedStringContext})";
             if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = ColumnModel.Type }, out var result))
             {
-                var processedResult = TemplateHandlerNew.HandleTableColumnTemplate(result, ColumnModel);
+                var processedResult = TemplateHandler.HandleTableColumnTemplate(result, ColumnModel);
                 return processedResult;
             }
              

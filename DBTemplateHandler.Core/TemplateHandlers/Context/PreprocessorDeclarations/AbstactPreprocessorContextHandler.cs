@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
     public abstract class AbstactPreprocessorContextHandler : AbstractTemplateContextHandler, IPreprocessorContextHandler
     {
         
-        public AbstactPreprocessorContextHandler(TemplateHandlerNew templateHandlerNew)
+        public AbstactPreprocessorContextHandler(ITemplateHandler templateHandlerNew)
             : base(templateHandlerNew)
         {
 

@@ -6,7 +6,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
     public abstract class AbstractFunctionTemplateContextHandler : AbstractTemplateContextHandler, IFunctionTemplateContextHandler
     {
-        public AbstractFunctionTemplateContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew){}
+        public AbstractFunctionTemplateContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew){}
 
         public IDatabaseModel DatabaseModel { get; set; }
         public ITableModel TableModel { get; set; }
@@ -16,7 +16,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         public override string HandleTrimedContext(string StringTrimedContext)
         {
 		    if(StringTrimedContext == null) return null;
-		    return TemplateHandlerNew.HandleTemplate(StringTrimedContext, 
+		    return TemplateHandler.HandleTemplate(StringTrimedContext, 
                 DatabaseModel, TableModel, ColumnModel);
         }
     }

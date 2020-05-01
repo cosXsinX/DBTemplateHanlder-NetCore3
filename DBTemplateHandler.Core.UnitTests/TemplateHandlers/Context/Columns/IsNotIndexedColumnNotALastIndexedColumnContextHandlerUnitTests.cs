@@ -15,7 +15,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _tested = new IsNotIndexedColumnNotALastIndexedColumnContextHandler(new TemplateHandlerNew(null));
+            _tested = new IsNotIndexedColumnNotALastIndexedColumnContextHandler(TemplateHandlerBuilder.Build(null));
         }
 
         [Test]

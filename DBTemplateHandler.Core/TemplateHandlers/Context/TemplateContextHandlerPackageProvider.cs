@@ -11,7 +11,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
     {
         private readonly TemplateContextHandlerRegister _register;
 
-        public TemplateContextHandlerPackageProvider(TemplateHandlerNew templateHandlerNew, IList<ITypeMapping> typeMappings)
+        public TemplateContextHandlerPackageProvider(ITemplateHandler templateHandlerNew, IList<ITypeMapping> typeMappings)
         {
             _register = new TemplateContextHandlerRegister(templateHandlerNew, typeMappings);
         }

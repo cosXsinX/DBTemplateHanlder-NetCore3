@@ -9,7 +9,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 {
     public class IsColumnNotPrimaryKeyColumnContextHandler : AbstractColumnTemplateContextHandler
     {
-        public IsColumnNotPrimaryKeyColumnContextHandler(TemplateHandlerNew templateHandlerNew) : base(templateHandlerNew) { }
+        public IsColumnNotPrimaryKeyColumnContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
         public override string StartContext => "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:KEY:NOT:PRIMARY(";
         public override string EndContext => ")KEY:NOT:PRIMARY:::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
