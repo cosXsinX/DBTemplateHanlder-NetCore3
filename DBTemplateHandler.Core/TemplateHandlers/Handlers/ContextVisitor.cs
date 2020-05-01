@@ -160,15 +160,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 if(!startContextDelimiterFilter.Contains(currentCharAggregation) && !endContextDelimiterFilter.Contains(currentCharAggregation))
                 {
                     currentCharAggregation = String.Empty;
-                    if ((startContextDelimiterFilter.Contains($"{currentChar}"))|| (endContextDelimiterFilter.Contains($"{currentChar}")))
-                    {
-                        currentCharAggregation = string.Concat(currentCharAggregation, currentChar);
-                    }
-                    //TODO Manage this case specifically (index 1178)
-                    else if(formerCharAggregation != string.Empty && endContextDelimiterFilter.Contains($"{formerCharAggregation.First()}") 
-                        && endContextDelimiterFilter.Contains($"{string.Join("",formerCharAggregation.Skip(1))}{currentChar}"))
+                    if (formerCharAggregation != string.Empty && endContextDelimiterFilter.Contains($"{formerCharAggregation.First()}")
+                        && endContextDelimiterFilter.Contains($"{string.Join("", formerCharAggregation.Skip(1))}{currentChar}"))
                     {
                         currentCharAggregation = $"{string.Join("", formerCharAggregation.Skip(1))}{currentChar}";
+                    }
+                    else if ((startContextDelimiterFilter.Contains($"{currentChar}"))|| (endContextDelimiterFilter.Contains($"{currentChar}")))
+                    {
+                        currentCharAggregation = string.Concat(currentCharAggregation, currentChar);
                     }
                     else
                     {

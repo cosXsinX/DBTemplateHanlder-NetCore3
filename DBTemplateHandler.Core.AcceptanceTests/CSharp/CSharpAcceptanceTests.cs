@@ -124,9 +124,12 @@ namespace DBTemplateHandler.Core.AcceptanceTests.CSharp
 [->(bit)<-]=>[->(bool)<-],
 [->(binary)<-]=>[->(byte[])<-],
 [->(bigint)<-]=>[->(long)<-]
-]):PREPROCESSOR:}var result = new {:TDB:TABLE:CURRENT:NAME::}Model();
-{:TDB:TABLE:COLUMN:FOREACH[             result.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} = ({:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(C#)::}{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL(?):::})(dataReader[""{:TDB: TABLE: COLUMN: FOREACH: CURRENT: NAME::}""]{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL( is DBNull ? null : dataReader[""{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}""]):::});
-]::}";
+]):PREPROCESSOR:}        protected override {:TDB:TABLE:CURRENT:NAME::}Model ToModel(SqlDataReader dataReader)
+        {
+            var result = new {:TDB:TABLE:CURRENT:NAME::}Model();
+{:TDB:TABLE:COLUMN:FOREACH[             result.{:TDB:FUNCTION:REPLACE({:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}<-:WITH:[ ]:BY:[])::} = ({:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(C#)::}{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL(?):::})(dataReader[""{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}""]{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:NULL( is DBNull ? null : dataReader[""{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}""]):::});
+]::}            return result;
+        }";
             var databaseModel = persistanceFacade.GetDatabaseModelByPersistenceName("OnlyEmployeePayHistorySqlServerDatabaseModel");
 
             IDatabaseTemplateHandlerInputModel input = new DatabaseTemplateHandlerInputModel()
@@ -147,16 +150,18 @@ namespace DBTemplateHandler.Core.AcceptanceTests.CSharp
             Assert.IsNotNull(result);
             CollectionAssert.IsNotEmpty(result);
             Assert.AreEqual(1, result.Count);
-            var expected = GetExpectedResultContent("EmployeePayHistoryDao.cs.expected");
-            var actual = @"var result = new EmployeePayHistoryModel();
+            var expected = @"        protected override EmployeePayHistoryModel ToModel(SqlDataReader dataReader)
+        {
+            var result = new EmployeePayHistoryModel();
              result.BusinessEntityID = (int)(dataReader[""BusinessEntityID""]);
              result.RateChangeDate = (DateTime)(dataReader[""RateChangeDate""]);
-            result.Rate = (decimal)(dataReader[""Rate""]);
-            result.PayFrequency = (byte)(dataReader[""PayFrequency""]);
-            result.ModifiedDate = (DateTime)(dataReader[""ModifiedDate""]);
-";
+             result.Rate = (decimal)(dataReader[""Rate""]);
+             result.PayFrequency = (byte)(dataReader[""PayFrequency""]);
+             result.ModifiedDate = (DateTime)(dataReader[""ModifiedDate""]);
+            return result;
+        }";
+            var actual = result.First().Content;
             Assert.AreEqual(expected, actual);
         }
-
     }
 }

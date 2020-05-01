@@ -13,7 +13,7 @@ using DBTemplateHandler.Service.Contracts.TypeMapping;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
-    public class TemplateHandlerNew
+    public class TemplateHandlerNew : ITemplateHandler
     {
         private readonly TemplateContextHandlerPackageProvider<AbstractTemplateContextHandler> 
             templateContextHandlerProvider;
