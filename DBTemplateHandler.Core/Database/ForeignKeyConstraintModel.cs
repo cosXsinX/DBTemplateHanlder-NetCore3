@@ -6,5 +6,6 @@ namespace DBTemplateHandler.Core.Database
     {
         public IList<IForeignKeyConstraintElementModel> Elements { get; set; }
         public string ConstraintName { get; set; }
+        public ITableModel ParentTable { get; set; }
     }
 }

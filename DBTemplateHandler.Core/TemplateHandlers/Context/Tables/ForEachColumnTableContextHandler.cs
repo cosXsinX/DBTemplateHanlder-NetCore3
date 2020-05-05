@@ -25,7 +25,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             foreach (IColumnModel currentColumn in descriptionPojo.Columns)
             {
                 string treated = TemplateHandler.HandleTableColumnTemplate(TrimedStringContext, currentColumn);
-                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn);
+                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo.ParentDatabase, descriptionPojo, currentColumn,null);
                 stringBuilder.Append(treated);
             }
             return stringBuilder.ToString();

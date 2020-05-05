@@ -29,7 +29,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
             {
                 string treated = TemplateHandler.
                         HandleTableTemplate(TrimedStringContext, currentColumn);
-                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo, currentColumn, null);
+                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo, currentColumn, null,null);
                 stringBuilder.Append(treated);
             }
             return stringBuilder.ToString();

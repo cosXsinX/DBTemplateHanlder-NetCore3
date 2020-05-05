@@ -1,5 +1,4 @@
-﻿using DBTemplateHandler.Core.Database;
-using DBTemplateHandler.Core.TemplateHandlers.Columns;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Context;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Functions;
@@ -12,13 +11,6 @@ using static DBTemplateHandler.Core.TemplateHandlers.Utilities.StringUtilities;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 {
-    public class ProcessorDatabaseContext
-    {
-        public IDatabaseModel Database { get; set; }
-        public ITableModel Table { get; set; }
-        public IColumnModel Column { get; set; }
-        public IForeignKeyConstraintModel ForeignKeyConstraint { get; set; }
-    }
 
     public class TemplateContextProcessor
     {
@@ -101,7 +93,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
                 throw new ArgumentException($"{nameof(startContextDelimiter)} cannot be null or white space");
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            //if (databaseContext.Database == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Database)} cannot be null");
             if (databaseContext.Table == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Table)} cannot be null");
 
             var databaseTemplateContextHandlerByStartContext = tableTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
@@ -118,8 +109,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
                 throw new ArgumentException($"{nameof(processed)}.{nameof(startContextDelimiter)} cannot be null or white space");
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            //if (databaseContext.Database == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Database)} cannot be null");
-            //if (databaseContext.Table == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Table)} cannot be null");
             if (databaseContext.Column == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Column)} cannot be null");
 
             var templateContextHandlerByStartContext = columnTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
@@ -136,9 +125,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
                 throw new ArgumentException($"{nameof(processed)}.{nameof(startContextDelimiter)} cannot be null or white space");
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            //if (databaseContext.Database == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Database)} cannot be null");
-            //if (databaseContext.Table == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Table)} cannot be null");
-            //if (databaseContext.Column == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Column)} cannot be null");
 
             var templateContextHandlerByStartContext = constraintTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!templateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
@@ -154,9 +140,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
                 throw new ArgumentException($"{nameof(processed)}.{nameof(startContextDelimiter)} cannot be null or white space");
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            //if (databaseContext.Database == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Database)} cannot be null");
-            //if (databaseContext.Table == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Table)} cannot be null");
-            //if (databaseContext.Column == null) throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Column)} cannot be null");
 
             var templateContextHandlerByStartContext = functionTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!templateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))

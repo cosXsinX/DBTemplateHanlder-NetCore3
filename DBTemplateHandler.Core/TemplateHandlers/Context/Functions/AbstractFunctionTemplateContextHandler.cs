@@ -17,7 +17,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         {
 		    if(StringTrimedContext == null) return null;
 		    return TemplateHandler.HandleTemplate(StringTrimedContext, 
-                DatabaseModel, TableModel, ColumnModel);
+                DatabaseModel, TableModel, ColumnModel,ConstraintModel);
         }
     }
 }

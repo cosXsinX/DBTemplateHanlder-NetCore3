@@ -33,7 +33,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             
             var result = TemplateHandler.
                             HandleFunctionTemplate
-                                            (TrimedStringContext, TableModel.ParentDatabase,TableModel, null);
+                                            (TrimedStringContext, TableModel.ParentDatabase,TableModel, null,null);
             return result;
         }
     }

@@ -134,7 +134,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                     Replace(columnTemplateFileNameWord, currentColumn.Name);
                         string handlerOutput = templateHandlerNew.HandleTemplate(
                                 templateFileContent,
-                                    databaseModel, currentTable, currentColumn);
+                                    databaseModel, currentTable, currentColumn,null);
                         string destinationFilePath = currentColumnReplacedDestinationRelativePath;
                         yield return new HandledTemplateResultModel()
                         {
@@ -158,7 +158,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                                         currentTable.Name);
                     string handlerOutput = templateHandlerNew.HandleTemplate(
                                 templateFileContent,
-                                    databaseModel, currentTable, null);
+                                    databaseModel, currentTable, null,null);
                     string destinationFilePath = currentTableReplacedDestinationRelativePath;
                     yield return new HandledTemplateResultModel()
                     {
@@ -176,7 +176,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
                 string handlerOutput = templateHandlerNew.HandleTemplate(
                             templateFileContent,
-                                databaseModel, null, null);
+                                databaseModel, null, null,null);
                 string destinationFilePath = currentDatabaseReplacedDestinationRelativePath;
                 yield return new HandledTemplateResultModel()
                 {

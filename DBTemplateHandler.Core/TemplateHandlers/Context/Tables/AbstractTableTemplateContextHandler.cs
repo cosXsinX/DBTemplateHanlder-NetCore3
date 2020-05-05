@@ -17,7 +17,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 		    IDatabaseModel database = table.ParentDatabase;
 		    return TemplateHandler.
                     HandleTemplate(StringTrimedContext, database,
-                            table, null );
+                            table, null,null);
 	    }
     }
 }

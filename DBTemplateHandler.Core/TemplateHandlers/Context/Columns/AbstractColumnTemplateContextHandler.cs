@@ -25,7 +25,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
                 databaseModel = tableModel.ParentDatabase;
             return TemplateHandler.
                 HandleTemplate(StringTrimedContext, databaseModel,
-                        tableModel, columnModel);
+                        tableModel, columnModel,null);
         }
 
         protected void ControlContext(string StringContext)

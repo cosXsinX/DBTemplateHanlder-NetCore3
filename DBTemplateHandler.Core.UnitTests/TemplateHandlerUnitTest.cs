@@ -462,7 +462,7 @@ namespace DBTemplateHandler.Core.UnitTests
             String submittedString = ForEachTableDatabaseContextHandler.StartContext +
                     TableNameTableContextHandler.Signature + "," +
                     ForEachTableDatabaseContextHandler.EndContext;
-            String result = TemplateHandlerNew.HandleTemplate(submittedString, _databaseDescriptionPojo, null, null);
+            String result = TemplateHandlerNew.HandleTemplate(submittedString, _databaseDescriptionPojo, null, null,null);
             String expectedResult = FIRST_TABLE_NAME + "," + SECOND_TABLE_NAME + ",";
             Assert.AreEqual(expectedResult, result);
         }
@@ -477,7 +477,7 @@ namespace DBTemplateHandler.Core.UnitTests
             String submittedString = FirstLetterToUpperCaseFunctionTemplateHandler.StartContext
                     + "hello" +
                     FirstLetterToUpperCaseFunctionTemplateHandler.EndContext;
-            String result = TemplateHandlerNew.HandleTemplate(submittedString, _databaseDescriptionPojo, null, null);
+            String result = TemplateHandlerNew.HandleTemplate(submittedString, _databaseDescriptionPojo, null, null,null);
             String expectedResult = "Hello";
             Assert.AreEqual(expectedResult, result);
         }

@@ -31,7 +31,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             var indexedColumns = table.Columns.Where(m => m.IsIndexed);
             var eachIndexedcolumnResult = indexedColumns
-                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn));
+                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn,null));
             var result = string.Join(string.Empty, eachIndexedcolumnResult);
             return result;
         }

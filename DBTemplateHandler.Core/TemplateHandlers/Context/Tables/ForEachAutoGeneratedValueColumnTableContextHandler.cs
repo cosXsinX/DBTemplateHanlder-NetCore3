@@ -35,7 +35,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
                     treated = TemplateHandler.
                             HandleFunctionTemplate
                                             (treated, descriptionPojo.ParentDatabase,
-                                                    descriptionPojo, currentColumn);
+                                                    descriptionPojo, currentColumn,null);
                     stringBuilder.Append(treated);
                 }
             }

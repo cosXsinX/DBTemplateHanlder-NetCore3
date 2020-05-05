@@ -16,7 +16,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
             IDatabaseModel database = DatabaseModel;
 		    if(database == null) return StringTrimedContext;
 		    return TemplateHandler.
-				    HandleTemplate(StringTrimedContext, database,null, null);
+				    HandleTemplate(StringTrimedContext, database,null, null,null);
         }
     }
 }
