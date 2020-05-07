@@ -35,7 +35,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(templateHandlerNew, typeMappings);
         }
 
-        public string ProcessTemplateContextComposite(TemplateContextComposite processed, ProcessorDatabaseContext databaseContext)
+        public string ProcessTemplateContextComposite(TemplateContextComposite processed, IDatabaseContext databaseContext)
         {
             if (processed.current.InnerContent == null)
                 throw new ArgumentException($"{nameof(processed)}.{nameof(processed.current)}.{nameof(processed.current.InnerContent)} cannot be null");
@@ -71,7 +71,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             };
         }
 
-        public string ProcessDatabaseTemplateContext(string processed,string startContextDelimiter, ProcessorDatabaseContext databaseContext)
+        public string ProcessDatabaseTemplateContext(string processed,string startContextDelimiter, IDatabaseContext databaseContext)
         {
             if (processed == null) throw new ArgumentNullException(nameof(processed));
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
@@ -87,7 +87,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return processedContext;
         }
 
-        public string ProcessTableTemplateContext(string processed, string startContextDelimiter, ProcessorDatabaseContext databaseContext)
+        public string ProcessTableTemplateContext(string processed, string startContextDelimiter, IDatabaseContext databaseContext)
         {
             if (processed == null) throw new ArgumentNullException(nameof(processed));
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
@@ -103,7 +103,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return processedContext;
         }
 
-        public string ProcessColumnTemplateContext(string processed, string startContextDelimiter, ProcessorDatabaseContext databaseContext)
+        public string ProcessColumnTemplateContext(string processed, string startContextDelimiter, IDatabaseContext databaseContext)
         {
             if (processed == null) throw new ArgumentNullException(nameof(processed));
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
@@ -119,7 +119,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return processedContext;
         }
 
-        public string ProcessConstraintTemplateContext(string processed, string startContextDelimiter, ProcessorDatabaseContext databaseContext)
+        public string ProcessConstraintTemplateContext(string processed, string startContextDelimiter, IDatabaseContext databaseContext)
         {
             if (processed == null) throw new ArgumentNullException(nameof(processed));
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
@@ -134,7 +134,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return processedContext;
         }
 
-        public string ProcessFunctionTemplateContext(string processed, string startContextDelimiter, ProcessorDatabaseContext databaseContext)
+        public string ProcessFunctionTemplateContext(string processed, string startContextDelimiter, IDatabaseContext databaseContext)
         {
             if (processed == null) throw new ArgumentNullException(nameof(processed));
             if (string.IsNullOrWhiteSpace(startContextDelimiter))
