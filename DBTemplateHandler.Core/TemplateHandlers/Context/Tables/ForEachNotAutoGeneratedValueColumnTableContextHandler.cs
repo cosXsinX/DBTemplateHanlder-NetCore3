@@ -14,8 +14,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not auto generated value column in the table";
 
-        public override string processContext(String StringContext)
+
+        public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
+        }
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             ITableModel table = TableModel;

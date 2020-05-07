@@ -30,5 +30,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 
         public abstract string PrepareProcessor(string TrimmedStringContext);
 
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            return processContext(StringContext);
+        }
     }
 }

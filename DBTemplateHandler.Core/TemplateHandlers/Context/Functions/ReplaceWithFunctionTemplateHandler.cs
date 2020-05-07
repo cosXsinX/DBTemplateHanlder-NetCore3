@@ -40,5 +40,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
             var result = handledResult?.Replace(replaced, replacement);
             return result;
         }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

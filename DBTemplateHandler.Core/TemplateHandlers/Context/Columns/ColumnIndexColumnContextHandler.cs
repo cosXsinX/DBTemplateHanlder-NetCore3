@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,13 +16,20 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public int DefaultIndex => 0;
         public override string ContextActionDescription => "Is replaced by the current column index in the current table column collection iterated";
         private string DefaultAutoIndexAsString => $"{DefaultIndex}";
+
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             base.ControlContext(StringContext);
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             base.ControlContextContent(TrimedStringContext);
             if (ColumnModel.ParentTable == null) return DefaultAutoIndexAsString;
-            IColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = databaseContext.Column;
             IList<IColumnModel> parentColumn = columnModel.ParentTable.Columns;
             if (parentColumn == null) return DefaultAutoIndexAsString;
             if (parentColumn.Any(m => columnModel == m)) return parentColumn.IndexOf(columnModel).ToString();

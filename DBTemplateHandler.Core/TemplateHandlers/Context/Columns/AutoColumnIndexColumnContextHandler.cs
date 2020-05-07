@@ -20,6 +20,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string ContextActionDescription => "Is replaced by the current auto generated value column index in the current table auto generated value column collection iterated";
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             base.ControlContext(StringContext);
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             base.ControlContextContent(TrimedStringContext);

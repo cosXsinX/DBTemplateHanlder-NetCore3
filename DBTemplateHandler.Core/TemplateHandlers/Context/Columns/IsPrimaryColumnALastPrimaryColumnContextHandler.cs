@@ -19,7 +19,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
+        }
 
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             IColumnModel descriptionPojo = ColumnModel;
@@ -33,7 +38,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
             IColumnModel currentLastAutoColumn = null;
-            foreach(IColumnModel currentColumn in columnList)
+            foreach (IColumnModel currentColumn in columnList)
             {
                 if (currentColumn.IsPrimaryKey)
                 {
@@ -44,7 +49,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (!currentLastAutoColumn.Equals(descriptionPojo)) return "";
             return HandleTrimedContext(TrimedStringContext);
         }
-
-
     }
 }

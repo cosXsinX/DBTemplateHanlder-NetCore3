@@ -16,11 +16,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not indexed column in the table";
 
+
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
+        }
+        public override string ProcessContext(String StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ITableModel table = TableModel;
+            ITableModel table = databaseContext.Table;
             if (table == null)
                 throw new Exception($"The {nameof(TableModel)} is not set");
             if (table.Columns == null)

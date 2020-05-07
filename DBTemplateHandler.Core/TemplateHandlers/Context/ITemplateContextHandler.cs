@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using System;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
@@ -18,6 +19,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         string TrimContextFromContextWrapper(string stringContext);
 
         string processContext(string StringContext);
+
+        string ProcessContext(string StringContext, IDatabaseContext databaseContext);
 
         string HandleTrimedContext(string StringTrimedContext);
     }

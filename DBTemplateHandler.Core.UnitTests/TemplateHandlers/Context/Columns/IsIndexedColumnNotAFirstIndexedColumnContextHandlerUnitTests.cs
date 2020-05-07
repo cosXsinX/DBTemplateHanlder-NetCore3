@@ -37,6 +37,12 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         }
 
         [Test]
+        public void ShouldThrowAnArgumentNullExceptionWhenDatabaseContextIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _tested.ProcessContext("Hello world", null));
+        }
+
+        [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelIsNull()
         {
             _tested.ColumnModel = null;

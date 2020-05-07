@@ -58,9 +58,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel descriptionPojo = ColumnModel;
+            IColumnModel descriptionPojo = databaseContext.Column;
             if (descriptionPojo == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
@@ -76,7 +82,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                 var processedResult = TemplateHandler.HandleTableColumnTemplate(result, ColumnModel);
                 return processedResult;
             }
-             
+
             return ColumnModel.Type;
         }
 

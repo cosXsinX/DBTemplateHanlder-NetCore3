@@ -20,6 +20,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public static readonly string ZeroIndexAsString = Convert.ToString(0);
         public override string processContext(String StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             IColumnModel columnModel = ColumnModel;
@@ -49,8 +55,5 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             }
             return ZeroIndexAsString;
         }
-
-
-
     }
 }

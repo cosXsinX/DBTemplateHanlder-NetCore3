@@ -18,6 +18,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
+        }
+
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             ITableModel table = TableModel;
@@ -31,7 +38,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             var indexedColumns = table.Columns.Where(m => m.IsIndexed);
             var eachIndexedcolumnResult = indexedColumns
-                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn,null));
+                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase, table, currentColumn, null));
             var result = string.Join(string.Empty, eachIndexedcolumnResult);
             return result;
         }

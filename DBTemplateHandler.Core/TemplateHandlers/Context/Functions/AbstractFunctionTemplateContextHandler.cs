@@ -19,5 +19,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 		    return TemplateHandler.HandleTemplate(StringTrimedContext, 
                 DatabaseModel, TableModel, ColumnModel,ConstraintModel);
         }
+
+        public string processContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            return ProcessContext(StringContext, 
+                new ProcessorDatabaseContext() {
+                    Column = ColumnModel, 
+                    Database = DatabaseModel, 
+                    ForeignKeyConstraint = ConstraintModel, 
+                    Table = TableModel });
+        }
     }
 }

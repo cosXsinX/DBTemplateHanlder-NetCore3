@@ -16,6 +16,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
+        }
+
+        public override string ProcessContext(String StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             ITableModel descriptionPojo = TableModel;

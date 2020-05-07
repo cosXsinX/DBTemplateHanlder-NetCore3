@@ -15,9 +15,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override string ContextActionDescription => "Is replaced by the current table name";
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
+        }
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            ITableModel table = TableModel;
+            ITableModel table = databaseContext.Table;
             if (table == null)
                 throw new Exception($"The {nameof(TableModel)} is not set");
 

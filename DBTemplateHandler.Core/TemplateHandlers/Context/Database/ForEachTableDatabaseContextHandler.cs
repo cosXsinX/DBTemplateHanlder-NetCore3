@@ -17,24 +17,28 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Database
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Database = DatabaseModel });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            IDatabaseModel descriptionPojo = DatabaseModel;
+            IDatabaseModel descriptionPojo = databaseContext.Database;
             if (descriptionPojo == null)
                 throw new Exception($"The {nameof(DatabaseModel)} is not set");
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(ITableModel currentColumn in descriptionPojo.Tables)
+            foreach (ITableModel currentColumn in descriptionPojo.Tables)
             {
                 string treated = TemplateHandler.
                         HandleTableTemplate(TrimedStringContext, currentColumn);
-                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo, currentColumn, null,null);
+                treated = TemplateHandler.HandleFunctionTemplate(treated, descriptionPojo, currentColumn, null, null);
                 stringBuilder.Append(treated);
             }
             return stringBuilder.ToString();
         }
-
-
     }
 }

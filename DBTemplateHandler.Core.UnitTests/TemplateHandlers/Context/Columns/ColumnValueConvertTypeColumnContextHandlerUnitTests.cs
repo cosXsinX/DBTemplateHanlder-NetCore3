@@ -14,6 +14,38 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         private ColumnValueConvertTypeColumnContextHandler _tested;
         private ColumnValueTypeSemanticDefinition columnValueTypeColumnContextHandler;
 
+
+        [Test]
+        public void ShouldReturnAccurateStartContextValue()
+        {
+            Assert.AreEqual("{:TDB:TABLE:COLUMN:FOREACH:CURRENT:CONVERT:TYPE(", _tested.StartContext);
+        }
+
+        [Test]
+        public void ShouldReturnAccurateEndContextValue()
+        {
+            Assert.AreEqual(")::}", _tested.EndContext);
+        }
+
+        [Test]
+        public void isStartContextAndEndContextAnEntireWordShouldReturnFalse()
+        {
+            Assert.IsFalse(_tested.isStartContextAndEndContextAnEntireWord);
+        }
+
+        [Test]
+        public void ShouldReturnAccurateContextActionDescription()
+        {
+            Assert.AreEqual("Is replaced by the specified language current column value type conversion (ex: Java, CSharp, ...)", _tested.ContextActionDescription);
+        }
+
+
+        [Test]
+        public void ShouldThrowAnArgumentNullExceptionWhenDatabaseContextIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _tested.ProcessContext("Hello world", null));
+        }
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {

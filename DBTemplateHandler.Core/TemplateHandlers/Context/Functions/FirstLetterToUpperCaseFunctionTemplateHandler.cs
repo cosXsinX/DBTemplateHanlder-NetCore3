@@ -1,7 +1,5 @@
 ﻿using DBTemplateHandler.Core.TemplateHandlers.Handlers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 {
@@ -16,17 +14,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
 
         public override string processContext(string StringContext)
         {
+            return ProcessContext(StringContext, new ProcessorDatabaseContext() { });
+        }
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext)); 
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            String TrimedStringContext =
+            string TrimedStringContext =
                     TrimContextFromContextWrapper(StringContext);
             TrimedStringContext = HandleTrimedContext(TrimedStringContext);
             //Function performed operation
             if (TrimedStringContext.Equals("")) return TrimedStringContext;
-            String s1 = TrimedStringContext.Substring(0, 1).ToUpper();
+            string s1 = TrimedStringContext.Substring(0, 1).ToUpper();
             return s1 + TrimedStringContext.Substring(1);
         }
-
-
     }
 }

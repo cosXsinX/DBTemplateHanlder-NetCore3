@@ -47,5 +47,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         public abstract string processContext(string StringContext);
 
         public abstract string HandleTrimedContext(string StringTrimedContext);
+
+        public abstract string ProcessContext(string StringContext, IDatabaseContext databaseContext);
     }
 }
