@@ -18,29 +18,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public const int ZeroIndex = 0;
         public readonly static string ZeroIndexAsString = Convert.ToString(ZeroIndex);
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }
 
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
-            if (columnModel == null)
-                throw new Exception($"The {nameof(ColumnModel)} is not set");
+            ControlContext(StringContext, databaseContext);
+            IColumnModel columnModel = databaseContext.Column;
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (!TrimedStringContext.Equals(""))
                 throw new Exception($"There is a problem with the provided StringContext :'{StringContext}' to the suited word '{Signature}'");
-            if (columnModel.ParentTable == null)
+            if (databaseContext.Table == null)
                 return ZeroIndexAsString;
             int currentIndex = ZeroIndex;
             int currentAutoIndex = ZeroIndex;
             IList<IColumnModel> columnList =
-                    columnModel.ParentTable.Columns;
+                    databaseContext.Table.Columns;
             for (currentIndex = 0; currentIndex < columnList.Count; currentIndex++)
             {
                 IColumnModel currentColumn = columnList[currentIndex];

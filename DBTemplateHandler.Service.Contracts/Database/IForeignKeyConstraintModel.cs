@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DBTemplateHandler.Core.Database
 {
@@ -6,6 +7,7 @@ namespace DBTemplateHandler.Core.Database
     {
         public string ConstraintName { get; set; }
         public IList<IForeignKeyConstraintElementModel> Elements { get; set; }
+        [Obsolete]
         public ITableModel ParentTable { get; set; }
     }
 }

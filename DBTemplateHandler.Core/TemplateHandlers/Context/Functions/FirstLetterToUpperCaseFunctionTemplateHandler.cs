@@ -12,23 +12,18 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context with the first letter of intern context Uppercased";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext)); 
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ControlContext(StringContext, databaseContext);
             string TrimedStringContext =
                     TrimContextFromContextWrapper(StringContext);
-            TrimedStringContext = HandleTrimedContext(TrimedStringContext);
+            TrimedStringContext = HandleTrimedContext(TrimedStringContext,databaseContext);
             //Function performed operation
             if (TrimedStringContext.Equals("")) return TrimedStringContext;
             string s1 = TrimedStringContext.Substring(0, 1).ToUpper();
             return s1 + TrimedStringContext.Substring(1);
         }
+
+       
     }
 }

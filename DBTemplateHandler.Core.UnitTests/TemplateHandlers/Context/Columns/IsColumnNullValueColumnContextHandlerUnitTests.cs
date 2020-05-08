@@ -21,16 +21,18 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            string StringContext = null;
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } })
+                , $"The provided {nameof(StringContext)} is null");
         }
 
         [Test]
         public void ShouldThrowANExceptionWhenColumnModelIsNull()
         {
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<ArgumentException>(() =>
             {
-                _tested.ColumnModel = null;
-                _tested.processContext("Hello World !");
+                var databaseContext = new ProcessorDatabaseContext() { Column = null };
+                _tested.ProcessContext("Hello World !",databaseContext);
             });
         }
 
@@ -38,22 +40,28 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         public void ShouldReturnContextContentWhenColumnIsNullable()
         {
             string expectedContent = "Should be present in output";
-            _tested.ColumnModel = new ColumnModelForTest()
+            var databaseContext = new ProcessorDatabaseContext()
             {
-                IsNotNull = false,
+                Column = new ColumnModelForTest()
+                {
+                    IsNotNull = false,
+                }
             };
-            var result = _tested.processContext($"{_tested.StartContext}{expectedContent}{_tested.EndContext}");
+            var result = _tested.ProcessContext($"{_tested.StartContext}{expectedContent}{_tested.EndContext}",databaseContext);
             Assert.AreEqual(expectedContent, result);
         }
 
         [Test]
         public void ShouldReturnEmptyStringWhenColumnIsNotNullable()
         {
-            _tested.ColumnModel = new ColumnModelForTest()
+            var databaseContext = new ProcessorDatabaseContext()
             {
-                IsNotNull = true,
+                Column = new ColumnModelForTest()
+                {
+                    IsNotNull = true,
+                }
             };
-            var result = _tested.processContext($"{_tested.StartContext}Should not be present in outpur{_tested.EndContext}");
+            var result = _tested.ProcessContext($"{_tested.StartContext}Should not be present in outpur{_tested.EndContext}",databaseContext);
             Assert.AreEqual(String.Empty, result);
         }
     }

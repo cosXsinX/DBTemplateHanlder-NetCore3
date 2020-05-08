@@ -12,28 +12,21 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
         {
         }
 
-        public IForeignKeyConstraintModel ForeignKeyConstraintModel{get;set;}
 
-        public override string HandleTrimedContext(string StringTrimedContext)
+        public override string HandleTrimedContext(string StringTrimedContext,IDatabaseContext databaseContext)
         {
             if (StringTrimedContext == null) return null;
-            IForeignKeyConstraintModel constraintModel = ForeignKeyConstraintModel;
-            if (constraintModel == null) return StringTrimedContext;
-            ITableModel tableModel = constraintModel.ParentTable;
-            IDatabaseModel databaseModel = null;
-            if (tableModel != null)
-                databaseModel = tableModel.ParentDatabase;
-            return TemplateHandler.
-                HandleTemplate(StringTrimedContext, databaseModel,
-                        tableModel, null,ForeignKeyConstraintModel);
+            IForeignKeyConstraintModel constraint = databaseContext.ForeignKeyConstraint;
+            if (constraint == null) return StringTrimedContext; //TODO Strange
+            return TemplateHandler.HandleTemplate(StringTrimedContext, databaseContext);
         }
 
-        protected void ControlContext(string StringContext)
+        protected override void ControlContext(string StringContext,IDatabaseContext databaseContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            if (ForeignKeyConstraintModel == null)
-                throw new Exception($"The {nameof(ForeignKeyConstraintModel)} is not set");
+            if (databaseContext.ForeignKeyConstraint == null)
+                throw new Exception($"The {nameof(databaseContext.ForeignKeyConstraint)} is not set");
         }
 
         protected void ControlContextContent(string ContextContent)

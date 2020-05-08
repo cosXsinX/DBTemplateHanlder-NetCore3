@@ -1,4 +1,6 @@
-﻿namespace DBTemplateHandler.Core.Database
+﻿using System;
+
+namespace DBTemplateHandler.Core.Database
 {
     public interface IColumnModel
     {
@@ -9,6 +11,7 @@
         string Name { get; set; }
         string Type { get; set; }
         int ValueMaxSize { get; set; }
+        [Obsolete]
         public ITableModel ParentTable { get; set; }
     }
 }

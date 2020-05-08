@@ -16,23 +16,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
 
         public override string ContextActionDescription => "Is replaced by the inner content when current column is indexed, instead it will be replaced by an empty string";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }   
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ControlContext(StringContext, databaseContext);
             IColumnModel columnModel = databaseContext.Column;
-            if (columnModel == null)
-                throw new Exception($"The {nameof(ColumnModel)} is not set");
-
             if (!columnModel.IsIndexed) return string.Empty;
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            return HandleTrimedContext(TrimedStringContext);
+            return HandleTrimedContext(TrimedStringContext,databaseContext);
         }
     }
 }

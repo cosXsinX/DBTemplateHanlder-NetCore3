@@ -13,14 +13,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string ContextActionDescription => "Is replaced by the current column name from the iteration";
         public override bool isStartContextAndEndContextAnEntireWord => true;
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext()
-            {
-                Column = ColumnModel
-            }); 
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));

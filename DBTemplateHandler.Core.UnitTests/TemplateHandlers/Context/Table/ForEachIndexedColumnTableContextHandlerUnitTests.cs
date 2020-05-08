@@ -48,17 +48,17 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         [Test]
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            string StringContext = null;
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = new TableModelForTest() { } })
+                , $"The provided {nameof(StringContext)} is null");
         }
 
         [Test]
         public void ShouldThrowANExceptionWhenTableModelIsNull()
         {
-            Assert.Throws<Exception>(() =>
-            {
-                _tested.TableModel = null;
-                _tested.processContext("Hello World !");
-            });
+            string StringContext = "Hello World !";
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext,
+                new ProcessorDatabaseContext() { Table = null }));
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.TableModel = new TableModel() { Columns = null };
-                _tested.processContext("Hello World !");
+                var databaseContext = new ProcessorDatabaseContext() { Table = new TableModel() { Columns = null } };
+                _tested.ProcessContext("Hello World !", databaseContext);
             });
         }
 
@@ -76,8 +76,9 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.TableModel = new TableModel() { Columns = new List<IColumnModel>() { new ColumnModelForTest() { }, null } };
-                _tested.processContext("Hello World !");
+                var databaseContext = new ProcessorDatabaseContext() { Table = 
+                    new TableModel() { Columns = new List<IColumnModel>() { new ColumnModelForTest() { }, null } } };
+                _tested.ProcessContext("Hello World !", databaseContext);
             });
         }
 
@@ -85,9 +86,11 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         public void ShouldReturnEmptyStringWhenThereIsNoColumnModelWhichAreIndexed()
         {
             var columns = Enumerable.Repeat(1,10).Select((_,i)=> new ColumnModelForTest() { Name = $"Column {i}",IsIndexed = false}).Cast<IColumnModel>().ToList();
-            _tested.TableModel = new TableModelForTest() { Columns = columns };
+            var databaseContext = new ProcessorDatabaseContext() { Table =
+                    new TableModelForTest() { Columns = columns }
+            };
             var containedContent = "Hello World !";
-            var actualResult = _tested.processContext($"{_tested.StartContext}{containedContent}{_tested.EndContext}");
+            var actualResult = _tested.ProcessContext($"{_tested.StartContext}{containedContent}{_tested.EndContext}", databaseContext);
             var expectedResult = string.Empty;
             Assert.AreEqual(expectedResult, actualResult);
         }
@@ -97,9 +100,13 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         {
             var indexedColumnNumber = 10;
             var columns = Enumerable.Repeat(1, indexedColumnNumber).Select((_, i) => new ColumnModelForTest() { Name = $"Column {i}", IsIndexed = true }).Cast<IColumnModel>().ToList();
-            _tested.TableModel = new TableModelForTest() { Columns = columns };
+            var databaseContext = new ProcessorDatabaseContext()
+            {
+                Table =
+                    new TableModelForTest() { Columns = columns }
+            };
             var containedContent = "Hello World !";
-            var actualResult = _tested.processContext($"{_tested.StartContext}{containedContent}{_tested.EndContext}");
+            var actualResult = _tested.ProcessContext($"{_tested.StartContext}{containedContent}{_tested.EndContext}", databaseContext);
             var expectedResult = string.Join(string.Empty,Enumerable.Repeat(containedContent,indexedColumnNumber));
             Assert.AreEqual(expectedResult, actualResult);
         }
@@ -109,8 +116,12 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Table
         {
             var indexedColumnNumber = 10;
             var columns = Enumerable.Repeat(1, indexedColumnNumber).Select((_, i) => new ColumnModelForTest() { Name = $"Column {i}", IsIndexed = true }).Cast<IColumnModel>().ToList();
-            _tested.TableModel = new TableModelForTest() { Columns = columns };
-            var actualResult = _tested.processContext($"{_tested.StartContext}{{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}}{_tested.EndContext}");
+            var databaseContext = new ProcessorDatabaseContext()
+            {
+                Table =
+                    new TableModelForTest() { Columns = columns }
+            }; 
+            var actualResult = _tested.ProcessContext($"{_tested.StartContext}{{:TDB:TABLE:COLUMN:FOREACH:CURRENT:NAME::}}{_tested.EndContext}",databaseContext);
             var expectedResult = string.Join(string.Empty, columns.Select(m => m.Name));
             Assert.AreEqual(expectedResult, actualResult);
         }

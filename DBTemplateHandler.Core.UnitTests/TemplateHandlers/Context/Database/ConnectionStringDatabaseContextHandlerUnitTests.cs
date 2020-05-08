@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Core.UnitTests.ModelImplementation;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Database
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
             string StringContext = null;
-            Assert.Throws<Exception>(() => _tested.processContext(StringContext), $"The provided {nameof(StringContext)} is null");
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, new ProcessorDatabaseContext() { Database = new DatabaseModelForTest() { } })
+                , $"The provided {nameof(StringContext)} is null");
         }
 
         [Test]
@@ -31,9 +33,9 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Database
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.DatabaseModel = null;
-                _tested.processContext("Hello World !");
-            }, $"The {nameof(_tested.DatabaseModel)} is not set");
+                var databaseContext = new ProcessorDatabaseContext() { Database = null };
+                _tested.ProcessContext("Hello World !", databaseContext);
+            }, $"The {nameof(IDatabaseContext.Database)} is not set");
         }
 
         [Test]
@@ -43,8 +45,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Database
             string StringContext = $"{_tested.StartContext}I Should not be here{_tested.EndContext}";
             Assert.Throws<Exception>(() =>
             {
-                _tested.DatabaseModel = new DatabaseModelForTest() { Name = expectedDatabaseName };
-                _tested.processContext(StringContext);
+                var databaseContext = new ProcessorDatabaseContext() { Database = new DatabaseModelForTest() { ConnectionString = expectedDatabaseName } };
+                _tested.ProcessContext(StringContext, databaseContext);
             }, "Exception control no more satified : Expected exception message There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + _tested.Signature + "'");
         }
 
@@ -54,18 +56,9 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Database
             string expectedDatabaseName = "ExpectedDatabaseName";
             string StringContext = _tested.Signature;
             string expected = StringContext.Replace(_tested.Signature, expectedDatabaseName);
-            _tested.DatabaseModel = new DatabaseModelForTest() { ConnectionString = expectedDatabaseName };
-            var actual = _tested.processContext(StringContext);
+            var databaseContext = new ProcessorDatabaseContext() { Database = new DatabaseModelForTest() { ConnectionString = expectedDatabaseName } };
+            var actual = _tested.ProcessContext(StringContext, databaseContext);
             Assert.AreEqual(expected, actual);
-        }
-
-
-        public class DatabaseModelForTest : IDatabaseModel
-        {
-            public string TypeSetName { get; set; }
-            public string Name { get; set; }
-            public IList<ITableModel> Tables { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-            public string ConnectionString { get; set; }
         }
     }
 }

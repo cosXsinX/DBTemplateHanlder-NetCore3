@@ -5,13 +5,17 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
 {
     public abstract class AbstractTemplateContextHandler : ITemplateContextHandler
     {
+        
         public AbstractTemplateContextHandler(ITemplateHandler templateHandlerNew)
         {
             if (templateHandlerNew == null) throw new ArgumentNullException(nameof(templateHandlerNew));
             TemplateHandler = templateHandlerNew;
+            DatabaseContextCopier = new DatabaseContextCopier(); //TODO bad architecture to be solved with IOC
         }
 
         protected ITemplateHandler TemplateHandler { get; }
+
+        protected IDatabaseContextCopier DatabaseContextCopier { get; }
 
         public abstract string StartContext { get; }
 
@@ -44,10 +48,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
             return result;
         }
 
-        public abstract string processContext(string StringContext);
-
-        public abstract string HandleTrimedContext(string StringTrimedContext);
+        public abstract string HandleTrimedContext(string StringTrimedContext, IDatabaseContext databaseContext);
 
         public abstract string ProcessContext(string StringContext, IDatabaseContext databaseContext);
+
+        protected abstract void ControlContext(string StringContext, IDatabaseContext databaseContext);
     }
 }

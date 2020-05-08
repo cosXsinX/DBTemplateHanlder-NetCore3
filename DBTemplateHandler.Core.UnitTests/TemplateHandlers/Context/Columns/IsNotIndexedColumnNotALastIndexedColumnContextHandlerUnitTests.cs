@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Core.UnitTests.ModelImplementation;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -33,73 +34,86 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            Assert.Throws<Exception>(() => _tested.ProcessContext(null,
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelIsNull()
         {
-            _tested.ColumnModel = null;
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<ArgumentException>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = null }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelHasSetParentTableToNull()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = null};
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { }, Table = null }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnsAreNotSetInColumnModelParentTable()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() { Columns = null } };
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { }, Table = new TableModelForTest() { Columns = null } }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnsInColumnModelParentTableIsAnEmptyList()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() { Columns = new List<IColumnModel>() } };
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { }, 
+                    Table = new TableModelForTest() { Columns = new List<IColumnModel>() } }));
         }
 
         [Test]
         public void ProcessContextShouldReturnAnEmptyStringWhenThereIsNoNotIndexedColumnInColumnList()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() { Columns = new List<IColumnModel>() { new ColumnModelForTest() {IsIndexed = true } } } , IsIndexed = false };
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var column = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = false };
+            var table = new TableModelForTest() { Columns = new List<IColumnModel>() { new ColumnModelForTest() { IsIndexed = true } } };
+            var databaseContext = new ProcessorDatabaseContext() { Column = column, Table = table };
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}", databaseContext);
             Assert.AreEqual(string.Empty, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnAnEmptyStringWhenTheColumnModelIsNoNotIndexed()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = true };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { columnModel };
-            _tested.ColumnModel = columnModel;
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var column = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = true };
+            var table = new TableModelForTest()
+            {
+                Columns = new List<IColumnModel>() { column }
+            };
+            var databaseContext = new ProcessorDatabaseContext() { Column = column, Table = table };
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}", databaseContext);
             Assert.AreEqual(string.Empty, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnAnContextContentWhenTheNotIndexedColumnModelIsNotTheLastNotIndexedColumnModel()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = false };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { columnModel, new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false}  };
-            _tested.ColumnModel = columnModel;
+            var column = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = false };
+            var table = new TableModelForTest()
+            {
+                Columns = new List<IColumnModel>() { column, new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false } }
+            };
+            var databaseContext = new ProcessorDatabaseContext() { Column = column, Table = table };
             var expected = "HelloWorld";
-            var actual = _tested.processContext($"{_tested.StartContext}{expected}{_tested.EndContext}");
+            var actual = _tested.ProcessContext($"{_tested.StartContext}{expected}{_tested.EndContext}",databaseContext);
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnAnEmptyStringWhenTheNotIndexedColumnModelIsTheLastNotIndexedColumnModel()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = false };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false }, columnModel };
-            _tested.ColumnModel = columnModel;
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var columnModel = new ColumnModelForTest() { IsIndexed = false };
+            var table = new TableModelForTest()
+            {
+                Columns = new List<IColumnModel>() { new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false }, columnModel }
+            };
+            var databaseContext = new ProcessorDatabaseContext() { Column = columnModel, Table = table };
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}", databaseContext);
             Assert.AreEqual(string.Empty, actual);
         }
 
@@ -108,32 +122,14 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         public void ProcessContextShouldReturnAnEmptyStringWhenTheNotIndexedColumnModelIsTheLastNotIndexedColumnModelButNotTheLastElementOfColumn()
         {
             var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest(), IsIndexed = false };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() {new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false } ,
-                columnModel, new ColumnModelForTest() { Name = "Another column which is indexed", IsIndexed = true } };
-            _tested.ColumnModel = columnModel;
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var table = new TableModelForTest()
+            {
+                Columns = new List<IColumnModel>() {new ColumnModelForTest() { Name = "Another Not Indexed Column", IsIndexed = false } ,
+                columnModel, new ColumnModelForTest() { Name = "Another column which is indexed", IsIndexed = true } }
+            };
+            var databaseContext = new ProcessorDatabaseContext() {Column = columnModel, Table = table};
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",databaseContext);
             Assert.AreEqual(string.Empty, actual);
-        }
-
-        public class ColumnModelForTest : IColumnModel
-        {
-            public bool IsAutoGeneratedValue { get; set; }
-            public bool IsNotNull { get; set; }
-            public bool IsPrimaryKey { get; set; }
-            public bool IsIndexed { get; set; }
-            public string Name { get; set; }
-            public string Type { get; set; }
-            public int ValueMaxSize { get; set; }
-            public ITableModel ParentTable { get; set; }
-        }
-
-        public class TableModelForTest : ITableModel
-        {
-            public IList<IColumnModel> Columns { get; set; }
-            public string Name { get; set; }
-            public string Schema { get; set; }
-            public IDatabaseModel ParentDatabase { get; set; }
-            public IList<IForeignKeyConstraintModel> ForeignKeyConstraints { get; set; }
         }
     }
 }

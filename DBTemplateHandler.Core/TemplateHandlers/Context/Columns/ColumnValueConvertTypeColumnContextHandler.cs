@@ -56,18 +56,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             return (DestinationTypeSets != null);
         }
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel descriptionPojo = databaseContext.Column;
-            if (descriptionPojo == null)
+            IColumnModel column = databaseContext.Column;
+            if (column == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
@@ -77,13 +72,13 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
                             "' -> The value parameter cannot be empty");
             InitConversionHandlerMap();
             if (!DestinationTypeSets.Contains(TrimedStringContext.ToLowerInvariant())) return $"CONVERT:UNKNOWN({TrimedStringContext})";
-            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = ColumnModel.Type }, out var result))
+            if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = column.Type }, out var result))
             {
-                var processedResult = TemplateHandler.HandleTableColumnTemplate(result, ColumnModel);
+                var processedResult = TemplateHandler.HandleTableColumnTemplate(result, column);
                 return processedResult;
             }
 
-            return ColumnModel.Type;
+            return column.Type;
         }
 
         public override bool isStartContextAndEndContextAnEntireWord => false;

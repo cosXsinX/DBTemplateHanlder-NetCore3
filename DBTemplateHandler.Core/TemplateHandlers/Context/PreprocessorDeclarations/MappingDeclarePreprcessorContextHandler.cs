@@ -191,5 +191,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
         {
             return string.Join($",{Environment.NewLine}", typeMappingItems.Select(m => $"[->({m.SourceType})<-]=>[->({m.DestinationType})<-]"));
         }
+
     }
 }

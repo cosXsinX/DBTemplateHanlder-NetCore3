@@ -29,7 +29,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
 [->({envAType3})<-]=>[->({envBType3})<-]{(endItemEndWithComa ? "," : string.Empty)}
 ]
 ):PREPROCESSOR:}}";
-            var result = _tested.processContext(processed);
+            var result = _tested.ProcessContext(processed,null);
             Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
             var typeMappings = _tested.TemplateHandlerNew.TypeMappings;
@@ -54,7 +54,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
         {
             MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerBuilder.Build(null));
             var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE([->({envB})<-]<=>[[->({envAType1})<-]=>[->({envBType1})<-]]):PREPROCESSOR:}}";
-            var result = _tested.processContext(processed); Assert.IsNotNull(_tested.TemplateHandlerNew);
+            var result = _tested.ProcessContext(processed, null); 
+            Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
             var typeMappings = _tested.TemplateHandlerNew.TypeMappings; CollectionAssert.IsNotEmpty(typeMappings);
             Assert.AreEqual(1, typeMappings.Count);
@@ -74,7 +75,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Preprocessor
         {
             MappingDeclarePreprcessorContextHandlerForTest _tested = new MappingDeclarePreprcessorContextHandlerForTest(TemplateHandlerBuilder.Build(null));
             var processed = $@"{{:TDB:PREPROCESSOR:MAPPING:DECLARE([->({envB})<-]<=>[[->({envAType1})<-]=>[->({envBType1})<-],[->({envAType2})<-]=>[->({envBType2})<-]]):PREPROCESSOR:}}";
-            var result = _tested.processContext(processed); Assert.IsNotNull(_tested.TemplateHandlerNew);
+            var result = _tested.ProcessContext(processed,null); 
+            Assert.IsNotNull(_tested.TemplateHandlerNew);
             Assert.IsNotNull(_tested.TemplateHandlerNew.TypeMappings);
             var typeMappings = _tested.TemplateHandlerNew.TypeMappings; CollectionAssert.IsNotEmpty(typeMappings);
             Assert.AreEqual(1, typeMappings.Count);

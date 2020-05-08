@@ -15,15 +15,15 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context with the first letter of intern context Uppercased";
 
-        public override string processContext(string StringContext)
+
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (StringContext == null)
-                throw new ArgumentNullException(nameof(StringContext));
+            ControlContext(StringContext, databaseContext);
             string TrimedStringContext =
                     TrimContextFromContextWrapper(StringContext);
             //Function performed operation
             if (TrimedStringContext.Equals(String.Empty)) return TrimedStringContext;
-            var splitted = TrimedStringContext.Split(new string[] { WithSeparator },StringSplitOptions.None) ;
+            var splitted = TrimedStringContext.Split(new string[] { WithSeparator }, StringSplitOptions.None);
             if (splitted.Length < 2) return TrimedStringContext;
 
             string ReplacedByValue = splitted.Last();
@@ -36,14 +36,9 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Functions
             var handledResult =
                 HandleTrimedContext(
                     string.Join(WithSeparator,
-                        splitted.Take(splitted.Length-1)));
+                        splitted.Take(splitted.Length - 1)),databaseContext);
             var result = handledResult?.Replace(replaced, replacement);
             return result;
-        }
-
-        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
-        {
-            throw new NotImplementedException();
         }
     }
 }

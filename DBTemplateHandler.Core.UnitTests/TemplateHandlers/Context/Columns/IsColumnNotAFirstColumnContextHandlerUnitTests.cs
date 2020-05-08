@@ -36,7 +36,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            Assert.Throws<Exception>(() => _tested.ProcessContext(null,
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } }));
         }
 
         [Test]
@@ -48,59 +49,72 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelIsNull()
         {
-            _tested.ColumnModel = null;
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = null }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelHasSetParentTableToNull()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = null };
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { }, Table = null }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnsAreNotSetInColumnModelParentTable()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() { Columns = null } };
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { }, Table = new TableModelForTest() { Columns = null } }));
         }
 
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnsInColumnModelParentTableIsAnEmptyList()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() { Columns = new List<IColumnModel>() } };
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<Exception>(() => _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                new ProcessorDatabaseContext()
+                {
+                    Column = new ColumnModelForTest() { },
+                    Table = new TableModelForTest() { Columns = new List<IColumnModel>() }
+                }));
         }
 
         [Test]
         public void ProcessContextShouldReturnEmptyStringWhenTheColumnModelAloneInCollectionValue()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { columnModel };
-            _tested.ColumnModel = columnModel;
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var columnModel = new ColumnModelForTest() { };
+            var databaseContext = new ProcessorDatabaseContext()
+            {
+                Column = columnModel,
+                Table = new TableModelForTest() { Columns = new List<IColumnModel>() { columnModel} }
+            };
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",databaseContext);
             Assert.AreEqual(string.Empty, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnContextContentStringWhenTheColumnModelIsNotTheFirstColumnModel()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { new ColumnModelForTest() { Name = "Another Column" }, columnModel };
-            _tested.ColumnModel = columnModel;
+            var columnModel = new ColumnModelForTest() { };
+            var databaseContext = new ProcessorDatabaseContext()
+            {
+                Column = columnModel,
+                Table = new TableModelForTest() { Columns = new List<IColumnModel>() { new ColumnModelForTest() { Name = "Another Column" }, columnModel } }
+            };
             var expected = "HelloWorld";
-            var actual = _tested.processContext($"{_tested.StartContext}{expected}{_tested.EndContext}");
+            var actual = _tested.ProcessContext($"{_tested.StartContext}{expected}{_tested.EndContext}",databaseContext);
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnAnEmptyStringContentWhenTheColumnModelIsTheFirstColumnModel()
         {
-            var columnModel = new ColumnModelForTest() { ParentTable = new TableModelForTest() };
-            columnModel.ParentTable.Columns = new List<IColumnModel>() { columnModel, new ColumnModelForTest() { Name = "Another Column" } };
-            _tested.ColumnModel = columnModel;
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
+            var columnModel = new ColumnModelForTest() { };
+            var databaseContext = new ProcessorDatabaseContext()
+            {
+                Column = columnModel,
+                Table = new TableModelForTest() { Columns = new List<IColumnModel>() { columnModel, new ColumnModelForTest() { Name = "Another Column" } } }
+            };
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",databaseContext);
             Assert.AreEqual(string.Empty, actual);
         }
     }

@@ -46,7 +46,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            Assert.Throws<Exception>(() => _tested.ProcessContext(null, new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } }));
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.ColumnModel = null;
-                _tested.processContext("Hello World !");
+                var databaseContext = new ProcessorDatabaseContext() { Column = null };
+                _tested.ProcessContext("Hello World !",databaseContext);
             });
         }
 
@@ -70,8 +70,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.ColumnModel = new ColumnModelForTest();
-                _tested.processContext($"{_tested.StartContext}I Should not be here{_tested.EndContext}");
+                var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } };
+                _tested.ProcessContext($"{_tested.StartContext}I Should not be here{_tested.EndContext}",databaseContext);
             });
         }
 
@@ -79,8 +79,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         public void ShouldReturnColumnName()
         {
             var expected = "HelloWorldColumnName";
-            _tested.ColumnModel = new ColumnModelForTest() { Name = expected };
-            var actual = _tested.processContext($"{_tested.Signature}");
+            var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { Name = expected } };
+            var actual = _tested.ProcessContext($"{_tested.Signature}",databaseContext);
             Assert.AreEqual(expected, actual);
         }
     }

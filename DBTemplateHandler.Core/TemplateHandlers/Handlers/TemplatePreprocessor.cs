@@ -55,7 +55,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             IDictionary<string, AbstactPreprocessorContextHandler> handlersByStartContext)
         {
             if (!handlersByStartContext.TryGetValue(contextComposite.current.StartContextDelimiter, out var handler)) return templateFileContent;
-            return handler.processContext(templateFileContent);
+            return handler.ProcessContext(templateFileContent,null);
         }
     }
 }

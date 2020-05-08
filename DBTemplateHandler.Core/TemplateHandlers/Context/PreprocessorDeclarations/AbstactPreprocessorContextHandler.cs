@@ -14,18 +14,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 
         }
 
-        public override string HandleTrimedContext(string StringTrimedContext)
+        public override string HandleTrimedContext(string StringTrimedContext,IDatabaseContext databaseContext)
         {
             var result = PrepareProcessor(StringTrimedContext);
             return result;
-        }
-
-        public override string processContext(string StringContext)
-        {
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
-            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            return HandleTrimedContext(TrimedStringContext);
         }
 
         public abstract string PrepareProcessor(string TrimmedStringContext);
@@ -33,7 +25,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.PreprocessorDeclaratio
 
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            return processContext(StringContext);
+            ControlContext(StringContext, databaseContext);
+            string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
+            return HandleTrimedContext(TrimedStringContext,databaseContext);
+        }
+
+
+        protected override void ControlContext(string StringContext, IDatabaseContext databaseContext)
+        {
+            if (StringContext == null)
+                throw new Exception($"The provided {nameof(StringContext)} is null");
         }
     }
 }

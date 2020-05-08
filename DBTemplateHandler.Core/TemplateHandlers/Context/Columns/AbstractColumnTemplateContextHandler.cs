@@ -12,28 +12,24 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
         {
         }
 
-        public IColumnModel ColumnModel{get;set;}
-
-        public override string HandleTrimedContext(string StringTrimedContext)
+        public override string HandleTrimedContext(string StringTrimedContext,IDatabaseContext databaseContext)
         {
             if (StringTrimedContext == null) return null;
-            IColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = databaseContext.Column;
             if (columnModel == null) return StringTrimedContext;
-            ITableModel tableModel = columnModel.ParentTable;
-            IDatabaseModel databaseModel = null;
-            if (tableModel != null)
-                databaseModel = tableModel.ParentDatabase;
             return TemplateHandler.
-                HandleTemplate(StringTrimedContext, databaseModel,
-                        tableModel, columnModel,null);
+                HandleTemplate(StringTrimedContext, databaseContext);
         }
 
-        protected void ControlContext(string StringContext)
+
+        protected override void ControlContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            if (ColumnModel == null)
-                throw new Exception($"The {nameof(ColumnModel)} is not set");
+            if (databaseContext == null)
+                throw new ArgumentNullException($"{nameof(databaseContext)} the provided database context is null");
+            if (databaseContext.Column == null)
+                throw new ArgumentException($"{nameof(databaseContext)}.{nameof(databaseContext.Column)} is null");
         }
 
         protected void ControlContextContent(string ContextContent)

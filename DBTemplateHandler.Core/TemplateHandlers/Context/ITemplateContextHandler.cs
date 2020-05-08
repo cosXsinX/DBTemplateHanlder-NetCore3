@@ -18,10 +18,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context
         
         string TrimContextFromContextWrapper(string stringContext);
 
-        string processContext(string StringContext);
-
         string ProcessContext(string StringContext, IDatabaseContext databaseContext);
 
-        string HandleTrimedContext(string StringTrimedContext);
+        string HandleTrimedContext(string StringTrimedContext, IDatabaseContext databaseContext);
     }
 }

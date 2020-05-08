@@ -18,27 +18,19 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
         public override string ContextActionDescription => "Is replaced by the processed content value when the current table has not one or more columns which are indexed";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
-        }
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ControlContext(StringContext, databaseContext);
             ITableModel table = databaseContext.Table;
-            if (table == null)
-                throw new Exception($"The {nameof(TableModel)} is not set");
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             
             if ((table?.Columns ?? new List<IColumnModel>()).Any(m => m.IsIndexed))
-                return String.Empty;
-            
+                return string.Empty;
+
             var result = TemplateHandler.
                             HandleFunctionTemplate
-                                            (TrimedStringContext, TableModel.ParentDatabase,TableModel, null,null);
+                                            (TrimedStringContext, DatabaseContextCopier.CopyWithOverride(databaseContext, table));
             return result;
         }
     }

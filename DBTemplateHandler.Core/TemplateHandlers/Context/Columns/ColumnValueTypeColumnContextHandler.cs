@@ -13,17 +13,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => semanticDefinition.EndContext;
         public override string ContextActionDescription => "Is replaced by the current column database model type";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = databaseContext.Column;
             if (columnModel == null)
                 throw new Exception($"The {nameof(ColumnModel)} is not set");
 

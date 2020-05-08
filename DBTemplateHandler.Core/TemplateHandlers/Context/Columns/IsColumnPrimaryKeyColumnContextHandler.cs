@@ -14,25 +14,14 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the inner context when the current iteration column is a primary key column";
 
-
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
-            if (columnModel == null)
-                throw new Exception($"The {nameof(ColumnModel)} is not set");
-
+            ControlContext(StringContext, databaseContext);
+            IColumnModel columnModel = databaseContext.Column;
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             if (columnModel.IsPrimaryKey)
             {
-                return HandleTrimedContext(TrimedStringContext);
+                return HandleTrimedContext(TrimedStringContext,databaseContext);
             }
             else return "";
         }

@@ -12,11 +12,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string EndContext => "::}";
         public override string ContextActionDescription => "Is replaced by the current column value max/length size";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = ColumnModel });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));

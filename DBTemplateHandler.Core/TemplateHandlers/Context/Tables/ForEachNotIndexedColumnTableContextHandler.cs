@@ -16,19 +16,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
         public override bool isStartContextAndEndContextAnEntireWord => false;
         public override string ContextActionDescription => "Is replaced by the intern context as many time as there is not indexed column in the table";
 
-
-        public override string processContext(string StringContext)
+        public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
-        }
-        public override string ProcessContext(String StringContext, IDatabaseContext databaseContext)
-        {
-            if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
-            if (StringContext == null)
-                throw new Exception($"The provided {nameof(StringContext)} is null");
+            ControlContext(StringContext, databaseContext);
             ITableModel table = databaseContext.Table;
-            if (table == null)
-                throw new Exception($"The {nameof(TableModel)} is not set");
             if (table.Columns == null)
                 throw new Exception($"The {nameof(TableModel.Columns)} are not set in {nameof(TableModel)}");
             if (table.Columns.Any(m => m == null))
@@ -37,7 +28,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             var indexedColumns = table.Columns.Where(m => !m.IsIndexed);
             var eachIndexedcolumnResult = indexedColumns
-                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, table.ParentDatabase,table, currentColumn,null));
+                .Select(currentColumn => TemplateHandler.HandleTemplate(TrimedStringContext, DatabaseContextCopier.CopyWithOverride(databaseContext,currentColumn)));
             var result = string.Join(string.Empty, eachIndexedcolumnResult);
             return result;
         }

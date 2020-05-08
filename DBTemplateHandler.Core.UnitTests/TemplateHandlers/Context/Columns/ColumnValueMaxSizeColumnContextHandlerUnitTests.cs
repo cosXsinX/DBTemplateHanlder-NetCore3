@@ -62,17 +62,19 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
             string StringContext = null;
-            Assert.Throws<Exception>(() => _tested.processContext(StringContext), $"The provided {nameof(StringContext)} is null");
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } })
+                , $"The provided {nameof(StringContext)} is null");
         }
+
 
         [Test]
         public void ShouldThrowANExceptionWhenDatabaseModelIsNull()
         {
             Assert.Throws<Exception>(() =>
             {
-                _tested.ColumnModel = null;
-                _tested.processContext("Hello World !");
-            }, $"The {nameof(_tested.ColumnModel)} is not set");
+                var databaseContext = new ProcessorDatabaseContext() { Column = null };
+                _tested.ProcessContext("Hello World !", databaseContext);
+            }, $"The {nameof(ProcessorDatabaseContext.Column)} is not set");
         }
 
         [Test]
@@ -82,8 +84,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             string StringContext = $"{_tested.StartContext}I Should not be here{_tested.EndContext}";
             Assert.Throws<Exception>(() =>
             {
-                _tested.ColumnModel = new ColumnModelForTest() { ValueMaxSize = valueMaxSize };
-                _tested.processContext(StringContext);
+                var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { ValueMaxSize = valueMaxSize } };
+                _tested.ProcessContext(StringContext,databaseContext);
             }, "Exception control no more satified : Expected exception message There is a problem with the provided StringContext :'" + StringContext + "' to the suited word '" + _tested.Signature + "'");
         }
 
@@ -93,8 +95,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
             int valueMaxSize = _random.Next();
             string StringContext = _tested.Signature;
             string expected = $"{valueMaxSize}";
-            _tested.ColumnModel = new ColumnModelForTest() { ValueMaxSize = valueMaxSize };
-            var actual = _tested.processContext(StringContext);
+            var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { ValueMaxSize = valueMaxSize } };
+            var actual = _tested.ProcessContext(StringContext,databaseContext);
             Assert.AreEqual(expected, actual);
         }
     }

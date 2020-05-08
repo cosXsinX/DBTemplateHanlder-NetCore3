@@ -18,10 +18,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 
         public override string ContextActionDescription => "Is replaced by the processed content value when the current table has at least one or more columns which are indexed";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() { Table = TableModel });
-        }
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
@@ -35,10 +31,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             
             if (!(table?.Columns ?? new List<IColumnModel>()).Any(m => m.IsIndexed))
                 return String.Empty;
-            
+
             var result = TemplateHandler.
                             HandleFunctionTemplate
-                                            (TrimedStringContext, TableModel.ParentDatabase,TableModel, null,null);
+                                            (TrimedStringContext, DatabaseContextCopier.CopyWithOverride(databaseContext, table));
             return result;
         }
     }

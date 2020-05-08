@@ -1,6 +1,7 @@
 ﻿using DBTemplateHandler.Core.Database;
 using DBTemplateHandler.Core.TemplateHandlers.Context.Columns;
 using DBTemplateHandler.Core.TemplateHandlers.Handlers;
+using DBTemplateHandler.Core.UnitTests.ModelImplementation;
 using DBTemplateHandler.Service.Contracts.TypeMapping;
 using NUnit.Framework;
 using System;
@@ -101,24 +102,28 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            string StringContext = null;
-            Assert.Throws<Exception>(() => _tested.processContext(StringContext), $"The provided {nameof(StringContext)} is null");
+            Assert.Throws<Exception>(() => _tested.ProcessContext(null, new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { } }));
         }
 
         [Test]
         public void ShouldThrowAnExceptionWhenColumnModelIsNull()
         {
             string StringContext = "nianiania";
-            _tested.ColumnModel = null;
-            Assert.Throws<Exception>(() => _tested.processContext(StringContext), $"The { nameof(_tested.ColumnModel)} is not set");
+            var databaseContext = new ProcessorDatabaseContext() { Column = null };
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, databaseContext),
+                $"The { nameof(databaseContext.Column)} is not set");
         }
 
         [Test]
         public void ShouldThrowAnExceptionWhenInternalContextIsEmpty()
         {
             string StringContext = $"{_tested.StartContext}{_tested.EndContext}";
-            _tested.ColumnModel = new ColumnModel();
-            Assert.Throws<Exception>(() => _tested.processContext(StringContext), $"There is a problem with the function provided in template '{StringContext}' -> The value parameter cannot be empty");
+            var datanaseContext = new ProcessorDatabaseContext()
+            {
+                Column = new ColumnModelForTest()
+            };
+            Assert.Throws<Exception>(() => _tested.ProcessContext(StringContext, datanaseContext),
+                $"There is a problem with the function provided in template '{StringContext}' -> The value parameter cannot be empty");
         }
 
         [TestCase("INT", "JAVA", "int")]
@@ -140,8 +145,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [TestCase("BLOB", "OTHER_UNKNOWN", "CONVERT:UNKNOWN(OTHER_UNKNOWN)")]
         public void ShouldReturnAccurateMappedValue(string columnType,string destinationTypeSet, string expectedOutput)
         {
-            _tested.ColumnModel = new ColumnModel() { Type = columnType, };
-            var result = _tested.processContext($"{_tested.StartContext}{destinationTypeSet}{_tested.EndContext}");
+            var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModel() { Type = columnType, } };
+            var result = _tested.ProcessContext($"{_tested.StartContext}{destinationTypeSet}{_tested.EndContext}", databaseContext);
             Assert.AreEqual(expectedOutput, result);
         }
 
@@ -164,8 +169,8 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [TestCase("BLOB", "OTHER_UNKNOWN", "CONVERT:UNKNOWN(OTHER_UNKNOWN)")]
         public void ShouldReturnAccurateAndProcessedMappedValue(string columnType, string destinationTypeSet, string expectedOutput)
         {
-            _tested.ColumnModel = new ColumnModel() { Type = columnType, };
-            var result = _tested.processContext($"{_tested.StartContext}{destinationTypeSet}{_tested.EndContext}");
+            var databaseContext = new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { Type = columnType } };
+            var result = _tested.ProcessContext($"{_tested.StartContext}{destinationTypeSet}{_tested.EndContext}",databaseContext);
             Assert.AreEqual(expectedOutput, result);
         }
 

@@ -35,7 +35,7 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenStringContextIsNull()
         {
-            Assert.Throws<Exception>(() => _tested.processContext(null));
+            Assert.Throws<Exception>(() => _tested.ProcessContext(null, new ProcessorDatabaseContext() { Column = new ColumnModelForTest()}));
         }
 
         [Test]
@@ -47,24 +47,25 @@ namespace DBTemplateHandler.Core.UnitTests.TemplateHandlers.Context.Columns
         [Test]
         public void ProcessContextShouldThrowAnExceptionWhenColumnModelIsNull()
         {
-            _tested.ColumnModel = null;
-            Assert.Throws<Exception>(() => _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}"));
+            Assert.Throws<ArgumentException>(() => 
+                _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                    new ProcessorDatabaseContext() { Column = null }));
         }
 
         [Test]
         public void ProcessContextShouldReturnAnEmptyValueWhenColumnIsPrimaryKey()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { IsPrimaryKey = true };
-            var actual = _tested.processContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}");
-            Assert.AreEqual(String.Empty, actual);
+            var actual = _tested.ProcessContext($"{_tested.StartContext}HelloWorld{_tested.EndContext}",
+                    new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { IsPrimaryKey = true }});
+            Assert.AreEqual(string.Empty, actual);
         }
 
         [Test]
         public void ProcessContextShouldReturnAnInnerContextValueWhenColumnIsNotPrimaryKey()
         {
-            _tested.ColumnModel = new ColumnModelForTest() { IsPrimaryKey = false };
             var expected = "HelloWorld";
-            var actual = _tested.processContext($"{_tested.StartContext}{expected}{_tested.EndContext}");
+            var actual = _tested.ProcessContext($"{_tested.StartContext}{expected}{_tested.EndContext}",
+                new ProcessorDatabaseContext() { Column = new ColumnModelForTest() { IsPrimaryKey = false } });
             Assert.AreEqual(expected, actual);
         }
 

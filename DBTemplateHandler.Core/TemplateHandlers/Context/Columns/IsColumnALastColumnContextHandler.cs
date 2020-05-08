@@ -15,29 +15,24 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
         public override string StartContext=> "{:TDB:TABLE:COLUMN:FOREACH:CURRENT:IS:LAST:COLUMN(";
         public override string EndContext => "):::}";
 
-        public override string processContext(string StringContext)
-        {
-            return ProcessContext(StringContext, new ProcessorDatabaseContext() {Column = ColumnModel });
-        }
-
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
         {
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
-            IColumnModel columnModel = ColumnModel;
+            IColumnModel columnModel = databaseContext.Column;
             if (columnModel == null)
                 throw new Exception($"The {nameof(columnModel)} is not set");
 
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
-            if (columnModel.ParentTable == null)
+            if (databaseContext.Table == null)
                 throw new Exception("The provided column has no parent table");
-            IList<IColumnModel> columnList = columnModel.ParentTable.Columns;
+            IList<IColumnModel> columnList = databaseContext.Table.Columns;
             if (columnList == null || !(columnList.Count > 0))
                 throw new Exception("The provided column's parent table has no column associated to");
             if (columnModel.Equals(columnList[(columnList.Count - 1)]))
             {
-                return HandleTrimedContext(TrimedStringContext);
+                return HandleTrimedContext(TrimedStringContext,databaseContext);
             }
             else return "";
         }

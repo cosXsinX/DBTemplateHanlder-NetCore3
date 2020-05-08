@@ -19,6 +19,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         private readonly TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler> columnTemplateContextHandlerProvider;
         private readonly TemplateContextHandlerPackageProvider<AbstractConstraintTemplateContextHandler> constraintTemplateContextHandlerProvider;
         private readonly TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler> functionTemplateContextHandlerProvider;
+        private readonly DatabaseContextCopier databaseContextCopier;
 
 
         private readonly List<ITypeMapping> typeMappingsField;
@@ -33,6 +34,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             columnTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractColumnTemplateContextHandler>(templateHandlerNew, typeMappings);
             constraintTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractConstraintTemplateContextHandler>(templateHandlerNew, typeMappings);
             functionTemplateContextHandlerProvider = new TemplateContextHandlerPackageProvider<AbstractFunctionTemplateContextHandler>(templateHandlerNew, typeMappings);
+            databaseContextCopier = new DatabaseContextCopier();
         }
 
         public string ProcessTemplateContextComposite(TemplateContextComposite processed, IDatabaseContext databaseContext)
@@ -82,8 +84,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var databaseTemplateContextHandlerByStartContext = databaseTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!databaseTemplateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
                 throw new ArgumentException($"{nameof(startContextDelimiter)} is not contained in the database template start delimiter context register");
-            handler.DatabaseModel = databaseContext.Database;
-            var processedContext = handler.processContext(processed);
+            var processedContext = handler.ProcessContext(processed, databaseContextCopier.CopyWithOverride(databaseContext,databaseContext.Database));
             return processedContext;
         }
 
@@ -98,8 +99,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var databaseTemplateContextHandlerByStartContext = tableTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!databaseTemplateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
                 throw new ArgumentException($"{nameof(startContextDelimiter)} is not contained in the table template start delimiter context register");
-            handler.TableModel = databaseContext.Table;
-            var processedContext = handler.processContext(processed);
+            var processedContext = handler.ProcessContext(processed, databaseContextCopier.CopyWithOverride(databaseContext, databaseContext.Table));
             return processedContext;
         }
 
@@ -114,8 +114,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var templateContextHandlerByStartContext = columnTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!templateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
                 throw new ArgumentException($"{nameof(startContextDelimiter)} is not contained in the column template start delimiter context register");
-            handler.ColumnModel = databaseContext.Column;
-            var processedContext = handler.processContext(processed);
+            var processedContext = handler.ProcessContext(processed, databaseContextCopier.CopyWithOverride(databaseContext, databaseContext.Column));
             return processedContext;
         }
 
@@ -129,8 +128,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var templateContextHandlerByStartContext = constraintTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!templateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
                 throw new ArgumentException($"{nameof(processed)}.{nameof(startContextDelimiter)} is not contained in the constraint template start delimiter context register");
-            handler.ForeignKeyConstraintModel = databaseContext.ForeignKeyConstraint;
-            var processedContext = handler.processContext(processed);
+            var processedContext = handler.ProcessContext(processed, databaseContextCopier.CopyWithOverride(databaseContext, databaseContext.ForeignKeyConstraint));
             return processedContext;
         }
 
@@ -144,11 +142,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var templateContextHandlerByStartContext = functionTemplateContextHandlerProvider.GetContextHandlerByStartContextSignature();
             if (!templateContextHandlerByStartContext.TryGetValue(startContextDelimiter, out var handler))
                 throw new ArgumentException($"{nameof(startContextDelimiter)} is not contained in the function template start delimiter context register");
-            handler.DatabaseModel = databaseContext.Database;
-            handler.TableModel = databaseContext.Table;
-            handler.ColumnModel = databaseContext.Column;
-            handler.ConstraintModel = databaseContext.ForeignKeyConstraint;
-            var processedContext = handler.processContext(processed);
+            var processedContext = handler.ProcessContext(processed, databaseContextCopier.Copy(databaseContext));
             return processedContext;
         }
 
