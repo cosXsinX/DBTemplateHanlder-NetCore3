@@ -8,7 +8,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
 {
     public class ForEachColumnTableContextHandler : AbstractLoopColumnTableTemplateContextHandler
     {
-        public ForEachColumnTableContextHandler(ITemplateHandler templateHandlerNew) : base(templateHandlerNew) { }
+        public ForEachColumnTableContextHandler(ITemplateHandler templateHandler) : base(templateHandler) { }
         public override string StartContext  => "{:TDB:TABLE:COLUMN:FOREACH["; 
         public override string EndContext => "]::}";
         public override bool isStartContextAndEndContextAnEntireWord => false;
@@ -20,7 +20,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             ITableModel table = databaseContext.Table;
             string TrimedStringContext = TrimContextFromContextWrapper(StringContext);
             var columns = table.Columns;
-            if(columns == null) throw new ArgumentException($"{nameof(table.Columns)} is null)");
+            if(columns == null) throw new ArgumentNullException(nameof(table.Columns));
             var result = string.Join(string.Empty, 
                 columns.Select(currentColumn => 
                     TemplateHandler.HandleTemplate(TrimedStringContext, 

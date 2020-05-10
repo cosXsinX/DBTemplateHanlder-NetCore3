@@ -435,28 +435,14 @@ namespace DBTemplateHandler.Core.UnitTests
             Assert.AreEqual(expectedResult, result);
         }
 
-        [Test]
-        public void Success_when_output_is_first_table_all_column_name_when_is_table_foreach_column_name_specified_in_template()
-        {
-            var templateHandlerNew = BuildTemplateHandler(null);
-            var ForEachColumnTableContextHandler = new ForEachColumnTableContextHandler(templateHandlerNew); //TODO Add Interface Liskov Principle with TemplateHandlerNew
-            var ColumnNameColumnContextHandler = new ColumnNameColumnContextHandler(templateHandlerNew);
-            var TemplateHandlerNew = BuildTemplateHandler(null);
-
-            String submittedString = ForEachColumnTableContextHandler.StartContext +
-                    ColumnNameColumnContextHandler.Signature + "," +
-                    ForEachColumnTableContextHandler.EndContext;
-            String result = TemplateHandlerNew.HandleTableTemplate(submittedString, _firstTableDescriptionPOJO);
-            String expectedResult = PRIMARY_NOT_AUTO_COLUMN_NAME + "," + AUTO_COLUMN_NAME + ",";
-            Assert.AreEqual(expectedResult, result);
-        }
+        
 
         [Test]
         public void Success_when_output_is_database_all_table_name_when_is_database_foreach_table_name_specified_in_template()
         {
-            var templateHandlerNew = BuildTemplateHandler(null);
-            var ForEachTableDatabaseContextHandler = new ForEachTableDatabaseContextHandler(templateHandlerNew); //TODO Add Interface Liskov Principle with TemplateHandlerNew
-            var TableNameTableContextHandler = new TableNameTableContextHandler(templateHandlerNew);
+            var templateHandler = BuildTemplateHandler(null);
+            var ForEachTableDatabaseContextHandler = new ForEachTableDatabaseContextHandler(templateHandler);
+            var TableNameTableContextHandler = new TableNameTableContextHandler(templateHandler);
             var TemplateHandlerNew = BuildTemplateHandler(null);
 
             String submittedString = ForEachTableDatabaseContextHandler.StartContext +
@@ -481,11 +467,12 @@ namespace DBTemplateHandler.Core.UnitTests
             String expectedResult = "Hello";
             Assert.AreEqual(expectedResult, result);
         }
+
         [Test]
         public void Success_when_output_is_one_when_is_first_column_is_specified_and_column_index_in_template()
         {
             var templateHandlerNew = BuildTemplateHandler(null);
-            var ForEachColumnTableContextHandler = new ForEachColumnTableContextHandler(templateHandlerNew); //TODO Add Interface Liskov Principle with TemplateHandlerNew
+            var ForEachColumnTableContextHandler = new ForEachColumnTableContextHandler(templateHandlerNew);
             var IsColumnAFirstColumnContextHandler = new IsColumnAFirstColumnContextHandler(templateHandlerNew);
             var TemplateHandlerNew = BuildTemplateHandler(null);
 
@@ -503,7 +490,7 @@ namespace DBTemplateHandler.Core.UnitTests
         public void Success_when_output_is_one_when_is_last_column_is_specified_and_column_index_in_template()
         {
             var templateHandlerNew = BuildTemplateHandler(null);
-            var ForEachColumnTableContextHandler = new ForEachColumnTableContextHandler(templateHandlerNew); //TODO Add Interface Liskov Principle with TemplateHandlerNew
+            var ForEachColumnTableContextHandler = new ForEachColumnTableContextHandler(templateHandlerNew);
             var IsColumnALastColumnContextHandler = new IsColumnALastColumnContextHandler(templateHandlerNew);
             var TemplateHandlerNew = BuildTemplateHandler(null);
 

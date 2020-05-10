@@ -8,5 +8,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public ITableModel Table { get; set; }
         public IColumnModel Column { get; set; }
         public IForeignKeyConstraintModel ForeignKeyConstraint { get; set; }
+        public IConstraintVisitorContext ConstraintVisitorContext { get; set; }
     }
 }

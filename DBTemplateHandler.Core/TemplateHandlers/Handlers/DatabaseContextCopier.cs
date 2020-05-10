@@ -11,6 +11,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 Column = copied.Column,
                 ForeignKeyConstraint = copied.ForeignKeyConstraint,
                 Table = copied.Table,
+                ConstraintVisitorContext = copied.ConstraintVisitorContext,
                 Database = copied.Database,
             };
         }
@@ -22,6 +23,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 Column = column,
                 ForeignKeyConstraint = copied.ForeignKeyConstraint,
                 Table = copied.Table,
+                ConstraintVisitorContext = copied.ConstraintVisitorContext,
                 Database = copied.Database,
             };
         }
@@ -33,6 +35,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
                 Column = copied.Column,
                 ForeignKeyConstraint = constraint,
                 Table = copied.Table,
+                ConstraintVisitorContext = copied.ConstraintVisitorContext,
                 Database = copied.Database,
             };
         }
@@ -42,6 +45,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return new ProcessorDatabaseContext()
             {
                 Table = table,
+                ConstraintVisitorContext = copied.ConstraintVisitorContext,
                 Database = copied.Database,
             };
         }

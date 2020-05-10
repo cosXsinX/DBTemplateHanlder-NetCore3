@@ -12,7 +12,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
         {
         }
 
-
         public override string HandleTrimedContext(string StringTrimedContext,IDatabaseContext databaseContext)
         {
             if (StringTrimedContext == null) return null;
@@ -23,6 +22,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Columns
 
         protected override void ControlContext(string StringContext,IDatabaseContext databaseContext)
         {
+            if (databaseContext == null)
+                throw new ArgumentNullException(nameof(databaseContext));
             if (StringContext == null)
                 throw new Exception($"The provided {nameof(StringContext)} is null");
             if (databaseContext.ForeignKeyConstraint == null)

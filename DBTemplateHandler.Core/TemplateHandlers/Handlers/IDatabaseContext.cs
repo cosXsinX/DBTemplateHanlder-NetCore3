@@ -7,6 +7,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         IColumnModel Column { get; set; }
         IDatabaseModel Database { get; set; }
         IForeignKeyConstraintModel ForeignKeyConstraint { get; set; }
+        IConstraintVisitorContext ConstraintVisitorContext { get; set; }
         ITableModel Table { get; set; }
     }
 }
