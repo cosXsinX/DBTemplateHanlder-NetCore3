@@ -14,10 +14,8 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Tables
             if (databaseContext == null) throw new ArgumentNullException(nameof(databaseContext));
 		    ITableModel table = databaseContext.Table;
 		    if(table == null) return StringTrimedContext;
-		    IDatabaseModel database = table.ParentDatabase;
 		    return TemplateHandler.
-                    HandleTemplate(StringTrimedContext, database,
-                            table, null,null);
+                    HandleTemplate(StringTrimedContext, databaseContext);
 	    }
 
         protected override void ControlContext(string StringContext, IDatabaseContext databaseContext)

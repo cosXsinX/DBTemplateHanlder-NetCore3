@@ -60,25 +60,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             return TemplateHandlerNew.GetAllItemplateContextHandlerIdentity();
         }
 
-        private void UpdateDatabaseTableParent(IDatabaseModel databaseModel)
-        {
-            var tables = databaseModel?.Tables?.ToList();
-            if (tables == null) return;
-            tables.ForEach(table =>
-            {
-                table.ParentDatabase = databaseModel;
-                UpdateTableColumnParent(table);
-            });
-        }
 
-        private void UpdateTableColumnParent(ITableModel tableModel)
-        {
-            var columns = tableModel?.Columns?.ToList();
-            if(columns != null)
-            {
-                columns.ForEach(column => column.ParentTable = tableModel);
-            }
-        }
 
         public IList<IHandledTemplateResultModel> Process(IDatabaseTemplateHandlerInputModel input)
         {
@@ -87,7 +69,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             var templatePreprocessor = new TemplatePreprocessor(TemplateHandlerNew, typeMappings);
             var templateModels = input.TemplateModels;
             templatePreprocessor.PreProcess(templateModels);
-            UpdateDatabaseTableParent(input.DatabaseModel);
             var result = templateModels.SelectMany(templateModel =>
                 GenerateDatabaseTemplateFiles(templateModel, input.DatabaseModel, TemplateHandlerNew)).Cast<IHandledTemplateResultModel>().ToList();
             return result;

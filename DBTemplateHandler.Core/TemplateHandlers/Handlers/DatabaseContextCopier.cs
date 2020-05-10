@@ -50,6 +50,16 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             };
         }
 
+        public IDatabaseContext CopyWithOverride(IDatabaseContext copied, ITableModel table, IConstraintVisitorContext constraintVisitorContext)
+        {
+            return new ProcessorDatabaseContext()
+            {
+                Table = table,
+                ConstraintVisitorContext = constraintVisitorContext,
+                Database = copied.Database,
+            };
+        }
+
         public IDatabaseContext CopyWithOverride(IDatabaseContext copied, IDatabaseModel database)
         {
             return new ProcessorDatabaseContext()

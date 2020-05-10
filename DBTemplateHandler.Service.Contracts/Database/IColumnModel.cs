@@ -11,7 +11,5 @@ namespace DBTemplateHandler.Core.Database
         string Name { get; set; }
         string Type { get; set; }
         int ValueMaxSize { get; set; }
-        [Obsolete]
-        public ITableModel ParentTable { get; set; }
     }
 }

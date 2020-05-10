@@ -47,14 +47,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public string HandleFunctionTemplate(string templateString, IDatabaseModel databaseModel, ITableModel tableModel, IColumnModel columnModel,IForeignKeyConstraintModel foreignKeyConstraintModel)
         {
             if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
-
-            if (databaseModel != null) UpdateContainedTables(databaseModel);
-            if (tableModel != null)
-            {
-                UpdateContainedColumns(tableModel);
-                UpdateContainedForeignKeyConstraints(tableModel);
-            }
-
             return HandleFunctionTemplate(templateString, new ProcessorDatabaseContext()
             {
                 Column = columnModel,
@@ -79,9 +71,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public string HandleTableTemplate(string templateString, ITableModel tableModel)
         {
-            UpdateContainedColumns(tableModel);
-            UpdateContainedForeignKeyConstraints(tableModel);
-
             return HandleTableTemplate(templateString, new ProcessorDatabaseContext()
             {
                 Table = tableModel,
@@ -101,25 +90,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
             });
         }
 
-        private static void UpdateContainedTables(IDatabaseModel databaseModel)
-        {
-            var tables = databaseModel.Tables.ToList();
-            tables.ForEach(table => table.ParentDatabase = databaseModel);
-            tables.ForEach(table => UpdateContainedColumns(table));
-            tables.ForEach(table => UpdateContainedForeignKeyConstraints(table));
-        }
-
-        private static void UpdateContainedColumns(ITableModel tableModel)
-        {
-            var columns = tableModel.Columns.ToList();
-            columns.ForEach(m => m.ParentTable = tableModel);
-        }
-
-        private static void UpdateContainedForeignKeyConstraints(ITableModel tableModel)
-        {
-            var foreignKeys = (tableModel?.ForeignKeyConstraints?.ToList()) ?? new List<IForeignKeyConstraintModel>();
-            foreignKeys.ForEach(m => m.ParentTable = tableModel);
-        }
+        
 
         //TODO Bad architecture problem symptom => template handler should not manage type mapping
         public void OverwriteTypeMapping(IList<ITypeMapping> typeMappings)
@@ -132,21 +103,12 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public string HandleDatabaseTemplate(string templateString, IDatabaseContext databaseContext)
         {
             if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
-            UpdateContainedTables(databaseContext?.Database);
             return HandleTemplate(templateString, databaseContext);
         }
 
         public string HandleFunctionTemplate(string templateString, IDatabaseContext databaseContext)
         {
             if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
-
-            if (databaseContext?.Database != null) UpdateContainedTables(databaseContext?.Database);
-            if (databaseContext?.Table != null)
-            {
-                UpdateContainedColumns(databaseContext?.Table);
-                UpdateContainedForeignKeyConstraints(databaseContext?.Table);
-            }
-
             return HandleTemplate(templateString, databaseContext);
         }
 
@@ -157,11 +119,6 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
 
         public string HandleTableTemplate(string templateString, IDatabaseContext databaseContext)
         {
-            if (databaseContext?.Table != null)
-            {
-                UpdateContainedColumns(databaseContext.Table);
-                UpdateContainedForeignKeyConstraints(databaseContext.Table);
-            }
             return HandleTemplate(templateString, databaseContext);
         }
 
