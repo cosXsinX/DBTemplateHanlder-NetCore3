@@ -34,63 +34,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Handlers
         public IList<ITemplateContextHandlerIdentity> GetAllItemplateContextHandlerIdentity()
         {
             return templateContextHandlerProvider.GetHandlers().Cast<ITemplateContextHandlerIdentity>().ToList();
-        }
-
-        public string HandleDatabaseTemplate(string templateString, IDatabaseModel databaseModel)
-        {
-            return HandleDatabaseTemplate(templateString, new ProcessorDatabaseContext()
-            {
-                Database = databaseModel,
-            });
-        }
-
-        public string HandleFunctionTemplate(string templateString, IDatabaseModel databaseModel, ITableModel tableModel, IColumnModel columnModel,IForeignKeyConstraintModel foreignKeyConstraintModel)
-        {
-            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
-            return HandleFunctionTemplate(templateString, new ProcessorDatabaseContext()
-            {
-                Column = columnModel,
-                Table = tableModel,
-                Database = databaseModel,
-                ForeignKeyConstraint = foreignKeyConstraintModel,
-            });
-        }
-
-        public string HandleTableColumnTemplate(string templateString, IColumnModel column)
-        {
-            if (!templateValidator.TemplateStringValidation(templateString)) return templateString;
-
-            return HandleTableColumnTemplate(templateString, new ProcessorDatabaseContext()
-            {
-                Column = column,
-                //Table = tableModel,
-                //Database = databaseModel,
-                //ForeignKeyConstraint = foreignKeyConstraintModel,
-            });
-        }
-
-        public string HandleTableTemplate(string templateString, ITableModel tableModel)
-        {
-            return HandleTableTemplate(templateString, new ProcessorDatabaseContext()
-            {
-                Table = tableModel,
-                //Database = databaseModel,
-                //ForeignKeyConstraint = foreignKeyConstraintModel,
-            });
-        }
-
-        public string HandleTemplate(string templateString, IDatabaseModel databaseModel, ITableModel tableModel, IColumnModel columnModel,IForeignKeyConstraintModel foreignKeyConstraintModel)
-        {
-            return HandleTableTemplate(templateString, new ProcessorDatabaseContext()
-            {
-                Column = columnModel,
-                Table = tableModel,
-                Database = databaseModel,
-                ForeignKeyConstraint = foreignKeyConstraintModel,
-            });
-        }
-
-        
+        }        
 
         //TODO Bad architecture problem symptom => template handler should not manage type mapping
         public void OverwriteTypeMapping(IList<ITypeMapping> typeMappings)

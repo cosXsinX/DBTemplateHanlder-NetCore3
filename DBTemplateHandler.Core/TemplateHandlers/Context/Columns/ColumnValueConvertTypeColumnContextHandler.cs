@@ -74,7 +74,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Columns
             if (!DestinationTypeSets.Contains(TrimedStringContext.ToLowerInvariant())) return $"CONVERT:UNKNOWN({TrimedStringContext})";
             if (conversionMap.TryGetValue(new MappingKey() { DestinationTypeSet = TrimedStringContext.ToLowerInvariant(), SourceType = column.Type }, out var result))
             {
-                var processedResult = TemplateHandler.HandleTableColumnTemplate(result, column);
+                var processedResult = TemplateHandler.HandleTableColumnTemplate(result,DatabaseContextCopier.CopyWithOverride(databaseContext,column));
                 return processedResult;
             }
 

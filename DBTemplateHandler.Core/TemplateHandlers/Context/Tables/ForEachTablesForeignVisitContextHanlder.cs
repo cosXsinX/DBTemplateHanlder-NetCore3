@@ -20,7 +20,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Constraints
 
         public override bool isStartContextAndEndContextAnEntireWord => false;
 
-        public override string ContextActionDescription => throw new NotImplementedException();
+        public override string ContextActionDescription => "Is replaced by the intern context as many time as there is foreign table dependance";
 
 
         public override string ProcessContext(string StringContext, IDatabaseContext databaseContext)
@@ -32,7 +32,7 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Constraints
             {
                 visitedTablesStack = visitedTablesStack.Append(currentVisitedTables).ToList();
                 var extractionResults = ExtractForeignTables(databaseContext.Database, currentVisitedTables);
-                currentVisitedTables = extractionResults.SelectMany(m => m.Item2).ToList();
+                currentVisitedTables = extractionResults.SelectMany(m => m.Item2).Reverse().ToList();
             }
 
             var tableAndDepth = visitedTablesStack.SelectMany(
@@ -47,9 +47,10 @@ namespace DBTemplateHandler.Core.TemplateHandlers.Context.Constraints
 
         private IList<ITableModel> ExtractForeignTables(IDatabaseModel databaseModel,ITableModel tableModel)
         {
-
-            var tableKeys = tableModel.
-                ForeignKeyConstraints.SelectMany(constraint => constraint.Elements.Select(m => new { m.Foreign.TableName, m.Foreign.SchemaName })).Distinct().ToList();
+            var foreignKeyConstraints = tableModel?.ForeignKeyConstraints ?? new List<IForeignKeyConstraintModel>();
+            var tableKeys = 
+                foreignKeyConstraints.SelectMany(constraint => 
+                    (constraint?.Elements??new List<IForeignKeyConstraintElementModel>()).Select(m => new { m.Foreign.TableName, m.Foreign.SchemaName })).Distinct().ToList();
             var foreignTables = databaseModel.Tables.InnerJoin(tableKeys, m => $"{m.Name}-{m.Schema}", m => $"{m.TableName}-{m.SchemaName}")
                 .Select(m => m.Item1).ToList();
             return foreignTables;
