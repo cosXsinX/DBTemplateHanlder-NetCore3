@@ -108,12 +108,12 @@ namespace DBTemplateHander.DatabaseModel.Import.Importer
                     PrimarySchema = m.Item2.schema,
                 }).ToList();
 
-            var daabaseTableConstraintGrouping = databaseModel.Tables.Cast<ImportedTableModelWithMetaData>()
-                .InnerJoin(foreignKeyAndReferencedKeyJointure, m => m.object_id, m => m.PrimaryTable.object_id)
+            var dabaseTableConstraintGrouping = databaseModel.Tables.Cast<ImportedTableModelWithMetaData>()
+                .LeftJoin(foreignKeyAndReferencedKeyJointure, m => $"{m?.object_id}", m => $"{m?.PrimaryTable?.object_id}")
                 .GroupBy(m => m.Item1.object_id)
-                .Select(m => Tuple.Create(m.First().Item1,m.ToList().Select(m => m.Item2)));
+                .Select(m => Tuple.Create(m.First().Item1,m.Where(m => m.Item2 != null).Select(m => m.Item2).ToList()));
 
-            databaseModel.Tables = daabaseTableConstraintGrouping.Select(m =>
+            databaseModel.Tables = dabaseTableConstraintGrouping.Select(m =>
                 new ImportedTableModel()
                 {
                     Columns = m.Item1.Columns,

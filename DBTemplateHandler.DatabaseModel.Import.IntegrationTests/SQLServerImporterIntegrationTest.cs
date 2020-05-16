@@ -22,6 +22,8 @@ namespace DBTemplateHandler.DatabaseModel.Import.IntegrationTests
             var database = _tested.Import(connectionString);
             Assert.IsNotNull(database);
             CollectionAssert.IsNotEmpty(database.Tables);
+            var expectedTableCount = 71;
+            Assert.AreEqual(expectedTableCount, database.Tables.Count);
         }
     }
 }
