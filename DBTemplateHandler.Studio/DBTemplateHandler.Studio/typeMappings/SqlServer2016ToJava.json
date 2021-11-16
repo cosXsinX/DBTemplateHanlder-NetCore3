@@ -1,0 +1,74 @@
+{
+  "SourceTypeSetName": "Sql Server 2016",
+  "DestinationTypeSetName": "Java",
+  "TypeMappingItems": [
+    {
+      "SourceType": "date",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "numeric",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "varbinary",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "time",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "bit",
+      "DestinationType": "boolean"
+    },
+    {
+      "SourceType": "nchar",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "varchar",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "decimal",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "nvarchar",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "smallint",
+      "DestinationType": "byte"
+    },
+    {
+      "SourceType": "xml",
+      "DestinationType": null
+    },
+    {
+      "SourceType": "uniqueidentifier",
+      "DestinationType": "long"
+    },
+    {
+      "SourceType": "smallmoney",
+      "DestinationType": "float"
+    },
+    {
+      "SourceType": "tinyint",
+      "DestinationType": "short"
+    },
+    {
+      "SourceType": "money",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "datetime",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "int",
+      "DestinationType": "int"
+    }
+  ]
+}

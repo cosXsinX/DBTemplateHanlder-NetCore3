@@ -105,3 +105,5 @@ C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandle
 C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandler.Core.AcceptanceTests\obj\Debug\netcoreapp3.1\DBTemplateHandler.Core.AcceptanceTests.csproj.CopyComplete
 C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandler.Core.AcceptanceTests\obj\Debug\netcoreapp3.1\DBTemplateHandler.Core.AcceptanceTests.dll
 C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandler.Core.AcceptanceTests\obj\Debug\netcoreapp3.1\DBTemplateHandler.Core.AcceptanceTests.pdb
+C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandler.Core.AcceptanceTests\bin\Debug\netcoreapp3.1\DBTemplateHandler.Utils.dll
+C:\Users\maxim\Source\Repos\cosXsinX\DBTemplateHanlder-NetCore3\DBTemplateHandler.Core.AcceptanceTests\bin\Debug\netcoreapp3.1\DBTemplateHandler.Utils.pdb

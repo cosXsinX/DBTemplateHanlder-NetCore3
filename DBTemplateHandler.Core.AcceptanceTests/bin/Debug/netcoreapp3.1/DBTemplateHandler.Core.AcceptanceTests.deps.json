@@ -916,6 +916,7 @@
       "DBTemplateHandler.Core/1.0.0": {
         "dependencies": {
           "DBTemplateHandler.Service.Contracts": "1.0.0",
+          "DBTemplateHandler.Utils": "1.0.0",
           "Swashbuckle.AspNetCore": "5.0.0"
         },
         "runtime": {
@@ -934,6 +935,11 @@
       "DBTemplateHandler.Service.Contracts/1.0.0": {
         "runtime": {
           "DBTemplateHandler.Service.Contracts.dll": {}
+        }
+      },
+      "DBTemplateHandler.Utils/1.0.0": {
+        "runtime": {
+          "DBTemplateHandler.Utils.dll": {}
         }
       }
     }
@@ -1438,6 +1444,11 @@
       "sha512": ""
     },
     "DBTemplateHandler.Service.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DBTemplateHandler.Utils/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

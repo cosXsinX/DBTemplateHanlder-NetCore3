@@ -1,0 +1,70 @@
+{
+  "SourceTypeSetName": "SQLite",
+  "DestinationTypeSetName": "Java",
+  "TypeMappingItems": [
+    {
+      "SourceType": "VARCHAR",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "TIME",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "TEXT",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "STRING",
+      "DestinationType": "java.lang.String"
+    },
+    {
+      "SourceType": "REAL",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "NUMERIC",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "INT",
+      "DestinationType": "int"
+    },
+    {
+      "SourceType": "INTEGER",
+      "DestinationType": "int"
+    },
+    {
+      "SourceType": "DOUBLE",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "DECIMAL",
+      "DestinationType": "double"
+    },
+    {
+      "SourceType": "DATETIME",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "BLOB",
+      "DestinationType": null
+    },
+    {
+      "SourceType": "DATE",
+      "DestinationType": "java.util.Date"
+    },
+    {
+      "SourceType": "CHAR",
+      "DestinationType": "char"
+    },
+    {
+      "SourceType": "BOOLEAN",
+      "DestinationType": "boolean"
+    },
+    {
+      "SourceType": "BIGINT",
+      "DestinationType": "long"
+    }
+  ]
+}

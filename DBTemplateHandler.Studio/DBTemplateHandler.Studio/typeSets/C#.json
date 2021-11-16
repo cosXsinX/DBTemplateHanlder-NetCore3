@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "Microsoft.SqlServer.Types.SqlGeography"
+  },
+  {
+    "Name": "System.Xml.XmlDocument"
+  },
+  {
+    "Name": "Guid"
+  },
+  {
+    "Name": "byte"
+  },
+  {
+    "Name": "TimeSpan"
+  },
+  {
+    "Name": "byte[]"
+  },
+  {
+    "Name": "short"
+  },
+  {
+    "Name": "double"
+  },
+  {
+    "Name": "decimal"
+  },
+  {
+    "Name": "DateTimeOffset"
+  },
+  {
+    "Name": "object"
+  },
+  {
+    "Name": "DateTime"
+  },
+  {
+    "Name": "string"
+  },
+  {
+    "Name": "bool"
+  },
+  {
+    "Name": "long"
+  },
+  {
+    "Name": "int"
+  }
+]

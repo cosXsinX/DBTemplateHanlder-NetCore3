@@ -1,0 +1,98 @@
+[
+  {
+    "Name": "adVarNumeric"
+  },
+  {
+    "Name": "adUserDefined"
+  },
+  {
+    "Name": "adWChar"
+  },
+  {
+    "Name": "adVariant"
+  },
+  {
+    "Name": "adUnsignedTinyInt"
+  },
+  {
+    "Name": "adUnsignedSmallInt"
+  },
+  {
+    "Name": "adUnsignedInt"
+  },
+  {
+    "Name": "adUnsignedBigInt"
+  },
+  {
+    "Name": "adTinyInt"
+  },
+  {
+    "Name": "adSmallInt"
+  },
+  {
+    "Name": "adSingle"
+  },
+  {
+    "Name": "adPropVariant"
+  },
+  {
+    "Name": "adNumeric"
+  },
+  {
+    "Name": "adUnknown"
+  },
+  {
+    "Name": "adInteger"
+  },
+  {
+    "Name": "adIDispatch"
+  },
+  {
+    "Name": "adGUID"
+  },
+  {
+    "Name": "adFileTime"
+  },
+  {
+    "Name": "adError"
+  },
+  {
+    "Name": "adDouble"
+  },
+  {
+    "Name": "adDecimal"
+  },
+  {
+    "Name": "adDBTimeStamp"
+  },
+  {
+    "Name": "adDBTime"
+  },
+  {
+    "Name": "adDBDate"
+  },
+  {
+    "Name": "adDate"
+  },
+  {
+    "Name": "adCurrency"
+  },
+  {
+    "Name": "adChar"
+  },
+  {
+    "Name": "adChapter"
+  },
+  {
+    "Name": "adBSTR"
+  },
+  {
+    "Name": "adBoolean"
+  },
+  {
+    "Name": "adBinary"
+  },
+  {
+    "Name": "adBigInt"
+  }
+]

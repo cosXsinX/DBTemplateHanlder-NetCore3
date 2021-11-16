@@ -1,0 +1,98 @@
+[
+  {
+    "Name": "DBTYPE_VARNUMERIC"
+  },
+  {
+    "Name": "DBTYPE_UDT"
+  },
+  {
+    "Name": "DBTYPE_WSTR"
+  },
+  {
+    "Name": "DBTYPE_VARIANT"
+  },
+  {
+    "Name": "DBTYPE_UI1"
+  },
+  {
+    "Name": "DBTYPE_UI2"
+  },
+  {
+    "Name": "DBTYPE_UI4"
+  },
+  {
+    "Name": "DBTYPE_UI8"
+  },
+  {
+    "Name": "DBTYPE_I1"
+  },
+  {
+    "Name": "DBTYPE_I2"
+  },
+  {
+    "Name": "DBTYPE_R4"
+  },
+  {
+    "Name": "DBTYPE_PROPVARIANT"
+  },
+  {
+    "Name": "DBTYPE_NUMERIC"
+  },
+  {
+    "Name": "DBTYPE_IUNKNOWN"
+  },
+  {
+    "Name": "DBTYPE_I4"
+  },
+  {
+    "Name": "DBTYPE_IDISPATCH"
+  },
+  {
+    "Name": "DBTYPE_GUID"
+  },
+  {
+    "Name": "DBTYPE_FILETIME"
+  },
+  {
+    "Name": "DBTYPE_ERROR"
+  },
+  {
+    "Name": "DBTYPE_R8"
+  },
+  {
+    "Name": "DBTYPE_DECIMAL"
+  },
+  {
+    "Name": "DBTYPE_DBTIMESTAMP"
+  },
+  {
+    "Name": "DBTYPE_DBTIME"
+  },
+  {
+    "Name": "DBTYPE_DBDATE"
+  },
+  {
+    "Name": "DBTYPE_DATE"
+  },
+  {
+    "Name": "DBTYPE_CY"
+  },
+  {
+    "Name": "DBTYPE_STR"
+  },
+  {
+    "Name": "DBTYPE_HCHAPTER"
+  },
+  {
+    "Name": "DBTYPE_BSTR"
+  },
+  {
+    "Name": "DBTYPE_BOOL"
+  },
+  {
+    "Name": "DBTYPE_BYTES"
+  },
+  {
+    "Name": "DBTYPE_I8"
+  }
+]

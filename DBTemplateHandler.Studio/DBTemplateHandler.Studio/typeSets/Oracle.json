@@ -1,0 +1,68 @@
+[
+  {
+    "Name": "VARCHAR2"
+  },
+  {
+    "Name": "UNSIGNED INTEGER"
+  },
+  {
+    "Name": "TIMESTAMP WITH TIME ZONE"
+  },
+  {
+    "Name": "TIMESTAMP WITH LOCAL TIME ZONE"
+  },
+  {
+    "Name": "TIMESTAMP"
+  },
+  {
+    "Name": "ROWID"
+  },
+  {
+    "Name": "RAW"
+  },
+  {
+    "Name": "NVARCHAR2"
+  },
+  {
+    "Name": "NUMBER"
+  },
+  {
+    "Name": "NCLOB"
+  },
+  {
+    "Name": "NCHAR"
+  },
+  {
+    "Name": "LONG RAW"
+  },
+  {
+    "Name": "LONG"
+  },
+  {
+    "Name": "INTERVAL DAY TO SECOND"
+  },
+  {
+    "Name": "INTERVAL YEAR TO MONTH"
+  },
+  {
+    "Name": "INTEGER"
+  },
+  {
+    "Name": "FLOAT"
+  },
+  {
+    "Name": "DATE"
+  },
+  {
+    "Name": "CLOB"
+  },
+  {
+    "Name": "CHAR"
+  },
+  {
+    "Name": "BLOB"
+  },
+  {
+    "Name": "BFILE"
+  }
+]

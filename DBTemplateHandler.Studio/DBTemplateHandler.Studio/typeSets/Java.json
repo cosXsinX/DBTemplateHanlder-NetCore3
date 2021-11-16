@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Date"
+  },
+  {
+    "Name": "String"
+  },
+  {
+    "Name": "char"
+  },
+  {
+    "Name": "boolean"
+  },
+  {
+    "Name": "double"
+  },
+  {
+    "Name": "float"
+  },
+  {
+    "Name": "long"
+  },
+  {
+    "Name": "int"
+  },
+  {
+    "Name": "short"
+  },
+  {
+    "Name": "byte"
+  }
+]

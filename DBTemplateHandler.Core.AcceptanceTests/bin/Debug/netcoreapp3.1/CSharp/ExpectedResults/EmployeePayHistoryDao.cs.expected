@@ -34,6 +34,7 @@ namespace AdventureWorks2017.SqlServer.DataAccessObjects
 [PayFrequency],
 [ModifiedDate]
 )
+
 VALUES
 (
 @BusinessEntityID,
@@ -63,6 +64,7 @@ Set
     [Rate]=@Rate,
     [PayFrequency]=@PayFrequency,
     [ModifiedDate]=@ModifiedDate
+
 Where
 [BusinessEntityID]=@BusinessEntityID  AND 
 [RateChangeDate]=@RateChangeDate 
