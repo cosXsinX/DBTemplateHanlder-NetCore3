@@ -12,6 +12,10 @@
                 </ul>
             <p></p>
         </div>
+		<div>
+			Pre beta binary distribution : 
+			<a href="https://www.maximilienzakowski.org/download/db-template-handler-pre-beta-distribution/">windows-x64</a>
+		</div>
         <!--!--><div class="row">
             <img src="https://github.com/cosXsinX/DBTemplateHanlder-NetCore3/blob/master/DBTemplateHandler.Studio/wwwroot/images/DBTemplateHandlerTemplateEditorImage.png?raw=true" class="img-fluid" alt="Image">
         </div>

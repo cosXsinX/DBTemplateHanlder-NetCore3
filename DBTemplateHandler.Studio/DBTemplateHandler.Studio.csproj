@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UserSecretsId>2ab21425-1beb-4412-b53d-2d32222ffbfc</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-
+	
+	
   <ItemGroup>
     <Content Remove="wwwroot\scripts\ace\dbtemplate_highlight_rules_base.js" />
     <Content Remove="wwwroot\scripts\ace\dbtemplate_mode_base.js" />
@@ -35,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\images\DBTemplateHandlerTemplateEditorImage.png">
+    <Content Update="wwwroot\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

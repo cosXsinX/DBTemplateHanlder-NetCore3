@@ -47,3 +47,9 @@
 /DBTemplateHandler.Service.Contracts.UnitTests/obj
 /DBTemplateHandler.Studio/DBTemplateHandler.Ace.Editor.Tools.Core.Console.BuildDBTemplateOutput.txt
 /DBTemplateHandler.UnitTest.Proxy/obj
+/DBTemplateHandler.Persistance/bin
+/DBTemplateHander.DatabaseModel.Import/bin
+bin
+bin
+obj
+bin
